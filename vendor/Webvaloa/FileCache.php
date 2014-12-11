@@ -1,0 +1,177 @@
+<?php
+/**
+ * The Initial Developer of the Original Code is
+ * Tarmo Alexander Sundström <ta@sundstrom.im>
+ *
+ * Portions created by the Initial Developer are
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ *
+ * All Rights Reserved.
+ *
+ * Contributor(s):
+ *
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
+namespace Webvaloa;
+
+use stdClass;
+use Libvaloa\Debug;
+
+/**
+ * Webvaloa file caching class.
+ */
+class FileCache
+{
+
+    private $time;
+    private $cache;
+    private $file;
+
+    private $expires;
+
+    public function __construct()
+    {
+        $this->time = time();
+        $this->file = LIBVALOA_PUBLICPATH . '/cache/.cache';
+
+        if (!is_writable($tmp = realpath(dirname($this->file)))) {
+            Debug::__print('Cannot write to ' . $tmp);
+
+            return;
+        }
+
+        if (!file_exists($this->file)) {
+            $this->cache = new stdClass;
+            file_put_contents($this->file, serialize($this->cache));
+        }
+
+        if (file_exists($this->file) && is_readable($this->file)) {
+            $this->cache = unserialize(file_get_contents($this->file));
+        } else {
+            Debug::__print('Warning!!');
+            Debug::__print('Could not read/write ' . $this->file);
+        }
+
+        if(isset(\Webvaloa\config::$properties['cache_time'])
+                && !empty(\Webvaloa\config::$properties['cache_time'])) {
+            $this->expires = \Webvaloa\config::$properties['cache_time'];
+        } else {
+            // 10 minute session cache
+            $this->expires = 600;
+        }
+    }
+
+    /**
+     * Set key/value pair to global caching scope.
+     * Alias for set()
+     *
+     * @param  type $key
+     * @param  type $value
+     * @return bool
+     */
+    public function __set($key, $value)
+    {
+        $this->set($key, $value);
+    }
+
+    /**
+     * Get global cache value by key.
+     * Alias for get()
+     *
+     * @param  type  $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->get($key);
+    }
+
+    /**
+     * Set key/value pair to caching scope.
+     *
+     * @param  type $key
+     * @param  type $value
+     * @return bool
+     */
+    public function set($key, $value)
+    {
+        $this->cache->{$key} = new stdClass;
+        $this->cache->{$key}->key = $key;
+        $this->cache->{$key}->value = $value;
+        $this->cache->{$key}->expires = $this->time + $this->expires;
+
+        return $value;
+    }
+
+    /**
+     * Get global cache value by key.
+     *
+     * @param  type  $key
+     * @return mixed
+     */
+    public function get($key)
+    {
+        if (isset($this->cache->{$key})) {
+            if ($this->cache->{$key}->expires > $this->time) {
+                return $this->cache->{$key}->value;
+            }
+
+            unset($this->cache->{$key});
+        }
+
+        return false;
+    }
+
+    /**
+     * Set key/value pair to local caching scope.
+     *
+     * @param  type $key
+     * @param  type $value
+     * @return bool
+     */
+    public function _set($key, $value)
+    {
+        $key .= session_id();
+
+        return $this->set($key, $value);
+    }
+
+    /*
+     * Get local cache value by key.
+     *
+     * @param  type  $key
+     * @return mixed
+     */
+    public function _get($key)
+    {
+        $key .= session_id();
+
+        return $this->get($key);
+    }
+
+    public function __destruct()
+    {
+        if (is_writable($this->file)) {
+            file_put_contents($this->file, serialize($this->cache));
+        }
+    }
+
+}

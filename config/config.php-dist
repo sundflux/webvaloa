@@ -1,0 +1,21 @@
+<?php
+namespace Webvaloa;
+
+class config
+{
+    public static $properties= array(
+        'db_server'                 => 'mysql',
+        'db_host'                   => 'localhost',
+        'db_user'                   => 'valoa',
+        'db_pass'                   => 'valoa',
+        'db_db'                     => 'valoa',
+        'memcached_host'            => 'localhost',
+        'memcached_port'            => '11211',
+        'memcached_expires'         => '300',
+        'default_controller'        => 'login',
+        'default_controller_authed' => 'login_logout',
+        'webvaloa_auth'             => 'Webvaloa\Auth\Db'
+    );
+
+}
+

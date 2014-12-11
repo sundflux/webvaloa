@@ -1,0 +1,105 @@
+.ajax-upload-dragdrop {
+	width: 100%;
+	padding: 20px;
+	border: 3px dashed #ccc;
+	margin-bottom: 20px;
+}
+
+#upload-drag {
+	font-size: 24px;
+	color: #ccc;
+	margin-left: 20px;
+}
+
+.ajax-file-upload-filename {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+}
+
+.ajax-file-upload-progress {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    position: relative;
+    width: 97%;
+    border: 1px solid #DDD;
+    padding: 1px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.ajax-file-upload-bar {
+    background-color: #2babd2;
+    width: 0px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.upload-done {
+	margin-left: 20px !important;
+}
+
+.ajax-file-upload-abort {
+	display: none;
+}
+
+.media {
+    opacity: 0.9;
+    padding: 5px;
+}
+
+.media:hover {
+    cursor: pointer;    
+    -webkit-box-shadow: 0 0 5px 0 #D4D4D4;
+    box-shadow: 0 0 5px 0 #D4D4D4;
+    opacity: 1;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.media-preview {
+    width: 64px;
+    height: 64px;
+    font-size: 45px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.media-preview i {
+    margin-left: 10px;
+}
+
+.lazy {
+    display: none;
+}
+
+.file-list-image {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.filename {
+    display: block;
+    max-width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.filesize {
+    display: block;
+}
+
+.filelist-buttons {
+    margin-top: -5px;
+    margin-right: -10px;
+}
+
+.file-selector {
+    display: block;
+    margin-right: 15px !important;
+}

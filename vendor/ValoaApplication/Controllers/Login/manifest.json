@@ -1,0 +1,19 @@
+{
+    "application": "Login",
+    "version": "1.0.0",
+    "author": "webvaloa.com",
+    "email": "info@webvaloa.com",
+    "www": "http://www.getvaloa.com/",
+    "license": "MIT",
+    "anonymous": "1",
+    "systemcontroller": "1",
+    "files": [
+        { "vendor": "/ValoaApplication/Controllers/Login/LoginController.php" },
+        { "vendor": "/ValoaApplication/Controllers/Login/LogoutController.php" },
+        { "vendor": "/ValoaApplication/Controllers/Login/PasswordresetController.php" },
+        { "vendor": "/ValoaApplication/Controllers/Login/Views/Login.xsl" },
+        { "vendor": "/ValoaApplication/Controllers/Login/Views/Passwordreset.xsl" },
+        { "public": "/Layout/css/Login.css" }
+    ]
+
+}

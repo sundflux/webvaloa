@@ -1,0 +1,22 @@
+{
+    "application": "Extension",
+    "version": "1.0.0",
+    "author": "webvaloa.com",
+    "email": "info@webvaloa.com",
+    "www": "http://www.getvaloa.com/",
+    "license": "MIT",
+    "anonymous": "0",
+    "systemcontroller": "1",
+    "files": [
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Extension.php" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Plugin.php" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Views/Install.xsl" }, 
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Plugin.php" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Views/Plugin.xsl" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Developer.php" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Views/Developer.xsl" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/ComponentController.php" },
+	{ "vendor": "/ValoaApplication/Controllers/Extension/Views/Component.xsl" }
+    ]
+
+}

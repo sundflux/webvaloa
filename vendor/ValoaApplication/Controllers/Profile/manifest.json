@@ -1,0 +1,14 @@
+{
+    "application": "Profile",
+    "version": "1.0.0",
+    "author": "webvaloa.com",
+    "email": "info@webvaloa.com",
+    "www": "http://www.getvaloa.com/",
+    "license": "MIT",
+    "anonymous": "0",
+    "systemcontroller": "1",
+    "files": [
+	{ "vendor": "/ValoaApplication/Controllers/Profile/ProfileController.php" },
+	{ "vendor": "/ValoaApplication/Controllers/Profile/Views/Profile.xsl" }
+    ]
+}

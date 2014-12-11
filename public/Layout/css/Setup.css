@@ -1,0 +1,62 @@
+body {
+	padding-bottom: 50px;
+}
+
+#logo {
+  padding: 50px 15px 50px 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+#messages {
+    margin-top: 25px;
+}
+
+img {
+    max-width: 100%;
+}
+
+#logo {
+    margin: 0 auto;
+	max-width: 800px;
+}
+
+.container {
+    max-width: 800px;
+}
+
+.webvaloa {
+    color: #a9c9e0;
+}
+
+#progress-bar {
+    margin-bottom: 50px;
+}
+
+.setup-progress div {
+    text-align: center;
+}
+
+#robot {
+    position: fixed;
+    top: 55%;
+    left: -15%;
+    max-width: 40%;
+}
+
+.db-server-selection {
+    width: 100%;
+}
+
+.margin-10-right {
+    margin-right: 10px;
+}
+
+#footer {
+    margin-top: 50px;
+    margin-left: -25px;
+    padding-left: 5px;
+    margin-right: -25px;
+    padding-right: 5px;
+}

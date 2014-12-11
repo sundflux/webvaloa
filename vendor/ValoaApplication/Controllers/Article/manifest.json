@@ -1,0 +1,16 @@
+{
+    "application": "Article",
+    "version": "1.0.0",
+    "author": "webvaloa.com",
+    "email": "info@webvaloa.com",
+    "www": "http://www.getvaloa.com/",
+    "license": "MIT",
+    "anonymous": "1",
+    "systemcontroller": "0",
+    "files": [
+    { "vendor": "/ValoaApplication/Controllers/Article/ViewController.php" },
+    { "vendor": "/ValoaApplication/Controllers/Article/Views/View.xsl" },
+    { "vendor": "/ValoaApplication/Controllers/Article/ListController.php" },
+    { "vendor": "/ValoaApplication/Controllers/Article/Views/List.xsl" }
+    ]
+}

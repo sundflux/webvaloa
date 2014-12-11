@@ -1,0 +1,133 @@
+ul.sortable {
+    margin-left: -30px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.sortable li {
+    list-style-type: none;
+    padding: 8px 16px 6px 16px;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
+
+    border-left: 3px solid #ccc;
+}
+
+.fields-holder {
+    padding-bottom: 10px;
+}
+
+.alert-holder {
+    border: 0px !important;
+}
+
+.field-actions {
+    margin-top: -8px !important;
+    margin-right: -17px !important;
+}
+
+.sortable li span {
+    margin-right: 0px;
+    margin-right: 0px;
+    padding: 0px;
+}
+
+li.sortable-placeholder {
+    list-style-type: none;
+    padding: 8px 16px 6px 16px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border: 1px dashed #ccc;
+    min-height: 44px;
+}
+
+.sortable li small {
+    margin-right: 20px;
+}
+
+.group-actions {
+    margin-right: 10px;
+}
+
+.field-title {
+    margin-left: 20px;
+}
+
+.fa-sort {
+    cursor: move;
+}
+
+.clear {
+    clear: both;
+}
+
+.field-holder {
+    padding: 5px 10px 5px 10px;
+}
+
+#groups-tab li a:hover {
+    cursor: pointer;
+}
+
+#trash-article {
+    margin-right: 10px;
+}
+
+.repeatable-group-holder {
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.repeatable-group-holder:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.category-notice {
+    text-align: center;
+    display: block;
+    margin-right: 20px;
+}
+
+#article-form div.article-title-holder {
+    margin-right: 25px !important;
+}
+
+h1.article-header {
+    padding-right: 15px !important;
+}
+
+h1.article-listing {
+    padding-right: 10px !important;
+}
+
+.fields-savebutton {
+    margin-right: 15px !important;
+}
+
+.categories-list {
+    min-height: 300px;
+}
+
+.help-text {
+    border-bottom: 1px dotted #f1f1f1;
+}
+
+.help-text:hover {
+    cursor: help;
+}
+
+.dropdown-new-row {
+    clear: both;
+}
+
+.add-new-dropdown-row {
+    clear: both;
+}
+
+#article-alias {
+    margin-right: 25px;
+}

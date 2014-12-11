@@ -1,0 +1,16 @@
+{
+    "application": "Setup",
+    "version": "1.0.0",
+    "author": "webvaloa.com",
+    "email": "info@webvaloa.com",
+    "www": "http://www.getvaloa.com/",
+    "license": "MIT",
+    "anonymous": "1",
+    "systemcontroller": "0",
+    "files": [
+        { "vendor": "/ValoaApplication/Controllers/Setup/SetupController.php" },
+        { "vendor": "/ValoaApplication/Controllers/Setup/Views/Setup.xsl" },
+        { "vendor": "/ValoaApplication/Controllers/Setup/schema-1.0.0_mysql.sql" },
+        { "public": "/Layout/css/Setup.css" }
+    ]
+}

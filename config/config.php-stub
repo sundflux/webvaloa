@@ -1,0 +1,14 @@
+<?php
+namespace Webvaloa;
+
+class config
+{
+    public static $properties= array(
+        'db_server'                 => 'mysql',
+        'db_host'                   => 'localhost',
+		'default_controller'        => 'setup',
+    );
+
+}
+
+error_reporting(E_ALL);

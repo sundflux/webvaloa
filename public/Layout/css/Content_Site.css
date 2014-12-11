@@ -1,0 +1,13 @@
+#editable {
+	margin-left: -15px;
+}
+
+#editable ul,
+#editable * ul {
+	list-style: none;
+}
+
+#editable ul li,
+#editable * ul li {
+	padding: 5px;
+}

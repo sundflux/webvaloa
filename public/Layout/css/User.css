@@ -1,0 +1,4 @@
+#add-user-roles-holder select,
+#edit-user-roles-holder select {
+	min-height: 300px;
+}
