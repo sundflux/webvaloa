@@ -173,7 +173,7 @@ class Plugin
 
         // Look for executable plugins
         foreach ($this->plugins as $k => $plugin) {
-            if(strpos($plugin->plugin, $controller) === false
+            if($controller && strpos($plugin->plugin, $controller) === false
                 && strpos($plugin->plugin, 'Plugin') === false) {
                 continue;
             }

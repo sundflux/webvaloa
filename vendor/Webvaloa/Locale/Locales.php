@@ -76,4 +76,30 @@ class Locales
         return array_unique($locales);
     }
 
+    public function localeCodes()
+    {
+        // ISO 3166-1 alpha-2 codes only, so first 2 chars
+
+        foreach ($this->locales() as $locale) {
+            $stubs[] = substr($locale, 0, 2);
+        }
+
+        if (!isset($stubs)) {
+            return array('en');
+        }
+
+        return $stubs;
+    }
+
+    public function getLocale($stub)
+    {
+        foreach ($this->locales() as $locale) {
+            if (substr($locale, 0, 2) == $stub) {
+                return $locale;
+            }
+        }
+
+        return false;
+    }
+
 }

@@ -39,6 +39,7 @@ use Libvaloa\Debug;
 use ValoaApplication\Controllers;
 use ValoaApplication\Plugins;
 use Webvaloa\Controller\Request\Alias;
+use Webvaloa\Locale\Locales;
 
 use ReflectionClass;
 use BadMethodCallException;
@@ -73,10 +74,34 @@ class FrontController
     public function runController()
     {
         FrontController::defaults();
+        $locale = false;
         $request = Request::getInstance();
 
-        // Check for url aliases
         if (strlen($request->getParam(0)) > 0) {
+            // Check for locale
+            $locales = new Locales;
+            $codes = $locales->localeCodes();
+
+            // Found locale in url
+            if (in_array($locale = strtolower($request->getParam(0)), $codes)) {
+                // Set locale override
+                putenv('LANG=' . $locales->getLocale($locale));
+
+                // Shift the language parameter out of the request
+                $request->shiftParam();
+                if ($request->getParam(0) == false) {
+                    // Load default controller if the request has no
+                    // further parameters
+                    FrontController::defaults();
+                } else {
+                    $request->setController($request->getParam(0));
+                }
+
+                // Re-sort controller, method and parameters
+                $controller = $request->getController();
+            }
+
+            // Check for url aliases
             $alias = new Alias($request->getParam(0));
 
             if (isset($alias->controller->id)) {
@@ -155,6 +180,13 @@ class FrontController
         // Start session
         if ($manifest->session !== '0') {
             \Webvaloa\Webvaloa::initializeSession();
+
+            // Also replace locale in session if necessary
+            if ($locale && isset($_SESSION['locale']) && $_SESSION['locale'] != $locales->getLocale($locale)) {
+                $_SESSION['locale'] = $locales->getLocale($locale);
+            }
+
+            Debug::__print($_SESSION['locale']);
         }
 
         // Set layout
