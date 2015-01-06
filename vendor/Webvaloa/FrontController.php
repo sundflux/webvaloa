@@ -182,11 +182,9 @@ class FrontController
             \Webvaloa\Webvaloa::initializeSession();
 
             // Also replace locale in session if necessary
-            if ($locale && isset($_SESSION['locale']) && $_SESSION['locale'] != $locales->getLocale($locale)) {
+            if ($locale && isset($_SESSION['locale']) && $_SESSION['locale'] != $locales->getLocale($locale) && $locales->getLocale($locale)) {
                 $_SESSION['locale'] = $locales->getLocale($locale);
             }
-
-            Debug::__print($_SESSION['locale']);
         }
 
         // Set layout
