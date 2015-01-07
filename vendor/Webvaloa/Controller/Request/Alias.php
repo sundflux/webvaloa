@@ -33,6 +33,7 @@
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
 use Libvaloa\Controller\Request;
 
 use Webvaloa\Cache;
@@ -43,6 +44,9 @@ class Alias
 {
     private $db;
     private $cache;
+
+    // Routes from override config
+    private $routes;
 
     public $controller;
 
@@ -56,7 +60,7 @@ class Alias
             return;
         }
 
-        $this->controller->controller = ucfirst(strtolower($alias));
+        $this->controller->controller = $controller = ucfirst(strtolower($alias));
 
         // Load from cache
         $tmpNam = "__alias{$this->controller->controller}";
@@ -66,29 +70,36 @@ class Alias
             return;
         }
 
-        $this->db = \Webvaloa\Webvaloa::DBConnection();
+        // Load route overrides
+        $this->loadRoutesFile();
 
-        $query = "
-            SELECT id, controller, method, locale
-            FROM alias
-            WHERE alias = ?
-            AND (locale = '*' OR locale = ?)
-            LIMIT 1";
+        if (!$this->loadRoute($alias)) {
+            // Load alias from DB
 
-        $stmt = $this->db->prepare($query);
-        $stmt->set(strtolower($this->controller->controller));
-        $stmt->set(getenv('LANG'));
+            $this->db = \Webvaloa\Webvaloa::DBConnection();
 
-        try {
-            $stmt->execute();
-            $row = $stmt->fetch();
+            $query = "
+                SELECT id, controller, method, locale
+                FROM alias
+                WHERE alias = ?
+                AND (locale = '*' OR locale = ?)
+                LIMIT 1";
 
-            if (isset($row->controller)) {
-                $this->controller = $row;
-                $this->cache->$tmpNam = $row;
+            $stmt = $this->db->prepare($query);
+            $stmt->set(strtolower($this->controller->controller));
+            $stmt->set(getenv('LANG'));
+
+            try {
+                $stmt->execute();
+                $row = $stmt->fetch();
+
+                if (isset($row->controller)) {
+                    $this->controller = $row;
+                    $this->cache->$tmpNam = $row;
+                }
+            } catch (PDOException $e) {
+
             }
-        } catch (PDOException $e) {
-
         }
     }
 
@@ -124,6 +135,37 @@ class Alias
                 return $params;
             }
         }
+    }
+
+    private function loadRoutesFile()
+    {
+        if (is_readable(WEBVALOA_BASEDIR.'/config/routes.php')) {
+            require_once WEBVALOA_BASEDIR.'/config/routes.php';
+
+            if (isset(\Webvaloa\routes::$routes)) {
+                $this->routes = \Webvaloa\routes::$routes;
+            }
+        }
+    }
+
+    public function loadRoute($alias)
+    {
+        if (!$this->routes) {
+            return false;
+        }
+
+        if (isset($this->routes[$alias])) {
+            $this->controller->controller 	= $this->routes[$alias]['controller'];
+            $this->controller->method 		= $this->routes[$alias]['method'];
+            $this->controller->locale 		= $this->routes[$alias]['locale'];
+            $this->controller->id           = -1;
+
+            Debug::__print($this->controller);
+
+            return true;
+        }
+
+        return false;
     }
 
     public function __toString()
