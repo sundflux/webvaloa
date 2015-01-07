@@ -313,7 +313,7 @@ class Webvaloa
         $args = func_get_args();
 
         $cache = new Cache;
-        if ($t = $cache->get('Translation_' . $args[0] . self::getLocale())) {
+        if ($t = $cache->get('Translation_' . $args[0] . self::getLocale()) && error_reporting() != E_ALL) {
             return $t;
         }
 
