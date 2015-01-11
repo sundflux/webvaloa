@@ -29,5 +29,22 @@
  */
 
 var Webvaloa = {
-    
+
+	init: function() {
+		Webvaloa.bindEditable();
+	},
+
+	bindEditable: function() {
+		jQuery('#quick-edit').on('click', function() {
+			jQuery('.btn-valoa-editable').toggle();
+		});
+	}
+
 }
+
+
+jQuery(document).ready(function() {
+
+    Webvaloa.init();
+
+});

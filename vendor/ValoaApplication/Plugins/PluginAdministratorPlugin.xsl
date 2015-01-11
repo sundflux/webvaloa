@@ -67,7 +67,7 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="disabled">
+                                    <li>
                                         <a href="#" id="quick-edit"><i class="fa fa-pencil"></i>&#160;
                                             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','EDIT_PAGE', 'PluginAdministratorPlugin')"/>
                                         </a>
