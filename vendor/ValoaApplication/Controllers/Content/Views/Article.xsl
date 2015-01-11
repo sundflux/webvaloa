@@ -247,7 +247,11 @@
                                 <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLE_TITLE_HERE')"/>
                             </xsl:attribute>
                         </input>
-                        <span class="input-group-btn">
+						<span class="input-group-btn">
+							<button type="button" id="alias-toggle">
+								<xsl:attribute name="class">btn btn-default input-lg</xsl:attribute>
+                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLE_ALIAS')"/>
+							</button>
                             <button type="button" id="publish-toggle">
                                 <xsl:choose>
                                     <xsl:when test="article/published = '1'">
@@ -263,7 +267,7 @@
                         </span>
                     </div>
                                         
-                    <div class="well" id="article-alias">
+                    <div class="well" id="article-alias" style="display: none">
                         <input class="form-control input-lg article-title" type="text" name="alias" value="{article/alias}">
                             <xsl:attribute name="placeholder">
                                 <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLE_ALIAS')"/>

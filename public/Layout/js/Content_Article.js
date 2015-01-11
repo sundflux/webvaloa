@@ -42,7 +42,7 @@ var Article = {
         });
         
         jQuery('#alias-toggle').on('click', function() {
-            jQuery('#article-alias').show('fast');
+            jQuery('#article-alias').toggle();
         });
     }
 
