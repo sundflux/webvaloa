@@ -221,7 +221,8 @@ class Article
     public function alias($a)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
-            throw new RuntimeException('Article not loadable');
+            // NOTE: we can't throw exception here or saving global fields fails
+            return false;
         }
 
         $db = \Webvaloa\Webvaloa::DBConnection();

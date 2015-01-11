@@ -49,7 +49,7 @@ class Article
         }
 
         $this->article = new stdClass;
-        $this->article->id = $id;
+        $this->article->id = (int) $id;
         $this->loadArticle();
         $this->loadFields();
     }
@@ -83,7 +83,9 @@ class Article
 
     public function loadFields()
     {
-        if ( (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) && $this->article->id != 0 ) {
+        if ( (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) // Regular article check
+            && (isset($this->article->id) && $this->article->id != 0) ) // Global fields
+        {
             throw new RuntimeException('Article not loadable');
         }
 
@@ -112,6 +114,13 @@ class Article
 
         $stmt = $db->prepare($query);
         $stmt->set(\Webvaloa\Webvaloa::getLocale());
+
+        // global fields
+        if (!isset($this->article->id)) {
+            $this->article = new stdClass;
+            $this->article->id = 0;
+        }
+
         $stmt->set((int) $this->article->id);
 
         try {
