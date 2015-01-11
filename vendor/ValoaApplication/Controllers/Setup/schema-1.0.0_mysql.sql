@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `field_group_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `translation` varchar(24) NOT NULL,
+  `translation` varchar(64) NOT NULL,
   `repeatable` tinyint(1) NOT NULL DEFAULT '0',
   `type` varchar(64) NOT NULL DEFAULT 'text',
   `ordering` int(3) NOT NULL DEFAULT '0',
@@ -278,7 +278,7 @@ INSERT INTO `field` (`id`, `field_group_id`, `name`, `translation`, `repeatable`
 CREATE TABLE IF NOT EXISTS `field_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
-  `translation` varchar(24) NOT NULL,
+  `translation` varchar(64) NOT NULL,
   `repeatable` tinyint(1) NOT NULL DEFAULT '0',
   `global` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
