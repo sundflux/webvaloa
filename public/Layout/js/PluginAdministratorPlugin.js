@@ -35,7 +35,9 @@ var Webvaloa = {
 	},
 
 	bindEditable: function() {
-		jQuery('#quick-edit').on('click', function() {
+		jQuery('#quick-edit').on('click', function(e) {
+			e.preventDefault();
+
 			jQuery('.btn-valoa-editable').toggle();
 		});
 	}
