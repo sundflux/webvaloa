@@ -56,7 +56,8 @@ class ViewController extends \Webvaloa\Application
             $query = "
                 SELECT id
                 FROM content
-                WHERE alias = ?";
+                WHERE alias = ?
+                AND published = 1";
 
             $stmt = $this->db->prepare($query);
             $stmt->set($id);
@@ -75,15 +76,9 @@ class ViewController extends \Webvaloa\Application
         // Try loading associated article
         $association = new ArticleAssociation($id);
         $association->setLocale(\Webvaloa\Webvaloa::getLocale());
-
-        Debug::__print('Assocation: article id ' . $id);
-
-        // Create association if it doesn't exist
         if ($associatedID = $association->getAssociatedId()) {
             $id = $associatedID;
         }
-
-        Debug::__print('Assocation: article id after association check for ' . $associatedID);
 
         // Load article
         $article = new Article($id);
