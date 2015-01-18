@@ -43,6 +43,7 @@ use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
+use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Controller\Request\Response;
 
 use stdClass;
@@ -89,6 +90,7 @@ class ArticleController extends \Webvaloa\Application
             FROM content, content_category
             WHERE content.id = content_category.content_id
             AND published > -1
+            AND associated_content_id IS NULL
             {$q}
             ORDER BY content.id DESC";
 
@@ -119,6 +121,7 @@ class ArticleController extends \Webvaloa\Application
             FROM content, content_category
             WHERE content.id = content_category.content_id
             AND published > -1
+            AND associated_content_id IS NULL
             {$q}
             ORDER BY content.id DESC";
 
@@ -185,20 +188,34 @@ class ArticleController extends \Webvaloa\Application
         $this->ui->addCSS('/css/Content_Field.css');
         $this->ui->setPageRoot('article');
 
-        $this->view->title = \Webvaloa\Webvaloa::translate('EDIT_ARTICLE');
-        $this->view->articleID = $this->view->article_id = $articleID;
-        $this->view->mode = self::MODE_EDIT;
-
         if (!$articleID || !is_numeric($articleID)) {
             throw new UnexpectedValueException('Article not found');
         }
+
+        // Try loading associated article
+        $association = new ArticleAssociation($articleID);
+        $association->setLocale(\Webvaloa\Webvaloa::getLocale());
+
+        Debug::__print('Assocation: article id ' . $articleID);
+
+        // Create association if it doesn't exist
+        if (!$associatedID = $association->getAssociatedId()) {
+            $associatedID = $association->createAssociation();
+        }
+
+        Debug::__print('Assocation: article id after association check for ' . $associatedID);
+
+        $this->view->title = \Webvaloa\Webvaloa::translate('EDIT_ARTICLE');
+        $this->view->articleID = $this->view->article_id = $articleID;
+        $this->view->mode = self::MODE_EDIT;
 
         $category = new Category();
         $this->view->categories = $category->categories();
 
         // Load article
-        $article = new Article($articleID);
+        $article = new Article($associatedID);
         $this->view->article = $article->article;
+        Debug::__print($this->view->article);
 
         // Get primary category. In theory webvaloa/db schema
         // supports articles in multiple categories, but
@@ -278,11 +295,34 @@ class ArticleController extends \Webvaloa\Application
                 unset($_SESSION['__previous_version']);
             }
 
-            // Save article
-            $article = new Article($_POST['article_id']);
+            if (is_numeric($_POST['article_id']) && $_POST['article_id'] > 0) {
+                // Try loading associated article
+                $association = new ArticleAssociation($_POST['article_id']);
+                $association->setLocale(\Webvaloa\Webvaloa::getLocale());
 
-            if (!isset($_POST['article_id']) || !is_numeric($_POST['article_id'])) {
-                $articleID = $article->insert();
+                Debug::__print('Assocation: article id ' . $_POST['article_id']);
+
+                // Create association if it doesn't exist
+                if (!$associatedID = $association->getAssociatedId()) {
+                    $associatedID = $association->createAssociation();
+                }
+
+                Debug::__print('Assocation: article id after association check for ' . $associatedID);
+            }
+
+            // Save article
+            if (isset($associatedID) && is_numeric($associatedID)) {
+                $id = $associatedID;
+            } else {
+                if (isset($_POST['article_id'])) {
+                    $id = $_POST['article_id'];
+                }
+            }
+
+            $article = new Article($id);
+
+            if (!isset($id) || !is_numeric($id)) {
+                $id = $article->insert();
 
                 // Add a category for it
                 $article->addCategory($_POST['category_id']);
@@ -291,27 +331,24 @@ class ArticleController extends \Webvaloa\Application
                 $article->setTitle($_POST['title']);
 
                 $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_ADDED'));
-            } elseif (is_numeric($_POST['article_id']) && $_POST['article_id'] > 0) {
-                $articleID = $_POST['article_id'];
-
+            } elseif (is_numeric($id) && $id > 0) {
                 // Set article title
                 $article->setTitle($_POST['title']);
 
                 $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_SAVED'));
-            } elseif ($_POST['article_id'] == 0) {
+            } elseif ($id == 0) {
                 // Saving global fields
 
                 $this->ui->addMessage(\Webvaloa\Webvaloa::translate('SAVED'));
-                $articleID = $_POST['article_id'];
             }
 
             // Publish article
-            if (isset($_POST['published']) && $_POST['published'] == 1 && (isset($_POST['article_id']) && $_POST['article_id'] > 0)) {
+            if (isset($_POST['published']) && $_POST['published'] == 1 && (isset($id) && $id > 0)) {
                 $article->publish();
             }
 
             // Unpublish article
-            if (isset($_POST['published']) && $_POST['published'] == 0 && (isset($_POST['article_id']) && $_POST['article_id'] > 0)) {
+            if (isset($_POST['published']) && $_POST['published'] == 0 && (isset($id) && $id > 0)) {
                 $article->unpublish();
             }
 
@@ -328,7 +365,7 @@ class ArticleController extends \Webvaloa\Application
             );
 
             // Drop old fields
-            $value = new Value($articleID);
+            $value = new Value($id);
             $value->dropValues();
 
             // Group ordering counter
@@ -382,10 +419,15 @@ class ArticleController extends \Webvaloa\Application
             $this->ui->addError(\Webvaloa\Webvaloa::translate('SAVING_ARTICLE_FAILED'));
         }
 
-        if ($articleID == 0) {
+        // Get original id back for the associated article
+        if (isset($association) && $tmp = $association->getId()) {
+            $id = $tmp;
+        }
+
+        if ($id == 0) {
             Redirect::to('content_article/globals');
         } else {
-            Redirect::to('content_article/edit/' . $articleID);
+            Redirect::to('content_article/edit/' . $id);
         }
     }
 

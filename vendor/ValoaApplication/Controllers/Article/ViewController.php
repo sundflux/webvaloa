@@ -38,6 +38,7 @@ use Webvaloa\Cache;
 use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Article as ArticleHelper;
+use Webvaloa\Helpers\ArticleAssociation;
 
 class ViewController extends \Webvaloa\Application
 {
@@ -52,7 +53,11 @@ class ViewController extends \Webvaloa\Application
     {
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
-            $query = "SELECT id FROM content WHERE alias = ?";
+            $query = "
+                SELECT id
+                FROM content
+                WHERE alias = ?";
+
             $stmt = $this->db->prepare($query);
             $stmt->set($id);
             $stmt->execute();
@@ -66,6 +71,19 @@ class ViewController extends \Webvaloa\Application
             header("HTTP/1.0 404 Not Found");
             exit;
         }
+
+        // Try loading associated article
+        $association = new ArticleAssociation($id);
+        $association->setLocale(\Webvaloa\Webvaloa::getLocale());
+
+        Debug::__print('Assocation: article id ' . $id);
+
+        // Create association if it doesn't exist
+        if ($associatedID = $association->getAssociatedId()) {
+            $id = $associatedID;
+        }
+
+        Debug::__print('Assocation: article id after association check for ' . $associatedID);
 
         // Load article
         $article = new Article($id);

@@ -218,6 +218,30 @@ class Article
         }
     }
 
+    public function setAssociation($id)
+    {
+        if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
+            throw new RuntimeException('Article not loadable');
+        }
+
+        $db = \Webvaloa\Webvaloa::DBConnection();
+        $id = (int) $id;
+
+        $query = "
+            UPDATE content SET associated_content_id = ?
+            WHERE id = ?";
+
+        $stmt = $db->prepare($query);
+        $stmt->set($id);
+        $stmt->set((int) $this->article->id);
+
+        try {
+            $stmt->execute();
+        } catch (Exception $e) {
+            Debug::__print($e->getMessage());
+        }
+    }
+
     public function alias($a)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
@@ -426,6 +450,7 @@ class Article
             FROM content, content_category
             WHERE content.id = content_category.content_id
             AND published > -1
+            AND associated_content_id IS NULL
             {$q}
             ORDER BY content.id DESC";
 
