@@ -312,11 +312,6 @@ class Webvaloa
     {
         $args = func_get_args();
 
-        $cache = new Cache;
-        if ($t = $cache->get('Translation_' . $args[0] . self::getLocale()) && error_reporting() != E_ALL) {
-            return $t;
-        }
-
         if (isset($args[1])) {
             $domain = $args[1];
         } else {
@@ -344,9 +339,6 @@ class Webvaloa
 
         $translate->bindTextDomain($domain, $path . DIRECTORY_SEPARATOR . Webvaloa::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Locale');
         $t = (string) $translate;
-
-        // Cache the translated string
-        $cache->set('Translation_' . $args[0] . self::getLocale(), $t);
 
         return $t;
     }
