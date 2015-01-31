@@ -33,6 +33,7 @@ namespace Webvaloa\Field\Fields;
 
 use stdClass;
 use DOMDocument;
+use Libvaloa\Debug;
 use Webvaloa\Field\Value;
 
 class Tags
@@ -98,7 +99,7 @@ class Tags
         $value = new Value($this->contentID);
         $values = $value->getValues($this->fieldID);
 
-        if (!is_array($values) || !is_object($values)) {
+        if (!is_array($values) && !is_object($values)) {
             return array();
         }
 
