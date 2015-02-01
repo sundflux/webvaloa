@@ -4,7 +4,7 @@
     <xsl:template match="index">
         <div class="container ">
 
-            <form role="form" action="{/page/common/basepath}/register/register" method="post">
+            <form role="form" action="{/page/common/basepath}/register/register" method="post" id="registration">
                 <h1><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CREATE_ACCOUNT')"/></h1>
                 <hr/>
                 
@@ -64,9 +64,9 @@
                                 value="{confirm_email}"/>
                         </div>
                     </div>
-                </div>                 
+                </div>
 
-                <button type="submit" class="btn btn-default"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CREATE_ACCOUNT')"/></button>
+                <button id="finish-registration" type="submit" class="btn btn-default"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CREATE_ACCOUNT')"/></button>
             </form>
             
         </div>
