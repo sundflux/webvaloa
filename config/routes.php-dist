@@ -1,0 +1,24 @@
+<?php
+namespace Webvaloa;
+
+// Example route mappings, works the same as 
+// adding routes to 'alias' db table.
+
+class routes {
+
+    public static $routes = array(
+        'kirjaudu' => array(
+                'controller'    => 'login',
+                'method'        => 'index',
+                'locale'        => 'fi_FI'
+            ),
+            
+        'example' => array(
+                'controller'    => 'article_view',
+                'method'        => 'index/123',
+                'locale'        => 'en_US'
+            )
+    );
+
+}
+
