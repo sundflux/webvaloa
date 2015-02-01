@@ -33,7 +33,6 @@ namespace Webvaloa\Field\Fields;
 
 use stdClass;
 use DOMDocument;
-use Libvaloa\Debug;
 use Webvaloa\Field\Value;
 
 class Tags
