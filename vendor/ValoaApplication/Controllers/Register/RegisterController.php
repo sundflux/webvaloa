@@ -48,14 +48,22 @@ use UnexpectedValueException;
 
 class RegisterController extends \Webvaloa\Application
 {
+    public $message;
+
     private $cache;
     private $user;
     private $mail;
-    public $message;
+    private $admin;
+    private $sitename;
 
     public function __construct()
     {
         $this->cache = new Cache;
+
+        // Check for site configuration
+        $configuration = new Configuration();
+        $this->admin = $configuration->webmaster_email->value;
+        $this->sitename = $configuration->sitename->value;
     }
 
     public function index()
@@ -98,21 +106,35 @@ class RegisterController extends \Webvaloa\Application
         }
 
         if (!\Webvaloa\User::usernameAvailable($email)) {
+            // Check if user is still stuck in registration limbo
+            $user = new User;
+            $user->byEmail($email);
+            $token = $user->metadata('token');
+            Debug::__print($token);
+
+            if (isset($token) && !empty($token) && $user->blocked == 1) {
+                // User has token, and is blocked, resend the email.
+
+                // Url for verifying the account
+                $link = $this->request->getBaseUri() . '/register/verify/' . base64_encode($user->id . ":" . $token);
+
+                // Send registration email
+                $this->sendEmail($email, $user->firstname, $user->lastname, $link);
+
+                Redirect::to('register/info');
+            }
+
+            // Nope, show error..
             $this->ui->addError(\Webvaloa\Webvaloa::translate('USERNAME_TAKEN'));
             Redirect::to('register');
         }
 
-        // Check for site configuration
-        $configuration = new Configuration();
-
-        $admin = $configuration->webmaster_email->value;
-        if (empty($admin)) {
+        if (empty($this->admin)) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('WEBMASTER_EMAIL_NOT_SET'));
             Redirect::to('register');
         }
 
-        $sitename = $configuration->sitename->value;
-        if (empty($sitename)) {
+        if (empty($this->sitename)) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('SITENAME_NOT_SET'));
             Redirect::to('register');
         }
@@ -133,7 +155,7 @@ class RegisterController extends \Webvaloa\Application
         }
 
         $user->firstname = $_POST['firstname'];
-        $user->lastname = $_POST['firstname'];
+        $user->lastname = $_POST['lastname'];
         $user->password = null;
         $user->blocked = 1;
 
@@ -153,6 +175,13 @@ class RegisterController extends \Webvaloa\Application
         // Url for verifying the account
         $link = $this->request->getBaseUri() . '/register/verify/' . base64_encode($userID . ":" . $hash);
 
+        // Send registration email
+        $this->sendEmail($email, $_POST['firstname'], $_POST['lastname'], $link);
+
+        Redirect::to('register/info');
+    }
+
+    private function sendEmail($email, $firstname, $lastname, $link) {
         // Allow overriding the message with plugins
         if (!isset($this->message) || empty($this->message)) {
             $this->message = \Webvaloa\Webvaloa::translate('VERIFY_ACCOUNT_MAIL_1');
@@ -164,9 +193,9 @@ class RegisterController extends \Webvaloa\Application
 
         try {
             $mailer = new Mail();
-            $send = $mailer->setTo($email, $_POST['firstname'] . ' ' . $_POST['lastname'])
+            $send = $mailer->setTo($email, $firstname . ' ' . $lastname)
                     ->setSubject(\Webvaloa\Webvaloa::translate('REGISTRATION_CONFIRM'))
-                    ->setFrom($admin, $sitename)
+                    ->setFrom($this->admin, $this->sitename)
                     ->addGenericHeader('X-Mailer', 'Webvaloa')
                     ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
                     ->setMessage($this->message)
@@ -185,13 +214,13 @@ class RegisterController extends \Webvaloa\Application
             Debug::__print($e);
 
             $this->ui->addError(\Webvaloa\Webvaloa::translate('MAIL_SENDING_FAILED'));
+
             Redirect::to('register');
         } catch (\Exception $e) {
             $this->ui->addError($e->getMessage());
+            
             Redirect::to('register');
         }
-
-        Redirect::to('register/info');
     }
 
     public function info()
@@ -208,10 +237,9 @@ class RegisterController extends \Webvaloa\Application
 
         $data = explode(':', base64_decode($hash));
         $user = new User((int) $data[0]);
-        $meta = $user->meta;
-        $meta = json_decode($meta);
+        $token = $user->metadata('token');
 
-        if (!isset($meta->token) || empty($meta->token) || $meta->token != $data[1]) {
+        if (!isset($token) || empty($token) || $token != $data[1]) {
             throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('HASH_NOT_MATCH')));
         }
 

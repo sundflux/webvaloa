@@ -34,6 +34,7 @@ namespace Webvaloa;
 use Libvaloa\Auth;
 use Libvaloa\Auth\Password;
 use Libvaloa\Db;
+use Libvaloa\Debug;
 
 use UnexpectedValueException;
 use RuntimeException;
@@ -88,7 +89,8 @@ class User
             throw new RuntimeException('User not found');
         }
 
-        $this->object->byID((int) $row->id);
+        $this->userID = (int) $row->id;
+        $this->object->byID((int) $this->userID);
 
         unset($row);
     }
@@ -268,7 +270,7 @@ class User
     public function metadata($key, $value = false)
     {
         if (!$this->userID) {
-            throw new RuntimeException('UserID must be set before running deleteRole');
+            throw new RuntimeException('UserID must be set before using metadata');
         }
 
         if ($value === false) {

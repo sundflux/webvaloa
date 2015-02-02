@@ -8,10 +8,6 @@
                 <h1><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CREATE_ACCOUNT')"/></h1>
                 <hr/>
                 
-                <div id="messages">
-                    <xsl:call-template name="messages" />
-                </div>                
-                
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
