@@ -154,6 +154,8 @@ class Alias
             return false;
         }
 
+        $alias = strtolower($alias);
+
         if (isset($this->routes[$alias])) {
             $this->controller->controller 	= $this->routes[$alias]['controller'];
             $this->controller->method 		= $this->routes[$alias]['method'];
