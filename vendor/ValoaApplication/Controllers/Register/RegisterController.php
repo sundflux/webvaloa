@@ -34,17 +34,19 @@ namespace ValoaApplication\Controllers\Register;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
+use Libvaloa\Auth\Auth;
 
-use Webvaloa\Configuration;
 use Webvaloa\Cache;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Mail\Mail;
+use Webvaloa\Configuration;
 
 use stdClass;
 use Exception;
 use InvalidArgumentException;
 use UnexpectedValueException;
+use RuntimeException;
 
 class RegisterController extends \Webvaloa\Application
 {
@@ -248,9 +250,6 @@ class RegisterController extends \Webvaloa\Application
             throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('PASSWORD_ALREADY_SET')));
         }
 
-        Debug::__print($meta);
-        Debug::__print($data);
-
         // Token matches
 
         if (isset($_POST['password'])) {
@@ -272,6 +271,20 @@ class RegisterController extends \Webvaloa\Application
             $user->save();
 
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('READY'));
+
+            // Login the user after verification
+            try {
+                $backend = \Webvaloa\config::$properties['webvaloa_auth'];
+
+                $auth = new Auth;
+                $auth->setAuthenticationDriver(new $backend);
+
+                if (!$auth->authenticate($user->login, $_POST["password"])) {
+                    throw new RuntimeException("Authentication failed.");
+                }
+            } catch (RuntimeException $e) {
+                $this->ui->addError($e->getMessage());
+            }
 
             Redirect::to(\Webvaloa\config::$properties['default_controller']);
         }
