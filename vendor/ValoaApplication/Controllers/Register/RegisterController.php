@@ -196,6 +196,7 @@ class RegisterController extends \Webvaloa\Application
             $send = $mailer->setTo($email, $firstname . ' ' . $lastname)
                     ->setSubject(\Webvaloa\Webvaloa::translate('REGISTRATION_CONFIRM'))
                     ->setFrom($this->admin, $this->sitename)
+                    ->addGenericHeader('MIME-Version', '1.0')
                     ->addGenericHeader('X-Mailer', 'Webvaloa')
                     ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
                     ->setMessage($this->message)
