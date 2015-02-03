@@ -170,6 +170,12 @@
         <div id="translate" class="hide">
             <span id="translation-delete" data-translation-string="{php:function('\Webvaloa\Webvaloa::translate','SAVE_CHANGES')}?"/>
         </div>
+
+        <div id="basehref" class="hide">
+            <xsl:value-of select="/page/common/basehref"/>
+        </div>
+        
+        <xsl:call-template name="loader"/>        
     </xsl:template>
 
     <xsl:template match="field">
@@ -277,6 +283,12 @@
         <div id="translate" class="hide">
             <span id="translation-delete" data-translation-string="{php:function('\Webvaloa\Webvaloa::translate','SAVE_CHANGES')}?"/>
         </div>
+
+        <div id="basehref" class="hide">
+            <xsl:value-of select="/page/common/basehref"/>
+        </div>
+        
+        <xsl:call-template name="loader"/>        
     </xsl:template>
 
 </xsl:stylesheet>

@@ -125,4 +125,61 @@ jQuery(document).ready(function() {
     jQuery('.fieldsettings').hide();
     jQuery('.settings-' + $v).show();
 
+    // Validate group names
+    jQuery('#group_name').on('keyup', function(e) {
+        e.preventDefault();
+        ValidationHelper.validateName('#group_name', 'group', 0);
+    });
+
+    jQuery('#group_name').on('blur focusout', function(e) {
+        e.preventDefault();
+        ValidationHelper.validateName('#group_name', 'group', 1);
+    });
+
+    // Validate field names
+    jQuery('#field_name').on('keyup', function(e) {
+        e.preventDefault();
+        ValidationHelper.validateName('#field_name', 'field', 0);
+    });
+
+    jQuery('#field_name').on('blur focusout', function(e) {
+        e.preventDefault();
+        ValidationHelper.validateName('#field_name', 'field', 1);
+    });
+
 });
+
+var ValidationHelper = {
+
+    validateName: function(id, type, apply) {
+        Loader.show();
+
+        var el = jQuery(id);
+        var _url = jQuery('#basehref').text();
+        var _value = jQuery(el).val();
+
+        _request = jQuery.ajax({
+            type: "GET",
+            url: _url + '/content_field/validate' + type + '/' + _value + '/'
+        });
+
+        _request.done(function(response) {
+            Loader.hide();
+
+            if(response.exists > 0 || jQuery(id).val() == "") {
+                jQuery(id).parent().removeClass('has-success');
+                jQuery(id).parent().addClass('has-error');
+                jQuery('.fields-savebutton').prop('disabled', true);
+            } else {
+                jQuery(id).parent().removeClass('has-error');
+                jQuery(id).parent().addClass('has-success');
+                jQuery('.fields-savebutton').prop('disabled', false);
+            }
+
+            if(apply == 1) {
+                jQuery(id).val(response.formattedname);
+            }
+        });
+    }
+
+}

@@ -37,6 +37,8 @@ use Webvaloa\Security;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Category;
+use Webvaloa\Helpers\Field as FieldHelper;
+use Webvaloa\Controller\Request\Response;
 
 use stdClass;
 
@@ -247,6 +249,28 @@ class FieldController extends \Webvaloa\Application
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('FIELD_DELETED'));
         Redirect::to('content_field');
+    }
+
+    public function validategroup($name)
+    {
+        $fieldHelper = new FieldHelper;
+
+        $response = new stdClass;
+        $response->formattedname = $fieldHelper->formatName($name);
+        $response->exists = $fieldHelper->groupExists($response->formattedname);
+
+        Response::JSON($response);
+    }
+
+    public function validatefield($name)
+    {
+        $fieldHelper = new FieldHelper;
+
+        $response = new stdClass;
+        $response->formattedname = $fieldHelper->formatName($name);
+        $response->exists = $fieldHelper->fieldExists($response->formattedname);
+
+        Response::JSON($response);
     }
 
 }
