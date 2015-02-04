@@ -30,7 +30,7 @@
             </div>
         </form>
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th style="width: 1%">

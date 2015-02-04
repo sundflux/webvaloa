@@ -28,7 +28,7 @@
             </div>
         </form>
         
-        <table class="table footable" data-filter="#search">
+        <table class="table table-striped footable" data-filter="#search">
             <thead>
                 <tr>
                     <th>

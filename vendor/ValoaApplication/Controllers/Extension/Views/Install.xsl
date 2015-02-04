@@ -13,7 +13,7 @@
 
         <xsl:if test="components != ''">
         	<h2><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','COMPONENTS')"/></h2>
-	        <table class="table">
+	        <table class="table table-striped">
 	            <tbody>
 	                <xsl:for-each select="components">
 	                    <tr>
@@ -35,7 +35,7 @@
 
         <xsl:if test="plugins != ''">
         	<h2><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','PLUGINS')"/></h2>
-	        <table class="table">
+	        <table class="table table-striped">
 	            <tbody>
 	                <xsl:for-each select="plugins">
 	                    <tr>

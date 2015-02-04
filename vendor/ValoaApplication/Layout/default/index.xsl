@@ -49,7 +49,8 @@
                 <base href="{common/basehref}"/>
 
                 <!-- Latest compiled and minified CSS -->
-                <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/paper.min.css" />
+                <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/bootstrap.min.css" />
+                <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/bootstrap-theme.min.css" />
                 <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/valoa.css" />
                 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
 
