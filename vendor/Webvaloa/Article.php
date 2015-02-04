@@ -218,6 +218,40 @@ class Article
         }
     }
 
+    public function setPublishUp($i) 
+    {
+        return $this->setPublish($i);
+    }
+
+    public function setPublishDown($i) 
+    {
+        return $this->setPublish($i, true);
+    }
+
+    private function setPublish($i, $down = false)
+    {
+        if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
+            throw new RuntimeException('Article not loadable');
+        }
+
+        $db = \Webvaloa\Webvaloa::DBConnection();
+
+        if($down) {
+            $d = 'publish_down';
+        } else {
+            $d = 'publish_up';
+        }
+
+        $query = "
+            UPDATE content SET {$d} = ?
+            WHERE id = ?";
+            
+        $stmt = $db->prepare($query);
+        $stmt->set($i);
+        $stmt->set((int) $this->article->id);
+        $stmt->execute();
+    }
+
     public function setAssociation($id)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {

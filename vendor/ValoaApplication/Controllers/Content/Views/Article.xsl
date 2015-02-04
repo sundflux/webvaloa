@@ -250,8 +250,13 @@
 						<span class="input-group-btn">
 							<button type="button" id="alias-toggle">
 								<xsl:attribute name="class">btn btn-default input-lg</xsl:attribute>
-                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLE_ALIAS')"/>
+								<i class="fa fa-external-link"></i>
 							</button>
+
+							<button type="button" class="btn input-lg btn-default" id="publish-time-toggle">
+								<i class="fa fa-clock-o"></i>
+							</button>
+
                             <button type="button" id="publish-toggle">
                                 <xsl:choose>
                                     <xsl:when test="article/published = '1'">
@@ -274,6 +279,22 @@
                             </xsl:attribute>
                         </input>
                     </div>
+
+                    <div class="well" id="article-publish" style="display: none">
+						<div class="form-group">
+							<label for="inputPublishup"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','START_PUBLISHING')"/></label>
+							<input type="text" class="form-control article-title" id="inputPublishup" name="publish_up">
+								<xsl:attribute name="value"><xsl:value-of select="article/publish_up"/></xsl:attribute>
+							</input>
+						</div>
+						<div class="form-group">
+							<label for="inputPublishdown"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','STOP_PUBLISHING')"/></label>
+							<input type="text" class="form-control article-title" id="inputPublishdown" name="publish_down">
+								<xsl:attribute name="value"><xsl:value-of select="article/publish_down"/></xsl:attribute>
+							</input>								
+						</div>
+                    </div>
+
                 </xsl:if>
 
                 <input type="hidden" name="published" value="{article/published}" id="published"/>

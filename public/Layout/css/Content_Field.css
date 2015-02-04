@@ -92,6 +92,11 @@ li.sortable-placeholder {
     margin-right: 20px;
 }
 
+#article-publish {
+    padding-left: 30px;
+    margin-right: 25px;
+}
+
 #article-form div.article-title-holder {
     margin-right: 25px !important;
 }
@@ -131,3 +136,4 @@ h1.article-listing {
 #article-alias {
     margin-right: 25px;
 }
+

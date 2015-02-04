@@ -412,6 +412,14 @@ class ArticleController extends \Webvaloa\Application
                 }
             }
 
+            // Publish up/down
+            if (isset($_POST['publish_up'])) {
+                $article->setPublishUp($_POST['publish_up']);
+            }
+            if(isset($_POST['publish_down'])) {
+                $article->setPublishDown($_POST['publish_down']);
+            }
+
             $this->db->commit();
         } catch (Exception $e) {
             $this->db->rollBack();
@@ -435,6 +443,9 @@ class ArticleController extends \Webvaloa\Application
     {
         $category = new Category($categoryID);
         $this->view->category = $category->category;
+
+        // Always include these fields:
+        $this->view->fieldTypes[] = 'Datetimepicker';
 
         $groups = $category->groups();
         $fields = $category->fields();

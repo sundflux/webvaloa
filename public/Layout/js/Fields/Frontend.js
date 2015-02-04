@@ -74,6 +74,9 @@ jQuery( document ).ready(function() {
     // Bind help texts
     Frontend.bindHelpTexts();
 
+    // Bind publish up/down datepicker
+    Frontend.bindDatepickers();
+
     Loader.hide();
 
 });
@@ -318,6 +321,12 @@ var Frontend = {
     },
 
     bindPublished: function() {
+        jQuery('#publish-time-toggle').on('click', function(e) {
+            e.preventDefault();
+
+            jQuery('#article-publish').toggle();
+        });
+
         // Bind published status toggler
         jQuery('#publish-toggle').on('click', function(e) {
             e.preventDefault();
@@ -360,6 +369,10 @@ var Frontend = {
 
     resetLeaveNotice: function() {
         window.onbeforeunload = null;
+    },
+
+    bindDatepickers: function() {
+
     }
 
 }
