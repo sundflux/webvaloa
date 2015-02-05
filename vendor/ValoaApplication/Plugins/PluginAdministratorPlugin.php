@@ -56,7 +56,21 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
         $this->showAdminBar = false;
 
         if (isset($_SESSION['UserID'])) {
-            $this->showAdminBar = true;
+            // User has to have permission to any of these for admin bar to show.
+            $controllers = array(
+                'Content',
+                'User',
+                'Extension',
+                'Settings'
+            );
+
+            foreach ($controllers as $k => $v) {
+                if ($this->authorize($v)) {
+                    $this->showAdminBar = true;
+                    break;
+                }
+            }
+
             $this->user = new User($_SESSION['UserID']);
         }
     }
