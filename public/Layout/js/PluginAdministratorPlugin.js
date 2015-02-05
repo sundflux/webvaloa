@@ -39,6 +39,7 @@ var Webvaloa = {
 			e.preventDefault();
 
 			jQuery('.btn-valoa-editable').toggle();
+			jQuery(this).parent().toggleClass('active');
 		});
 	}
 

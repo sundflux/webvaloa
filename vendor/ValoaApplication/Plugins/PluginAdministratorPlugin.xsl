@@ -61,46 +61,48 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <xsl:if test="/page/module//_permissions/showQuickAdd">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-pencil"></i>&#160;
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#" id="quick-edit"><i class="fa fa-pencil"></i>&#160;
-                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','EDIT_PAGE', 'PluginAdministratorPlugin')"/>
-                                        </a>
-                                    </li>
-
-                                    <xsl:if test="/page/module//_shortcuts != ''">
-                                        <li class="divider"></li>
-                                        <li class="dropdown-header">
-                                            <span>
-                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ADD', 'PluginAdministratorPlugin')"/>
-                                            </span>
-                                        </li>
-                                        <xsl:for-each select="/page/module//_shortcuts">
-                                            <li>
-                                                <a href="{/page/common/basepath}/content_article/add/{id}"><i class="fa fa-file"></i>&#160;
-                                                    <xsl:value-of select="category" />
-                                                </a>
-                                            </li>
-                                        </xsl:for-each>
-                                    </xsl:if>
-
-                                    <xsl:if test="/page/module//_groups != ''">
-                                        <li class="divider"></li>
-                                        <xsl:for-each select="/page/module//_groups">
-                                            <li>
-                                                <a href="{/page/common/basepath}/content_article/globals#{name}"><i class="fa fa-gear"></i>&#160;
-                                                    <xsl:value-of select="translation" />
-                                                </a>
-                                            </li>
-                                        </xsl:for-each>
-                                    </xsl:if>
-                                </ul>
+                            <li>&#160;&#160;&#160;</li>
+                            <li>
+                                <a href="#" id="quick-edit"><i class="fa fa-pencil"></i></a>
                             </li>
+
+                            <xsl:if test="/page/module//_shortcuts != ''">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <xsl:if test="/page/module//_shortcuts != ''">
+                                            <li class="dropdown-header">
+                                                <span>
+                                                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ADD', 'PluginAdministratorPlugin')"/>
+                                                </span>
+                                            </li>
+                                            <xsl:for-each select="/page/module//_shortcuts">
+                                                <li>
+                                                    <a href="{/page/common/basepath}/content_article/add/{id}"><i class="fa fa-file"></i>&#160;
+                                                        <xsl:value-of select="category" />
+                                                    </a>
+                                                </li>
+                                            </xsl:for-each>
+                                        </xsl:if>
+
+                                        <xsl:if test="/page/module//_groups != ''">
+                                            <li class="divider"></li>
+                                            <xsl:for-each select="/page/module//_groups">
+                                                <li>
+                                                    <a href="{/page/common/basepath}/content_article/globals#{name}"><i class="fa fa-gear"></i>&#160;
+                                                        <xsl:value-of select="translation" />
+                                                    </a>
+                                                </li>
+                                            </xsl:for-each>
+                                        </xsl:if>
+                                    </ul>
+                                </li>
+                            </xsl:if>
+                            <xsl:if test="/page/module//_permissions/showContent">
+                                <li><a href="{/page/common/basepath}/content_media"><i class="fa fa-image"></i></a></li>
+                            </xsl:if>
                         </xsl:if>
 
                         <xsl:if test="/page/module//_permissions/showContent">
