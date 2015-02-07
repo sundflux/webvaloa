@@ -472,10 +472,10 @@
 
         <div class="move-repeatable pull-right">
             <button type="button" class="btn btn-info move-repeatable-up">
-                <span class="fa fa-angle-up"></span>
+                <i class="fa fa-chevron-up"></i>
             </button>
             <button type="button" class="btn btn-info move-repeatable-down">
-                <span class="fa fa-angle-down"></span>
+                <i class="fa fa-chevron-down"></i>
             </button>
         </div>
 
