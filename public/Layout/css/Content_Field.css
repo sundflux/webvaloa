@@ -64,10 +64,6 @@ li.sortable-placeholder {
     clear: both;
 }
 
-.field-holder {
-    padding: 5px 10px 5px 10px;
-}
-
 #groups-tab li a:hover {
     cursor: pointer;
 }
