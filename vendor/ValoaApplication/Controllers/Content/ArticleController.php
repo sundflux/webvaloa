@@ -478,7 +478,7 @@ class ArticleController extends \Webvaloa\Application
 
                 // Get params
                 $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
-                $f = new $fieldClass($field->id);
+                $f = new $fieldClass($field->id, $this->view->articleID);
                 $repeatables[$v]->repeatable[$i]->fields[$field->name]->params = $f->getParams();
 
                 // Collect field types

@@ -133,16 +133,18 @@ class Value
                 SELECT *
                 FROM content_field_value
                 WHERE field_id = ?
-                AND content_id = ?
-                AND ordering = ?';
+                AND content_id = ?';
 
         } else {
             $query = '
                 SELECT *
                 FROM content_field_value
-                WHERE field_id = ?
-                AND ordering = ?';
+                WHERE field_id = ?';
 
+        }
+
+        if($this->fieldOrdering !== false) {
+            $query .= " AND ordering = ? ";
         }
 
         $stmt = $db->prepare($query);
@@ -154,7 +156,10 @@ class Value
                 $stmt->set((int) $this->articleID);
             }
 
-            $stmt->set((int) $this->fieldOrdering);
+            if($this->fieldOrdering !== false) {
+                $stmt->set((int) $this->fieldOrdering);
+            }
+
             $stmt->execute();
 
             foreach ($stmt as $row) {
