@@ -215,7 +215,6 @@ class ArticleController extends \Webvaloa\Application
         // Load article
         $article = new Article($associatedID);
         $this->view->article = $article->article;
-        Debug::__print($this->view->article);
 
         // Get primary category. In theory webvaloa/db schema
         // supports articles in multiple categories, but
