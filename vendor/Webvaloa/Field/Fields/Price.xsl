@@ -9,7 +9,7 @@
 		<xsl:param name="translation"></xsl:param>
 		<xsl:param name="params"></xsl:param>
 
-		<input type="number" step="0.01" size="4" pattern="^\d*(\.\d{2}$)?" class="form-control" name="{$uniqid}[{$name}][]" data-field-name="{$name}" value="{$value}" />
+		<input type="number" step="0.01" size="4" pattern="^\d*(\.\d{2}$)?" class="form-control price-input" name="{$uniqid}[{$name}][]" data-field-name="{$name}" value="{$value}" />
 		<br/>
 	</xsl:template>	
 
