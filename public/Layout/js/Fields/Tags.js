@@ -711,7 +711,7 @@ var Tags = {
 
         tags.initialize();
 
-        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id + '/' + $articleID + ':' + i, function( data ) {
+        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id + '/' + $articleID, function( data ) {
             var items = [];
             jQuery.each( data, function( key, val ) {
                 items.push('<option value="' + val.value.value + '"  selected="selected">' + val.value.value + '</option>');
