@@ -130,6 +130,15 @@ class Article
 
             // Sort fields by group
             foreach ($fields as $k => $field) {
+
+                // Format field value for viewing
+                $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+                $f = new $fieldClass($field->field_id);
+                $m = 'onLoad';
+                if(method_exists($f, $m)) {
+                    $field->value = $f->{$m}($field->value);
+                }
+
                 $values[$field->name][] = $field->value;
             }
 

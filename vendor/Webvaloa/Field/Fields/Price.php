@@ -31,6 +31,8 @@
 
 namespace Webvaloa\Field\Fields;
 
+use Webvaloa\Helpers\PriceFormat;
+
 class Price
 {
 
@@ -69,6 +71,38 @@ class Price
     public function getSettings()
     {
         return '';
+    }
+
+    public function onSave($v) {
+        if (is_array($v)) {
+            foreach ($v as $k => $v) {
+                $tmp[$k] = PriceFormat::formatCountablePrice($v);
+            }
+            if (isset($tmp)) {
+                $v = $tmp;
+                unset($tmp);
+            }
+        } else {
+            $v = PriceFormat::formatCountablePrice($v);
+        }
+
+        return $v;
+    }
+
+    public function onLoad($v) {
+        if (is_array($v)) {
+            foreach ($v as $k => $v) {
+                $tmp[$k] = PriceFormat::formatPrice($v);
+            }
+            if (isset($tmp)) {
+                $v = $tmp;
+                unset($tmp);
+            }
+        } else {
+            $v = PriceFormat::formatPrice($v);
+        }
+
+        return $v;
     }
 
 }

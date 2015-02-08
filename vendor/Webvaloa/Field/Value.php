@@ -92,6 +92,10 @@ class Value
 
     public function fieldValue($value)
     {
+        if ($this->fieldID) {
+            $value = $this->onSave($value);
+        }
+
         $this->fieldValue = $value;
     }
 
@@ -176,6 +180,23 @@ class Value
         }
 
         return false;
+    }
+
+    private function onSave($value) {
+        if (!$this->fieldID) {
+            return $value;
+        }
+
+        $field = new Field($this->fieldID);
+        $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+        $f = new $fieldClass($field->id);
+
+        $m = 'onSave';
+        if(method_exists($f, $m)) {
+            $value = $f->{$m}($value);
+        }
+
+        return $value;
     }
 
 }

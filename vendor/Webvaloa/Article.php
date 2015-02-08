@@ -355,6 +355,15 @@ class Article
 
                 $group[$field->repeatable_ordering]->field_group_id = $field->field_group_id;
                 $group[$field->repeatable_ordering]->repeatable_ordering = $field->repeatable_ordering;
+
+                // Format field value for viewing
+                $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+                $f = new $fieldClass($field->field_id);
+                $m = 'onLoad';
+                if(method_exists($f, $m)) {
+                    $field->value = $f->{$m}($field->value);
+                }
+                
                 $group[$field->repeatable_ordering]->fieldValues[$field->name][] = $field->value;
                 $values[$field->name][] = $field->value;
             }
