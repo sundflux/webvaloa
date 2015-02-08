@@ -49,9 +49,6 @@ class Dropdown
 
         if (is_numeric($this->fieldID)) {
             $this->field = new Field($this->fieldID);
-
-            Debug::__print('Loaded field ' . $this->fieldID);
-            Debug::__print($this->field);
         } else {
             $this->field = new stdClass;
         }
