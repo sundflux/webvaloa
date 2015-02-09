@@ -70,7 +70,7 @@ class RegisterController extends \Webvaloa\Application
 
     public function index()
     {
-        if ($tmp = $this->cache->registration) {
+        if ($tmp = $this->cache->_get('registration')) {
             foreach ($tmp as $k => $v) {
                 $this->view->$k = $v;
             }
@@ -82,7 +82,7 @@ class RegisterController extends \Webvaloa\Application
         Debug::__print($_POST);
 
         // Cache post
-        $this->cache->registration = $_POST;
+        $this->cache->_set('registration',  $_POST);
 
         // Validate inputs
         $require = array(
