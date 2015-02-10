@@ -120,7 +120,7 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
             // Profile
             $this->view->_name = $this->user->firstname.' '.$this->user->lastname;
             $this->view->_email = $this->user->email;
-            $this->view->_gravatar = 'http://www.gravatar.com/avatar/'.md5(strtolower(trim($this->user->email))).'&s=140';
+            $this->view->_gravatar = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->user->email))).'&s=140';
 
             // Permissions
             $permissions = new stdClass;

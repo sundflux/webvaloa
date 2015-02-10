@@ -90,7 +90,7 @@ class UserController extends \Webvaloa\Application
 
             foreach ($users as $k => $v) {
                 $this->view->users[$k] = $v;
-                $this->view->users[$k]->gravatar = 'http://www.gravatar.com/avatar/'.md5(strtolower(trim($v->email))).'?s=32';
+                $this->view->users[$k]->gravatar = '//www.gravatar.com/avatar/'.md5(strtolower(trim($v->email))).'?s=32';
             }
         } catch (Exception $e) {
 
