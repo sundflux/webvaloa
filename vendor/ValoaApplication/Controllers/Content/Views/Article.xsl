@@ -10,7 +10,7 @@
 
             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLES')"/>
         </h1>
-        <hr/>	
+        <hr/>   
 
         <form method="get" action="{/page/common/basepath}/content_article">
             <div class="row">
@@ -56,7 +56,7 @@
                                 <xsl:if test="published = '0'">
                                     <xsl:attribute name="class">text-muted</xsl:attribute>
                                 </xsl:if>
-	                            
+                                
                                 <xsl:value-of select="title"/>
                             </td>
                             <td data-hide="phone,tablet"> 
@@ -65,7 +65,7 @@
                                         <span class="label label-danger">
                                             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TRASHED')"/>
                                         </span>
-                                    </xsl:when>	                        		
+                                    </xsl:when>                                 
                                     <xsl:when test="published = '0'">
                                         <span class="label label-warning">
                                             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','UNPUBLISHED')"/>
@@ -177,45 +177,13 @@
                             </xsl:for-each>
                         </ul>
                     </xsl:if>
-                </div>	
+                </div>  
             </xsl:if>
 
-            <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#myModal">
-                <xsl:if test="mode &lt; 2">
-                    <xsl:attribute name="disabled">disabled</xsl:attribute>
-                </xsl:if>
-
-                <i class="fa fa-clock-o"></i>&#160;
-                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','VERSION_HISTORY')"/>
-            </button>
-
-            <xsl:if test="category_id &gt; 0">
-                <a id="trash-article" href="{/page/common/basepath}/content_article/trash/{articleID}" class="btn btn-danger pull-right">
-                    <xsl:if test="mode &lt; 1 or article_id = ''">
-                        <xsl:attribute name="disabled">disabled</xsl:attribute>
-                    </xsl:if>
-
-                    <i class="fa fa-trash-o"></i>&#160;
-                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TRASH_ARTICLE')"/>
-                </a>
+            <!-- add Save, Trash and version history buttons here if needed  -->
+            <xsl:if test="not(onSaveRedirect)">
+                <xsl:call-template name="action-buttons"/>
             </xsl:if>
-
-            <button type="button" class="btn btn-success pull-right" id="save-article">
-                <xsl:if test="mode &lt; 1">
-                    <xsl:attribute name="disabled">disabled</xsl:attribute>
-                </xsl:if>
-
-                <xsl:choose>
-                    <xsl:when test="article_id = '0'">
-                        <i class="fa fa-save"></i>&#160;
-                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE')"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <i class="fa fa-save"></i>&#160;
-                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE_ARTICLE')"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </button>
 
         </h1>
 
@@ -247,15 +215,15 @@
                                 <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLE_TITLE_HERE')"/>
                             </xsl:attribute>
                         </input>
-						<span class="input-group-btn">
-							<button type="button" id="alias-toggle">
-								<xsl:attribute name="class">btn btn-default input-lg</xsl:attribute>
-								<i class="fa fa-external-link"></i>
-							</button>
+                        <span class="input-group-btn">
+                            <button type="button" id="alias-toggle">
+                                <xsl:attribute name="class">btn btn-default input-lg</xsl:attribute>
+                                <i class="fa fa-external-link"></i>
+                            </button>
 
-							<button type="button" class="btn input-lg btn-default" id="publish-time-toggle">
-								<i class="fa fa-clock-o"></i>
-							</button>
+                            <button type="button" class="btn input-lg btn-default" id="publish-time-toggle">
+                                <i class="fa fa-clock-o"></i>
+                            </button>
 
                             <button type="button" id="publish-toggle">
                                 <xsl:choose>
@@ -281,18 +249,18 @@
                     </div>
 
                     <div class="well" id="article-publish" style="display: none">
-						<div class="form-group">
-							<label for="inputPublishup"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','START_PUBLISHING')"/></label>
-							<input type="text" class="form-control article-title" id="inputPublishup" name="publish_up">
-								<xsl:attribute name="value"><xsl:value-of select="article/publish_up"/></xsl:attribute>
-							</input>
-						</div>
-						<div class="form-group">
-							<label for="inputPublishdown"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','STOP_PUBLISHING')"/></label>
-							<input type="text" class="form-control article-title" id="inputPublishdown" name="publish_down">
-								<xsl:attribute name="value"><xsl:value-of select="article/publish_down"/></xsl:attribute>
-							</input>								
-						</div>
+                        <div class="form-group">
+                            <label for="inputPublishup"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','START_PUBLISHING')"/></label>
+                            <input type="text" class="form-control article-title" id="inputPublishup" name="publish_up">
+                                <xsl:attribute name="value"><xsl:value-of select="article/publish_up"/></xsl:attribute>
+                            </input>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPublishdown"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','STOP_PUBLISHING')"/></label>
+                            <input type="text" class="form-control article-title" id="inputPublishdown" name="publish_down">
+                                <xsl:attribute name="value"><xsl:value-of select="article/publish_down"/></xsl:attribute>
+                            </input>                                
+                        </div>
                     </div>
 
                 </xsl:if>
@@ -367,7 +335,7 @@
                                             <xsl:call-template name="delete-group-button"/>
                                         </xsl:if>
                                     </div>
-									
+                                    
                                 </xsl:for-each>
                             </xsl:for-each>
 
@@ -376,7 +344,7 @@
                                 <hr/>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">
-										&#160;
+                                        &#160;
                                     </label>
                                     <div class="col-sm-9">
                                         <xsl:call-template name="Repeatable">
@@ -458,6 +426,46 @@
         <div id="basehref" class="hide">
             <xsl:value-of select="/page/common/basehref"/>
         </div>
+
+        <!-- CSS/JS rules for onArticleSave/frontend editing -->
+        <xsl:if test="onSaveRedirect">
+            <style type="text/css">
+                /* Hide webvaloa toolbar */
+                #webvaloa {
+                    display: none;
+                }
+
+                #save-article {
+                    margin-right: 10px;
+                }
+
+                #cancel-button {
+                    margin-right: 50px;
+                }
+
+                #version-history-button {
+                    margin-right: 15px;
+                }
+
+                .webvaloa-footer {
+                    height: 55px;
+                    padding-top: 10px;
+                }
+
+                .branding {
+                    /* Branding logo */
+                    max-height: 40px;
+                }
+            </style>
+
+            <!-- Footer -->
+            <footer class="webvaloa-footer navbar-fixed-bottom navbar-default">
+                <div class="container">
+                    <xsl:call-template name="action-buttons"/>
+                </div>
+            </footer>
+        </xsl:if>
+
     </xsl:template>
 
     <xsl:template name="delete-button">
@@ -481,7 +489,73 @@
 
         <br/>
         <br/>
-    </xsl:template>	
+    </xsl:template> 
+
+    <xsl:template name="action-buttons">
+        <xsl:if test="onSaveRedirect">
+            <xsl:choose>
+                <xsl:when test="/page/module//_settings/webvaloa_branding != ''">
+                    <img class="branding" src="{/page/common/basehref}/public/media/{/page/module//_settings/webvaloa_branding}" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <img class="branding" src="{/page/common/basehref}/public/media/webvaloa-logo.png" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:if>
+
+        <button type="button" id="version-history-button" class="btn btn-default pull-right" data-toggle="modal" data-target="#myModal">
+            <xsl:if test="mode &lt; 2">
+                <xsl:attribute name="disabled">disabled</xsl:attribute>
+            </xsl:if>
+
+            <i class="fa fa-clock-o"></i>&#160;
+            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','VERSION_HISTORY')"/>
+        </button>
+
+        <xsl:if test="not(onSaveRedirect)">
+            <!-- Allow removing articles only from non-frontend links -->
+            <xsl:if test="category_id &gt; 0">
+                <a id="trash-article" href="{/page/common/basepath}/content_article/trash/{articleID}" class="btn btn-danger pull-right">
+                    <xsl:if test="mode &lt; 1 or article_id = ''">
+                        <xsl:attribute name="disabled">disabled</xsl:attribute>
+                    </xsl:if>
+
+                    <i class="fa fa-trash-o"></i>&#160;
+                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TRASH_ARTICLE')"/>
+                </a>
+            </xsl:if>
+        </xsl:if>
+
+        <xsl:if test="onSaveRedirect">
+            <!-- Show cancel button only when editing from frontend -->
+            <button type="button" id="cancel-button" class="btn btn-default pull-right"
+                onclick="if(confirm('{php:function('\Webvaloa\Webvaloa::translate','ARE_YOU_SURE')}')) window.location='{onSaveRedirect}'">
+                <xsl:if test="mode &lt; 2">
+                    <xsl:attribute name="disabled">disabled</xsl:attribute>
+                </xsl:if>
+
+                <i class="fa fa-undo"></i>&#160;
+                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CANCEL')"/>
+            </button>        
+        </xsl:if>
+
+        <button type="button" class="btn btn-success pull-right" id="save-article">
+            <xsl:if test="mode &lt; 1">
+                <xsl:attribute name="disabled">disabled</xsl:attribute>
+            </xsl:if>
+
+            <xsl:choose>
+                <xsl:when test="article_id = '0'">
+                    <i class="fa fa-save"></i>&#160;
+                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <i class="fa fa-save"></i>&#160;
+                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE_ARTICLE')"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </button>
+    </xsl:template>
 
     <xsl:template name="delete-group-button">
         <xsl:param name="button-text">
@@ -490,7 +564,7 @@
 
         <div class="form-group">
             <label class="control-label col-sm-3">
-				&#160;
+                &#160;
             </label>
             <div class="col-sm-9">
                 <button type="button" class="btn btn-danger repeatable-group-button-delete">
@@ -498,7 +572,7 @@
                     <xsl:value-of select="$button-text"/>
                 </button>
             </div>
-        </div>	
+        </div>  
     </xsl:template>
 
     <xsl:template name="Repeatable">
@@ -515,6 +589,6 @@
             </button>
         </xsl:if>
 
-    </xsl:template>	
+    </xsl:template> 
 
 </xsl:stylesheet>
