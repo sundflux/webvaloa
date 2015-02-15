@@ -174,6 +174,11 @@ class ArticleController extends \Webvaloa\Application
         $this->view->article = new stdClass;
         $this->view->article->published = 0;
 
+        // Unset redirect on save when adding new article
+        if(isset($_SESSION['onSaveRedirect'])) {
+            unset($_SESSION['onSaveRedirect']);
+        }
+
         if (is_numeric($categoryID)) {
             $this->view->mode = self::MODE_ADD;
 
@@ -190,6 +195,23 @@ class ArticleController extends \Webvaloa\Application
 
         if (!$articleID || !is_numeric($articleID)) {
             throw new UnexpectedValueException('Article not found');
+        }
+
+        // Redirect on save
+        if (isset($_GET['ref']) && isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            $url = $this->request->getBaseUri();
+            $l = strlen($url);
+
+            // The referer must match the base uri for redirect
+            if(substr($_SERVER['HTTP_REFERER'], 0, $l) == $url) {
+                $_SESSION['onSaveRedirect'] = $_SERVER['HTTP_REFERER'];
+
+                $this->view->onSaveRedirect = $_SESSION['onSaveRedirect'];
+            }
+        } else {
+            if(isset($_SESSION['onSaveRedirect'])) {
+                unset($_SESSION['onSaveRedirect']);
+            }
         }
 
         // Try loading associated article
@@ -432,9 +454,18 @@ class ArticleController extends \Webvaloa\Application
         }
 
         if ($id == 0) {
+            // Redirect back to globals edit view
             Redirect::to('content_article/globals');
         } else {
-            Redirect::to('content_article/edit/' . $id);
+            // Redirect back to referer
+            if(isset($_SESSION['onSaveRedirect']) && !empty($_SESSION['onSaveRedirect'])) {
+                $url = $_SESSION['onSaveRedirect'];
+                unset($_SESSION['onSaveRedirect']);
+                Redirect::to($url);
+            } else {
+                // Default redirect, black to edit view
+                Redirect::to('content_article/edit/' . $id);
+            }
         }
     }
 
@@ -477,6 +508,12 @@ class ArticleController extends \Webvaloa\Application
 
                 // Get params
                 $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+
+                // Articleid not set when adding new one
+                if (!isset($this->view->articleID)) {
+                    $this->view->articleID = false;
+                }
+
                 $f = new $fieldClass($field->id, $this->view->articleID);
                 $repeatables[$v]->repeatable[$i]->fields[$field->name]->params = $f->getParams();
 
