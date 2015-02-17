@@ -32,12 +32,16 @@
 
 namespace Webvaloa;
 
+use Libvaloa\Debug;
+
 interface ICache
 {
     public function set($key, $value);
     public function get($key);
     public function _set($key, $value);
     public function _get($key);
+    public function delete($key);
+    public function _delete($key);
 }
 
 /**
@@ -71,6 +75,9 @@ class Cache implements ICache
 
         $this->cache = new $backend;
         $this->cacheLocal = new $backendLocal;
+
+        Debug::__print('Using ' . $backend . ' cache backend');
+        Debug::__print('Using ' . $backendLocal . ' local cache backend');
     }
 
     /**
@@ -146,6 +153,16 @@ class Cache implements ICache
     public function _get($key)
     {
         return $this->cacheLocal->_get($key);
+    }
+
+    public function delete($key) 
+    {
+        return $this->cache->delete($key);
+    }
+
+    public function _delete($key) 
+    {
+        return $this->cache->_delete($key);
     }
 
 }

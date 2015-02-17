@@ -49,7 +49,6 @@ class Memcache
 
     public function __construct()
     {
-
         // Skip caching if config doesn't exist to prevent failed connections
         if (!class_exists('\\Webvaloa\\config')) {
             return false;
@@ -164,6 +163,16 @@ class Memcache
         }
 
         return false;
+    }
+
+    public function delete($key)
+    {
+        return $this->cache->delete($key);
+    }
+
+    public function _delete()
+    {
+        return $this->cache->_delete($key);
     }
 
 }

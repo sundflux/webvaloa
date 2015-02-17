@@ -141,4 +141,14 @@ class SessionCache
         return $this->get($key);
     }
 
+    public function delete($key)
+    {
+        // TODO
+    }
+
+    public function _delete($key)
+    {
+        // TODO
+    }
+
 }
