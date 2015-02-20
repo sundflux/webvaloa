@@ -74,8 +74,14 @@ class FrontController
     public function runController()
     {
         FrontController::defaults();
+
         $locale = false;
         $request = Request::getInstance();
+
+        // Force protocol
+        if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['force_protocol']) && !empty(\Webvaloa\config::$properties['force_protocol'])) {
+            $request->setProtocol(\Webvaloa\config::$properties['force_protocol']);
+        }
 
         if (strlen($request->getParam(0)) > 0) {
             // Check for locale
@@ -277,6 +283,11 @@ class FrontController
     public static function defaults()
     {
         $request = Request::getInstance();
+
+        // Force protocol
+        if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['force_protocol']) && !empty(\Webvaloa\config::$properties['force_protocol'])) {
+            $request->setProtocol(\Webvaloa\config::$properties['force_protocol']);
+        }
 
         if (!$request->getController() || !self::controllerExists()) {
             $request->shiftMethod();

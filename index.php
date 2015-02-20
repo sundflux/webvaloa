@@ -371,6 +371,11 @@ class ApplicationUI
 
         $request = Request::getInstance();
 
+        // Force protocol
+        if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['force_protocol']) && !empty(\Webvaloa\config::$properties['force_protocol'])) {
+            $request->setProtocol(\Webvaloa\config::$properties['force_protocol']);
+        }
+
         // UI
         $uiInterface = Webvaloa::$properties['ui'];
         $ui = new $uiInterface;
@@ -443,6 +448,11 @@ class Application
 
         if ($k === "request") {
             $this->request = Request::getInstance();
+
+            // Force protocol
+            if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['force_protocol']) && !empty(\Webvaloa\config::$properties['force_protocol'])) {
+                $this->request->setProtocol(\Webvaloa\config::$properties['force_protocol']);
+            }
 
             return $this->request;
         } elseif ($k === "ui") {
