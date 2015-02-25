@@ -57,10 +57,13 @@ class ViewController extends \Webvaloa\Application
                 SELECT id
                 FROM content
                 WHERE alias = ?
-                AND published = 1";
+                AND published = 1
+                AND locale = ?
+                ORDER BY id DESC";
 
             $stmt = $this->db->prepare($query);
             $stmt->set($id);
+            $stmt->set(\Webvaloa\Webvaloa::getLocale());
             $stmt->execute();
             $row = $stmt->fetch();
             if (isset($row->id)) {
@@ -108,7 +111,7 @@ class ViewController extends \Webvaloa\Application
             }
         }
 
-        Debug::__print($this->view);
+        Debug::__print($this->view->article);
     }
 
 }

@@ -145,7 +145,8 @@ class ArticleAssociation
             SELECT id
             FROM content
             WHERE associated_content_id = ?
-            AND locale = ?";
+            AND locale = ?
+            ORDER BY id DESC";
 
         $stmt = $db->prepare($query);
         $stmt->set($id);
