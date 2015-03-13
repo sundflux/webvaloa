@@ -50,6 +50,7 @@ class Category
     private $publish_null;
     private $published;
     private $page;
+    private $locale;
     private $limit;
     private $fieldFilters;
 
@@ -67,6 +68,7 @@ class Category
         $this->published = 1;
         $this->page = 1;
         $this->limit = 10;
+        $this->locale = \Webvaloa\Webvaloa::getLocale();
         $this->fieldFilters = false;
     }
 
@@ -125,6 +127,7 @@ class Category
             content.publish_up <= ?
             AND (content.publish_down <= ? OR content.publish_down = ?)
             AND content.published = ?
+            AND content.locale = ?
             AND content.id = content_category.content_id
             AND content_category.category_id = category.id
             AND category.deleted = 0
@@ -139,6 +142,7 @@ class Category
             content.publish_up <= ?
             AND (content.publish_down <= ? OR content.publish_down = ?)
             AND content.published = ?
+            AND content.locale = ?
             AND content.id = content_category.content_id
             AND content_category.category_id = category.id
             AND category.deleted = 0
@@ -152,6 +156,7 @@ class Category
             $stmt->set($this->publish_down);
             $stmt->set($this->publish_null);
             $stmt->set((int) $this->published);
+            $stmt->set($this->locale);
             $stmt->set((int) $this->id);
             $stmt->execute();
             $count = $stmt->fetch();
@@ -165,6 +170,7 @@ class Category
             $stmt->set($this->publish_down);
             $stmt->set($this->publish_null);
             $stmt->set((int) $this->published);
+            $stmt->set($this->locale);
             $stmt->set((int) $this->id);
             $stmt->execute();
 
