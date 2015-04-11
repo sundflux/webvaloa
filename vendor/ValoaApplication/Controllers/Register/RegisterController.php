@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -35,16 +35,12 @@ namespace ValoaApplication\Controllers\Register;
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
 use Libvaloa\Auth\Auth;
-
 use Webvaloa\Cache;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Mail\Mail;
 use Webvaloa\Configuration;
-
 use stdClass;
-use Exception;
-use InvalidArgumentException;
 use UnexpectedValueException;
 use RuntimeException;
 
@@ -60,7 +56,7 @@ class RegisterController extends \Webvaloa\Application
 
     public function __construct()
     {
-        $this->cache = new Cache;
+        $this->cache = new Cache();
 
         // Check for site configuration
         $configuration = new Configuration();
@@ -89,7 +85,7 @@ class RegisterController extends \Webvaloa\Application
             'firstname',
             'lastname',
             'email',
-            'confirm_email'
+            'confirm_email',
         );
 
         foreach ($require as $k => $v) {
@@ -109,7 +105,7 @@ class RegisterController extends \Webvaloa\Application
 
         if (!\Webvaloa\User::usernameAvailable($email)) {
             // Check if user is still stuck in registration limbo
-            $user = new User;
+            $user = new User();
             $user->byEmail($email);
             $token = $user->metadata('token');
             Debug::__print($token);
@@ -118,7 +114,7 @@ class RegisterController extends \Webvaloa\Application
                 // User has token, and is blocked, resend the email.
 
                 // Url for verifying the account
-                $link = $this->request->getBaseUri() . '/register/verify/' . base64_encode($user->id . ":" . $token);
+                $link = $this->request->getBaseUri().'/register/verify/'.base64_encode($user->id.':'.$token);
 
                 // Send registration email
                 $this->sendEmail($email, $user->firstname, $user->lastname, $link);
@@ -144,10 +140,10 @@ class RegisterController extends \Webvaloa\Application
         // All good beyond this point
 
         // Hash for verification
-        $hash = sha1(time() . rand(0, 9) . microtime());
+        $hash = sha1(time().rand(0, 9).microtime());
 
         // Create user
-        $user = new User;
+        $user = new User();
         $user->login = $user->email = $email;
 
         if (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
@@ -161,7 +157,7 @@ class RegisterController extends \Webvaloa\Application
         $user->password = null;
         $user->blocked = 1;
 
-        $meta = new stdClass;
+        $meta = new stdClass();
         $meta->token = $hash;
         $user->meta = json_encode($meta);
 
@@ -171,11 +167,11 @@ class RegisterController extends \Webvaloa\Application
         // Add registered role for the user
         $user = new User($userID);
 
-        $role = new Role;
+        $role = new Role();
         $user->addRole($role->getRoleID('Registered'));
 
         // Url for verifying the account
-        $link = $this->request->getBaseUri() . '/register/verify/' . base64_encode($userID . ":" . $hash);
+        $link = $this->request->getBaseUri().'/register/verify/'.base64_encode($userID.':'.$hash);
 
         // Send registration email
         $this->sendEmail($email, $_POST['firstname'], $_POST['lastname'], $link);
@@ -183,19 +179,20 @@ class RegisterController extends \Webvaloa\Application
         Redirect::to('register/info');
     }
 
-    private function sendEmail($email, $firstname, $lastname, $link) {
+    private function sendEmail($email, $firstname, $lastname, $link)
+    {
         // Allow overriding the message with plugins
-        if (!isset($this->message) || empty($this->message)) {
+        if (!isset($this->message) ||  empty($this->message)) {
             $this->message = \Webvaloa\Webvaloa::translate('VERIFY_ACCOUNT_MAIL_1');
-            $this->message.= "<br><br>";
-            $this->message.= '<a href="' . $link . '"> ' . \Webvaloa\Webvaloa::translate('VERIFY_ACCOUNT') . ' </a>';
-            $this->message.= "<br><br>";
-            $this->message.= \Webvaloa\Webvaloa::translate('VERIFY_ACCOUNT_MAIL_2');
+            $this->message .= '<br><br>';
+            $this->message .= '<a href="'.$link.'"> '.\Webvaloa\Webvaloa::translate('VERIFY_ACCOUNT').' </a>';
+            $this->message .= '<br><br>';
+            $this->message .= \Webvaloa\Webvaloa::translate('VERIFY_ACCOUNT_MAIL_2');
         }
 
         try {
             $mailer = new Mail();
-            $send = $mailer->setTo($email, $firstname . ' ' . $lastname)
+            $send = $mailer->setTo($email, $firstname.' '.$lastname)
                     ->setSubject(\Webvaloa\Webvaloa::translate('REGISTRATION_CONFIRM'))
                     ->setFrom($this->admin, $this->sitename)
                     ->addGenericHeader('MIME-Version', '1.0')
@@ -221,7 +218,7 @@ class RegisterController extends \Webvaloa\Application
             Redirect::to('register');
         } catch (\Exception $e) {
             $this->ui->addError($e->getMessage());
-            
+
             Redirect::to('register');
         }
     }
@@ -255,18 +252,18 @@ class RegisterController extends \Webvaloa\Application
         if (isset($_POST['password'])) {
             if (!isset($_POST['password']) || empty($_POST['password']) || strlen($_POST['password']) < 8) {
                 $this->ui->addError(\Webvaloa\Webvaloa::translate('PASSWORD_TOO_SHORT'));
-                Redirect::to('register/verify/' . $hash);
+                Redirect::to('register/verify/'.$hash);
             }
 
             if (!isset($_POST['password2']) || $_POST['password'] != $_POST['password2']) {
                 $this->ui->addError(\Webvaloa\Webvaloa::translate('CHECK_PASSWORD'));
-                Redirect::to('register/verify/' . $hash);
+                Redirect::to('register/verify/'.$hash);
             }
 
             // All good, set password and unblock the user
             $user->password = $_POST['password'];
             $user->blocked = 0;
-            $meta->token = "";
+            $meta->token = '';
             $user->meta = json_encode($meta);
             $user->save();
 
@@ -276,11 +273,11 @@ class RegisterController extends \Webvaloa\Application
             try {
                 $backend = \Webvaloa\config::$properties['webvaloa_auth'];
 
-                $auth = new Auth;
-                $auth->setAuthenticationDriver(new $backend);
+                $auth = new Auth();
+                $auth->setAuthenticationDriver(new $backend());
 
-                if (!$auth->authenticate($user->login, $_POST["password"])) {
-                    throw new RuntimeException("Authentication failed.");
+                if (!$auth->authenticate($user->login, $_POST['password'])) {
+                    throw new RuntimeException('Authentication failed.');
                 }
             } catch (RuntimeException $e) {
                 $this->ui->addError($e->getMessage());
@@ -288,7 +285,5 @@ class RegisterController extends \Webvaloa\Application
 
             Redirect::to(\Webvaloa\config::$properties['default_controller']);
         }
-
     }
-
 }

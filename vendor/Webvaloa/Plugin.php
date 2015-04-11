@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,15 +34,13 @@ namespace Webvaloa;
 
 use Libvaloa\Debug;
 use Libvaloa\Db;
-
 use RuntimeException;
 
 /**
- * Manage and run plugins
+ * Manage and run plugins.
  */
 class Plugin
 {
-
     private $db;
     private $plugins;
     private $runnablePlugins;
@@ -60,18 +59,18 @@ class Plugin
         'vendor' => 'ValoaApplication',
 
         // Events
-        'events' => array (
+        'events' => array(
             'onAfterFrontControllerInit',
             'onBeforeController',
             'onAfterController',
             'onBeforeRender',
-            'onAfterRender'
+            'onAfterRender',
         ),
 
         // Skip plugins in these controllers
         'skipControllers' => array(
-            'Setup'
-        )
+            'Setup',
+        ),
     );
 
     public function __construct($plugin = false)
@@ -93,7 +92,6 @@ class Plugin
         try {
             $this->db           = \Webvaloa\Webvaloa::DBConnection();
         } catch (Exception $e) {
-
         }
     }
 
@@ -153,7 +151,7 @@ class Plugin
         }
 
         if (!$this->request) {
-            throw new RuntimeException("Instance of request is required");
+            throw new RuntimeException('Instance of request is required');
         }
 
         if (in_array($this->request->getMainController(), self::$properties['skipControllers'])) {
@@ -173,7 +171,7 @@ class Plugin
 
         // Look for executable plugins
         foreach ($this->plugins as $k => $plugin) {
-            if($controller && strpos($plugin->plugin, $controller) === false
+            if ($controller && strpos($plugin->plugin, $controller) === false
                 && strpos($plugin->plugin, 'Plugin') === false) {
                 continue;
             }
@@ -194,7 +192,7 @@ class Plugin
 
         foreach ($this->runnablePlugins as $k => $v) {
             $p = '\\'.self::$properties['vendor'].'\Plugins\\'.$v->plugin.'Plugin';
-            $plugin              = new $p;
+            $plugin              = new $p();
 
             $plugin->view        = & $this->view;
             $plugin->ui          = & $this->ui;
@@ -313,10 +311,10 @@ class Plugin
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM plugin
             WHERE system_plugin = 0
-            AND plugin = ?";
+            AND plugin = ?';
 
         $stmt = $db->prepare($query);
 
@@ -326,7 +324,6 @@ class Plugin
 
             return true;
         } catch (Exception $e) {
-
         }
 
         return false;
@@ -345,12 +342,12 @@ class Plugin
         Debug::__print($plugins);
 
         // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH . DIRECTORY_SEPARATOR . self::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Plugins';
-        $paths[] = LIBVALOA_EXTENSIONSPATH . DIRECTORY_SEPARATOR . self::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Plugins';
+        $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';
+        $paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';
 
         $skip = array(
             '.',
-            '..'
+            '..',
         );
 
         $plugins = array_merge($plugins, $skip);
@@ -388,5 +385,4 @@ class Plugin
 
         return array();
     }
-
 }

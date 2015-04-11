@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -37,7 +38,6 @@ use Webvaloa\Field\Value;
 
 class Tags
 {
-
     private $field;
 
     private $fieldID;
@@ -66,7 +66,7 @@ class Tags
     public function getJS()
     {
         return array(
-            '/jquery/plugins/jquery.typeahead.js'
+            '/jquery/plugins/jquery.typeahead.js',
         );
     }
 
@@ -74,14 +74,14 @@ class Tags
     {
         return array(
             '/css/Tags.css',
-            '/css/Typeahead.css'
+            '/css/Typeahead.css',
         );
     }
 
     public function getTemplate()
     {
         return array(
-            'Tags'
+            'Tags',
         );
     }
 
@@ -92,7 +92,7 @@ class Tags
         }
 
         if ($this->ordering) {
-            $this->contentID = $this->contentID . ':' . $this->ordering;
+            $this->contentID = $this->contentID.':'.$this->ordering;
         }
 
         $value = new Value($this->contentID);
@@ -107,7 +107,7 @@ class Tags
                 continue;
             }
 
-            $tag = new stdClass;
+            $tag = new stdClass();
             $tag->key = $k;
             $tag->value = $v;
             $retval[] = $tag;
@@ -132,5 +132,4 @@ class Tags
         // Return settings html
         return $dom->saveHTML();
     }
-
 }

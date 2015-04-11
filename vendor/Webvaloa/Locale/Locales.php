@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -37,22 +38,21 @@ namespace Webvaloa\Locale;
  */
 class Locales
 {
-
     private $paths;
 
     public static $properties = array(
-        'vendor'              => 'ValoaApplication'
+        'vendor'              => 'ValoaApplication',
     );
 
     public function __construct()
     {
         // Read  locales
-        $this->paths[] = LIBVALOA_INSTALLPATH . DIRECTORY_SEPARATOR . self::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Locale';
-        $this->paths[] = LIBVALOA_EXTENSIONSPATH . DIRECTORY_SEPARATOR . self::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Locale';
+        $this->paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale';
+        $this->paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale';
     }
 
     /**
-     * Returns list of available locales
+     * Returns list of available locales.
      *
      * @return array
      */
@@ -101,5 +101,4 @@ class Locales
 
         return false;
     }
-
 }

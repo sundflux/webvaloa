@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,22 +33,19 @@
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Auth\Auth;
-
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Configuration;
 use Webvaloa\Plugin;
 use Webvaloa\Category;
 use Webvaloa\Field\Group;
-
 use stdClass;
 
 /**
- * Plugin to show top administrator bar
+ * Plugin to show top administrator bar.
  */
 class PluginAdministratorPlugin extends \Webvaloa\Plugin
 {
-
     private $showAdminBar;
     private $user;
 
@@ -61,7 +59,7 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
                 'Content',
                 'User',
                 'Extension',
-                'Settings'
+                'Settings',
             );
 
             foreach ($controllers as $k => $v) {
@@ -79,10 +77,10 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
     {
         $backend = \Webvaloa\config::$properties['webvaloa_auth'];
 
-        $auth = new Auth;
-        $auth->setAuthenticationDriver(new $backend);
+        $auth = new Auth();
+        $auth->setAuthenticationDriver(new $backend());
 
-        $userid = (isset($_SESSION["UserID"]) ? $_SESSION["UserID"] : false);
+        $userid = (isset($_SESSION['UserID']) ? $_SESSION['UserID'] : false);
 
         if ($auth->authorize($controller, $userid)) {
             return true;
@@ -102,8 +100,8 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
             $this->ui->addJS('/js/PluginAdministratorPlugin.js');
 
             // Configuration
-            $config = new Configuration;
-            $this->view->_settings = new stdClass;
+            $config = new Configuration();
+            $this->view->_settings = new stdClass();
 
             // Fixed admin menu
             $this->view->_settings->webvaloa_fixed_administrator_bar = $config->webvaloa_fixed_administrator_bar->value;
@@ -123,10 +121,10 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
             $this->view->_gravatar = '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->user->email))).'&s=140';
 
             // Permissions
-            $permissions = new stdClass;
+            $permissions = new stdClass();
 
             // Check for admin
-            $role = new Role;
+            $role = new Role();
             if ($this->user->hasRole($role->getRoleID('Administrator'))) {
                 $permissions->isAdmin = '1';
             }
@@ -135,7 +133,7 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
                 $permissions->showQuickAdd = true;
                 $permissions->showContent = true;
 
-                $category = new Category;
+                $category = new Category();
                 $this->view->_shortcuts = $category->getStarred();
             }
 
@@ -158,7 +156,7 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
             $this->view->_permissions = $permissions;
 
             // Global groups
-            $group = new Group;
+            $group = new Group();
             $this->view->_groups = $group->globals();
         }
     }
@@ -182,13 +180,11 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
 
             // Create <xsl:call-template name="x"> tag
             $injectCallTemplate = $dom->createElementNS('http://www.w3.org/1999/XSL/Transform', 'xsl:call-template');
-            $injectCallTemplate->setAttribute("name", "PluginAdministratorPlugin");
-            $injectCallTemplate->setAttribute("mode", "plugin");
+            $injectCallTemplate->setAttribute('name', 'PluginAdministratorPlugin');
+            $injectCallTemplate->setAttribute('mode', 'plugin');
 
             // And inject it to before first element after body
-            $body->insertBefore($injectCallTemplate, $body->getElementsByTagName("*")->item(0));
+            $body->insertBefore($injectCallTemplate, $body->getElementsByTagName('*')->item(0));
         }
-
     }
-
 }

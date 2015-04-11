@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace Webvaloa\Field\Fields;
 
 class Colorpicker
 {
-
     private $field;
 
     private $fieldID;
@@ -48,21 +48,21 @@ class Colorpicker
     {
         return array(
             '/jquery/plugins/jquery.minicolors.min.js',
-            '/js/Fields/Colorpicker.js'
+            '/js/Fields/Colorpicker.js',
         );
     }
 
     public function getCSS()
     {
         return array(
-            '/css/Colorpicker.css'
+            '/css/Colorpicker.css',
         );
     }
 
     public function getTemplate()
     {
         return array(
-            'Colorpicker'
+            'Colorpicker',
         );
     }
 
@@ -75,5 +75,4 @@ class Colorpicker
     {
         return '';
     }
-
 }

@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,11 +34,10 @@ namespace Webvaloa;
 
 use Libvaloa\Debug;
 use Libvaloa\Db;
-
 use stdClass;
 
 /**
- * Set configuration variables to DB
+ * Set configuration variables to DB.
  */
 class Configuration
 {
@@ -61,7 +60,7 @@ class Configuration
     }
 
     /**
-     * Insert a configuration key/value to DB
+     * Insert a configuration key/value to DB.
      *
      * @param mixed $k
      * @param mixed $v
@@ -82,7 +81,7 @@ class Configuration
         }
 
         if (isset($keys) && !in_array($k, $keys)) {
-            Debug::__print($k . ' not found');
+            Debug::__print($k.' not found');
 
             return false;
         }
@@ -113,9 +112,10 @@ class Configuration
     }
 
     /**
-     * Get a configuration variable
+     * Get a configuration variable.
      *
-     * @param  mixed $k
+     * @param mixed $k
+     *
      * @return mixed
      */
     public function __get($k)
@@ -132,13 +132,13 @@ class Configuration
     }
 
     /**
-     * Load all configuration variables
+     * Load all configuration variables.
      *
      * @return type
      */
     public function loadConfiguration()
     {
-        $name = 'config' . (int) $this->componentID;
+        $name = 'config'.(int) $this->componentID;
 
         $query = '
             SELECT *
@@ -159,7 +159,7 @@ class Configuration
                 $k = $row->key;
 
                 if (!$this->config) {
-                    $this->config = new stdClass;
+                    $this->config = new stdClass();
                 }
 
                 if (!empty($row->values)) {
@@ -167,9 +167,9 @@ class Configuration
                     unset($row->values);
 
                     foreach ($tmp as $c => $v) {
-                        $option = new stdClass;
+                        $option = new stdClass();
                         $option->value = $v;
-                        $option->translation = 'SETTING_' . strtoupper($v);
+                        $option->translation = 'SETTING_'.strtoupper($v);
                         $row->values[] = (object) $option;
                     }
                 }
@@ -189,13 +189,13 @@ class Configuration
             return false;
         }
 
-        $query = "
+        $query = '
             DELETE FROM configuration
-            WHERE component_id = ?";
+            WHERE component_id = ?';
 
         // Delete only a single item
         if ($id && is_numeric($id)) {
-            $query .= " AND id = ?";
+            $query .= ' AND id = ?';
         }
 
         try {
@@ -220,5 +220,4 @@ class Configuration
 
         return $this->config;
     }
-
 }

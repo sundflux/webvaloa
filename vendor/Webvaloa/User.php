@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,26 +32,22 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Auth;
 use Libvaloa\Auth\Password;
 use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use UnexpectedValueException;
 use RuntimeException;
 use stdClass;
 
 /**
- * Manage users
+ * Manage users.
  */
 class User
 {
-
     private $userID;
     private $object;
 
     /**
-     *
      * @param type $userID
      */
     public function __construct($userID = false)
@@ -76,7 +73,7 @@ class User
         $query = '
             SELECT id
             FROM user
-            WHERE ' . $field . ' = ?
+            WHERE '.$field.' = ?
             LIMIT 1';
 
         $stmt = $db->prepare($query);
@@ -102,7 +99,7 @@ class User
 
     public function __set($k, $v)
     {
-        if ($k == "password") {
+        if ($k == 'password') {
             $tmp = $this->object->email;
 
             if (empty($tmp)) {
@@ -110,7 +107,7 @@ class User
             }
         }
 
-        if ($k == "password") {
+        if ($k == 'password') {
             $v = Password::cryptPassword($this->object->login, $v);
         }
 
@@ -141,10 +138,12 @@ class User
     }
 
     /**
-     * Give role to user
+     * Give role to user.
      *
-     * @param  type             $roleID
-     * @return boolean
+     * @param type $roleID
+     *
+     * @return bool
+     *
      * @throws RuntimeException
      */
     public function addRole($roleID)
@@ -168,10 +167,12 @@ class User
     }
 
     /**
-     * Remove user from role
+     * Remove user from role.
      *
-     * @param  type             $roleID
-     * @return boolean
+     * @param type $roleID
+     *
+     * @return bool
+     *
      * @throws RuntimeException
      */
     public function deleteRole($roleID)
@@ -182,10 +183,10 @@ class User
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM user_role
             WHERE role_id = ?
-            AND user_id = ?";
+            AND user_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $roleID);
@@ -208,10 +209,11 @@ class User
     }
 
     /**
-     * Check if user has certain role
+     * Check if user has certain role.
      *
-     * @param  type    $roleID
-     * @return boolean
+     * @param type $roleID
+     *
+     * @return bool
      */
     public function hasRole($roleID)
     {
@@ -225,7 +227,7 @@ class User
     }
 
     /**
-     * Return all user roles
+     * Return all user roles.
      *
      * @return array
      */
@@ -233,7 +235,7 @@ class User
     {
         // Return public role if no user defined
         if (!$this->userID || !is_numeric($this->userID)) {
-            $role = new Role;
+            $role = new Role();
             $roles[] = $role->getRoleID('Public');
 
             return $roles;
@@ -241,10 +243,10 @@ class User
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT role_id
             FROM user_role
-            WHERE user_id = ?";
+            WHERE user_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->userID);
@@ -263,7 +265,6 @@ class User
             // No roles
             return array();
         } catch (Exception $e) {
-
         }
     }
 
@@ -292,7 +293,7 @@ class User
             $meta = $this->object->meta;
 
             if (empty($meta)) {
-                $meta = new stdClass;
+                $meta = new stdClass();
             } else {
                 $meta = json_decode($meta);
             }
@@ -307,10 +308,11 @@ class User
 
     /**
      * Check if username is available. Returns true if it is, false if
-     * username exists
+     * username exists.
      *
-     * @param  type    $username
-     * @return boolean
+     * @param type $username
+     *
+     * @return bool
      */
     public static function usernameAvailable($username)
     {
@@ -318,10 +320,10 @@ class User
 
         $username = trim($username);
 
-        $query = "
+        $query = '
             SELECT id
             FROM user
-            WHERE login = ?";
+            WHERE login = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set($username);
@@ -338,11 +340,9 @@ class User
             // Username is available
             return true;
         } catch (Exception $e) {
-
         }
 
         // False on failures, just in case
         return false;
     }
-
 }

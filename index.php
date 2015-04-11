@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2004 - 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,14 +35,10 @@ namespace Webvaloa;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Request;
-use Libvaloa\Controller\Redirect;
 use Libvaloa\Db;
 use Libvaloa\I18n;
-
 use Webvaloa\Locale\Locales;
-
 use stdClass;
-use RuntimeException;
 use PDOException;
 use Exception;
 
@@ -87,29 +84,28 @@ set_include_path(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.PATH_SEPARATOR.get_inc
  */
 class Webvaloa
 {
-
     /**
-     * Database connection
+     * Database connection.
      */
     public static $db = false;
 
     /**
-     * Execution timer
+     * Execution timer.
      */
     public static $time;
 
     /**
-     * Static var to track if Webvaloa kernel has been loaded
+     * Static var to track if Webvaloa kernel has been loaded.
      */
     public static $loaded = false;
 
     /**
-     * Current locale
+     * Current locale.
      */
     public static $locale = false;
 
     /**
-     * Session
+     * Session.
      */
     public static $session = false;
 
@@ -126,7 +122,7 @@ class Webvaloa
         'sessionMaxlifetime'  => 3600,
         'ui'                  => 'Libvaloa\Ui\Xml',
         'vendor'              => 'ValoaApplication',
-        'layout'              => 'default'
+        'layout'              => 'default',
     );
 
     /**
@@ -163,7 +159,7 @@ class Webvaloa
             session_set_cookie_params($sessionMaxlifetime);
             session_start();
 
-            Debug::__print('Using ' . ini_get('session.save_handler') . ' session handler');
+            Debug::__print('Using '.ini_get('session.save_handler').' session handler');
 
             self::$session = true;
         }
@@ -173,6 +169,7 @@ class Webvaloa
      * Class autoloader.
      *
      * @access public
+     *
      * @param string $name Class name
      */
     public static function autoload($name)
@@ -186,10 +183,10 @@ class Webvaloa
         if ($lastNsPos = strrpos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);
-            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR;
         }
 
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
 
         // Look first from the extensionspath, then fallback to core installpath
         $search[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.$fileName;
@@ -210,7 +207,9 @@ class Webvaloa
      * Opens database connection.
      *
      * @access      static
+     *
      * @return DB database connection
+     *
      * @uses        DB
      */
     public static function DBConnection()
@@ -242,7 +241,6 @@ class Webvaloa
                     \Webvaloa\config::$properties['db_server'],
                     false,
                     $initquery);
-
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage());
             }
@@ -257,12 +255,12 @@ class Webvaloa
     public static function exceptionHandler($e)
     {
         print '<h3>An error occured which could not be fixed.</h3>';
-        printf("<p>%s</p>", $e->getMessage());
+        printf('<p>%s</p>', $e->getMessage());
         if ($e->getCode()) {
             print ' ('.$e->getCode().')';
         }
         if (error_reporting() == E_ALL) {
-            printf("<p><b>Location:</b> %s line %s.</p>", $e->getFile(), $e->getLine());
+            printf('<p><b>Location:</b> %s line %s.</p>', $e->getFile(), $e->getLine());
             print '<h4>Exception backtrace:</h4>';
             print '<pre>';
             print_r($e->getTrace());
@@ -271,7 +269,7 @@ class Webvaloa
     }
 
     /**
-     * Returns current locale
+     * Returns current locale.
      *
      * @return string self::$locale
      */
@@ -282,7 +280,7 @@ class Webvaloa
             $systemLocale = getenv('LANG');
 
             // Get available locales
-            $locales = new Locales;
+            $locales = new Locales();
             $available = $locales->locales();
 
             // Set the locale
@@ -298,7 +296,7 @@ class Webvaloa
             }
 
             // Set the locale to envvars
-            putenv('LANG='. self::$locale);
+            putenv('LANG='.self::$locale);
             setlocale(LC_MESSAGES, self::$locale);
         }
 
@@ -323,12 +321,12 @@ class Webvaloa
         $translate = new I18n\Translate($args);
 
         // Default to installpath
-        if (file_exists(LIBVALOA_INSTALLPATH . DIRECTORY_SEPARATOR . Webvaloa::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Locale' . DIRECTORY_SEPARATOR . self::getLocale() . DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $domain . '.ini')) {
+        if (file_exists(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale'.DIRECTORY_SEPARATOR.self::getLocale().DIRECTORY_SEPARATOR.'LC_MESSAGES'.DIRECTORY_SEPARATOR.$domain.'.ini')) {
             $path = LIBVALOA_INSTALLPATH;
         }
 
         // Override from extensionspath if found
-        if (file_exists(LIBVALOA_EXTENSIONSPATH . DIRECTORY_SEPARATOR . Webvaloa::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Locale' . DIRECTORY_SEPARATOR . self::getLocale() . DIRECTORY_SEPARATOR . 'LC_MESSAGES' . DIRECTORY_SEPARATOR . $domain . '.ini')) {
+        if (file_exists(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale'.DIRECTORY_SEPARATOR.self::getLocale().DIRECTORY_SEPARATOR.'LC_MESSAGES'.DIRECTORY_SEPARATOR.$domain.'.ini')) {
             $path = LIBVALOA_EXTENSIONSPATH;
         }
 
@@ -337,12 +335,11 @@ class Webvaloa
             return $args[0];
         }
 
-        $translate->bindTextDomain($domain, $path . DIRECTORY_SEPARATOR . Webvaloa::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Locale');
+        $translate->bindTextDomain($domain, $path.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale');
         $t = (string) $translate;
 
         return $t;
     }
-
 }
 
 /**
@@ -359,10 +356,10 @@ class ApplicationUI
     private static $instance = false;
 
     /**
-    * Returns ApplicationUI instance.
-    *
-    * @return Request
-    */
+     * Returns ApplicationUI instance.
+     *
+     * @return Request
+     */
     public static function getInstance()
     {
         if (self::$instance) {
@@ -378,42 +375,42 @@ class ApplicationUI
 
         // UI
         $uiInterface = Webvaloa::$properties['ui'];
-        $ui = new $uiInterface;
+        $ui = new $uiInterface();
 
         // File paths for the UI
 
         // Layout and overrides path
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR."Views");
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR."Views");
+        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
+        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
+        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
 
         // Controller
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Controllers".DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR."Views");
+        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
 
         // Plugins
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Plugins");
+        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
 
         // As above, but from core installation
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR."Views");
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Controllers".DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR."Views");
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Plugins");
+        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
+        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
+        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
+        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
 
         // Public media paths
-        $ui->includePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->includePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR."Layout");
+        $ui->includePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
+        $ui->includePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout');
 
         // Empty template for ajax requests
         if ($request->isAjax()) {
-            $ui->setMainTemplate("empty");
+            $ui->setMainTemplate('empty');
         }
 
         // UI properties
         $ui->properties['controller'] = $request->getController();
         $ui->properties['parentController'] = $request->getMainController();
         $ui->properties['route'] = $request->getCurrentRoute();
-        if (isset($_SESSION["locale"])) {
-            $ui->properties['locale'] = $_SESSION["locale"];
+        if (isset($_SESSION['locale'])) {
+            $ui->properties['locale'] = $_SESSION['locale'];
         }
 
         // Base paths
@@ -422,16 +419,15 @@ class ApplicationUI
         $ui->properties['layout'] = Webvaloa::$properties['layout'];
 
         // User info
-        if (isset($_SESSION["UserID"])) {
-            $ui->properties['userid'] = $_SESSION["UserID"];
+        if (isset($_SESSION['UserID'])) {
+            $ui->properties['userid'] = $_SESSION['UserID'];
         }
-        if (isset($_SESSION["User"])) {
-            $ui->properties['user'] = $_SESSION["User"];
+        if (isset($_SESSION['User'])) {
+            $ui->properties['user'] = $_SESSION['User'];
         }
 
         return self::$instance = $ui;
     }
-
 }
 
 /**
@@ -439,14 +435,13 @@ class ApplicationUI
  */
 class Application
 {
-
     protected $params = false;
 
     public function __get($k)
     {
         // Core classes available for controllers/applications
 
-        if ($k === "request") {
+        if ($k === 'request') {
             $this->request = Request::getInstance();
 
             // Force protocol
@@ -455,20 +450,20 @@ class Application
             }
 
             return $this->request;
-        } elseif ($k === "ui") {
+        } elseif ($k === 'ui') {
             $this->ui = ApplicationUI::getInstance();
 
             return $this->ui;
-        } elseif ($k === "view") {
-            $this->view = new stdClass;
+        } elseif ($k === 'view') {
+            $this->view = new stdClass();
 
             return $this->view;
-        } elseif ($k === "db") {
+        } elseif ($k === 'db') {
             return \Webvaloa\Webvaloa::DBConnection();
-        } elseif ($k === "locale") {
+        } elseif ($k === 'locale') {
             return \Webvaloa\Webvaloa::getLocale();
-        } elseif ($k === "plugin") {
-            $this->plugin = new Plugin;
+        } elseif ($k === 'plugin') {
+            $this->plugin = new Plugin();
 
             return $this->plugin;
         } elseif (!empty($this->params)) {
@@ -479,9 +474,9 @@ class Application
             return $this->{$k};
         }
 
-        trigger_error("Call to an undefined property ".get_class($this)."::\${$k}", E_USER_WARNING);
+        trigger_error('Call to an undefined property '.get_class($this)."::\${$k}", E_USER_WARNING);
 
-        return null;
+        return;
     }
 
     public function __isset($k)
@@ -543,8 +538,8 @@ class Application
             // Page complete, send headers and output:
 
             // Headers
-            header("Content-type: ".$this->ui->properties['contenttype']."; charset=utf-8");
-            header("Vary: Accept");
+            header('Content-type: '.$this->ui->properties['contenttype'].'; charset=utf-8');
+            header('Vary: Accept');
 
             // Rendered XHTML
             $xhtml = (string) $this->ui;
@@ -582,14 +577,13 @@ class Application
 
         $this->params = false;
     }
-
 }
 
 // Load the kernel
-new Webvaloa;
+new Webvaloa();
 
 // Wake up frontcontroller
-$frontcontroller = new FrontController;
+$frontcontroller = new FrontController();
 
 // Set up default controllers
 if (class_exists('\\Webvaloa\\config')) {

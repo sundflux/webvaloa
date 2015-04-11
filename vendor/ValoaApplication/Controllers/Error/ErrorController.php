@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -35,12 +36,11 @@ use Libvaloa\Debug;
 
 class ErrorController extends \Webvaloa\Application
 {
-
     private $backend;
 
     public function __construct()
     {
-        $this->ui->addCSS("/css/Error.css");
+        $this->ui->addCSS('/css/Error.css');
     }
 
     public function index()
@@ -59,5 +59,4 @@ class ErrorController extends \Webvaloa\Application
             unset($_SESSION['WEBVALOA_EXCEPTION']);
         }
     }
-
 }

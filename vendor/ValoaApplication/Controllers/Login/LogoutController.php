@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,36 +32,31 @@
 
 namespace ValoaApplication\Controllers\Login;
 
-use Libvaloa;
 use Libvaloa\Controller\Redirect;
 use Libvaloa\Auth\Auth;
-
 use Webvaloa\Security;
 
 class LogoutController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
-
     }
 
     public function index()
     {
         $this->view->token = Security::getToken();
 
-        if (isset($_POST["logout"]) || isset($_GET["logout"])) {
+        if (isset($_POST['logout']) || isset($_GET['logout'])) {
             Security::verifyReferer();
             Security::verifyToken();
 
             $backend = \Webvaloa\config::$properties['webvaloa_auth'];
 
-            $auth = new Auth;
-            $auth->setAuthenticationDriver(new $backend);
+            $auth = new Auth();
+            $auth->setAuthenticationDriver(new $backend());
             $auth->logout();
 
-            Redirect::to("login");
+            Redirect::to('login');
         }
     }
-
 }

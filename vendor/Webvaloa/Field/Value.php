@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,12 +34,10 @@ namespace Webvaloa\Field;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use UnexpectedValueException;
 
 class Value
 {
-
     private $articleID;
 
     private $fieldID;
@@ -70,16 +69,15 @@ class Value
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM content_field_value
-            WHERE content_id = ?";
+            WHERE content_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->articleID);
 
         try {
             $stmt->execute();
-
         } catch (Exception $e) {
             Debug::__print($e->getMessage());
         }
@@ -138,17 +136,15 @@ class Value
                 FROM content_field_value
                 WHERE field_id = ?
                 AND content_id = ?';
-
         } else {
             $query = '
                 SELECT *
                 FROM content_field_value
                 WHERE field_id = ?';
-
         }
 
-        if($this->fieldOrdering !== false) {
-            $query .= " AND ordering = ? ";
+        if ($this->fieldOrdering !== false) {
+            $query .= ' AND ordering = ? ';
         }
 
         $stmt = $db->prepare($query);
@@ -160,7 +156,7 @@ class Value
                 $stmt->set((int) $this->articleID);
             }
 
-            if($this->fieldOrdering !== false) {
+            if ($this->fieldOrdering !== false) {
                 $stmt->set((int) $this->fieldOrdering);
             }
 
@@ -176,27 +172,26 @@ class Value
 
             return false;
         } catch (Exception $e) {
-
         }
 
         return false;
     }
 
-    private function onSave($value) {
+    private function onSave($value)
+    {
         if (!$this->fieldID) {
             return $value;
         }
 
         $field = new Field($this->fieldID);
-        $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+        $fieldClass = '\Webvaloa\Field\Fields\\'.$field->type;
         $f = new $fieldClass($field->id);
 
         $m = 'onSave';
-        if(method_exists($f, $m)) {
+        if (method_exists($f, $m)) {
             $value = $f->{$m}($value);
         }
 
         return $value;
     }
-
 }

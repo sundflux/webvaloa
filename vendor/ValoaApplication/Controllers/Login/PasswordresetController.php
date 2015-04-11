@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,33 +34,30 @@ namespace ValoaApplication\Controllers\Login;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\User;
 use Webvaloa\Mail\Mail;
 use Webvaloa\Configuration;
 use Webvaloa\Security;
-
 use stdClass;
 use UnexpectedValueException;
 
 class PasswordresetController extends \Webvaloa\Application
 {
-
     public $message;
 
     public function __construct()
     {
-        $this->ui->addCSS("/css/Login.css");
+        $this->ui->addCSS('/css/Login.css');
 
-        $this->message = "";
+        $this->message = '';
     }
 
     public function index()
     {
         $this->view->token = Security::getToken();
 
-        $config = new Configuration;
-        $this->view->config = new stdClass;
+        $config = new Configuration();
+        $this->view->config = new stdClass();
 
         // Custom branding
         if ($config->webvaloa_branding) {
@@ -88,10 +86,10 @@ class PasswordresetController extends \Webvaloa\Application
             }
 
             // Get user id
-            $query = "
+            $query = '
                 SELECT id, email
                 FROM user
-                WHERE login = ?";
+                WHERE login = ?';
 
             $stmt = $this->db->prepare($query);
             $stmt->set($_POST['username']);
@@ -124,26 +122,26 @@ class PasswordresetController extends \Webvaloa\Application
 
                 // Write reset hash to user metadata
                 $user = new User($row->id);
-                $hash = sha1(uniqid(rand(10000,99999)));
+                $hash = sha1(uniqid(rand(10000, 99999)));
                 $user->metadata('PasswordResetTime', time());
                 $user->metadata('PasswordResetHash', $hash);
                 $user->save();
 
                 // Send the mail
-                $link = $this->request->getBaseUri() . '/login_passwordreset/verify/' . base64_encode($row->id . ":" . $hash);
+                $link = $this->request->getBaseUri().'/login_passwordreset/verify/'.base64_encode($row->id.':'.$hash);
 
                 // Allow overriding the message with plugins
                 if (!isset($this->message) || empty($this->message)) {
                     $this->message = \Webvaloa\Webvaloa::translate('RESET_PASSWORD_MAIL_1');
-                    $this->message.= "<br><br>";
-                    $this->message.= '<a href="' . $link . '"> ' . \Webvaloa\Webvaloa::translate('RESET_PASSWORD') . ' </a>';
-                    $this->message.= "<br><br>";
-                    $this->message.= \Webvaloa\Webvaloa::translate('RESET_PASSWORD_MAIL_2');
+                    $this->message .= '<br><br>';
+                    $this->message .= '<a href="'.$link.'"> '.\Webvaloa\Webvaloa::translate('RESET_PASSWORD').' </a>';
+                    $this->message .= '<br><br>';
+                    $this->message .= \Webvaloa\Webvaloa::translate('RESET_PASSWORD_MAIL_2');
                 }
 
                 $mailer = new Mail();
                 $send = $mailer->setTo($row->email, $_POST['username'])
-                        ->setSubject(\Webvaloa\Webvaloa::translate('RESET_PASSWORD_CONFIRM') . ' ' . $this->request->getBaseUri())
+                        ->setSubject(\Webvaloa\Webvaloa::translate('RESET_PASSWORD_CONFIRM').' '.$this->request->getBaseUri())
                         ->setFrom($admin, $sitename)
                         ->addGenericHeader('X-Mailer', 'Webvaloa')
                         ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
@@ -160,7 +158,6 @@ class PasswordresetController extends \Webvaloa\Application
 
                 $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_RESET_REQUEST_SENT'));
             } catch (Exception $e) {
-
             }
         }
     }
@@ -192,12 +189,12 @@ class PasswordresetController extends \Webvaloa\Application
         if (isset($_POST['password']) && !empty($_POST['password'])) {
             if (!isset($_POST['password']) || empty($_POST['password']) || strlen($_POST['password']) < 8) {
                 $this->ui->addError(\Webvaloa\Webvaloa::translate('PASSWORD_TOO_SHORT'));
-                Redirect::to('login_passwordreset/verify/' . $hash);
+                Redirect::to('login_passwordreset/verify/'.$hash);
             }
 
             if (!isset($_POST['password2']) || $_POST['password'] != $_POST['password2']) {
                 $this->ui->addError(\Webvaloa\Webvaloa::translate('CHECK_PASSWORD'));
-                Redirect::to('login_passwordreset/' . $hash);
+                Redirect::to('login_passwordreset/'.$hash);
             }
 
             // All good, set password and unblock the user
@@ -210,5 +207,4 @@ class PasswordresetController extends \Webvaloa\Application
             Redirect::to(\Webvaloa\config::$properties['default_controller']);
         }
     }
-
 }

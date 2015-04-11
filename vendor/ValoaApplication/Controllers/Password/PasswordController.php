@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,16 +34,13 @@ namespace ValoaApplication\Controllers\Password;
 
 use Libvaloa\Controller\Redirect;
 use Libvaloa\Auth\Auth;
-
 use Webvaloa\User;
 use Webvaloa\Security;
 
 class PasswordController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
-
     }
 
     public function index()
@@ -55,18 +53,18 @@ class PasswordController extends \Webvaloa\Application
         Security::verify();
 
         // Old password must be set
-        if (!isset($_POST["old_password"]) || empty($_POST["old_password"])) {
+        if (!isset($_POST['old_password']) || empty($_POST['old_password'])) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGE_FAILED'));
             Redirect::to('password');
         }
 
         // Check old password
-        $user = new User($_SESSION["UserID"]);
+        $user = new User($_SESSION['UserID']);
         $backend = \Webvaloa\config::$properties['webvaloa_auth'];
-        $auth = new Auth;
-        $auth->setAuthenticationDriver(new $backend);
+        $auth = new Auth();
+        $auth->setAuthenticationDriver(new $backend());
 
-        if (!$auth->authenticate($_SESSION["User"], $_POST["old_password"])) {
+        if (!$auth->authenticate($_SESSION['User'], $_POST['old_password'])) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGE_FAILED'));
             Redirect::to('password');
         }
@@ -74,7 +72,7 @@ class PasswordController extends \Webvaloa\Application
         // Validate new password
         $check = array(
             'new_password',
-            'new_password2'
+            'new_password2',
         );
 
         foreach ($check as $k => $v) {
@@ -90,12 +88,11 @@ class PasswordController extends \Webvaloa\Application
         }
 
         // Change password
-        $user = new User($_SESSION["UserID"]);
+        $user = new User($_SESSION['UserID']);
         $user->password = trim($_POST['new_password']);
         $userID = $user->save();
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGED'));
         Redirect::to('password');
     }
-
 }

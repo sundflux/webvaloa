@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2015 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,10 +34,7 @@ namespace Webvaloa\Helpers;
 
 use Exception;
 use RuntimeException;
-
-use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use Webvaloa\Article;
 
 /*
@@ -59,7 +57,6 @@ use Webvaloa\Article;
  */
 class ArticleAssociation
 {
-
     public $id;
     public $associatedId;
     private $locale;
@@ -132,21 +129,21 @@ class ArticleAssociation
         $article = new Article($id);
         $a = $article->article;
 
-        Debug::__print('Assocation: original locale is ' . $a->locale);
+        Debug::__print('Assocation: original locale is '.$a->locale);
 
         // Locale matches and no associated id is set, so this must be an main article
         if ($a->locale == $this->getLocale() && empty($a->associated_content_id)) {
-            Debug::__print('Assocation: main article found, returning ' . $id);
+            Debug::__print('Assocation: main article found, returning '.$id);
 
             return $id;
         }
 
-        $query = "
+        $query = '
             SELECT id
             FROM content
             WHERE associated_content_id = ?
             AND locale = ?
-            ORDER BY id DESC";
+            ORDER BY id DESC';
 
         $stmt = $db->prepare($query);
         $stmt->set($id);
@@ -180,7 +177,7 @@ class ArticleAssociation
         $article = new Article($id);
         $a = $article->article;
 
-        $associated = new Article;
+        $associated = new Article();
         $associated->publish_up = $a->publish_up;
         $associated->publish_down = $a->publish_down;
         $associated->published = $a->published;
@@ -198,11 +195,10 @@ class ArticleAssociation
         }
 
         // Default alias
-        $associated->alias($a->alias . '-' . substr($this->getLocale(), 0, 2));
+        $associated->alias($a->alias.'-'.substr($this->getLocale(), 0, 2));
 
         $this->setAssociatedId($associatedId);
 
         return $associatedId;
     }
-
 }

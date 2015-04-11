@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace Webvaloa\Field\Fields;
 
 class Number
 {
-
     private $field;
 
     private $fieldID;
@@ -57,7 +57,7 @@ class Number
     public function getTemplate()
     {
         return array(
-            'Number'
+            'Number',
         );
     }
 
@@ -70,5 +70,4 @@ class Number
     {
         return '';
     }
-
 }

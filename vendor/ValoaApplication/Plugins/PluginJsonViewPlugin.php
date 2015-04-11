@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,11 +33,10 @@
 namespace ValoaApplication\Plugins;
 
 /**
- * Output view to json
+ * Output view to json.
  */
 class PluginJsonViewPlugin extends \Webvaloa\Plugin
 {
-
     private $output;
     private $json;
 
@@ -47,5 +47,4 @@ class PluginJsonViewPlugin extends \Webvaloa\Plugin
             $this->xhtml = (string) json_encode($this->view);
         }
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -41,7 +42,6 @@ use Webvaloa\Manifest;
  */
 class PluginPagecachePlugin extends \Webvaloa\Plugin
 {
-
     public function onAfterFrontControllerInit()
     {
         $request = Request::getInstance();
@@ -50,17 +50,17 @@ class PluginPagecachePlugin extends \Webvaloa\Plugin
         // System controllers can't be cached. Also check if the
         // controller manifest has preventcaching: 1
         $manifest = new Manifest($controller);
-        if ( ($manifest->systemcontroller && $manifest->systemcontroller == 1)
-            || ($manifest->preventcaching && $manifest->preventcaching == 1) ) {
+        if (($manifest->systemcontroller && $manifest->systemcontroller == 1)
+            || ($manifest->preventcaching && $manifest->preventcaching == 1)) {
             return;
         }
 
         // Use the url as cache key
-        $uri = $request->getBaseUri() . $_SERVER['REQUEST_URI'];
+        $uri = $request->getBaseUri().$_SERVER['REQUEST_URI'];
 
         // Most optimal here is to use memcached as backend.
-        $cache = new Cache;
-        if (!$response = $cache->get($uri) ) {
+        $cache = new Cache();
+        if (!$response = $cache->get($uri)) {
             // No cached version found
 
             Debug::__print('No cache found');
@@ -71,8 +71,8 @@ class PluginPagecachePlugin extends \Webvaloa\Plugin
         Debug::__print('Cache found, exiting');
         Debug::__print($uri);
 
-        header("Content-type: text/html; charset=utf-8");
-        header("Vary: Accept");
+        header('Content-type: text/html; charset=utf-8');
+        header('Vary: Accept');
         echo $response;
         exit;
     }
@@ -90,9 +90,8 @@ class PluginPagecachePlugin extends \Webvaloa\Plugin
         $request = Request::getInstance();
 
         // Use the url as cache key
-        $uri = $request->getBaseUri() . $_SERVER['REQUEST_URI'];
-        $cache = new Cache;
+        $uri = $request->getBaseUri().$_SERVER['REQUEST_URI'];
+        $cache = new Cache();
         $cache->set($uri, $this->xhtml);
     }
-
 }

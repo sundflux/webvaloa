@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -36,7 +37,6 @@ use Libvaloa\Controller\Request;
 
 class Imagemagick
 {
-
     public $cachePath;
 
     private $file;
@@ -51,15 +51,15 @@ class Imagemagick
 
     public function __construct($file)
     {
-        $this->cachePath = LIBVALOA_PUBLICPATH . '/cache';
+        $this->cachePath = LIBVALOA_PUBLICPATH.'/cache';
 
         // Check first if file exists in public path
         $publicPath = LIBVALOA_PUBLICPATH;
         if (substr($publicPath, -1) != '/') {
             // Make sure trailing / is there
-            $publicPath = $publicPath . '/';
+            $publicPath = $publicPath.'/';
         }
-        $publicPath = $publicPath . 'media/';
+        $publicPath = $publicPath.'media/';
 
         // Strip off / from filename if it has one
         $tmp = $file;
@@ -67,7 +67,7 @@ class Imagemagick
             $tmp = substr($tmp, 1);
         }
 
-        $filename = $publicPath . $tmp;
+        $filename = $publicPath.$tmp;
         if (file_exists($filename) && is_file($filename) && is_readable($filename)) {
             $this->file = $filename;
         } else {
@@ -77,7 +77,7 @@ class Imagemagick
         }
 
         $this->width = 320;
-        $this->height= 200;
+        $this->height = 200;
         $this->crop = true;
         $this->cached = false;
         $this->quality = 95;
@@ -118,10 +118,10 @@ class Imagemagick
 
         $fileInfo = pathinfo($this->file);
         $cacheFilename = $fileInfo['filename']
-            . crc32($fileInfo['filename'] . $fileInfo['extension'] . $this->width.$this->height)
-            . '.' . $this->format;
+            .crc32($fileInfo['filename'].$fileInfo['extension'].$this->width.$this->height)
+            .'.'.$this->format;
 
-        if (file_exists($this->cachePath . '/' . $cacheFilename)) {
+        if (file_exists($this->cachePath.'/'.$cacheFilename)) {
             return $cacheFilename;
         }
 
@@ -137,7 +137,7 @@ class Imagemagick
             $this->imagick->scaleImage($this->width, $this->height);
         }
 
-        if ($this->imagick->writeImage($this->cachePath . '/' . $cacheFilename)) {
+        if ($this->imagick->writeImage($this->cachePath.'/'.$cacheFilename)) {
             return $cacheFilename;
         } else {
             return false;
@@ -152,13 +152,13 @@ class Imagemagick
         $im->setHeight($height);
 
         if (!$ret = $im->resize()) {
-            return 'http://placehold.it/' . $width . 'x' . $height;
+            return 'http://placehold.it/'.$width.'x'.$height;
         }
 
         $request = Request::getInstance();
-        $path = $request->getPath() . '/public/cache/';
+        $path = $request->getPath().'/public/cache/';
 
-        return $path . $ret;
+        return $path.$ret;
     }
 
     public static function crop($image, $width = 320, $height = 200)
@@ -169,13 +169,12 @@ class Imagemagick
         $im->setHeight($height);
 
         if (!$ret = $im->resize()) {
-            return 'http://placehold.it/' . $width . 'x' . $height;
+            return 'http://placehold.it/'.$width.'x'.$height;
         }
 
         $request = Request::getInstance();
-        $path = $request->getPath() . '/public/cache/';
+        $path = $request->getPath().'/public/cache/';
 
-        return $path . $ret;
+        return $path.$ret;
     }
-
 }

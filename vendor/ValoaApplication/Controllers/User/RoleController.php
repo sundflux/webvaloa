@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,17 +34,14 @@ namespace ValoaApplication\Controllers\User;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Security;
 use Webvaloa\Component;
 use Webvaloa\Role;
 use Webvaloa\Helpers\Pagination;
-
 use Exception;
 
 class RoleController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
         $this->ui->addJS('/js/Role.js');
@@ -57,38 +55,37 @@ class RoleController extends \Webvaloa\Application
 
     public function index($page = 1)
     {
-        $q = "";
+        $q = '';
 
         if (isset($_GET['search'])) {
             $this->view->search = $_GET['search'];
-            $q = " WHERE role LIKE ?";
+            $q = ' WHERE role LIKE ?';
         }
 
-        $pagination = new Pagination;
+        $pagination = new Pagination();
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('role'));
         $this->view->pages->url = '/user_role/';
 
         $query = $pagination->prepare('
             SELECT *
-            FROM role ' . $q);
+            FROM role '.$q);
 
         $stmt = $this->db->prepare($query);
         try {
             if (isset($q) && !empty($q)) {
-                $stmt->set('%' . $_GET['search'] . '%');
+                $stmt->set('%'.$_GET['search'].'%');
             }
 
             $stmt->execute();
 
             $this->view->roles = $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
 
     public function controllers($roleID = false)
     {
-        $component = new Component;
+        $component = new Component();
         $this->view->components = $component->components();
 
         if (is_numeric($roleID)) {
@@ -121,7 +118,7 @@ class RoleController extends \Webvaloa\Application
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ROLE_SAVED'));
         } else {
             // Adding new role
-            $role = new Role;
+            $role = new Role();
             $roleID = $role->addRole($_POST['role']);
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ROLE_ADDED'));
         }
@@ -129,11 +126,11 @@ class RoleController extends \Webvaloa\Application
         // Add components to role
         if (isset($_POST['components']) && is_array($_POST['components'])) {
             foreach ($_POST['components'] as $k => $v) {
-                $component = new Component;
+                $component = new Component();
                 $component->byID($v);
                 $component->addRole($roleID);
 
-                Debug::__print('Adding role ' . $roleID . ' to component ' . $v);
+                Debug::__print('Adding role '.$roleID.' to component '.$v);
             }
         }
 
@@ -151,5 +148,4 @@ class RoleController extends \Webvaloa\Application
 
         Redirect::to('user_role');
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,13 +32,11 @@
 
 namespace ValoaApplication\Plugins;
 
-use Webvaloa;
 use Libvaloa\Controller\Request;
 use Libvaloa\Debug;
 
 class PluginKeepalivePlugin extends \Webvaloa\Plugin
 {
-
     public function onAfterFrontControllerInit()
     {
         \Webvaloa\config::$properties['sessionMaxlifetime'] = 43200; // 12 hours
@@ -63,13 +62,12 @@ class PluginKeepalivePlugin extends \Webvaloa\Plugin
         $injectTag = $dom->createElement('script');
         $injectTag->setAttribute('type', 'text/javascript');
 
-        $url = $request->getPath() . '/login_keepalive';
-        $injectTag->nodeValue = 'function keepalive() { http_request = new XMLHttpRequest(); http_request.open(\'GET\', \'' . $url . '\'); http_request.send(null); }; setInterval(keepalive, 300000);';
+        $url = $request->getPath().'/login_keepalive';
+        $injectTag->nodeValue = 'function keepalive() { http_request = new XMLHttpRequest(); http_request.open(\'GET\', \''.$url.'\'); http_request.send(null); }; setInterval(keepalive, 300000);';
 
         // And inject it to script tags
-        if ($scripts = $body->getElementsByTagName("script")->item(0)) {
+        if ($scripts = $body->getElementsByTagName('script')->item(0)) {
             $body->insertBefore($injectTag, $scripts);
         }
     }
-
 }

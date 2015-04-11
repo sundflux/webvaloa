@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,17 +34,14 @@ namespace Webvaloa;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use Webvaloa\Helpers\Filesystem;
-
 use RuntimeException;
 
 /**
- * Handles Webvaloa categories
+ * Handles Webvaloa categories.
  */
 class Category
 {
-
     private $id;
     private $category;
     private $fields;
@@ -70,7 +68,6 @@ class Category
 
     public function __set($k, $v)
     {
-
     }
 
     public function __get($k)
@@ -123,7 +120,6 @@ class Category
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -169,13 +165,13 @@ class Category
 
     public function getAvailableLayouts($useTemplateDir = false)
     {
-        $conf = new Configuration;
+        $conf = new Configuration();
         $template = $conf->template->value;
 
         if ($useTemplateDir) {
-            $layoutDir = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.$template;
+            $layoutDir = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.$template;
         } else {
-            $layoutDir = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR."Layout".DIRECTORY_SEPARATOR.$template.DIRECTORY_SEPARATOR.'Article'.DIRECTORY_SEPARATOR."Views";
+            $layoutDir = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.$template.DIRECTORY_SEPARATOR.'Article'.DIRECTORY_SEPARATOR.'Views';
         }
 
         $fs = new Filesystem($layoutDir);
@@ -200,7 +196,7 @@ class Category
     }
 
     /**
-     * Loads category data
+     * Loads category data.
      */
     public function loadCategory()
     {
@@ -219,7 +215,6 @@ class Category
             $stmt->execute();
             $this->category = $stmt->fetch();
         } catch (Exception $e) {
-
         }
     }
 
@@ -234,7 +229,6 @@ class Category
                 FROM field_group
                 WHERE field_group.global = 1
                 ORDER BY field_group.name ASC';
-
         } else {
             // Get category groups
             $query = '
@@ -258,7 +252,6 @@ class Category
                 $groups[] = $row->field_group_id;
             }
         } catch (Exception $e) {
-
         }
 
         if (isset($groups)) {
@@ -282,7 +275,7 @@ class Category
         $query = '
             SELECT id, field_group_id, name, help_text, translation, repeatable, type, ordering
             FROM field
-            WHERE field_group_id IN ( ' . implode(',', $groups) . ' )
+            WHERE field_group_id IN ( '.implode(',', $groups).' )
             ORDER BY field_group_id ASC, ordering ASC';
 
         $stmt = $db->prepare($query);
@@ -293,7 +286,6 @@ class Category
                 $fields[$row->name] = $row;
             }
         } catch (PDOException $e) {
-
         }
 
         if (isset($fields)) {
@@ -307,7 +299,7 @@ class Category
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT category.*, (
                 SELECT COUNT(content.id) as article_count
                 FROM content, content_category
@@ -316,7 +308,7 @@ class Category
                 AND content.published > 0 ) as article_count
             FROM
             category
-            WHERE deleted = 0";
+            WHERE deleted = 0';
 
         $stmt = $db->prepare($query);
 
@@ -325,7 +317,6 @@ class Category
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
 
@@ -351,10 +342,11 @@ class Category
     }
 
     /**
-     * Adds field group to category
+     * Adds field group to category.
      *
-     * @param  type $roleID
-     * @return int  roleid
+     * @param type $roleID
+     *
+     * @return int roleid
      */
     public function addGroup($groupID)
     {
@@ -389,7 +381,7 @@ class Category
         // Database connection
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $tag = new Tag;
+        $tag = new Tag();
         $starredTagId = $tag->findTagByName('Starred');
 
         $query = '
@@ -407,7 +399,6 @@ class Category
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
 
@@ -418,7 +409,7 @@ class Category
             return false;
         }
 
-        $tag = new Tag;
+        $tag = new Tag();
         $starredTagId = $tag->findTagByName('Starred');
 
         $tmp = $this->getStarred();
@@ -446,7 +437,7 @@ class Category
             return;
         }
 
-        $tag = new Tag;
+        $tag = new Tag();
         $starredTagId = $tag->findTagByName('Starred');
 
         $this->addTag($starredTagId);
@@ -454,7 +445,7 @@ class Category
 
     public function removeStarred()
     {
-        $tag = new Tag;
+        $tag = new Tag();
         $starredTagId = $tag->findTagByName('Starred');
 
         $this->removeTag($starredTagId);
@@ -497,7 +488,6 @@ class Category
             $stmt->set((int) $tag->id);
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -526,8 +516,6 @@ class Category
 
             return array();
         } catch (Exception $e) {
-
         }
     }
-
 }

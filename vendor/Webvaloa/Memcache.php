@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -44,7 +45,6 @@ use Libvaloa\Cache as Memcached;
  */
 class Memcache
 {
-
     private $cache;
 
     public function __construct()
@@ -55,10 +55,10 @@ class Memcache
         }
 
         // Settings
-        if(isset(\Webvaloa\config::$properties['memcached_host']) && isset(\Webvaloa\config::$properties['memcached_port'])
+        if (isset(\Webvaloa\config::$properties['memcached_host']) && isset(\Webvaloa\config::$properties['memcached_port'])
                 && !empty(\Webvaloa\config::$properties['memcached_host']) && !empty(\Webvaloa\config::$properties['memcached_port'])) {
             // Memcached driver from libvaloa
-            $this->cache = new Memcached;
+            $this->cache = new Memcached();
             $this->cache->properties['host']        = \Webvaloa\config::$properties['memcached_host'];
             $this->cache->properties['port']        = \Webvaloa\config::$properties['memcached_port'];
         } else {
@@ -72,10 +72,11 @@ class Memcache
 
     /**
      * Set key/value pair to global memcached caching scope.
-     * Alias for set()
+     * Alias for set().
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function __set($key, $value)
@@ -89,9 +90,10 @@ class Memcache
 
     /**
      * Get global cache value by key.
-     * Alias for get()
+     * Alias for get().
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -106,8 +108,9 @@ class Memcache
     /**
      * Set key/value pair to global memcached caching scope.
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function set($key, $value)
@@ -122,7 +125,8 @@ class Memcache
     /**
      * Get global cache value by key.
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function get($key)
@@ -137,9 +141,10 @@ class Memcache
     /**
      * Set session-specific key/value pair to memcached.
      *
-     * @param  type    $key
-     * @param  type    $value
-     * @return boolean
+     * @param type $key
+     * @param type $value
+     *
+     * @return bool
      */
     public function _set($key, $value)
     {
@@ -153,7 +158,8 @@ class Memcache
     /**
      * Get session-specific cache value by key.
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function _get($key)
@@ -174,5 +180,4 @@ class Memcache
     {
         return $this->cache->_delete($key);
     }
-
 }

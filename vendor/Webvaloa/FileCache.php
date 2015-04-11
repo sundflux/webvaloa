@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -40,7 +41,6 @@ use Libvaloa\Debug;
  */
 class FileCache
 {
-
     private $time;
     private $cache;
     private $file;
@@ -50,16 +50,16 @@ class FileCache
     public function __construct()
     {
         $this->time = time();
-        $this->file = LIBVALOA_PUBLICPATH . '/cache/.cache';
+        $this->file = LIBVALOA_PUBLICPATH.'/cache/.cache';
 
         if (!is_writable($tmp = realpath(dirname($this->file)))) {
-            Debug::__print('Cannot write to ' . $tmp);
+            Debug::__print('Cannot write to '.$tmp);
 
             return;
         }
 
         if (!file_exists($this->file)) {
-            $this->cache = new stdClass;
+            $this->cache = new stdClass();
             file_put_contents($this->file, serialize($this->cache));
         }
 
@@ -67,10 +67,10 @@ class FileCache
             $this->cache = unserialize(file_get_contents($this->file));
         } else {
             Debug::__print('Warning!!');
-            Debug::__print('Could not read/write ' . $this->file);
+            Debug::__print('Could not read/write '.$this->file);
         }
 
-        if(isset(\Webvaloa\config::$properties['cache_time'])
+        if (isset(\Webvaloa\config::$properties['cache_time'])
                 && !empty(\Webvaloa\config::$properties['cache_time'])) {
             $this->expires = \Webvaloa\config::$properties['cache_time'];
         } else {
@@ -81,10 +81,11 @@ class FileCache
 
     /**
      * Set key/value pair to global caching scope.
-     * Alias for set()
+     * Alias for set().
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function __set($key, $value)
@@ -94,9 +95,10 @@ class FileCache
 
     /**
      * Get global cache value by key.
-     * Alias for get()
+     * Alias for get().
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -107,13 +109,14 @@ class FileCache
     /**
      * Set key/value pair to caching scope.
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function set($key, $value)
     {
-        $this->cache->{$key} = new stdClass;
+        $this->cache->{$key} = new stdClass();
         $this->cache->{$key}->key = $key;
         $this->cache->{$key}->value = $value;
         $this->cache->{$key}->expires = $this->time + $this->expires;
@@ -124,7 +127,8 @@ class FileCache
     /**
      * Get global cache value by key.
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function get($key)
@@ -143,8 +147,9 @@ class FileCache
     /**
      * Set key/value pair to local caching scope.
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function _set($key, $value)
@@ -183,5 +188,4 @@ class FileCache
             file_put_contents($this->file, serialize($this->cache));
         }
     }
-
 }

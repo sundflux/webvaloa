@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -35,17 +36,15 @@ use Libvaloa\Db;
 use RuntimeException;
 
 /**
- * Manage roles
+ * Manage roles.
  */
 class Role
 {
-
     private $role;
     private $roles;
     private $roleID;
 
     /**
-     *
      * @param type $roleID
      */
     public function __construct($roleID = false)
@@ -55,7 +54,7 @@ class Role
     }
 
     /**
-     * Returns roles as array
+     * Returns roles as array.
      *
      * @return array
      */
@@ -75,7 +74,6 @@ class Role
                 $roles[$row->id] = $row;
             }
         } catch (Exception $e) {
-
         }
 
         if (isset($roles)) {
@@ -102,10 +100,10 @@ class Role
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT component_id
             FROM component_role
-            WHERE role_id = ?";
+            WHERE role_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set($this->roleID);
@@ -123,7 +121,6 @@ class Role
 
             return array();
         } catch (Exception $e) {
-
         }
     }
 
@@ -135,9 +132,9 @@ class Role
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM component_role
-            WHERE role_id = ?";
+            WHERE role_id = ?';
 
         $stmt = $db->prepare($query);
 
@@ -145,7 +142,6 @@ class Role
             $stmt->set((int) $this->roleID);
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -174,9 +170,9 @@ class Role
         $this->dropComponents();
 
         // Delete role from users
-        $query = "
+        $query = '
             DELETE FROM user_role
-            WHERE role_id = ?";
+            WHERE role_id = ?';
 
         $stmt = $db->prepare($query);
 
@@ -184,13 +180,12 @@ class Role
             $stmt->set((int) $this->roleID);
             $stmt->execute();
         } catch (Exception $e) {
-
         }
 
         // Delete role
-        $query = "
+        $query = '
             DELETE FROM role
-            WHERE id = ?";
+            WHERE id = ?';
 
         $stmt = $db->prepare($query);
 
@@ -198,8 +193,6 @@ class Role
             $stmt->set((int) $this->roleID);
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
-
 }

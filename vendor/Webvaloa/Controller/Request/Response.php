@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,12 +35,10 @@ namespace Webvaloa\Controller\Request;
 
 class Response
 {
-
     public static function JSON($response)
     {
         header('Content-type: application/json');
         echo json_encode($response);
         exit;
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,12 +33,10 @@
 namespace ValoaApplication\Controllers\Content;
 
 use Webvaloa\Helpers\Navigation;
-
 use stdClass;
 
 class SiteController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
         $this->ui->addCSS('/css/Content_Site.css');
@@ -46,9 +45,8 @@ class SiteController extends \Webvaloa\Application
 
     public function index()
     {
-        $navigation = new Navigation;
-        $this->view->editablemenu = new stdClass;
+        $navigation = new Navigation();
+        $this->view->editablemenu = new stdClass();
         $this->view->editablemenu->navigation = $navigation->get();
     }
-
 }

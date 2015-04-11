@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace Webvaloa\Field\Fields;
 
 class Datetimepicker
 {
-
     private $field;
 
     private $fieldID;
@@ -48,21 +48,21 @@ class Datetimepicker
     {
         return array(
             '/bootstrap/js/moment.min.js',
-            '/bootstrap/js/bootstrap-datetimepicker.js'
+            '/bootstrap/js/bootstrap-datetimepicker.js',
         );
     }
 
     public function getCSS()
     {
         return array(
-            '/bootstrap/css/bootstrap-datetimepicker.min.css'
+            '/bootstrap/css/bootstrap-datetimepicker.min.css',
         );
     }
 
     public function getTemplate()
     {
         return array(
-            'Datetimepicker'
+            'Datetimepicker',
         );
     }
 
@@ -75,5 +75,4 @@ class Datetimepicker
     {
         return '';
     }
-
 }

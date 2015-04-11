@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,10 +35,7 @@ namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
-use Libvaloa\Controller\Request;
-
 use Webvaloa\Cache;
-
 use stdClass;
 
 class Alias
@@ -53,7 +51,7 @@ class Alias
     public function __construct($alias)
     {
         $this->cache = new Cache();
-        $this->controller = new stdClass;
+        $this->controller = new stdClass();
 
         // Alias
         if (strlen($alias) == 0) {
@@ -98,7 +96,6 @@ class Alias
                     $this->cache->$tmpNam = $row;
                 }
             } catch (PDOException $e) {
-
             }
         }
     }
@@ -157,9 +154,9 @@ class Alias
         $alias = strtolower($alias);
 
         if (isset($this->routes[$alias])) {
-            $this->controller->controller 	= $this->routes[$alias]['controller'];
-            $this->controller->method 		= $this->routes[$alias]['method'];
-            $this->controller->locale 		= $this->routes[$alias]['locale'];
+            $this->controller->controller    = $this->routes[$alias]['controller'];
+            $this->controller->method        = $this->routes[$alias]['method'];
+            $this->controller->locale        = $this->routes[$alias]['locale'];
             $this->controller->id           = -1;
 
             Debug::__print($this->controller);
@@ -174,5 +171,4 @@ class Alias
     {
         return (string) $this->controller->controller;
     }
-
 }

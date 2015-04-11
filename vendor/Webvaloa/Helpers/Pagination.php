@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2011 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,27 +35,27 @@ namespace Webvaloa\Helpers;
 use Libvaloa\Db;
 use Libvaloa\Db\Object;
 use Libvaloa\Debug;
-
 use PDO;
 use stdClass;
 
 class Pagination
 {
-
     private $pages;
 
     /**
-     * Get pagination
+     * Get pagination.
      *
      * @access      public
-     * @param  int    $page  Current page
-     * @param  int    $total Total number of entries
-     * @param  int    $limit Entries per page
+     *
+     * @param int $page  Current page
+     * @param int $total Total number of entries
+     * @param int $limit Entries per page
+     *
      * @return object $this->pages Page counts n stuff
      */
     public function pages($page = 1, $total = 0, $limit = 10)
     {
-        $this->pages = new stdClass;
+        $this->pages = new stdClass();
 
         // First page if not defined
         if (!$page) {
@@ -104,7 +105,7 @@ class Pagination
 
     public function prepare($query)
     {
-        return $query . ' LIMIT ' . (int) $this->pages->limit . ' OFFSET ' . (int) $this->pages->offset;
+        return $query.' LIMIT '.(int) $this->pages->limit.' OFFSET '.(int) $this->pages->offset;
     }
 
     public function countTable($table, $where = '')
@@ -126,7 +127,7 @@ class Pagination
 
         $query = '
             SELECT COUNT(?) as c
-            FROM ' . $table . ' ' . $where;
+            FROM '.$table.' '.$where;
 
         $stmt = $db->prepare($query);
         $stmt->set($pk);
@@ -136,7 +137,7 @@ class Pagination
 
             $row = $stmt->fetch();
             if (isset($row->c)) {
-                Debug::__print($row->c . ' items found in ' . $table);
+                Debug::__print($row->c.' items found in '.$table);
 
                 return $row->c;
             }
@@ -146,5 +147,4 @@ class Pagination
             Debug::__print($e->getMessage());
         }
     }
-
 }

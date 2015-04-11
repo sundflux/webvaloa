@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -39,7 +40,6 @@ use Webvaloa\Configuration;
  */
 class PluginTemplatePlugin extends \Webvaloa\Plugin
 {
-
     /*
      * Set the main layout from settings
      */
@@ -47,7 +47,7 @@ class PluginTemplatePlugin extends \Webvaloa\Plugin
     {
         $template = 'default';
 
-        $configuration = new Configuration;
+        $configuration = new Configuration();
         if (isset($configuration->template->value) && !empty($configuration->template->value)) {
             $template = $configuration->template->value;
         }
@@ -69,7 +69,7 @@ class PluginTemplatePlugin extends \Webvaloa\Plugin
             // ..and override it with value set from the controller
             $this->ui->addTemplate($this->ui->properties['override_layout']);
 
-            Debug::__print('Overriding layout with ' . $this->ui->properties['override_layout']);
+            Debug::__print('Overriding layout with '.$this->ui->properties['override_layout']);
             Debug::__print($this->ui->properties['override_layout']);
         }
 
@@ -77,8 +77,7 @@ class PluginTemplatePlugin extends \Webvaloa\Plugin
         if (isset($this->ui->properties['override_template']) && $this->ui->properties['override_template'] !== false) {
             $this->ui->setMainTemplate($this->ui->properties['override_template']);
 
-            Debug::__print('Overriding template with ' . $this->ui->properties['override_template']);
+            Debug::__print('Overriding template with '.$this->ui->properties['override_template']);
         }
     }
-
 }

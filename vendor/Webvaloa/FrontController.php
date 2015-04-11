@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Joni Halme <jontsa@amigaone.cc>
+ * Joni Halme <jontsa@amigaone.cc>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2009 Joni Halme <jontsa@amigaone.cc>
@@ -35,12 +36,9 @@ namespace Webvaloa;
 use Libvaloa\Controller\Request;
 use Libvaloa\Auth\Auth;
 use Libvaloa\Debug;
-
-use ValoaApplication\Controllers;
 use ValoaApplication\Plugins;
 use Webvaloa\Controller\Request\Alias;
 use Webvaloa\Locale\Locales;
-
 use ReflectionClass;
 use BadMethodCallException;
 use RuntimeException;
@@ -50,25 +48,25 @@ use RuntimeException;
  */
 class FrontController
 {
-
     private $plugin;
 
     public static $properties = array(
         'defaultController'         => 'index',
         'defaultControllerAuthed'   => 'index',
         'layout'                    => 'default',
-        'vendor'                    => 'ValoaApplication'
+        'vendor'                    => 'ValoaApplication',
     );
 
     /**
      * Loads & runs specified controller.
      *
      * @access      static
+     *
      * @uses        Controller_Request
      */
     public function __construct()
     {
-        $this->plugin = new Plugin;
+        $this->plugin = new Plugin();
     }
 
     public function runController()
@@ -85,13 +83,13 @@ class FrontController
 
         if (strlen($request->getParam(0)) > 0) {
             // Check for locale
-            $locales = new Locales;
+            $locales = new Locales();
             $codes = $locales->localeCodes();
 
             // Found locale in url
             if (in_array($locale = strtolower($request->getParam(0)), $codes)) {
                 // Set locale override
-                putenv('LANG=' . $locales->getLocale($locale));
+                putenv('LANG='.$locales->getLocale($locale));
 
                 // Shift the language parameter out of the request
                 $request->shiftParam();
@@ -153,12 +151,11 @@ class FrontController
         if (!self::controllerExists()) {
             Debug::__print($application);
 
-            throw new RuntimeException('Controller ' . $application . ' not found');
+            throw new RuntimeException('Controller '.$application.' not found');
         }
 
-        if(!in_array($request->getMethod(), get_class_methods($application), true)
-            || substr($request->getMethod(), 0 ,2) === '__')
-        {
+        if (!in_array($request->getMethod(), get_class_methods($application), true)
+            || substr($request->getMethod(), 0, 2) === '__') {
             $request->shiftMethod();
             if (in_array('index', get_class_methods($application))) {
                 $request->setMethod('index');
@@ -198,8 +195,8 @@ class FrontController
             // System controller
 
             // Set backend template only if defined so
-            $configuration = new Configuration;
-            if (@ $configuration->template_backend->value == "yes") {
+            $configuration = new Configuration();
+            if (@ $configuration->template_backend->value == 'yes') {
                 \Webvaloa\Webvaloa::$properties['layout'] = self::$properties['layout'];
             }
         } else {
@@ -220,10 +217,10 @@ class FrontController
             if (!$component->isPublic()) {
                 $backend = \Webvaloa\config::$properties['webvaloa_auth'];
 
-                $auth = new Auth;
-                $auth->setAuthenticationDriver(new $backend);
+                $auth = new Auth();
+                $auth->setAuthenticationDriver(new $backend());
 
-                $userid = (isset($_SESSION["UserID"]) ? $_SESSION["UserID"] : false);
+                $userid = (isset($_SESSION['UserID']) ? $_SESSION['UserID'] : false);
 
                 if (!$auth->authorize($controller, $userid)) {
                     throw new RuntimeException('Access denied');
@@ -232,7 +229,7 @@ class FrontController
         }
 
         // Initialize application
-        $application = new $application;
+        $application = new $application();
         $method = $request->getMethod();
 
         // Plugin event: onBeforeController
@@ -278,8 +275,8 @@ class FrontController
     }
 
     /**
-    * Sets default routes
-    */
+     * Sets default routes.
+     */
     public static function defaults()
     {
         $request = Request::getInstance();
@@ -316,10 +313,10 @@ class FrontController
     }
 
     /**
-    * Checks wether or not the requested controller exists
-    *
-    * @return bool
-    */
+     * Checks wether or not the requested controller exists.
+     *
+     * @return bool
+     */
     public static function controllerExists()
     {
         $request = Request::getInstance();
@@ -338,5 +335,4 @@ class FrontController
 
         return (class_exists($application));
     }
-
 }

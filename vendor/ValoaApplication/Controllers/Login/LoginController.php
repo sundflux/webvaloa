@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,32 +34,29 @@ namespace ValoaApplication\Controllers\Login;
 
 use Libvaloa\Auth\Auth;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Configuration;
-
 use RuntimeException;
 use stdClass;
 
 class LoginController extends \Webvaloa\Application
 {
-
     private $backend;
 
     public function __construct()
     {
-        $this->ui->addCSS("/css/Login.css");
+        $this->ui->addCSS('/css/Login.css');
 
         $this->backend = \Webvaloa\config::$properties['webvaloa_auth'];
     }
 
     public function index()
     {
-        if (isset($_SESSION["UserID"]) && !empty($_SESSION["UserID"])) {
+        if (isset($_SESSION['UserID']) && !empty($_SESSION['UserID'])) {
             Redirect::to(\Webvaloa\config::$properties['default_controller_authed']);
         }
 
-        $config = new Configuration;
-        $this->view->config = new stdClass;
+        $config = new Configuration();
+        $this->view->config = new stdClass();
 
         // Custom branding
         if ($config->webvaloa_branding) {
@@ -78,20 +76,19 @@ class LoginController extends \Webvaloa\Application
 
     public function login()
     {
-        if (isset($_POST["username"]) && isset($_POST["password"])) {
+        if (isset($_POST['username']) && isset($_POST['password'])) {
             try {
-                $auth = new Auth;
-                $auth->setAuthenticationDriver(new $this->backend);
+                $auth = new Auth();
+                $auth->setAuthenticationDriver(new $this->backend());
 
-                if (!$auth->authenticate($_POST["username"], $_POST["password"])) {
-                    throw new RuntimeException("Authentication failed.");
+                if (!$auth->authenticate($_POST['username'], $_POST['password'])) {
+                    throw new RuntimeException('Authentication failed.');
                 }
             } catch (RuntimeException $e) {
                 $this->ui->addError($e->getMessage());
             }
         }
 
-        Redirect::to("login");
+        Redirect::to('login');
     }
-
 }

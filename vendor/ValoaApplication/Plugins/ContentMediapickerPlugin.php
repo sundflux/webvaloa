@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -35,7 +36,6 @@ use Webvaloa\Security;
 
 class ContentMediapickerPlugin extends \Webvaloa\Plugin
 {
-
     public function onBeforeController()
     {
         $this->ui->addTemplate('ContentMediapickerPlugin');
@@ -46,7 +46,7 @@ class ContentMediapickerPlugin extends \Webvaloa\Plugin
         $this->ui->addJS('/jquery/plugins/jquery.uploadfile.js');
         $this->ui->addJS('/jquery/plugins/jquery.lazyload.js');
         $this->ui->addJS('/js/Content_Media.js');
-        $this->view->mediaPath = LIBVALOA_PUBLICPATH . '/media';
+        $this->view->mediaPath = LIBVALOA_PUBLICPATH.'/media';
         $this->view->token = Security::getToken();
     }
 
@@ -68,11 +68,10 @@ class ContentMediapickerPlugin extends \Webvaloa\Plugin
 
         // Create <xsl:call-template name="x"> tag
         $injectCallTemplate = $dom->createElementNS('http://www.w3.org/1999/XSL/Transform', 'xsl:call-template');
-        $injectCallTemplate->setAttribute("name", "ContentMediapickerPlugin");
-        $injectCallTemplate->setAttribute("mode", "plugin");
+        $injectCallTemplate->setAttribute('name', 'ContentMediapickerPlugin');
+        $injectCallTemplate->setAttribute('mode', 'plugin');
 
         // And inject it to before first element after body
-        $body->insertBefore($injectCallTemplate, $body->getElementsByTagName("*")->item(0));
+        $body->insertBefore($injectCallTemplate, $body->getElementsByTagName('*')->item(0));
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,16 +33,14 @@
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug;
-
 use DOMDocument;
 use DOMXpath;
 
 /**
- * Handle including fields in article edit view
+ * Handle including fields in article edit view.
  */
 class ContentFieldPlugin extends \Webvaloa\Plugin
 {
-
     /**
      * Extend UI include paths and add Fields path there.
      */
@@ -53,7 +52,7 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
 
         $paths = array(
             LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields',
-            LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields'
+            LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields',
         );
 
         foreach ($paths as $path) {
@@ -63,7 +62,7 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
 
     /**
      * Include all field XSL templates on the article editing page
-     * before rendering it
+     * before rendering it.
      */
     public function onBeforeRender()
     {
@@ -80,7 +79,7 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
 
         // Get XSL templates
         $xpath = new DOMXpath($dom);
-        $includes = $xpath->query("xsl:include");
+        $includes = $xpath->query('xsl:include');
 
         if ($includes->length == 0) {
             Debug::__print('xsl:includes not found');
@@ -100,7 +99,7 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
                 $include->parentNode->removeChild($include);
 
                 // Load controller template
-                $templateDom = new DOMDocument;
+                $templateDom = new DOMDocument();
                 $templateDom->load($template);
 
                 $xpath = new DOMXpath($templateDom);
@@ -128,14 +127,15 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
                 }
             }
         }
-
     }
 
     /**
-     * Wrapper template to run call:templates for every field on the page
+     * Wrapper template to run call:templates for every field on the page.
      *
      * @todo rewrite this with DOM?
-     * @param  type $field
+     *
+     * @param type $field
+     *
      * @return type
      */
     private function getField($field)
@@ -162,5 +162,4 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
 
         return str_replace('{FIELDNAME}', $field, $xsl);
     }
-
 }

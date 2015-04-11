@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace Webvaloa\Field\Fields;
 
 class Wysiwyg
 {
-
     private $field;
 
     private $fieldID;
@@ -48,7 +48,7 @@ class Wysiwyg
     {
         return array(
             '/ckeditor/ckeditor.js',
-            '/ckeditor/adapters/jquery.js'
+            '/ckeditor/adapters/jquery.js',
         );
     }
 
@@ -60,7 +60,7 @@ class Wysiwyg
     public function getTemplate()
     {
         return array(
-            'Wysiwyg'
+            'Wysiwyg',
         );
     }
 
@@ -73,5 +73,4 @@ class Wysiwyg
     {
         return '';
     }
-
 }

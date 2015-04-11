@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,19 +32,15 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use Webvaloa\Field\Field;
-
 use stdClass;
 
 /**
- * Category helper
+ * Category helper.
  */
 class Category
 {
-
     private $id;
     private $publish_up;
     private $publish_down;
@@ -88,7 +85,7 @@ class Category
 
     public function addFieldFilter($fieldName, $value)
     {
-        $field = new Field;
+        $field = new Field();
         $f = $field->findByName($fieldName);
 
         // Field not found
@@ -101,28 +98,28 @@ class Category
 
     public function getArticles()
     {
-        $pagination = new Pagination;
+        $pagination = new Pagination();
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
         // Include content field value in query
         $filter = '';
         $q = '';
-        
+
         if ($this->fieldFilters) {
             $filter = ', content_field_value';
 
             foreach ($this->fieldFilters as $k => $v) {
-                $q .= ' 
-                    AND content.id = content_field_value.content_id 
-                    AND content_field_value.field_id = ' . $k . ' 
-                    AND content_field_value.value = ' . $v . '  ';
+                $q .= '
+                    AND content.id = content_field_value.content_id
+                    AND content_field_value.field_id = '.$k.'
+                    AND content_field_value.value = '.$v.'  ';
             }
         }
 
         $queryCount = '
             SELECT COUNT(content.id) as total
-            FROM content, content_category, category' . $filter . '
+            FROM content, content_category, category'.$filter.'
             WHERE
             content.publish_up <= ?
             AND (content.publish_down <= ? OR content.publish_down = ?)
@@ -132,12 +129,12 @@ class Category
             AND content_category.category_id = category.id
             AND category.deleted = 0
             AND category.id = ?
-            ' . $q . '
+            '.$q.'
             ORDER BY content.publish_up DESC';
 
         $query = '
             SELECT content.*
-            FROM content, content_category, category' . $filter . '
+            FROM content, content_category, category'.$filter.'
             WHERE
             content.publish_up <= ?
             AND (content.publish_down <= ? OR content.publish_down = ?)
@@ -147,7 +144,7 @@ class Category
             AND content_category.category_id = category.id
             AND category.deleted = 0
             AND category.id = ?
-            ' . $q . '
+            '.$q.'
             ORDER BY content.publish_up DESC';
 
         try {
@@ -161,7 +158,7 @@ class Category
             $stmt->execute();
             $count = $stmt->fetch();
 
-            $retval = new stdClass;
+            $retval = new stdClass();
             $retval->pages = $pagination->pages((int) $this->page, $count->total, $this->limit);
 
             $query = $pagination->prepare($query);
@@ -186,5 +183,4 @@ class Category
 
         return false;
     }
-
 }

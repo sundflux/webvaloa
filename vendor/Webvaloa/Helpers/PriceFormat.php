@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2015 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace Webvaloa\Helpers;
 
 class PriceFormat
 {
-
     /**
      * Format price to 0,00 format.
      *
@@ -51,9 +51,10 @@ class PriceFormat
     /**
      * Format price to (countable) 0.00 format.
      *
-     * @param  mixed $v        numeric value to format
-     * @param  int   $decimals numbers of decimals, default 2
-     * @param  int   $accuracy number of decimals to use for round(), default 2
+     * @param mixed $v        numeric value to format
+     * @param int   $decimals numbers of decimals, default 2
+     * @param int   $accuracy number of decimals to use for round(), default 2
+     *
      * @return float
      */
     public static function formatCountablePrice($v, $decimals = 2, $accuracy = 2)
@@ -62,14 +63,14 @@ class PriceFormat
     }
 
     /**
-     * Format price to cents
+     * Format price to cents.
      *
-     * @param  mixed $v numeric value to format
+     * @param mixed $v numeric value to format
+     *
      * @return int
      */
     public static function toCents($v)
     {
         return (int) str_replace('.', '', self::formatCountablePrice($v, 2));
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -39,11 +40,10 @@ use stdClass;
  */
 class SettingsTemplateListPlugin extends \Webvaloa\Plugin
 {
-
     public function onAfterController()
     {
         // Get available templates
-        $filesystem = new Filesystem(LIBVALOA_EXTENSIONSPATH . DIRECTORY_SEPARATOR . \Webvaloa\Webvaloa::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Layout');
+        $filesystem = new Filesystem(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.\Webvaloa\Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout');
         $templates = $filesystem->folders();
 
         // Look for template key in settings
@@ -52,7 +52,7 @@ class SettingsTemplateListPlugin extends \Webvaloa\Plugin
 
             if ($tmp[$k]->key == 'template') {
                 foreach ($templates as $templateKey => $templateName) {
-                    $obj = new stdClass;
+                    $obj = new stdClass();
                     $obj->value = $templateName;
                     $obj->translation = $templateName;
                     $tpls[] = $obj;
@@ -67,5 +67,4 @@ class SettingsTemplateListPlugin extends \Webvaloa\Plugin
             $this->view->settings = $tmp;
         }
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -35,7 +36,6 @@ use Libvaloa\Auth;
 use Libvaloa\Auth\Password;
 use Libvaloa\Auth\AuthIFace;
 use Libvaloa\Auth\PWResetIFace;
-
 use Webvaloa;
 use Webvaloa\Component;
 use Webvaloa\User;
@@ -46,18 +46,17 @@ use Webvaloa\User;
  */
 class Db implements AuthIFace, PWResetIFace
 {
-
     public function __construct()
     {
-
     }
 
     /**
      * Authenticate user.
      *
-     * @param  type    $user
-     * @param  type    $pass
-     * @return boolean
+     * @param type $user
+     * @param type $pass
+     *
+     * @return bool
      */
     public function authenticate($user = false, $pass = false)
     {
@@ -98,9 +97,10 @@ class Db implements AuthIFace, PWResetIFace
      * Authorize controller. Defaults to currently logged in user,
      * alternatively UserID may be used as second parameter.
      *
-     * @param  type    $controller
-     * @param  type    $userID
-     * @return boolean
+     * @param type $controller
+     * @param type $userID
+     *
+     * @return bool
      */
     public function authorize($controller, $userID = false)
     {
@@ -110,7 +110,7 @@ class Db implements AuthIFace, PWResetIFace
         if ($userID) {
             $user = new User($userID);
         } else {
-            $user = new User;
+            $user = new User();
         }
 
         // Get user roles
@@ -138,7 +138,8 @@ class Db implements AuthIFace, PWResetIFace
      * Return UserID by login name. Returns false on failure, so
      * this can be used for checking if user exists too.
      *
-     * @param  type $user
+     * @param type $user
+     *
      * @return int
      */
     public function getUserID($user)
@@ -176,7 +177,8 @@ class Db implements AuthIFace, PWResetIFace
      * stuff such as REST apis or whatnot could return something
      * else.
      *
-     * @param  type  $user
+     * @param type $user
+     *
      * @return mixed
      */
     public function getSessionID($user = false)
@@ -187,9 +189,10 @@ class Db implements AuthIFace, PWResetIFace
     /**
      * Change users password.
      *
-     * @param  type    $user
-     * @param  type    $pass
-     * @return boolean
+     * @param type $user
+     * @param type $pass
+     *
+     * @return bool
      */
     public function updatePassword($user, $pass)
     {
@@ -198,10 +201,10 @@ class Db implements AuthIFace, PWResetIFace
 
         $hash = Password::cryptPassword($user, $pass);
         try {
-            $query = "
+            $query = '
                 UPDATE user
                 SET password = ?
-                WHERE login = ?";
+                WHERE login = ?';
 
             $stmt = $db->prepare($query);
             $stmt->bind($pass)->bind($user)->execute();
@@ -222,11 +225,10 @@ class Db implements AuthIFace, PWResetIFace
      * for example unsetting certain cookies or killing remote
      * api sessions.
      *
-     * @return boolean
+     * @return bool
      */
     public function logout()
     {
         return true;
     }
-
 }

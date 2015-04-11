@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,34 +34,31 @@ namespace ValoaApplication\Plugins;
 
 // Webvaloa classes
 use Webvaloa\Component;
-
 // Standard classes
 use DOMDocument;
 
 /**
- * Plugin to show top administrator bar
+ * Plugin to show top administrator bar.
  */
 class LoginCreateAccountPlugin extends \Webvaloa\Plugin
 {
-
     public function __construct()
     {
-
     }
 
     public function onAfterRender()
     {
         $component = new Component('Register');
 
-        if (!isset($_SESSION["UserID"]) && $component->blocked == 0) {
+        if (!isset($_SESSION['UserID']) && $component->blocked == 0) {
             $dom = new DOMDocument();
             $dom->loadHTML($this->xhtml);
 
             // A link
             $injectTag = $dom->createElement('a', \Webvaloa\Webvaloa::translate('CREATE_ACCOUNT'));
-            $injectTag->setAttribute("id", 'register');
-            $injectTag->setAttribute("href", $this->request->getBaseUri() .'/register');
-            $injectTag->setAttribute("class", "text-center new-account");
+            $injectTag->setAttribute('id', 'register');
+            $injectTag->setAttribute('href', $this->request->getBaseUri().'/register');
+            $injectTag->setAttribute('class', 'text-center new-account');
 
             // Insert link to login form
             $form = $dom->getElementById('form-signin');
@@ -78,5 +75,4 @@ class LoginCreateAccountPlugin extends \Webvaloa\Plugin
             }
         }
     }
-
 }

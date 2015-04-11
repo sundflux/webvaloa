@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,16 +32,13 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use stdClass;
 use Exception;
 use RuntimeException;
 
 class Article
 {
-
     public $article;
 
     public function __construct($id = false)
@@ -49,7 +47,7 @@ class Article
             throw new Exception();
         }
 
-        $this->article = new stdClass;
+        $this->article = new stdClass();
         $this->article->id = (int) $id;
         $this->loadArticle();
         $this->loadFields();
@@ -58,7 +56,7 @@ class Article
     public function loadArticle()
     {
         if (!is_numeric($this->article->id)) {
-            throw new RuntimeException('Article ' . $this->article->id . ' not loadable');
+            throw new RuntimeException('Article '.$this->article->id.' not loadable');
         }
 
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -84,15 +82,16 @@ class Article
 
     public function loadFields()
     {
-        if ( (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) // Regular article check
-            && (isset($this->article->id) && $this->article->id != 0) ) // Global fields
-        {
+        if ((!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) // Regular article check
+            && (isset($this->article->id) && $this->article->id != 0)) {
+            // Global fields
+
             throw new RuntimeException('Article not loadable');
         }
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT
                 field.id as field_id,
                 field.name as name,
@@ -111,14 +110,14 @@ class Article
                 field.id = content_field_value.field_id
                 AND content_field_value.locale = ?
                 AND content_field_value.content_id = ?
-                ORDER BY content_field_value.id ASC";
+                ORDER BY content_field_value.id ASC';
 
         $stmt = $db->prepare($query);
         $stmt->set(\Webvaloa\Webvaloa::getLocale());
 
         // global fields
         if (!isset($this->article->id)) {
-            $this->article = new stdClass;
+            $this->article = new stdClass();
             $this->article->id = 0;
         }
 
@@ -132,10 +131,10 @@ class Article
             foreach ($fields as $k => $field) {
 
                 // Format field value for viewing
-                $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+                $fieldClass = '\Webvaloa\Field\Fields\\'.$field->type;
                 $f = new $fieldClass($field->field_id);
                 $m = 'onLoad';
-                if(method_exists($f, $m)) {
+                if (method_exists($f, $m)) {
                     $field->value = $f->{$m}($field->value);
                 }
 
@@ -186,10 +185,8 @@ class Article
                 return $tags;
             }
         } catch (Exception $e) {
-
         }
 
         return array();
     }
-
 }

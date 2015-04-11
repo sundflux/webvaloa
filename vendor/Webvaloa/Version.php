@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,18 +34,15 @@ namespace Webvaloa;
 
 use stdClass;
 
-use Libvaloa\Db;
-
 class Version
 {
-
     private $object;
 
     const MAX_VERSIONS = 10;
 
     public function __construct()
     {
-        $this->object = new stdClass;
+        $this->object = new stdClass();
         $this->object->target_table = '';
         $this->object->target_id = 0;
         $this->object->content = '';
@@ -70,9 +68,9 @@ class Version
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             INSERT INTO version_history (target_table, target_id, content, user_id)
-            VALUES (?, ?, ? ,?)";
+            VALUES (?, ?, ? ,?)';
 
         try {
             $stmt = $db->prepare($query);
@@ -83,7 +81,6 @@ class Version
 
             $stmt->execute();
         } catch (Exception $e) {
-
         }
 
         // Clean excess versions
@@ -94,13 +91,13 @@ class Version
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT id
             FROM version_history
             WHERE target_table = ?
             AND target_id = ?
             ORDER BY id
-            DESC";
+            DESC';
 
         $stmt = $db->prepare($query);
 
@@ -114,9 +111,9 @@ class Version
                 $i++;
 
                 if ($i > self::MAX_VERSIONS) {
-                    $q = "
+                    $q = '
                         DELETE FROM version_history
-                        WHERE id = ?";
+                        WHERE id = ?';
 
                     $stmt2 = $db->prepare($q);
                     $stmt2->set((int) $row->id);
@@ -124,7 +121,6 @@ class Version
                 }
             }
         } catch (Exception $e) {
-
         }
     }
 
@@ -132,14 +128,14 @@ class Version
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT id, created
             FROM version_history
             WHERE target_table = ?
             AND target_id = ?
             ORDER BY id
             DESC
-            LIMIT 10";
+            LIMIT 10';
 
         $stmt = $db->prepare($query);
         try {
@@ -157,7 +153,6 @@ class Version
 
             return false;
         } catch (Exception $e) {
-
         }
     }
 
@@ -165,10 +160,10 @@ class Version
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT content
             FROM version_history
-            WHERE id = ?";
+            WHERE id = ?';
 
         $stmt = $db->prepare($query);
         try {
@@ -183,8 +178,6 @@ class Version
 
             return false;
         } catch (Exception $e) {
-
         }
     }
-
 }

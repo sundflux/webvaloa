@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,14 +35,12 @@ namespace ValoaApplication\Controllers\Setup;
 // Libvaloa classes
 use Libvaloa\Controller\Redirect;
 use Libvaloa\Db;
-
 // Webvaloa classes
 use Webvaloa;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Manifest;
 use Webvaloa\Component;
-
 // Standard classes
 use stdClass;
 use PDOException;
@@ -49,7 +48,6 @@ use RuntimeException;
 
 class SetupController extends \Webvaloa\Application
 {
-
     private $backend;
     public $view;
 
@@ -60,7 +58,7 @@ class SetupController extends \Webvaloa\Application
         $this->backend = '\Webvaloa\Auth\Db';
 
         // Specific to setup
-        $this->view = new stdClass;
+        $this->view = new stdClass();
     }
 
     public function index($locale = false)
@@ -89,9 +87,7 @@ class SetupController extends \Webvaloa\Application
                 Redirect::to();
             }
         } catch (PDOException $e) {
-
         } catch (RuntimeException $e) {
-
         }
 
         if (!isset($_SESSION['setup'])) {
@@ -140,7 +136,7 @@ class SetupController extends \Webvaloa\Application
                 'db_host',
                 'db_user',
                 'db_pass',
-                'db_db'
+                'db_db',
             );
 
             foreach ($required as $k => $v) {
@@ -157,11 +153,11 @@ class SetupController extends \Webvaloa\Application
             }
 
             // All good, test connection
-            \Webvaloa\config::$properties['db_server'] = trim($_POST["db_server"]);
-            \Webvaloa\config::$properties['db_host']   = trim($_POST["db_host"]);
-            \Webvaloa\config::$properties['db_user']   = trim($_POST["db_user"]);
-            \Webvaloa\config::$properties['db_pass']   = trim($_POST["db_pass"]);
-            \Webvaloa\config::$properties['db_db']     = trim($_POST["db_db"]);
+            \Webvaloa\config::$properties['db_server'] = trim($_POST['db_server']);
+            \Webvaloa\config::$properties['db_host']   = trim($_POST['db_host']);
+            \Webvaloa\config::$properties['db_user']   = trim($_POST['db_user']);
+            \Webvaloa\config::$properties['db_pass']   = trim($_POST['db_pass']);
+            \Webvaloa\config::$properties['db_db']     = trim($_POST['db_db']);
 
             try {
                 $query = 'SELECT 1';
@@ -181,7 +177,7 @@ class SetupController extends \Webvaloa\Application
         }
 
         if (!isset($this->view->db_host) || empty($this->view->db_host)) {
-            $this->view = new stdClass;
+            $this->view = new stdClass();
             $this->view->db_host = 'localhost';
         }
     }
@@ -215,7 +211,7 @@ class SetupController extends \Webvaloa\Application
 
         $check = array(
             'admin_password',
-            'admin_password2'
+            'admin_password2',
         );
 
         foreach ($check as $k => $v) {
@@ -263,7 +259,7 @@ class SetupController extends \Webvaloa\Application
         $manifest = new Manifest('Setup');
 
         // Write the configuration file
-        $configFile = WEBVALOA_BASEDIR . '/config/config.php';
+        $configFile = WEBVALOA_BASEDIR.'/config/config.php';
         if (!is_writable($configFile)) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('CONFIG_NOT_WRITABLE'));
 
@@ -271,26 +267,26 @@ class SetupController extends \Webvaloa\Application
         }
 
         $config = "<?php\n";
-        $config.= "namespace Webvaloa;\n\n";
-        $config.= "class config\n";
-        $config.= "{\n";
-        $config.= "    public static ".'$properties'."= array(\n";
-        $config.= "        'db_server'                 => '".$setup['db']['db_server']."',\n";
-        $config.= "        'db_host'                   => '".$setup['db']['db_host']."',\n";
-        $config.= "        'db_user'                   => '".$setup['db']['db_user']."',\n";
-        $config.= "        'db_pass'                   => '".$setup['db']['db_pass']."',\n";
-        $config.= "        'db_db'                     => '".$setup['db']['db_db']."',\n";
-        $config.= "        'default_controller'        => 'login',\n";
-        $config.= "        'default_controller_authed' => 'login_logout',\n";
-        $config.= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db'\n";
-        $config.= "    );\n";
-        $config.= "\n";
-        $config.= "}";
-        $config.= "\n\n";
+        $config .= "namespace Webvaloa;\n\n";
+        $config .= "class config\n";
+        $config .= "{\n";
+        $config .= '    public static '.'$properties'."= array(\n";
+        $config .= "        'db_server'                 => '".$setup['db']['db_server']."',\n";
+        $config .= "        'db_host'                   => '".$setup['db']['db_host']."',\n";
+        $config .= "        'db_user'                   => '".$setup['db']['db_user']."',\n";
+        $config .= "        'db_pass'                   => '".$setup['db']['db_pass']."',\n";
+        $config .= "        'db_db'                     => '".$setup['db']['db_db']."',\n";
+        $config .= "        'default_controller'        => 'login',\n";
+        $config .= "        'default_controller_authed' => 'login_logout',\n";
+        $config .= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db'\n";
+        $config .= "    );\n";
+        $config .= "\n";
+        $config .= '}';
+        $config .= "\n\n";
 
         file_put_contents($configFile, $config);
 
-        $_SESSION["config_created"] = true;
+        $_SESSION['config_created'] = true;
 
         Redirect::to('setup/installdb');
     }
@@ -301,7 +297,7 @@ class SetupController extends \Webvaloa\Application
             Redirect::to('setup');
         }
 
-        if (!isset($_SESSION["config_created"])) {
+        if (!isset($_SESSION['config_created'])) {
             Redirect::to('setup');
         }
 
@@ -325,7 +321,7 @@ class SetupController extends \Webvaloa\Application
 
             // Create user
 
-            $user = new User;
+            $user = new User();
             $user->email = $setup['admin']['admin_email'];
 
             if (isset($setup['admin']['admin_username']) && !empty($setup['admin']['admin_username'])) {
@@ -349,7 +345,7 @@ class SetupController extends \Webvaloa\Application
             // Add administrator role for the user
             $user = new User($userID);
 
-            $role = new Role;
+            $role = new Role();
             $user->addRole($role->getRoleID('Administrator'));
 
             // System plugins
@@ -400,20 +396,19 @@ class SetupController extends \Webvaloa\Application
 
             $this->db->exec($query);
             $this->db->commit();
-
         } catch (Exception $e) {
             $this->db->rollBack();
 
             throw new \RuntimeException($e->getMessage());
         }
 
-        $_SESSION["setup_ready"] = true;
+        $_SESSION['setup_ready'] = true;
         Redirect::to('setup/ready');
     }
 
     public function ready()
     {
-        if (!isset($_SESSION["setup_ready"])) {
+        if (!isset($_SESSION['setup_ready'])) {
             Redirect::to('setup');
         }
 
@@ -421,9 +416,8 @@ class SetupController extends \Webvaloa\Application
             Redirect::to('setup');
         }
 
-        unset($_SESSION["setup_ready"]);
-        unset($_SESSION["config_created"]);
+        unset($_SESSION['setup_ready']);
+        unset($_SESSION['config_created']);
         unset($_SESSION['setup']);
     }
-
 }

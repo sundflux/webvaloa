@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,14 +34,13 @@ namespace Webvaloa\Helpers;
 
 class DateFormat
 {
-
     public static function toMySQL($date)
     {
         if (!is_numeric($date)) {
             $date = strtotime($date);
         }
 
-        return date("Y-m-d H:i:s", $date);
+        return date('Y-m-d H:i:s', $date);
     }
 
     public static function format($date, $format)
@@ -51,5 +51,4 @@ class DateFormat
 
         return date($format, $date);
     }
-
 }

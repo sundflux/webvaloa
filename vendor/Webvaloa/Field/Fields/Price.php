@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -35,7 +36,6 @@ use Webvaloa\Helpers\PriceFormat;
 
 class Price
 {
-
     private $field;
 
     private $fieldID;
@@ -59,7 +59,7 @@ class Price
     public function getTemplate()
     {
         return array(
-            'Price'
+            'Price',
         );
     }
 
@@ -73,7 +73,8 @@ class Price
         return '';
     }
 
-    public function onSave($v) {
+    public function onSave($v)
+    {
         if (is_array($v)) {
             foreach ($v as $k => $v) {
                 $tmp[$k] = PriceFormat::formatCountablePrice($v);
@@ -89,7 +90,8 @@ class Price
         return $v;
     }
 
-    public function onLoad($v) {
+    public function onLoad($v)
+    {
         if (is_array($v)) {
             foreach ($v as $k => $v) {
                 $tmp[$k] = PriceFormat::formatPrice($v);
@@ -104,5 +106,4 @@ class Price
 
         return $v;
     }
-
 }

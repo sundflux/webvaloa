@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * 2009-2010 Eoghan O'Brien http://github.com/eoghanobrien
+ * 2009-2010 Eoghan O'Brien http://github.com/eoghanobrien.
  *
  * Contributor(s):
  * 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,7 +34,7 @@
  */
 
 /**
- * Valoa- compatible version of https://github.com/eoghanobrien/php-simple-mail
+ * Valoa- compatible version of https://github.com/eoghanobrien/php-simple-mail.
  */
 
 namespace Webvaloa\Mail;
@@ -44,47 +44,47 @@ class Mail
     const CRLF = "\r\n";
 
     /**
-     * @var int $_wrap
+     * @var int
      */
     protected $_wrap = 78;
 
     /**
-     * @var string $_to
+     * @var string
      */
     protected $_to = array();
 
     /**
-     * @var string $_subject
+     * @var string
      */
     protected $_subject;
 
     /**
-     * @var string $_message
+     * @var string
      */
     protected $_message;
 
     /**
-     * @var array $_headers
+     * @var array
      */
     protected $_headers = array();
 
     /**
-     * @var string $_parameters
+     * @var string
      */
     protected $_parameters = '-f';
 
     /**
-     * @var array $_attachments
+     * @var array
      */
     protected $_attachments = array();
 
     /**
-     * @var array $_attachmentsPath
+     * @var array
      */
     protected $_attachmentsPath = array();
 
     /**
-     * @var array $_attachment_filename
+     * @var array
      */
     protected $_attachmentsFilename = array();
 
@@ -134,11 +134,11 @@ class Mail
     public function setTo($email, $name)
     {
         if (!is_string($email)) {
-            throw new \InvalidArgumentException($email . ' must be a string');
+            throw new \InvalidArgumentException($email.' must be a string');
         }
 
         if (!is_string($name)) {
-            throw new \InvalidArgumentException($name . ' must be a string.');
+            throw new \InvalidArgumentException($name.' must be a string.');
         }
 
         $this->_to[] = $this->formatHeader($email, $name);
@@ -160,13 +160,15 @@ class Mail
      * setSubject function.
      *
      * @param  string$subject
+     *
      * @throws \InvalidArgumentException on non string value for $subject
+     *
      * @return Mail
      */
     public function setSubject($subject)
     {
         if (!is_string($subject)) {
-            throw new \InvalidArgumentException($subject . ' must be a string.');
+            throw new \InvalidArgumentException($subject.' must be a string.');
         }
 
         $this->_subject = $this->filterOther($subject);
@@ -188,14 +190,17 @@ class Mail
      * setMessage function.
      *
      * @access public
-     * @param  string                    $message
+     *
+     * @param string $message
+     *
      * @throws \InvalidArgumentException on non string value for $message
+     *
      * @return Mail
      */
     public function setMessage($message)
     {
         if (!is_string($message)) {
-            throw new \InvalidArgumentException($message . ' must be a string.');
+            throw new \InvalidArgumentException($message.' must be a string.');
         }
 
         $this->_message = str_replace("\n.", "\n..", $message);
@@ -218,8 +223,10 @@ class Mail
      *
      * @todo   Test this.
      * @access public
-     * @param  string $path
-     * @param  string $filename
+     *
+     * @param string $path
+     * @param string $filename
+     *
      * @return Mail
      */
     public function addAttachment($path, $filename = null)
@@ -236,7 +243,9 @@ class Mail
      * addAttachmentPath function.
      *
      * @todo   Test this.
-     * @param  string $path
+     *
+     * @param string $path
+     *
      * @return Mail
      */
     public function addAttachmentPath($path)
@@ -250,7 +259,9 @@ class Mail
      * addAttachmentFilename function.
      *
      * @todo   Test this.
-     * @param  string $filename
+     *
+     * @param string $filename
+     *
      * @return Mail
      */
     public function addAttachmentFilename($filename)
@@ -264,13 +275,15 @@ class Mail
      * getAttachmentData function.
      *
      * @todo   Test this.
-     * @param  string $path
+     *
+     * @param string $path
+     *
      * @return string
      */
     public function getAttachmentData($path)
     {
         $filesize = filesize($path);
-        $handle = fopen($path, "r");
+        $handle = fopen($path, 'r');
         $attachment = fread($handle, $filesize);
         fclose($handle);
 
@@ -291,11 +304,11 @@ class Mail
     public function setFrom($email, $name)
     {
         if (!is_string($email)) {
-            throw new \InvalidArgumentException($email . ' must be a string');
+            throw new \InvalidArgumentException($email.' must be a string');
         }
 
         if (!is_string($name)) {
-            throw new \InvalidArgumentException($name . ' must be a string');
+            throw new \InvalidArgumentException($name.' must be a string');
         }
 
         $this->addMailHeader('From', $email, $name);
@@ -377,8 +390,10 @@ class Mail
      *
      * Such as "-fyouremail@yourserver.com
      *
-     * @param  string                    $additionalParameters
+     * @param string $additionalParameters
+     *
      * @throws \InvalidArgumentException on non string $additionalParameters
+     *
      * @return Mail
      */
     public function setParameters($additionalParameters)
@@ -395,7 +410,7 @@ class Mail
     }
 
     /**
-     * getAdditionalParameters function
+     * getAdditionalParameters function.
      *
      * @return string
      */
@@ -458,20 +473,20 @@ class Mail
 
         $h = '';
         $h .= "\r\nMIME-Version: 1.0\r\n";
-        $h .= "Content-Type: multipart/mixed; boundary=\"" . $u . "\"\r\n\r\n";
+        $h .= "Content-Type: multipart/mixed; boundary=\"".$u."\"\r\n\r\n";
         $h .= "This is a multi-part message in MIME format.\r\n";
-        $h .= "--" . $u . "\r\n";
+        $h .= '--'.$u."\r\n";
         $h .= "Content-type:text/html; charset=\"utf-8\"\r\n";
         $h .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-        $h .= $this->_message . "\r\n\r\n";
-        $h .= "--" . $u . "\r\n";
+        $h .= $this->_message."\r\n\r\n";
+        $h .= '--'.$u."\r\n";
 
         foreach ($this->_attachmentsFilename as $k => $v) {
-            $h .= "Content-Type: application/octet-stream; name=\"" . $v . "\"\r\n";
+            $h .= "Content-Type: application/octet-stream; name=\"".$v."\"\r\n";
             $h .= "Content-Transfer-Encoding: base64\r\n";
-            $h .= "Content-Disposition: attachment; filename=\"" . $v . "\"\r\n\r\n";
-            $h .= $this->_attachments[$k] . "\r\n\r\n";
-            $h .= "--" . $u . "\r\n";
+            $h .= "Content-Disposition: attachment; filename=\"".$v."\"\r\n\r\n";
+            $h .= $this->_attachments[$k]."\r\n\r\n";
+            $h .= '--'.$u."\r\n";
         }
 
         return $h;
@@ -481,13 +496,14 @@ class Mail
      * send function.
      *
      * @throws \RuntimeException on no To: address to send to
-     * @return boolean
+     *
+     * @return bool
      */
     public function send()
     {
-        $headers = (!empty($this->_headers)) ? join(static::CRLF, $this->_headers) : array();
+        $headers = (!empty($this->_headers)) ? implode(static::CRLF, $this->_headers) : array();
 
-        $to = (is_array($this->_to) && !empty($this->_to)) ? join(", ", $this->_to) : false;
+        $to = (is_array($this->_to) && !empty($this->_to)) ? implode(', ', $this->_to) : false;
 
         if ($to === false) {
             throw new \RuntimeException(
@@ -498,7 +514,7 @@ class Mail
         if ($this->hasAttachments()) {
             $headers .= $this->assembleAttachmentHeaders();
 
-            return mail($to, $this->_subject, "", $headers, $this->_parameters);
+            return mail($to, $this->_subject, '', $headers, $this->_parameters);
         }
 
         $message = wordwrap($this->_message, $this->_wrap);
@@ -513,7 +529,7 @@ class Mail
      */
     public function debug()
     {
-        return '<pre>' . print_r($this, true) . '</pre>';
+        return '<pre>'.print_r($this, true).'</pre>';
     }
 
     /**
@@ -533,8 +549,10 @@ class Mail
      * Name <address@domain.tld>
      *
      * @todo   Test this.
-     * @param  string $email
-     * @param  string $name
+     *
+     * @param string $email
+     * @param string $name
+     *
      * @return string
      */
     public function formatHeader($email, $name = null)
@@ -557,7 +575,9 @@ class Mail
      * and angle bracket characters before sanitizing the email address.
      *
      * @todo   Test this.
-     * @param  string $email
+     *
+     * @param string $email
+     *
      * @return string
      */
     public function filterEmail($email)
@@ -585,7 +605,9 @@ class Mail
      * brackets, before sanitizing the string and stripping out html tags.
      *
      * @todo   Test this.
-     * @param  string $name
+     *
+     * @param string $name
+     *
      * @return string
      */
     public function filterName($name)
@@ -607,16 +629,17 @@ class Mail
      * Removes any carriage return, line feed or tab characters.
      *
      * @todo   Test this.
-     * @param  string $data
+     *
+     * @param string $data
+     *
      * @return string
      */
     public function filterOther($data)
     {
         $rule = array("\r" => '',
             "\n" => '',
-            "\t" => '');
+            "\t" => '', );
 
         return strtr(filter_var($data, FILTER_SANITIZE_STRING), $rule);
     }
-
 }

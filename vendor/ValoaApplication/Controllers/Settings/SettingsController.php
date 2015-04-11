@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,7 +34,6 @@ namespace ValoaApplication\Controllers\Settings;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Configuration;
 use Webvaloa\Security;
 
@@ -94,10 +93,10 @@ class SettingsController extends \Webvaloa\Application
     {
         Security::verify();
 
-        $configuration = new Configuration($_POST["component"]);
+        $configuration = new Configuration($_POST['component']);
 
         foreach ($_POST as $k => $v) {
-            if (empty($k) || $k == "component") {
+            if (empty($k) || $k == 'component') {
                 continue;
             }
 
@@ -109,7 +108,6 @@ class SettingsController extends \Webvaloa\Application
         }
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('SETTINGS_SAVED'));
 
-        Redirect::to('settings/' . $_POST["component"]);
+        Redirect::to('settings/'.$_POST['component']);
     }
-
 }

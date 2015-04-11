@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa;
 use Webvaloa\Article;
 use Webvaloa\Category;
@@ -45,13 +45,11 @@ use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Controller\Request\Response;
-
 use stdClass;
 use UnexpectedValueException;
 
 class ArticleController extends \Webvaloa\Application
 {
-
     const MODE_NONE = 0;
     const MODE_ADD = 1;
     const MODE_EDIT = 2;
@@ -69,11 +67,11 @@ class ArticleController extends \Webvaloa\Application
         $this->ui->addTemplate('pagination');
         $this->view->category_id = $category_id;
 
-        $q = "";
+        $q = '';
 
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $this->view->search = $_GET['search'];
-            $q .= " AND title LIKE ? ";
+            $q .= ' AND title LIKE ? ';
         }
 
         if ($category_id) {
@@ -81,7 +79,7 @@ class ArticleController extends \Webvaloa\Application
                 throw new UnexpectedValueException('Malformed category id');
             }
 
-            $q .= " AND content_category.category_id = ? ";
+            $q .= ' AND content_category.category_id = ? ';
         }
 
         // Count articles
@@ -97,7 +95,7 @@ class ArticleController extends \Webvaloa\Application
         $stmt = $this->db->prepare($queryCount);
         try {
             if (isset($_GET['search']) && !empty($_GET['search'])) {
-                $stmt->set('%' . $_GET['search'] . '%');
+                $stmt->set('%'.$_GET['search'].'%');
             }
 
             if ($category_id) {
@@ -108,10 +106,9 @@ class ArticleController extends \Webvaloa\Application
             $row = $stmt->fetch();
             $count = (int) $row->c;
         } catch (Exception $e) {
-
         }
 
-        $pagination = new Pagination;
+        $pagination = new Pagination();
         $this->view->pages = $pagination->pages((int) $page, $count);
         $this->view->pages->url = '/content_article/';
 
@@ -130,7 +127,7 @@ class ArticleController extends \Webvaloa\Application
         $stmt = $this->db->prepare($query);
         try {
             if (isset($_GET['search']) && !empty($_GET['search'])) {
-                $stmt->set('%' . $_GET['search'] . '%');
+                $stmt->set('%'.$_GET['search'].'%');
             }
 
             if ($category_id) {
@@ -140,9 +137,7 @@ class ArticleController extends \Webvaloa\Application
             $stmt->execute();
             $this->view->articles = $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
-
     }
 
     public function trash($id = false)
@@ -171,11 +166,11 @@ class ArticleController extends \Webvaloa\Application
         $this->view->category_id = $this->view->categoryID = $categoryID;
         $this->view->categories = $category->categories();
 
-        $this->view->article = new stdClass;
+        $this->view->article = new stdClass();
         $this->view->article->published = 0;
 
         // Unset redirect on save when adding new article
-        if(isset($_SESSION['onSaveRedirect'])) {
+        if (isset($_SESSION['onSaveRedirect'])) {
             unset($_SESSION['onSaveRedirect']);
         }
 
@@ -203,13 +198,13 @@ class ArticleController extends \Webvaloa\Application
             $l = strlen($url);
 
             // The referer must match the base uri for redirect
-            if(substr($_SERVER['HTTP_REFERER'], 0, $l) == $url) {
+            if (substr($_SERVER['HTTP_REFERER'], 0, $l) == $url) {
                 $_SESSION['onSaveRedirect'] = $_SERVER['HTTP_REFERER'];
 
                 $this->view->onSaveRedirect = $_SESSION['onSaveRedirect'];
             }
         } else {
-            if(isset($_SESSION['onSaveRedirect'])) {
+            if (isset($_SESSION['onSaveRedirect'])) {
                 unset($_SESSION['onSaveRedirect']);
             }
         }
@@ -218,14 +213,14 @@ class ArticleController extends \Webvaloa\Application
         $association = new ArticleAssociation($articleID);
         $association->setLocale(\Webvaloa\Webvaloa::getLocale());
 
-        Debug::__print('Assocation: article id ' . $articleID);
+        Debug::__print('Assocation: article id '.$articleID);
 
         // Create association if it doesn't exist
         if (!$associatedID = $association->getAssociatedId()) {
             $associatedID = $association->createAssociation();
         }
 
-        Debug::__print('Assocation: article id after association check for ' . $associatedID);
+        Debug::__print('Assocation: article id after association check for '.$associatedID);
 
         $this->view->title = \Webvaloa\Webvaloa::translate('EDIT_ARTICLE');
         $this->view->articleID = $this->view->article_id = $articleID;
@@ -249,7 +244,7 @@ class ArticleController extends \Webvaloa\Application
 
         // Load earlier version of article view. Just overwrite the view
         if (isset($_GET['version']) && is_numeric($_GET['version']) && is_numeric($articleID)) {
-            $v = new Version;
+            $v = new Version();
             if ($view = $v->loadVersion($_GET['version'])) {
                 $this->view = $view;
             }
@@ -257,13 +252,12 @@ class ArticleController extends \Webvaloa\Application
 
         // Load version history
         if (is_numeric($articleID)) {
-            $v = new Version;
+            $v = new Version();
             $v->target_table = 'content';
             $v->target_id = $articleID;
             try {
                 $this->view->history = $v->getVersions();
             } catch (Exception $e) {
-
             }
         }
     }
@@ -306,7 +300,7 @@ class ArticleController extends \Webvaloa\Application
             if (isset($_SESSION['__previous_version'])) {
                 // Save previous view
                 if ($_POST['article_id'] == $_SESSION['__previous_version']->article->id) {
-                    $v = new Version;
+                    $v = new Version();
                     $v->target_table = 'content';
                     $v->target_id = $_POST['article_id'];
                     $v->content = $_SESSION['__previous_version'];
@@ -321,14 +315,14 @@ class ArticleController extends \Webvaloa\Application
                 $association = new ArticleAssociation($_POST['article_id']);
                 $association->setLocale(\Webvaloa\Webvaloa::getLocale());
 
-                Debug::__print('Assocation: article id ' . $_POST['article_id']);
+                Debug::__print('Assocation: article id '.$_POST['article_id']);
 
                 // Create association if it doesn't exist
                 if (!$associatedID = $association->getAssociatedId()) {
                     $associatedID = $association->createAssociation();
                 }
 
-                Debug::__print('Assocation: article id after association check for ' . $associatedID);
+                Debug::__print('Assocation: article id after association check for '.$associatedID);
             }
 
             // Save article
@@ -382,7 +376,7 @@ class ArticleController extends \Webvaloa\Application
 
             $skip = array(
                 'article_id',
-                'category_id'
+                'category_id',
             );
 
             // Drop old fields
@@ -418,7 +412,7 @@ class ArticleController extends \Webvaloa\Application
                     }
 
                     // Find field id
-                    $field = new Field;
+                    $field = new Field();
                     $f = $field->findByName($k);
                     $fieldID = $f->id;
 
@@ -437,7 +431,7 @@ class ArticleController extends \Webvaloa\Application
             if (isset($_POST['publish_up'])) {
                 $article->setPublishUp($_POST['publish_up']);
             }
-            if(isset($_POST['publish_down'])) {
+            if (isset($_POST['publish_down'])) {
                 $article->setPublishDown($_POST['publish_down']);
             }
 
@@ -458,13 +452,13 @@ class ArticleController extends \Webvaloa\Application
             Redirect::to('content_article/globals');
         } else {
             // Redirect back to referer
-            if(isset($_SESSION['onSaveRedirect']) && !empty($_SESSION['onSaveRedirect'])) {
+            if (isset($_SESSION['onSaveRedirect']) && !empty($_SESSION['onSaveRedirect'])) {
                 $url = $_SESSION['onSaveRedirect'];
                 unset($_SESSION['onSaveRedirect']);
                 Redirect::to($url);
             } else {
                 // Default redirect, black to edit view
-                Redirect::to('content_article/edit/' . $id);
+                Redirect::to('content_article/edit/'.$id);
             }
         }
     }
@@ -484,17 +478,17 @@ class ArticleController extends \Webvaloa\Application
         foreach ($groups as $k => $v) {
             // Keep index by field group id
             if (@!isset($index[$v->field_group_id])) {
-                $groupindex[$v] = new stdClass;
+                $groupindex[$v] = new stdClass();
                 $groupindex[$v]->i = 0;
             }
             $i = $groupindex[$v]->i;
 
             if (!isset($repeatables[$v])) {
-                $repeatables[$v] = new stdClass;
+                $repeatables[$v] = new stdClass();
             }
 
             if (!isset($repeatables[$v]->repeatable[$i])) {
-                $repeatables[$v]->repeatable[$i] = new stdClass;
+                $repeatables[$v]->repeatable[$i] = new stdClass();
             }
 
             foreach ($fields as $field) {
@@ -507,7 +501,7 @@ class ArticleController extends \Webvaloa\Application
                 $repeatables[$v]->repeatable[$i]->fields[$field->name]->values[0] = '';
 
                 // Get params
-                $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+                $fieldClass = '\Webvaloa\Field\Fields\\'.$field->type;
 
                 // Articleid not set when adding new one
                 if (!isset($this->view->articleID)) {
@@ -530,17 +524,17 @@ class ArticleController extends \Webvaloa\Application
             foreach ($this->view->article->fieldValues as $repeatable => $v) {
                 // Keep index by field group id
                 if (!isset($index[$v->field_group_id])) {
-                    $index[$v->field_group_id] = new stdClass;
+                    $index[$v->field_group_id] = new stdClass();
                     $index[$v->field_group_id]->i = 0;
                 }
                 $i = $index[$v->field_group_id]->i;
 
                 if (!isset($repeatables[$v->field_group_id])) {
-                    $repeatables[$v->field_group_id] = new stdClass;
+                    $repeatables[$v->field_group_id] = new stdClass();
                 }
 
                 if (!isset($repeatables[$v->field_group_id]->repeatable[$i])) {
-                    $repeatables[$v->field_group_id]->repeatable[$i] = new stdClass;
+                    $repeatables[$v->field_group_id]->repeatable[$i] = new stdClass();
                 }
 
                 // First group is always guaranteed to have initial field schema.
@@ -573,7 +567,7 @@ class ArticleController extends \Webvaloa\Application
 
                     foreach ($field as $_fieldName => $_fieldValue) {
                         if (!isset($repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName])) {
-                            $repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName] = new stdClass;
+                            $repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName] = new stdClass();
                         }
 
                         $repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName]->$_fieldName = $_fieldValue;
@@ -590,7 +584,7 @@ class ArticleController extends \Webvaloa\Application
             try {
                 $group = new Group($v);
 
-                $tmp[$v] = new stdClass;
+                $tmp[$v] = new stdClass();
                 $tmp[$v]->id = $v;
                 $tmp[$v]->uniqid = uniqid();
                 $tmp[$v]->name = $group->name;
@@ -614,9 +608,9 @@ class ArticleController extends \Webvaloa\Application
         // Get unique field types and include their media
         $this->view->fieldTypes = array_unique($this->view->fieldTypes);
         foreach ($this->view->fieldTypes as $k => $type) {
-            $this->ui->addJS('/js/Fields/' . $type . '.js');
+            $this->ui->addJS('/js/Fields/'.$type.'.js');
 
-            $fieldClass = '\Webvaloa\Field\Fields\\' . $type;
+            $fieldClass = '\Webvaloa\Field\Fields\\'.$type;
             $f = new $fieldClass();
 
             // Get field media
@@ -640,7 +634,7 @@ class ArticleController extends \Webvaloa\Application
     }
 
     /**
-     * Helper to return field parameters as JSON
+     * Helper to return field parameters as JSON.
      */
     public function fieldParams($fieldID = false, $articleID = false)
     {
@@ -653,11 +647,10 @@ class ArticleController extends \Webvaloa\Application
             exit;
         }
 
-        $fieldClass = '\Webvaloa\Field\Fields\\' . $type;
+        $fieldClass = '\Webvaloa\Field\Fields\\'.$type;
         $f = new $fieldClass($fieldID, $articleID);
 
         $p = $f->getParams();
         Response::JSON($p);
     }
-
 }

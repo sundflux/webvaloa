@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace Webvaloa\Field\Fields;
 
 class Separator
 {
-
     private $field;
 
     public function __construct($fieldID = false)
@@ -54,7 +54,7 @@ class Separator
     public function getTemplate()
     {
         return array(
-            'Separator'
+            'Separator',
         );
     }
 
@@ -67,5 +67,4 @@ class Separator
     {
         return '';
     }
-
 }

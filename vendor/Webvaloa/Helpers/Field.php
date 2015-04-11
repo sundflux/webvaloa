@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2015 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,12 +32,10 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Db;
 use Libvaloa\Debug;
 
 class Field
 {
-
     public function formatName($name)
     {
         $name = trim($name);
@@ -57,8 +56,8 @@ class Field
         }
 
         $query = '
-            SELECT COUNT(id) as c 
-            FROM ' . $table . '
+            SELECT COUNT(id) as c
+            FROM '.$table.'
             WHERE name = ?';
 
         $stmt = $db->prepare($query);
@@ -67,8 +66,9 @@ class Field
         try {
             $stmt->execute();
             $row = $stmt->fetch();
+
             return $row->c;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             Debug::__print($e->getMessage());
         }
 
@@ -80,5 +80,4 @@ class Field
     {
         return $this->fieldExists($name, true);
     }
-
 }

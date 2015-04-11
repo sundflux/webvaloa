@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,10 +34,8 @@ namespace ValoaApplication\Controllers\Login;
 
 class KeepaliveController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
-
     }
 
     public function index()
@@ -50,5 +49,4 @@ class KeepaliveController extends \Webvaloa\Application
 
         exit; // Exit, we don't need to render UI
     }
-
 }

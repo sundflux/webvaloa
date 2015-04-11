@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +34,6 @@ namespace ValoaApplication\Controllers\Extension;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Security;
 use Webvaloa\Component;
 use Webvaloa\Configuration;
@@ -42,18 +42,16 @@ use Webvaloa\Plugin;
 
 class InstallController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
-
     }
 
     public function index()
     {
-        $component = new Component;
+        $component = new Component();
         $this->view->components = $component->discover();
 
-        $plugin = new Plugin;
+        $plugin = new Plugin();
         $this->view->plugins = $plugin->discover();
 
         if (empty($this->view->components) && empty($this->view->plugins)) {
@@ -88,7 +86,7 @@ class InstallController extends \Webvaloa\Application
                 foreach ($tmp as $k => $v) {
                     foreach ($v as $configurationKey => $configurationValue) {
                         $configuration->{$configurationKey} = $configurationValue;
-                        Debug::__print('Inserted ' . $configurationKey . ' with value ' . $configurationValue);
+                        Debug::__print('Inserted '.$configurationKey.' with value '.$configurationValue);
                     }
                 }
             }
@@ -98,5 +96,4 @@ class InstallController extends \Webvaloa\Application
 
         Redirect::to('extension_install');
     }
-
 }

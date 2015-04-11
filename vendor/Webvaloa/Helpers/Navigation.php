@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,23 +32,19 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Db;
-
 use stdClass;
 
 class Navigation
 {
-
     public function __construct()
     {
-
     }
 
     public function get()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $navi = new stdClass;
+        $navi = new stdClass();
         $navi->sub = array();
 
         $query = '
@@ -66,7 +63,6 @@ class Navigation
                 if (!is_null($row->parent_id)) {
                     $navi->sub[$row->parent_id]->sub[] = $row;
                 }
-
             }
 
             foreach ($navi->sub as $k => $v) {
@@ -77,8 +73,6 @@ class Navigation
 
             return $navi;
         } catch (Exception $e) {
-
         }
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -39,7 +40,6 @@ use Exception;
  */
 class Security
 {
-
     public static function verify()
     {
         self::verifyReferer();
@@ -54,13 +54,13 @@ class Security
     public static function verifyToken()
     {
         if (!isset($_GET['token']) && !isset($_POST['token'])) {
-            throw new Exception("Unable to locate security token.");
+            throw new Exception('Unable to locate security token.');
         }
 
         $token = self::getToken();
 
         if ((isset($_GET['token']) && $_GET['token'] != $token) && (isset($_POST['token']) && $_POST['token'] != $token)) {
-            throw new Exception("Unable to verify security token.");
+            throw new Exception('Unable to verify security token.');
         }
     }
 
@@ -81,30 +81,29 @@ class Security
         $referer = $_SERVER['HTTP_REFERER'];
 
         if (empty($referer)) {
-            throw new Exception("Unable to verify origin.");
+            throw new Exception('Unable to verify origin.');
         }
 
-        $request = new Request;
+        $request = new Request();
         $origin = $request->getBaseUri();
         $tmp = substr($origin, 0, strlen($origin));
 
         if ($tmp != $origin) {
-            throw new Exception("Unable to verify origin.");
+            throw new Exception('Unable to verify origin.');
         }
     }
 
     /**
-     * Get security token
+     * Get security token.
      *
      * @return type
      */
     public static function getToken()
     {
         if (!isset($_SESSION['token'])) {
-             $_SESSION['token'] = sha1(session_id());
+            $_SESSION['token'] = sha1(session_id());
         }
 
         return $_SESSION['token'];
     }
-
 }

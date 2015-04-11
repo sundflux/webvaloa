@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -39,7 +40,6 @@ use stdClass;
  */
 class SessionCache
 {
-
     private $time;
     private $cache;
 
@@ -50,11 +50,11 @@ class SessionCache
     {
         $this->time = time();
 
-        if (!isset($_SESSION["cache"])) {
-            $_SESSION["cache"] = new stdClass;
+        if (!isset($_SESSION['cache'])) {
+            $_SESSION['cache'] = new stdClass();
         }
 
-        if(class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['cache_time'])
+        if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['cache_time'])
                 && !empty(\Webvaloa\config::$properties['cache_time'])) {
             $this->expires = \Webvaloa\config::$properties['cache_time'];
         }
@@ -62,10 +62,11 @@ class SessionCache
 
     /**
      * Set key/value pair to global memcached caching scope.
-     * Alias for set()
+     * Alias for set().
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function __set($key, $value)
@@ -75,9 +76,10 @@ class SessionCache
 
     /**
      * Get global cache value by key.
-     * Alias for get()
+     * Alias for get().
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -88,20 +90,21 @@ class SessionCache
     /**
      * Set key/value pair to global memcached caching scope.
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function set($key, $value)
     {
-        if (!isset($_SESSION["cache"])) {
-            $_SESSION["cache"] = new stdClass;
+        if (!isset($_SESSION['cache'])) {
+            $_SESSION['cache'] = new stdClass();
         }
 
-        $_SESSION["cache"]->{$key} = new stdClass;
-        $_SESSION["cache"]->{$key}->key = $key;
-        $_SESSION["cache"]->{$key}->value = $value;
-        $_SESSION["cache"]->{$key}->expires = $this->time + $this->expires;
+        $_SESSION['cache']->{$key} = new stdClass();
+        $_SESSION['cache']->{$key}->key = $key;
+        $_SESSION['cache']->{$key}->value = $value;
+        $_SESSION['cache']->{$key}->expires = $this->time + $this->expires;
 
         return $value;
     }
@@ -109,24 +112,25 @@ class SessionCache
     /**
      * Get global cache value by key.
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function get($key)
     {
-        if (isset($_SESSION["cache"]->{$key})) {
-            if ($_SESSION["cache"]->{$key}->expires > $this->time) {
-                return $_SESSION["cache"]->{$key}->value;
+        if (isset($_SESSION['cache']->{$key})) {
+            if ($_SESSION['cache']->{$key}->expires > $this->time) {
+                return $_SESSION['cache']->{$key}->value;
             }
 
-            unset($_SESSION["cache"]->{$key});
+            unset($_SESSION['cache']->{$key});
         }
 
         return false;
     }
 
     /**
-     * Session cache is always local, so just alias to set()
+     * Session cache is always local, so just alias to set().
      */
     public function _set($key, $value)
     {
@@ -134,7 +138,7 @@ class SessionCache
     }
 
     /**
-     * Session cache is always local, so just alias to get()
+     * Session cache is always local, so just alias to get().
      */
     public function _get($key)
     {
@@ -150,5 +154,4 @@ class SessionCache
     {
         // TODO
     }
-
 }

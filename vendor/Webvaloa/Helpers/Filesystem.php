@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -39,7 +40,6 @@ use RuntimeException;
 
 class Filesystem
 {
-
     private $path;
     private $files;
     private $folders;
@@ -62,11 +62,11 @@ class Filesystem
             if ($fileInfo->isDir()) {
                 $this->folders[] = $fileInfo->getFilename();
             } else {
-                $tmp = new stdClass;
+                $tmp = new stdClass();
                 $tmp->filename = $fileInfo->getFilename();
-                $tmp->fileinfo = pathinfo($this->path . '/' . $tmp->filename);
-                $tmp->fullpath = $tmp->fileinfo['dirname'] . '/' . $tmp->fileinfo['basename'];
-                $tmp->filesize = $this->formatFilesize(filesize($this->path . '/' . $tmp->filename));
+                $tmp->fileinfo = pathinfo($this->path.'/'.$tmp->filename);
+                $tmp->fullpath = $tmp->fileinfo['dirname'].'/'.$tmp->fileinfo['basename'];
+                $tmp->filesize = $this->formatFilesize(filesize($this->path.'/'.$tmp->filename));
                 $tmp->extension = $tmp->fileinfo['extension'];
                 $this->files[] = $tmp;
             }
@@ -75,7 +75,7 @@ class Filesystem
 
     public function createDirectory($n)
     {
-        return mkdir($this->path . '/'. $n);
+        return mkdir($this->path.'/'.$n);
     }
 
     public function files()
@@ -93,20 +93,20 @@ class Filesystem
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
     }
 
     public function getAvailableFilename($dir, $file)
     {
         $i = 0;
         $f = $file;
-        while (file_exists($dir . $f)) {
+        while (file_exists($dir.$f)) {
             $i++;
-            $fileInfo = pathinfo($dir . $f);
-            $f = $fileInfo['filename'] . '-' . $i . '.' . $fileInfo['extension'];
+            $fileInfo = pathinfo($dir.$f);
+            $f = $fileInfo['filename'].'-'.$i.'.'.$fileInfo['extension'];
         }
 
-        return $dir . $f;
+        return $dir.$f;
     }
 
     public function getChildren()
@@ -115,7 +115,6 @@ class Filesystem
             new RecursiveDirectoryIterator($this->path,
                 RecursiveDirectoryIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::CHILD_FIRST) as $dir => $fileInfo) {
-
             if ($fileInfo->isDir()) {
                 $children[] = str_replace($this->path, '', $dir);
             }
@@ -139,8 +138,8 @@ class Filesystem
 
     public function delete($filename)
     {
-        $path = pathinfo($this->path . '/' . $filename);
-        $_filename = realpath($this->path) . '/' . $path['basename'];
+        $path = pathinfo($this->path.'/'.$filename);
+        $_filename = realpath($this->path).'/'.$path['basename'];
 
         if (!file_exists($_filename)) {
             throw new RuntimeException('File not found');
@@ -154,8 +153,8 @@ class Filesystem
         // Based on techniques described here:
         // http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
 
-        $path = pathinfo($this->path . '/' . $filename);
-        $_filename = realpath($this->path) . '/' . $path['basename'];
+        $path = pathinfo($this->path.'/'.$filename);
+        $_filename = realpath($this->path).'/'.$path['basename'];
 
         if (!file_exists($_filename)) {
             throw new RuntimeException('File not found');
@@ -168,7 +167,7 @@ class Filesystem
         $size = filesize($_filename);
         $time = date('r', filemtime($_filename));
 
-        $handle = @fopen($_filename,'rb');
+        $handle = @fopen($_filename, 'rb');
         if (!$handle) {
             throw new RuntimeException('Could not read file');
         }
@@ -196,14 +195,14 @@ class Filesystem
             header('HTTP/1.0 200 OK');
         }
 
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: no-cache');
         header('Accept-Ranges: bytes');
-        header('Content-Length: ' . ($end - $begin));
-        header('Content-Range: bytes '. ($begin - $end / $size));
-        header('Content-Disposition: inline; filename="' . $filename . '"');
-        header('Content-Type: ' . $mimetype);
-        header('Last-Modified: ' . $time);
+        header('Content-Length: '.($end - $begin));
+        header('Content-Range: bytes '.($begin - $end / $size));
+        header('Content-Disposition: inline; filename="'.$filename.'"');
+        header('Content-Type: '.$mimetype);
+        header('Last-Modified: '.$time);
         header('Connection: close');
 
         $cur = $begin;
@@ -213,5 +212,4 @@ class Filesystem
             $cur += 1024 * 16;
         }
     }
-
 }

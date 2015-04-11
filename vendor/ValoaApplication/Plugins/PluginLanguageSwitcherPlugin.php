@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -36,18 +37,17 @@ use Webvaloa\Locale\Locales;
 use Webvaloa\Configuration;
 
 /**
- * Plugin to switch language on-fly
+ * Plugin to switch language on-fly.
  */
 class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
 {
-
     /**
      * Change the language before running the controller.
      */
     public function onBeforeController()
     {
         if (isset($_GET['locale'])) {
-            $locales = new Locales;
+            $locales = new Locales();
             $l = $locales->locales();
 
             if (in_array($_GET['locale'], $l)) {
@@ -63,7 +63,7 @@ class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
         }
 
         // Load default locale to session
-        $config = new Configuration;
+        $config = new Configuration();
         $default = $config->locale;
 
         if (!$default || empty($default)) {
@@ -73,5 +73,4 @@ class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
 
         $_SESSION['locale'] = $default;
     }
-
 }

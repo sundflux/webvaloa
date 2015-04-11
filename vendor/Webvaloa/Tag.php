@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -34,24 +35,20 @@ namespace Webvaloa;
 use Libvaloa\Db;
 
 /**
- * Handles Webvaloa tags
+ * Handles Webvaloa tags.
  */
 class Tag
 {
-
     public function __construct()
     {
-
     }
 
     public function __set($k, $v)
     {
-
     }
 
     public function __get($k)
     {
-
     }
 
     public function byID($id)
@@ -75,7 +72,6 @@ class Tag
                 return $row;
             }
         } catch (Exception $e) {
-
         }
 
         return false;
@@ -96,7 +92,6 @@ class Tag
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -107,14 +102,14 @@ class Tag
         if ($parent_id !== null) {
             $q = 'AND tag.parent_id = ?';
         } else {
-            $q = "AND tag.parent_id IS NULL";
+            $q = 'AND tag.parent_id IS NULL';
         }
 
         $query = '
             SELECT tag.*
             FROM tag
             WHERE tag.tag = ?
-            ' . $q . '
+            '.$q.'
             LIMIT 1';
 
         $stmt = $db->prepare($query);
@@ -132,7 +127,6 @@ class Tag
                 return $row;
             }
         } catch (Exception $e) {
-
         }
 
         return false;
@@ -162,7 +156,7 @@ class Tag
             FROM tag';
 
         $byParent = false;
-        if (is_numeric($parent_id) || is_array($parent_id)) {
+        if (is_numeric($parent_id) ||  is_array($parent_id)) {
             if (!is_array($parent_id)) {
                 $tags = (array) $parent_id;
             }
@@ -173,7 +167,7 @@ class Tag
                 }
             }
 
-            $query .= " WHERE parent_id IN(". implode(',', $parent_id) .")";
+            $query .= ' WHERE parent_id IN('.implode(',', $parent_id).')';
 
             $byParent = true;
         }
@@ -185,10 +179,8 @@ class Tag
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
 
         return false;
     }
-
 }

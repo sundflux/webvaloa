@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,7 +33,6 @@
 namespace ValoaApplication\Controllers\Article;
 
 use Libvaloa\Debug;
-
 use Webvaloa\Cache;
 use Webvaloa\Article;
 use Webvaloa\Category;
@@ -46,20 +45,20 @@ class ViewController extends \Webvaloa\Application
 
     public function __construct()
     {
-        $this->cache = new Cache;
+        $this->cache = new Cache();
     }
 
     public function index($id = false)
     {
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
-            $query = "
+            $query = '
                 SELECT id
                 FROM content
                 WHERE alias = ?
                 AND published = 1
                 AND locale = ?
-                ORDER BY id DESC";
+                ORDER BY id DESC';
 
             $stmt = $this->db->prepare($query);
             $stmt->set($id);
@@ -72,7 +71,7 @@ class ViewController extends \Webvaloa\Application
         }
 
         if (!$id || !is_numeric($id)) {
-            header("HTTP/1.0 404 Not Found");
+            header('HTTP/1.0 404 Not Found');
             exit;
         }
 
@@ -97,7 +96,7 @@ class ViewController extends \Webvaloa\Application
 
         // Template override
         if ($tmp = $category->getTemplate()) {
-            $tmp = str_replace('.xsl', '' ,$tmp);
+            $tmp = str_replace('.xsl', '', $tmp);
             if ($tmp && !empty($tmp)) {
                 $this->ui->properties['override_template'] = $tmp;
             }
@@ -105,7 +104,7 @@ class ViewController extends \Webvaloa\Application
 
         // Layout override
         if ($tmp = $category->getLayout()) {
-            $tmp = str_replace('.xsl', '' ,$tmp);
+            $tmp = str_replace('.xsl', '', $tmp);
             if ($tmp && !empty($tmp)) {
                 $this->ui->properties['override_layout'] = $tmp;
             }
@@ -113,5 +112,4 @@ class ViewController extends \Webvaloa\Application
 
         Debug::__print($this->view->article);
     }
-
 }

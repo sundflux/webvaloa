@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -37,7 +38,6 @@ use stdClass;
 
 class Field
 {
-
     private $object;
     private $fieldID;
     private $contentID;
@@ -78,11 +78,11 @@ class Field
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT *
             FROM field
             WHERE name = ?
-            LIMIT 1";
+            LIMIT 1';
 
         $stmt = $db->prepare($query);
         $stmt->set($name);
@@ -98,20 +98,19 @@ class Field
             // Field with this name not found
             return false;
         } catch (Exception $e) {
-
         }
     }
 
     public function fields()
     {
-        $search[] = LIBVALOA_INSTALLPATH . "/Webvaloa/Field/Fields";
-        $search[] = LIBVALOA_EXTENSIONSPATH . "/Webvaloa/Field/Fields";
+        $search[] = LIBVALOA_INSTALLPATH.'/Webvaloa/Field/Fields';
+        $search[] = LIBVALOA_EXTENSIONSPATH.'/Webvaloa/Field/Fields';
 
         foreach ($search as $path) {
             Debug::__print($path);
             if ($handle = opendir($path)) {
                 while (false !== ($entry = readdir($handle))) {
-                    if (substr($entry, -4) == ".php") {
+                    if (substr($entry, -4) == '.php') {
                         $this->fields[] = substr($entry, 0, -4);
                     }
                 }
@@ -132,7 +131,7 @@ class Field
         $fields = $this->fields();
 
         foreach ($fields as $k => $v) {
-            $fieldClass = '\Webvaloa\Field\Fields\\' . $v;
+            $fieldClass = '\Webvaloa\Field\Fields\\'.$v;
 
             $f = new $fieldClass();
 
@@ -144,7 +143,7 @@ class Field
                 }
             }
 
-            $fieldSettings = new stdClass;
+            $fieldSettings = new stdClass();
             $fieldSettings->field = $v;
             $fieldSettings->settings = $f->getSettings();
             $retval[] = $fieldSettings;
@@ -156,5 +155,4 @@ class Field
 
         return false;
     }
-
 }

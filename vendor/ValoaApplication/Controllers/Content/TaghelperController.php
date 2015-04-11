@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -36,10 +37,8 @@ use Webvaloa\Helpers\Article as ArticleHelper;
 
 class TaghelperController extends \Webvaloa\Application
 {
-
     public function index()
     {
         Response::JSON(ArticleHelper::tags());
     }
-
 }

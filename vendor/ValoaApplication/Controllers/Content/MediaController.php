@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,16 +33,13 @@
 namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Security;
 use Webvaloa\Helpers\Filesystem;
-
 use UnexpectedValueException;
 use RuntimeException;
 
 class MediaController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
         if ($this->request->isAjax()) {
@@ -72,7 +70,7 @@ class MediaController extends \Webvaloa\Application
         $_SESSION['upload_subdir'] = $srcPath = $this->formatPath($srcPath);
         $this->view->currentPath = $srcPath;
 
-        $path = realpath($this->view->mediaPath. '/' . $srcPath);
+        $path = realpath($this->view->mediaPath.'/'.$srcPath);
         if (file_exists($path)) {
             $fs = new Filesystem($path);
             $this->view->files = $fs->files();
@@ -96,7 +94,7 @@ class MediaController extends \Webvaloa\Application
             $this->view->uploadPath = $this->formatPath($_SESSION['upload_subdir']);
         }
 
-        $this->view->path = str_replace(WEBVALOA_BASEDIR, '', $this->view->mediaPath . '/' . $this->view->uploadPath);
+        $this->view->path = str_replace(WEBVALOA_BASEDIR, '', $this->view->mediaPath.'/'.$this->view->uploadPath);
     }
 
     public function delete()
@@ -113,8 +111,8 @@ class MediaController extends \Webvaloa\Application
                 $uploadPath = $this->formatPath($_SESSION['upload_subdir']);
             }
 
-            $path = realpath($this->view->mediaPath . '/' . $uploadPath);
-            $filename = $path . DIRECTORY_SEPARATOR . $file;
+            $path = realpath($this->view->mediaPath.'/'.$uploadPath);
+            $filename = $path.DIRECTORY_SEPARATOR.$file;
 
             $pos = strpos($filename, $this->view->mediaPath);
             if ($pos === false) {
@@ -138,7 +136,7 @@ class MediaController extends \Webvaloa\Application
                 $uploadPath = $this->formatPath($_SESSION['upload_subdir']);
             }
 
-            $path = realpath($this->view->mediaPath . '/' . $uploadPath);
+            $path = realpath($this->view->mediaPath.'/'.$uploadPath);
 
             $pos = strpos($pos, $this->view->mediaPath);
             if ($pos === false) {
@@ -166,25 +164,25 @@ class MediaController extends \Webvaloa\Application
             $a = $this->formatPath($_SESSION['upload_subdir']);
         }
 
-        $dir = $this->view->mediaPath . '/' . $a;
+        $dir = $this->view->mediaPath.'/'.$a;
 
-        if (isset($_FILES["files"])) {
+        if (isset($_FILES['files'])) {
             $ret = array();
-            $error = $_FILES["files"]["error"];
+            $error = $_FILES['files']['error'];
 
-            if (!is_array($_FILES["files"]["name"])) {
-                $filename = $_FILES["files"]["name"];
+            if (!is_array($_FILES['files']['name'])) {
+                $filename = $_FILES['files']['name'];
 
-                move_uploaded_file($_FILES["files"]["tmp_name"], $fs->getAvailableFilename($dir, $filename));
+                move_uploaded_file($_FILES['files']['tmp_name'], $fs->getAvailableFilename($dir, $filename));
                 $ret[] = $filename;
             } else {
-                $fileCount = count($_FILES["files"]["name"]);
+                $fileCount = count($_FILES['files']['name']);
 
                 for ($i = 0; $i < $fileCount; $i++) {
-                    $filename = $_FILES["files"]["name"][$i];
+                    $filename = $_FILES['files']['name'][$i];
 
-                    move_uploaded_file($_FILES["files"]["tmp_name"][$i], $fs->getAvailableFilename($dir, $filename));
-                    $ret[]= $filename;
+                    move_uploaded_file($_FILES['files']['tmp_name'][$i], $fs->getAvailableFilename($dir, $filename));
+                    $ret[] = $filename;
                 }
             }
 
@@ -205,17 +203,17 @@ class MediaController extends \Webvaloa\Application
             $a = $this->formatPath($_SESSION['upload_subdir']);
         }
 
-        $path = realpath($this->view->mediaPath . '/' . $a);
+        $path = realpath($this->view->mediaPath.'/'.$a);
         $fs = new Filesystem($path);
         if (isset($_POST['folder'])) {
             if ($fs->createDirectory($_POST['folder'])) {
                 $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ADDED_NEW_FOLDER'));
             } else {
-                $this->ui->addError(\Webvaloa\Webvaloa::translate('COULD_NOT_ADD_FOLDER') . ' ' .$path . '/' . $_POST['folder']);
+                $this->ui->addError(\Webvaloa\Webvaloa::translate('COULD_NOT_ADD_FOLDER').' '.$path.'/'.$_POST['folder']);
             }
         }
 
-        Redirect::to('content_media#/' . $a . $_POST['folder']);
+        Redirect::to('content_media#/'.$a.$_POST['folder']);
     }
 
     private function formatPath($p)
@@ -230,5 +228,4 @@ class MediaController extends \Webvaloa\Application
 
         return $p;
     }
-
 }

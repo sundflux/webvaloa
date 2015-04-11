@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,17 +34,14 @@ namespace ValoaApplication\Controllers\User;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Security;
 use Webvaloa\Helpers\Pagination;
-
 use RuntimeException;
 
 class UserController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
         $this->ui->addJS('/js/Loader.js');
@@ -53,35 +51,35 @@ class UserController extends \Webvaloa\Application
         $this->ui->addTemplate('pagination');
 
         $this->view->token = Security::getToken();
-        $this->role = new Role;
+        $this->role = new Role();
     }
 
     public function index($page = 1)
     {
-        $q = "";
+        $q = '';
 
         if (isset($_GET['search'])) {
             $this->view->search = $_GET['search'];
-            $q = " WHERE login LIKE ? OR email LIKE ? OR firstname LIKE ? or lastname LIKE ?";
+            $q = ' WHERE login LIKE ? OR email LIKE ? OR firstname LIKE ? or lastname LIKE ?';
         }
 
         $this->view->roles = $this->role->roles();
 
-        $pagination = new Pagination;
+        $pagination = new Pagination();
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('user'));
         $this->view->pages->url = '/user/';
 
         $query = $pagination->prepare('
             SELECT *
-            FROM user ' . $q);
+            FROM user '.$q);
 
         $stmt = $this->db->prepare($query);
         try {
             if (isset($q) && !empty($q)) {
-                $stmt->set('%' . $_GET['search'] . '%');
-                $stmt->set('%' . $_GET['search'] . '%');
-                $stmt->set('%' . $_GET['search'] . '%');
-                $stmt->set('%' . $_GET['search'] . '%');
+                $stmt->set('%'.$_GET['search'].'%');
+                $stmt->set('%'.$_GET['search'].'%');
+                $stmt->set('%'.$_GET['search'].'%');
+                $stmt->set('%'.$_GET['search'].'%');
             }
 
             $stmt->execute();
@@ -93,7 +91,6 @@ class UserController extends \Webvaloa\Application
                 $this->view->users[$k]->gravatar = '//www.gravatar.com/avatar/'.md5(strtolower(trim($v->email))).'?s=32';
             }
         } catch (Exception $e) {
-
         }
 
         if (isset($_SESSION['UserController'])) {
@@ -107,8 +104,8 @@ class UserController extends \Webvaloa\Application
         $this->view->user_id = $_SESSION['UserID'];
     }
 
-   public function edit()
-   {
+    public function edit()
+    {
         Security::verify();
 
         $_SESSION['UserController'] = $_POST;
@@ -129,7 +126,7 @@ class UserController extends \Webvaloa\Application
 
         $check = array(
             'password',
-            'password2'
+            'password2',
         );
 
         if (!empty($_POST['password']) && !empty($_POST['password2'])) {
@@ -172,7 +169,7 @@ class UserController extends \Webvaloa\Application
 
         $user->dropRoles();
 
-        $role = new Role;
+        $role = new Role();
         $user->addRole($role->getRoleID('Registered'));
 
         if (isset($_POST['roles'])) {
@@ -189,7 +186,7 @@ class UserController extends \Webvaloa\Application
 
     public function roles($userID = false)
     {
-        $role = new Role;
+        $role = new Role();
         $this->view->_roles = $role->roles();
         $this->view->_userid = $userID;
 
@@ -238,7 +235,7 @@ class UserController extends \Webvaloa\Application
 
         $check = array(
             'password',
-            'password2'
+            'password2',
         );
 
         foreach ($check as $k => $v) {
@@ -254,7 +251,7 @@ class UserController extends \Webvaloa\Application
         }
 
         // Create user
-        $user = new User;
+        $user = new User();
         $user->email = $_POST['email'];
 
         if (isset($_POST['username']) && !empty($_POST['username'])) {
@@ -278,7 +275,7 @@ class UserController extends \Webvaloa\Application
         // Add Registered role for the user
         $user = new User($userID);
 
-        $role = new Role;
+        $role = new Role();
         $user->addRole($role->getRoleID('Registered'));
 
         if (isset($_POST['roles'])) {
@@ -297,7 +294,7 @@ class UserController extends \Webvaloa\Application
     {
         Security::verify();
 
-        if ($id == $_SESSION["UserID"]) {
+        if ($id == $_SESSION['UserID']) {
             throw new RuntimeException(\Webvaloa\Webvaloa::translate('CANNOT_DELETE_SELF'));
         }
 
@@ -307,5 +304,4 @@ class UserController extends \Webvaloa\Application
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('USER_DELETED'));
         Redirect::to('user');
     }
-
 }

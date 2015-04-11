@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,16 +33,13 @@
 namespace ValoaApplication\Controllers\Extension;
 
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Plugin;
 use Webvaloa\Security;
 use Webvaloa\Helpers\Pagination;
-
 use UnexpectedValueException;
 
 class PluginController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
         $this->ui->addJS('/js/Extension_Plugin.js');
@@ -52,32 +50,31 @@ class PluginController extends \Webvaloa\Application
     {
         $this->view->token = Security::getToken();
 
-        $q = "";
+        $q = '';
 
         if (isset($_GET['search'])) {
             $this->view->search = $_GET['search'];
-            $q = " WHERE plugin LIKE ?";
+            $q = ' WHERE plugin LIKE ?';
         }
 
-        $pagination = new Pagination;
+        $pagination = new Pagination();
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('plugin'));
         $this->view->pages->url = '/extension_plugin/';
 
         $query = $pagination->prepare('
             SELECT *
-            FROM plugin ' . $q);
+            FROM plugin '.$q);
 
         $stmt = $this->db->prepare($query);
         try {
             if (isset($q) && !empty($q)) {
-                $stmt->set('%' . $_GET['search'] . '%');
+                $stmt->set('%'.$_GET['search'].'%');
             }
 
             $stmt->execute();
 
             $this->view->plugins = $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
 
@@ -122,7 +119,7 @@ class PluginController extends \Webvaloa\Application
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PLUGIN_ENABLED'));
         }
 
-        Redirect::to('extension_plugin/' . $page);
+        Redirect::to('extension_plugin/'.$page);
     }
 
     public function uninstall($plugin = false)
@@ -137,5 +134,4 @@ class PluginController extends \Webvaloa\Application
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PLUGIN_UNINSTALLED'));
         Redirect::to('extension_plugin');
     }
-
 }

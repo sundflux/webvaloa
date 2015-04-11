@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -32,19 +33,16 @@
 namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Controller\Redirect;
-
 use Webvaloa\Security;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Field as FieldHelper;
 use Webvaloa\Controller\Request\Response;
-
 use stdClass;
 
 class FieldController extends \Webvaloa\Application
 {
-
     public function __construct()
     {
         $this->ui->addJS('/jquery/plugins/jquery.sortable.js');
@@ -64,7 +62,7 @@ class FieldController extends \Webvaloa\Application
 
         foreach ($groups as $k => $v) {
             $group = new Group($v->id);
-            $this->view->groups[$v->id] = new stdClass;
+            $this->view->groups[$v->id] = new stdClass();
             $this->view->groups[$v->id]->group = $v;
             $this->view->groups[$v->id]->fields = $group->fields();
         }
@@ -75,8 +73,12 @@ class FieldController extends \Webvaloa\Application
         $group = new Group($_POST['group_id']);
 
         $tmp = $group->global;
-        if($tmp == 1) $global = 0;
-        if($tmp == 0) $global = 1;
+        if ($tmp == 1) {
+            $global = 0;
+        }
+        if ($tmp == 0) {
+            $global = 1;
+        }
         $group->global = $global;
         $group->save();
 
@@ -88,8 +90,12 @@ class FieldController extends \Webvaloa\Application
         $group = new Group($_POST['group_id']);
 
         $tmp = $group->repeatable;
-        if($tmp == 1) $repeatable = 0;
-        if($tmp == 0) $repeatable = 1;
+        if ($tmp == 1) {
+            $repeatable = 0;
+        }
+        if ($tmp == 0) {
+            $repeatable = 1;
+        }
         $group->repeatable = $repeatable;
         $group->save();
 
@@ -100,7 +106,7 @@ class FieldController extends \Webvaloa\Application
     {
         $this->view->group_id = $group_id;
 
-        $category = new Category;
+        $category = new Category();
         $this->view->categories = $category->categories();
 
         // Load group data for editing
@@ -190,7 +196,7 @@ class FieldController extends \Webvaloa\Application
         $field->help_text = $_POST['help_text'];
         $field->ordering = $_POST['ordering'];
 
-        $postName = $field->type . 'Settings';
+        $postName = $field->type.'Settings';
         if (isset($_POST[$postName]) && !empty($_POST[$postName])) {
             $field->settings = json_encode($_POST[$postName]);
         }
@@ -253,9 +259,9 @@ class FieldController extends \Webvaloa\Application
 
     public function validategroup($name)
     {
-        $fieldHelper = new FieldHelper;
+        $fieldHelper = new FieldHelper();
 
-        $response = new stdClass;
+        $response = new stdClass();
         $response->formattedname = $fieldHelper->formatName($name);
         $response->exists = $fieldHelper->groupExists($response->formattedname);
 
@@ -264,13 +270,12 @@ class FieldController extends \Webvaloa\Application
 
     public function validatefield($name)
     {
-        $fieldHelper = new FieldHelper;
+        $fieldHelper = new FieldHelper();
 
-        $response = new stdClass;
+        $response = new stdClass();
         $response->formattedname = $fieldHelper->formatName($name);
         $response->exists = $fieldHelper->fieldExists($response->formattedname);
 
         Response::JSON($response);
     }
-
 }

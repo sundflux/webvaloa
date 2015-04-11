@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,22 +34,20 @@ namespace Webvaloa;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use RuntimeException;
 
 /**
- * Handles Webvaloa components
+ * Handles Webvaloa components.
  */
 class Component
 {
-
     private $id;
     private $controller;
     private $component;
     private $roles;
 
     public static $properties = array(
-        'vendor'              => 'ValoaApplication'
+        'vendor'              => 'ValoaApplication',
     );
 
     /**
@@ -94,10 +93,10 @@ class Component
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT controller
             FROM component
-            WHERE id = ?";
+            WHERE id = ?';
 
         try {
             $stmt = $db->prepare($query);
@@ -111,12 +110,11 @@ class Component
 
             $this->id = $componentID;
         } catch (Exception $e) {
-
         }
     }
 
     /**
-     * Loads component data
+     * Loads component data.
      */
     private function loadComponent()
     {
@@ -143,7 +141,6 @@ class Component
             $stmt->execute();
             $this->component = $stmt->fetch();
         } catch (Exception $e) {
-
         }
     }
 
@@ -171,7 +168,6 @@ class Component
                 $roles[] = $row->role_id;
             }
         } catch (Exception $e) {
-
         }
 
         if (isset($roles)) {
@@ -182,7 +178,7 @@ class Component
     }
 
     /**
-     * Return all components
+     * Return all components.
      *
      * @return type
      */
@@ -202,7 +198,6 @@ class Component
                 $components[] = $row;
             }
         } catch (Exception $e) {
-
         }
 
         if (isset($components)) {
@@ -215,14 +210,15 @@ class Component
     /**
      * Adds role to component.
      *
-     * @param  type $roleID
-     * @return int  roleid
+     * @param type $roleID
+     *
+     * @return int roleid
      */
     public function addRole($roleID)
     {
         $roles = $this->roles();
 
-        Debug::__print('Adding role ' . $roleID);
+        Debug::__print('Adding role '.$roleID);
 
         // Already has the role
         if (in_array($roleID, $roles)) {
@@ -262,9 +258,9 @@ class Component
         // Database connection
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM component_role
-            WHERE component_id = ?";
+            WHERE component_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->id);
@@ -272,7 +268,6 @@ class Component
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -289,7 +284,7 @@ class Component
     }
 
     /**
-     * Install a component
+     * Install a component.
      *
      * @return int ComponentID
      */
@@ -324,7 +319,7 @@ class Component
     }
 
     /**
-     * Uninstall a component
+     * Uninstall a component.
      */
     public function uninstall()
     {
@@ -338,9 +333,9 @@ class Component
         }
 
         // Uninstall the component
-        $query = "DELETE FROM component "
-                . "WHERE controller = ? "
-                . "AND system_component = 0";
+        $query = 'DELETE FROM component '
+                .'WHERE controller = ? '
+                .'AND system_component = 0';
 
         $stmt = $db->prepare($query);
         $stmt->set($this->controller);
@@ -355,7 +350,6 @@ class Component
             try {
                 $db->exec($query);
             } catch (Exception $e) {
-
             }
         }
     }
@@ -415,12 +409,12 @@ class Component
         }
 
         // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH . DIRECTORY_SEPARATOR . self::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Controllers';
-        $paths[] = LIBVALOA_EXTENSIONSPATH . DIRECTORY_SEPARATOR . self::$properties['vendor'] . DIRECTORY_SEPARATOR . 'Controllers';
+        $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers';
+        $paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers';
 
         $skip = array(
             '.',
-            '..'
+            '..',
         );
 
         $components = array_merge($components, $skip);
@@ -433,7 +427,7 @@ class Component
                         continue;
                     }
 
-                    if (file_exists($path . DIRECTORY_SEPARATOR . $entry . DIRECTORY_SEPARATOR . 'manifest.json') && !in_array($entry, $components)) {
+                    if (file_exists($path.DIRECTORY_SEPARATOR.$entry.DIRECTORY_SEPARATOR.'manifest.json') && !in_array($entry, $components)) {
                         $manifest = new Manifest($entry);
 
                         if ($manifest->anonymous == 1) {
@@ -460,5 +454,4 @@ class Component
 
         return array();
     }
-
 }

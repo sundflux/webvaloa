@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -39,7 +40,6 @@ use Webvaloa\Field\Value;
 
 class Dropdown
 {
-
     private $field;
     private $fieldID;
 
@@ -50,7 +50,7 @@ class Dropdown
         if (is_numeric($this->fieldID)) {
             $this->field = new Field($this->fieldID);
         } else {
-            $this->field = new stdClass;
+            $this->field = new stdClass();
         }
     }
 
@@ -67,7 +67,7 @@ class Dropdown
     public function getTemplate()
     {
         return array(
-            'Dropdown'
+            'Dropdown',
         );
     }
 
@@ -84,10 +84,10 @@ class Dropdown
                     Debug::__print($k);
                     Debug::__print($v);
 
-                    if ($k == "value") {
+                    if ($k == 'value') {
                         $keys = $v;
                     }
-                    if ($k == "text") {
+                    if ($k == 'text') {
                         $vals = $v;
                     }
                 }
@@ -99,7 +99,7 @@ class Dropdown
             $values = $value->getValues($this->fieldID);
 
             foreach ($keys as $k => $v) {
-                $d = new stdClass;
+                $d = new stdClass();
                 $d->key = $keys[$k];
                 $d->value = $vals[$k];
 
@@ -133,10 +133,10 @@ class Dropdown
                     Debug::__print($k);
                     Debug::__print($v);
 
-                    if ($k == "value") {
+                    if ($k == 'value') {
                         $keys = $v;
                     }
-                    if ($k == "text") {
+                    if ($k == 'text') {
                         $vals = $v;
                     }
                 }
@@ -257,5 +257,4 @@ class Dropdown
         // Return settings html
         return $dom->saveHTML();
     }
-
 }

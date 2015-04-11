@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -41,7 +42,6 @@ use Libvaloa\Debug;
 
 class Articlepicker
 {
-
     private $field;
 
     private $fieldID;
@@ -54,10 +54,10 @@ class Articlepicker
         if (is_numeric($this->fieldID)) {
             $this->field = new Field($this->fieldID);
 
-            Debug::__print('Loaded field ' . $this->fieldID);
+            Debug::__print('Loaded field '.$this->fieldID);
             Debug::__print($this->field);
         } else {
-            $this->field = new stdClass;
+            $this->field = new stdClass();
         }
     }
 
@@ -74,7 +74,7 @@ class Articlepicker
     public function getTemplate()
     {
         return array(
-            'Articlepicker'
+            'Articlepicker',
         );
     }
 
@@ -99,7 +99,7 @@ class Articlepicker
             $article = new Article(0);
             $articles = $article->getArticles($categoryID);
             foreach ($articles as $k => $v) {
-                $a = new stdClass;
+                $a = new stdClass();
                 $a->id = $v->id;
                 $a->title = $v->title;
 
@@ -121,7 +121,7 @@ class Articlepicker
     public function getSettings()
     {
         $dom = new DOMDocument();
-        $category = new Category;
+        $category = new Category();
         $categories = $category->categories();
 
         // Selected category from settings
@@ -169,5 +169,4 @@ class Articlepicker
         // Return settings html
         return $dom->saveHTML();
     }
-
 }

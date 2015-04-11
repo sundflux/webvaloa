@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -33,17 +34,15 @@ namespace Webvaloa;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
-
 use stdClass;
 use RuntimeException;
 use UnexpectedValueException;
 
 /**
- * Handles Webvaloa articles
+ * Handles Webvaloa articles.
  */
 class Article
 {
-
     public $article;
     private $loaded;
     private $fieldsloaded;
@@ -59,7 +58,7 @@ class Article
     {
         $this->loaded = false;
         $this->fieldsloaded = false;
-        $this->article = new stdClass;
+        $this->article = new stdClass();
 
         $this->article->id = $id;
         if (is_numeric($id) || $id === 0) {
@@ -99,7 +98,7 @@ class Article
             $this->loadFields();
         }
 
-        if ($k == "article") {
+        if ($k == 'article') {
             return $this->article;
         }
 
@@ -117,7 +116,7 @@ class Article
         }
 
         if (!is_numeric($this->article->id)) {
-            throw new RuntimeException('Article ' . $this->article->id . ' not loadable');
+            throw new RuntimeException('Article '.$this->article->id.' not loadable');
         }
 
         // Global group handling
@@ -129,11 +128,11 @@ class Article
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT *
             FROM content
             WHERE id = ?
-            AND published > -1";
+            AND published > -1';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->article->id);
@@ -170,9 +169,9 @@ class Article
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             UPDATE content SET title = ?
-            WHERE id = ?";
+            WHERE id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set($title);
@@ -196,16 +195,16 @@ class Article
         $values = array(
             -1,
             0,
-            1
+            1,
         );
 
         if (!in_array($i, $values)) {
             throw new OutOfBoundsException('Not a valid publish state');
         }
 
-        $query = "
+        $query = '
             UPDATE content SET published = ?
-            WHERE id = ?";
+            WHERE id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set($i);
@@ -218,12 +217,12 @@ class Article
         }
     }
 
-    public function setPublishUp($i) 
+    public function setPublishUp($i)
     {
         return $this->setPublish($i);
     }
 
-    public function setPublishDown($i) 
+    public function setPublishDown($i)
     {
         return $this->setPublish($i, true);
     }
@@ -236,7 +235,7 @@ class Article
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        if($down) {
+        if ($down) {
             $d = 'publish_down';
         } else {
             $d = 'publish_up';
@@ -245,7 +244,7 @@ class Article
         $query = "
             UPDATE content SET {$d} = ?
             WHERE id = ?";
-            
+
         $stmt = $db->prepare($query);
         $stmt->set($i);
         $stmt->set((int) $this->article->id);
@@ -261,9 +260,9 @@ class Article
         $db = \Webvaloa\Webvaloa::DBConnection();
         $id = (int) $id;
 
-        $query = "
+        $query = '
             UPDATE content SET associated_content_id = ?
-            WHERE id = ?";
+            WHERE id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set($id);
@@ -287,9 +286,9 @@ class Article
 
         $a = preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $a)));
 
-        $query = "
+        $query = '
             UPDATE content SET alias = ?
-            WHERE id = ?";
+            WHERE id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set($a);
@@ -312,13 +311,13 @@ class Article
             return;
         }
 
-        if ( (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) && $this->article->id != 0 ) {
+        if ((!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) && $this->article->id != 0) {
             throw new RuntimeException('Article not loadable');
         }
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT
                 field.id as field_id,
                 field.name as name,
@@ -337,7 +336,7 @@ class Article
                 field.id = content_field_value.field_id
                 AND content_field_value.locale = ?
                 AND content_field_value.content_id = ?
-                ORDER BY content_field_value.id ASC";
+                ORDER BY content_field_value.id ASC';
 
         $stmt = $db->prepare($query);
         $stmt->set(Webvaloa::getLocale());
@@ -350,20 +349,20 @@ class Article
             // Sort fields by group
             foreach ($this->article->fields as $k => $field) {
                 if (!isset($group[$field->repeatable_ordering])) {
-                    $group[$field->repeatable_ordering] = new stdClass;
+                    $group[$field->repeatable_ordering] = new stdClass();
                 }
 
                 $group[$field->repeatable_ordering]->field_group_id = $field->field_group_id;
                 $group[$field->repeatable_ordering]->repeatable_ordering = $field->repeatable_ordering;
 
                 // Format field value for viewing
-                $fieldClass = '\Webvaloa\Field\Fields\\' . $field->type;
+                $fieldClass = '\Webvaloa\Field\Fields\\'.$field->type;
                 $f = new $fieldClass($field->field_id);
                 $m = 'onLoad';
-                if(method_exists($f, $m)) {
+                if (method_exists($f, $m)) {
                     $field->value = $f->{$m}($field->value);
                 }
-                
+
                 $group[$field->repeatable_ordering]->fieldValues[$field->name][] = $field->value;
                 $values[$field->name][] = $field->value;
             }
@@ -384,14 +383,13 @@ class Article
         } catch (Exception $e) {
             Debug::__print($e->getMessage());
         }
-
     }
 
     public function insert()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             INSERT INTO content (
                 `published` ,
                 `publish_up` ,
@@ -403,7 +401,7 @@ class Article
                 NOW(),
                 ?,
                 ?
-            )";
+            )';
 
         $stmt = $db->prepare($query);
         $stmt->set($this->article->published);
@@ -444,11 +442,11 @@ class Article
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT category_id
             FROM content_category
             WHERE content_id = ?
-            ORDER BY id ASC";
+            ORDER BY id ASC';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->article->id);
@@ -473,7 +471,7 @@ class Article
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $q = "";
+        $q = '';
         if ($category_id) {
             if (!is_array($category_id)) {
                 $category_id = (array) $category_id;
@@ -485,7 +483,7 @@ class Article
                 }
             }
 
-            $q = "AND content_category.category_id IN ( ".implode(",", $category_id)." )";
+            $q = 'AND content_category.category_id IN ( '.implode(',', $category_id).' )';
         }
 
         $query = "
@@ -503,10 +501,8 @@ class Article
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
 
         return false;
     }
-
 }

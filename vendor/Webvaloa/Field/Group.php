@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -37,7 +38,6 @@ use RuntimeException;
 
 class Group
 {
-
     private $groupID;
     private $object;
     private $cache;
@@ -98,10 +98,10 @@ class Group
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM field
             WHERE field_group_id = ?
-            AND id = ?";
+            AND id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->groupID);
@@ -112,7 +112,6 @@ class Group
 
             return true;
         } catch (Exception $e) {
-
         }
     }
 
@@ -124,9 +123,9 @@ class Group
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             DELETE FROM category_field_group
-            WHERE field_group_id = ?";
+            WHERE field_group_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->groupID);
@@ -136,7 +135,6 @@ class Group
 
             return true;
         } catch (Exception $e) {
-
         }
     }
 
@@ -161,10 +159,10 @@ class Group
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT category_id
             FROM category_field_group
-            WHERE field_group_id = ?";
+            WHERE field_group_id = ?';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->groupID);
@@ -182,7 +180,6 @@ class Group
 
             return array();
         } catch (Exception $e) {
-
         }
     }
 
@@ -190,10 +187,10 @@ class Group
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT *
             FROM field_group
-            ORDER BY name";
+            ORDER BY name';
 
         $stmt = $db->prepare($query);
 
@@ -202,7 +199,6 @@ class Group
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
 
@@ -210,11 +206,11 @@ class Group
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT *
             FROM field_group
             WHERE global = 1
-            ORDER BY name";
+            ORDER BY name';
 
         $stmt = $db->prepare($query);
 
@@ -223,7 +219,6 @@ class Group
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
 
@@ -235,11 +230,11 @@ class Group
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "
+        $query = '
             SELECT *
             FROM field
             WHERE field_group_id = ?
-            ORDER BY ordering ASC";
+            ORDER BY ordering ASC';
 
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->groupID);
@@ -249,8 +244,6 @@ class Group
 
             return $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
     }
-
 }

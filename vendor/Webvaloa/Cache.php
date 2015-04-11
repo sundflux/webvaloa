@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -49,7 +50,6 @@ interface ICache
  */
 class Cache implements ICache
 {
-
     private $cache;
 
     public function __construct()
@@ -73,19 +73,20 @@ class Cache implements ICache
             }
         }
 
-        $this->cache = new $backend;
-        $this->cacheLocal = new $backendLocal;
+        $this->cache = new $backend();
+        $this->cacheLocal = new $backendLocal();
 
-        Debug::__print('Using ' . $backend . ' cache backend');
-        Debug::__print('Using ' . $backendLocal . ' local cache backend');
+        Debug::__print('Using '.$backend.' cache backend');
+        Debug::__print('Using '.$backendLocal.' local cache backend');
     }
 
     /**
      * Set key/value pair to global caching scope.
-     * Alias for set()
+     * Alias for set().
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function __set($key, $value)
@@ -95,9 +96,10 @@ class Cache implements ICache
 
     /**
      * Get global cache value by key.
-     * Alias for get()
+     * Alias for get().
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function __get($key)
@@ -108,8 +110,9 @@ class Cache implements ICache
     /**
      * Set key/value pair to global caching scope.
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function set($key, $value)
@@ -122,7 +125,8 @@ class Cache implements ICache
     /**
      * Get global cache value by key.
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function get($key)
@@ -133,8 +137,9 @@ class Cache implements ICache
     /**
      * Set key/value pair to local caching scope.
      *
-     * @param  type $key
-     * @param  type $value
+     * @param type $key
+     * @param type $value
+     *
      * @return bool
      */
     public function _set($key, $value)
@@ -147,7 +152,8 @@ class Cache implements ICache
     /**
      * Get local cache value by key.
      *
-     * @param  type  $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function _get($key)
@@ -155,14 +161,13 @@ class Cache implements ICache
         return $this->cacheLocal->_get($key);
     }
 
-    public function delete($key) 
+    public function delete($key)
     {
         return $this->cache->delete($key);
     }
 
-    public function _delete($key) 
+    public function _delete($key)
     {
         return $this->cache->_delete($key);
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -40,17 +41,16 @@ namespace Webvaloa;
  */
 class Manifest
 {
-
     private $manifest;
     private $schema;
     private $controllerPath;
 
     public static $properties = array(
-        'vendor' => 'ValoaApplication'
+        'vendor' => 'ValoaApplication',
     );
 
     /**
-     * Load manifest data for controller
+     * Load manifest data for controller.
      *
      * @param type $controller
      */
@@ -81,15 +81,14 @@ class Manifest
             return $this->manifest->$k;
         }
 
-        if ($k == "schemaFile") {
+        if ($k == 'schemaFile') {
             return $this->schema;
         }
 
-        if ($k == "controllerPath") {
+        if ($k == 'controllerPath') {
             return $this->controllerPath;
         }
 
         return false;
     }
-
 }
