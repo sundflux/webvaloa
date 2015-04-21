@@ -78,6 +78,10 @@ class Security
     {
         // Note: referer can't be trusted.
 
+        if (!isset($_SERVER['HTTP_REFERER'])) {
+            return false;
+        }
+
         $referer = $_SERVER['HTTP_REFERER'];
 
         if (empty($referer)) {
