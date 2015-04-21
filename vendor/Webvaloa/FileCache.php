@@ -60,6 +60,7 @@ class FileCache
 
         if (!file_exists($this->file)) {
             $this->cache = new stdClass();
+
             file_put_contents($this->file, serialize($this->cache));
         }
 
@@ -116,6 +117,11 @@ class FileCache
      */
     public function set($key, $value)
     {
+        // Could not write to cache path if we hit this:
+        if (!isset($this->cache)) {
+            return;
+        }
+
         $this->cache->{$key} = new stdClass();
         $this->cache->{$key}->key = $key;
         $this->cache->{$key}->value = $value;
