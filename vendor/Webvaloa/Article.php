@@ -33,7 +33,6 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
-use Libvaloa\Debug;
 use stdClass;
 use RuntimeException;
 use UnexpectedValueException;
@@ -142,7 +141,7 @@ class Article
             $this->article = $stmt->fetch();
             $this->loaded = true;
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -180,7 +179,7 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -213,7 +212,7 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -271,7 +270,7 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -297,7 +296,7 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -381,7 +380,7 @@ class Article
 
             $this->fieldsloaded = true;
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -415,7 +414,7 @@ class Article
 
             return $this->article->id;
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -457,7 +456,7 @@ class Article
                 $categories[] = $row->category_id;
             }
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
 
         if (isset($categories)) {

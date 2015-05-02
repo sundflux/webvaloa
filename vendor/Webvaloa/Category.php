@@ -33,7 +33,6 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
-use Libvaloa\Debug;
 use Webvaloa\Helpers\Filesystem;
 use RuntimeException;
 
@@ -464,9 +463,6 @@ class Category
         $object = new Db\Object('category_tag', $db);
         $object->category_id = $this->id;
         $object->tag_id = $tag->id;
-
-        Debug::__print($this->id);
-        Debug::__print($tag);
 
         return $object->save();
     }

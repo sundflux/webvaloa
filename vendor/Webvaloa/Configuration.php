@@ -32,7 +32,6 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Debug;
 use Libvaloa\Db;
 use stdClass;
 
@@ -81,8 +80,6 @@ class Configuration
         }
 
         if (isset($keys) && !in_array($k, $keys)) {
-            Debug::__print($k.' not found');
-
             return false;
         }
 
@@ -107,7 +104,7 @@ class Configuration
                 $object->save();
             }
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -179,7 +176,7 @@ class Configuration
 
             return $this->config;
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -208,7 +205,7 @@ class Configuration
 
             $stmt->execute();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 

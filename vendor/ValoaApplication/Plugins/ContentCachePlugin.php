@@ -30,52 +30,26 @@
  * IN THE SOFTWARE.
  */
 
-namespace Webvaloa\Helpers;
+namespace ValoaApplication\Plugins;
 
-class Field
+use Webvaloa\Cache;
+
+class ContentCachePlugin extends \Webvaloa\Plugin
 {
-    public function formatName($name)
+    public function onBeforeController()
     {
-        $name = trim($name);
-        $name = str_replace(' ', '_', $name); // automatically undersore spaces
-        $name = preg_replace('/[^A-Za-z0-9_]/i', '', $name); // remove all other chars than A-Za-Z_
-
-        return $name;
-    }
-
-    public function fieldExists($name, $group = false)
-    {
-        $db = \Webvaloa\Webvaloa::DBConnection();
-
-        if (!$group) {
-            $table = 'field';
-        } else {
-            $table = 'field_group';
+        if ($this->request->getChildController() !== 'Article') {
+            return;
         }
 
-        $query = '
-            SELECT COUNT(id) as c
-            FROM '.$table.'
-            WHERE name = ?';
+        if ($this->request->getMethod() == 'save') {
+            $cache = new Cache();
 
-        $stmt = $db->prepare($query);
-        $stmt->set($name);
+            // Delete global caches
+            $cache->delete('Cache_PurgeOnSave');
 
-        try {
-            $stmt->execute();
-            $row = $stmt->fetch();
-
-            return $row->c;
-        } catch (Exception $e) {
-            
+            // Delete local caches
+            $cache->_delete('Cache_PurgeOnSave');
         }
-
-        // Field not found
-        return 0;
-    }
-
-    public function groupExists($name)
-    {
-        return $this->fieldExists($name, true);
     }
 }

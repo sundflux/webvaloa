@@ -32,7 +32,6 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Debug;
 use Webvaloa\Field\Field;
 use stdClass;
 
@@ -173,8 +172,7 @@ class Category
 
             $retval->items = $stmt->fetchAll();
         } catch (Exception $e) {
-            Debug::__print('Fetching article list failed');
-            Debug::__print($e->getMessage());
+
         }
 
         if (isset($retval)) {

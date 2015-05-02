@@ -33,7 +33,6 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
-use Libvaloa\Debug;
 use RuntimeException;
 
 /**
@@ -103,7 +102,6 @@ class Component
             $stmt->set((int) $componentID);
             $stmt->execute();
             $row = $stmt->fetch();
-            Debug::__print($row);
 
             $this->controller = $row->controller;
             $this->loadComponent();
@@ -218,19 +216,13 @@ class Component
     {
         $roles = $this->roles();
 
-        Debug::__print('Adding role '.$roleID);
-
         // Already has the role
         if (in_array($roleID, $roles)) {
-            Debug::__print('Role exists');
-
             return true;
         }
 
         // No component loaded yet, load before adding roles
         if (!$this->id) {
-            Debug::__print('Meep!');
-
             return false;
         }
 
@@ -377,7 +369,7 @@ class Component
 
             return false;
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -396,7 +388,7 @@ class Component
             $stmt->set((int) $componentID);
             $stmt->execute();
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 

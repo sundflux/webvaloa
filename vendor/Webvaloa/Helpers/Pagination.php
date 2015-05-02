@@ -34,7 +34,6 @@ namespace Webvaloa\Helpers;
 
 use Libvaloa\Db;
 use Libvaloa\Db\Object;
-use Libvaloa\Debug;
 use PDO;
 use stdClass;
 
@@ -137,14 +136,12 @@ class Pagination
 
             $row = $stmt->fetch();
             if (isset($row->c)) {
-                Debug::__print($row->c.' items found in '.$table);
-
                 return $row->c;
             }
 
             return 0;
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+            
         }
     }
 }

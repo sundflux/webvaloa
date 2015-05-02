@@ -32,7 +32,6 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Debug;
 use Libvaloa\Db;
 use RuntimeException;
 
@@ -126,7 +125,7 @@ class Plugin
 
             return $this->plugins;
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -230,7 +229,7 @@ class Plugin
 
             return false;
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -249,7 +248,7 @@ class Plugin
             $stmt->set((int) $pluginID);
             $stmt->execute();
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -268,7 +267,7 @@ class Plugin
             $stmt->set((int) $pluginID);
             $stmt->execute();
         } catch (PDOException $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -280,12 +279,7 @@ class Plugin
 
         $installable = $this->discover();
 
-        Debug::__print($this->plugin);
-        Debug::__print($installable);
-
         if (!in_array($this->plugin, $installable)) {
-            Debug::__print('Not an installable plugin');
-
             return false;
         }
 
@@ -337,9 +331,6 @@ class Plugin
         foreach ($tmp as $v => $plugin) {
             $plugins[] = $plugin->plugin;
         }
-
-        Debug::__print('Installed:');
-        Debug::__print($plugins);
 
         // Discovery paths
         $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';

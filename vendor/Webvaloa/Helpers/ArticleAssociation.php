@@ -34,7 +34,6 @@ namespace Webvaloa\Helpers;
 
 use Exception;
 use RuntimeException;
-use Libvaloa\Debug;
 use Webvaloa\Article;
 
 /*
@@ -129,12 +128,8 @@ class ArticleAssociation
         $article = new Article($id);
         $a = $article->article;
 
-        Debug::__print('Assocation: original locale is '.$a->locale);
-
         // Locale matches and no associated id is set, so this must be an main article
         if ($a->locale == $this->getLocale() && empty($a->associated_content_id)) {
-            Debug::__print('Assocation: main article found, returning '.$id);
-
             return $id;
         }
 
@@ -157,8 +152,6 @@ class ArticleAssociation
         }
 
         // Not found
-        Debug::__print('Association: no association found');
-
         return false;
     }
 

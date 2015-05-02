@@ -32,7 +32,6 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Debug;
 use stdClass;
 use Exception;
 use RuntimeException;
@@ -76,7 +75,7 @@ class Article
             $stmt->execute();
             $this->article = $stmt->fetch();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 
@@ -149,7 +148,7 @@ class Article
                 $this->article->fieldValues = array();
             }
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 

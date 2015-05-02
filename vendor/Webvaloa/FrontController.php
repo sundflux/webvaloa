@@ -35,7 +35,6 @@ namespace Webvaloa;
 
 use Libvaloa\Controller\Request;
 use Libvaloa\Auth\Auth;
-use Libvaloa\Debug;
 use ValoaApplication\Plugins;
 use Webvaloa\Controller\Request\Alias;
 use Webvaloa\Locale\Locales;
@@ -149,8 +148,6 @@ class FrontController
             .$childController.'Controller';
 
         if (!self::controllerExists()) {
-            Debug::__print($application);
-
             throw new RuntimeException('Controller '.$application.' not found');
         }
 

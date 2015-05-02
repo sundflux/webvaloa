@@ -34,7 +34,6 @@
 namespace Webvaloa;
 
 use stdClass;
-use Libvaloa\Debug;
 
 /**
  * Webvaloa file caching class.
@@ -53,8 +52,6 @@ class FileCache
         $this->file = LIBVALOA_PUBLICPATH.'/cache/.cache';
 
         if (!is_writable($tmp = realpath(dirname($this->file)))) {
-            Debug::__print('Cannot write to '.$tmp);
-
             return;
         }
 
@@ -66,8 +63,8 @@ class FileCache
         if (file_exists($this->file) && is_readable($this->file)) {
             $this->cache = unserialize(file_get_contents($this->file));
         } else {
-            Debug::__print('Warning!!');
-            Debug::__print('Could not read/write '.$this->file);
+            // No permissions to write anywhere, write to dummy object
+            $this->cache = new stdClass;
         }
 
         if (isset(\Webvaloa\config::$properties['cache_time'])

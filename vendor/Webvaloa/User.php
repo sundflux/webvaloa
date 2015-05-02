@@ -34,7 +34,6 @@ namespace Webvaloa;
 
 use Libvaloa\Auth\Password;
 use Libvaloa\Db;
-use Libvaloa\Debug;
 use UnexpectedValueException;
 use RuntimeException;
 use stdClass;
@@ -195,7 +194,7 @@ class User
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            Debug::__print($e->getMessage());
+
         }
     }
 

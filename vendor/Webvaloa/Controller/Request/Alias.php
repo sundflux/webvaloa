@@ -34,7 +34,6 @@
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
-use Libvaloa\Debug;
 use Webvaloa\Cache;
 use stdClass;
 
@@ -158,8 +157,6 @@ class Alias
             $this->controller->method        = $this->routes[$alias]['method'];
             $this->controller->locale        = $this->routes[$alias]['locale'];
             $this->controller->id           = -1;
-
-            Debug::__print($this->controller);
 
             return true;
         }
