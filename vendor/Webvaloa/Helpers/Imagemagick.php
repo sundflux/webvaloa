@@ -125,6 +125,10 @@ class Imagemagick
             return $cacheFilename;
         }
 
+        if (!is_writable($this->cachePath)) {
+            return false;
+        }
+
         $this->imagick = new Imagick($this->file);
         $this->imagick->setImageFormat($this->format);
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);

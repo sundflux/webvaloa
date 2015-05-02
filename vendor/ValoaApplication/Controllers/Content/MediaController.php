@@ -45,6 +45,8 @@ class MediaController extends \Webvaloa\Application
         if ($this->request->isAjax()) {
             $this->view->isAjax = true;
         }
+
+        $this->view->mediaPath = LIBVALOA_PUBLICPATH.'/media';
     }
 
     public function index()
