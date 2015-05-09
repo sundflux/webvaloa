@@ -3,7 +3,17 @@
 
     <xsl:template match="index">
         <h1 class="a-btn article-listing">
-            <a class="btn btn-default pull-right article-listing" href="{/page/common/basepath}/content_article/add">
+            <a class="btn btn-default pull-right article-listing">
+                <xsl:attribute name="href">
+                    <xsl:choose>
+                        <xsl:when test="category_id != ''">
+                            <xsl:value-of select="/page/common/basepath"/>/content_article/add/<xsl:value-of select="category_id"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="/page/common/basepath"/>/content_article/add
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
                 <i class="fa fa-plus"></i>&#160;
                 <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ADD_ARTICLE')"/>
             </a>
