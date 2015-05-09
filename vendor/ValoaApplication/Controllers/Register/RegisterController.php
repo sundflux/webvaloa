@@ -277,7 +277,7 @@ class RegisterController extends \Webvaloa\Application
                 $auth->setAuthenticationDriver(new $backend());
 
                 if (!$auth->authenticate($user->login, $_POST['password'])) {
-                    throw new RuntimeException('Authentication failed.');
+                    throw new RuntimeException(\Webvaloa\Webvaloa::translate('LOGIN_FAILED'));
                 }
             } catch (RuntimeException $e) {
                 $this->ui->addError($e->getMessage());
