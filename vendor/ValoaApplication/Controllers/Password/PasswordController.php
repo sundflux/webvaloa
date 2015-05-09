@@ -33,7 +33,7 @@
 namespace ValoaApplication\Controllers\Password;
 
 use Libvaloa\Controller\Redirect;
-use Libvaloa\Auth\Auth;
+use Webvaloa\Auth\Auth;
 use Webvaloa\User;
 use Webvaloa\Security;
 

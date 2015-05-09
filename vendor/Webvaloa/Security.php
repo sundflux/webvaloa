@@ -32,7 +32,7 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Controller\Request;
+use Webvaloa\Controller\Request;
 use Exception;
 
 /**

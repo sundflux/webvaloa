@@ -33,7 +33,7 @@
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug;
-use Libvaloa\Controller\Request;
+use Webvaloa\Controller\Request;
 use Webvaloa\Cache;
 use Webvaloa\Manifest;
 

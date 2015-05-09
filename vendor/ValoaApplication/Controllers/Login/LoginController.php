@@ -32,8 +32,8 @@
 
 namespace ValoaApplication\Controllers\Login;
 
-use Libvaloa\Auth\Auth;
-use Libvaloa\Controller\Redirect;
+use Webvaloa\Auth\Auth;
+use Webvaloa\Controller\Redirect;
 use Webvaloa\Configuration;
 use RuntimeException;
 use stdClass;

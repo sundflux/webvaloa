@@ -34,10 +34,10 @@
 namespace Webvaloa;
 
 use Libvaloa\Debug;
-use Libvaloa\Controller\Request;
 use Libvaloa\Db;
 use Libvaloa\I18n;
 use Webvaloa\Locale\Locales;
+use Webvaloa\Controller\Request;
 use stdClass;
 use PDOException;
 use Exception;
@@ -80,7 +80,7 @@ set_include_path(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.PATH_SEPARATOR.get_inc
  * @uses \Webvaloa\config
  * @uses \Webvaloa\Cache
  * @uses \Libvaloa\Db\Db
- * @uses \Libvaloa\Controller\Request
+ * @uses \Webvaloa\Controller\Request
  */
 class Webvaloa
 {
@@ -348,7 +348,7 @@ class Webvaloa
  * Loads the UI driver, sets up paths for the given UI driver, sets up properties,
  * and returns instace of the UI.
  *
- * @uses \Libvaloa\Controller\Request
+ * @uses \Webvaloa\Controller\Request
  * @uses \Libvaloa\Ui
  */
 class ApplicationUI

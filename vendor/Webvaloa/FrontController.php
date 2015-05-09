@@ -33,8 +33,8 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Controller\Request;
-use Libvaloa\Auth\Auth;
+use Webvaloa\Controller\Request;
+use Webvaloa\Auth\Auth;
 use ValoaApplication\Plugins;
 use Webvaloa\Controller\Request\Alias;
 use Webvaloa\Locale\Locales;

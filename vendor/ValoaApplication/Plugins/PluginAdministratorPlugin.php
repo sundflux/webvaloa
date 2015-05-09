@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Plugins;
 
-use Libvaloa\Auth\Auth;
+use Webvaloa\Auth\Auth;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Configuration;

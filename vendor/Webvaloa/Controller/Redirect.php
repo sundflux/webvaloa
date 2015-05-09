@@ -1,15 +1,16 @@
 <?php
 
-/**
+/*
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>.
+ * Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2011 Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * All Rights Reserved.
  *
  * Contributor(s):
+ *
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -30,33 +31,38 @@
  * IN THE SOFTWARE.
  */
 
-namespace ValoaApplication\Controllers\Login;
+/**
+ * Redirecter.
+ *
+ * @uses          Controller_Request
+ */
 
-use Webvaloa\Controller\Redirect;
-use Webvaloa\Auth\Auth;
-use Webvaloa\Security;
+namespace Webvaloa\Controller;
 
-class LogoutController extends \Webvaloa\Application
+class Redirect
 {
-    public function __construct()
+    /**
+     * Redirect client to the given controller or url.
+     * Prepends full base url to the header redirection unless
+     * second parameter $omitBase is given.
+     *
+     * @param type $url
+     * @param type $omitBase
+     */
+    public static function to($url = '', $omitBase = false)
     {
-    }
+        $request = Request::getInstance();
+        $prepend = '';
 
-    public function index()
-    {
-        $this->view->token = Security::getToken();
-
-        if (isset($_POST['logout']) || isset($_GET['logout'])) {
-            Security::verifyReferer();
-            Security::verifyToken();
-
-            $backend = \Webvaloa\config::$properties['webvaloa_auth'];
-
-            $auth = new Auth();
-            $auth->setAuthenticationDriver(new $backend());
-            $auth->logout();
-
-            Redirect::to('login');
+        $pos = strpos($url, '://');
+        if (!$omitBase) {
+            // Prepend the url only if no protocol defined in the url
+            if ($pos == false) {
+                $prepend = $request->getBaseUri().'/';
+            }
         }
+
+        header('location: '.$prepend.$url);
+        exit;
     }
 }

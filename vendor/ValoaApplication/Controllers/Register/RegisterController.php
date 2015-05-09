@@ -34,7 +34,7 @@ namespace ValoaApplication\Controllers\Register;
 
 use Libvaloa\Debug;
 use Libvaloa\Controller\Redirect;
-use Libvaloa\Auth\Auth;
+use Webvaloa\Auth\Auth;
 use Webvaloa\Cache;
 use Webvaloa\User;
 use Webvaloa\Role;

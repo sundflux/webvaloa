@@ -32,7 +32,7 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Auth\Password;
+use Webvaloa\Auth\Password;
 use Libvaloa\Db;
 use UnexpectedValueException;
 use RuntimeException;

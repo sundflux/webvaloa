@@ -32,10 +32,10 @@
 
 namespace Webvaloa\Auth;
 
-use Libvaloa\Auth;
-use Libvaloa\Auth\Password;
-use Libvaloa\Auth\AuthIFace;
-use Libvaloa\Auth\PWResetIFace;
+use Webvaloa\Auth;
+use Webvaloa\Auth\Password;
+use Webvaloa\Auth\AuthIFace;
+use Webvaloa\Auth\PWResetIFace;
 use Webvaloa;
 use Webvaloa\Component;
 use Webvaloa\User;

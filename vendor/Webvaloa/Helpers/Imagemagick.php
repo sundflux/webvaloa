@@ -33,7 +33,7 @@
 namespace Webvaloa\Helpers;
 
 use Imagick;
-use Libvaloa\Controller\Request;
+use Webvaloa\Controller\Request;
 
 class Imagemagick
 {
