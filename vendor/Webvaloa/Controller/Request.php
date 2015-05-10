@@ -60,15 +60,15 @@ class Request
 
     public function __construct()
     {
-        $tmp = str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']);
-        $uri = $_SERVER['HTTP_HOST'].$tmp.str_replace(str_replace('index.php', '', $tmp), '/', $_SERVER['REQUEST_URI']);
+        $script = str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']);
+        $uri = $_SERVER['HTTP_HOST'].$script.str_replace(str_replace('index.php', '', $script), '/', $_SERVER['REQUEST_URI']);
 
         // http/https autodetect
-        if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-            $prefix = 'https://';
-        } else {
-            $prefix = 'http://';
+        if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') 
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ) {
+            $this->protocol = 'https';
         }
+        $prefix = $this->protocol . '://';
 
         // url should be without http[s]:// prefix and contain
         // host[/path][/index.php]/controller[/method][/params][?getparams]
@@ -87,8 +87,8 @@ class Request
         // strip GET parameters, we will add them later
         list($route) = explode('?', $route, 2);
 
-        if (substr($route, 0, 1) === '/') {
-            $route = substr($route, 1);
+        if ($route[0] == '/') {
+            $route[0] == '';
         }
 
         $route = explode('/', $route);
@@ -96,29 +96,11 @@ class Request
         // get controller from route
         if (isset($route[0])) {
             $this->controller = ucfirst(array_shift($route));
-        }
-
-        // get method from route
-        if (isset($route[0])) {
             $this->method = array_shift($route);
         }
 
         // rest are parameters
         $this->parameters = array_map(array($this, 'decodeRouteParam'), $route);
-
-        // Protocol
-        $this->protocol = 'http';
-
-        if (isset($_SERVER['HTTPS'])) {
-            $this->protocol = ($_SERVER['HTTPS']
-                && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
-        }
-
-        if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-            $this->protocol = 'https';
-        }
-
-        self::$instance = $this;
 
         // ajax autodetect
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
@@ -130,6 +112,8 @@ class Request
                 $this->json = true;
             }
         }
+
+        self::$instance = $this;
     }
 
     /**
