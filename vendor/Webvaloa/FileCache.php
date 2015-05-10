@@ -65,7 +65,7 @@ class FileCache
             $this->cache = unserialize(file_get_contents($this->file));
         } else {
             // No permissions to write anywhere, write to dummy object
-            $this->cache = new stdClass;
+            $this->cache = new stdClass();
         }
 
         if (isset(\Webvaloa\config::$properties['cache_time'])

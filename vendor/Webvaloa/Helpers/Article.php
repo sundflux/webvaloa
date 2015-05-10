@@ -75,7 +75,6 @@ class Article
             $stmt->execute();
             $this->article = $stmt->fetch();
         } catch (Exception $e) {
-
         }
     }
 
@@ -148,7 +147,6 @@ class Article
                 $this->article->fieldValues = array();
             }
         } catch (Exception $e) {
-
         }
     }
 

@@ -64,11 +64,11 @@ class Request
         $uri = $_SERVER['HTTP_HOST'].$script.str_replace(str_replace('index.php', '', $script), '/', $_SERVER['REQUEST_URI']);
 
         // http/https autodetect
-        if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') 
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ) {
+        if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
             $this->protocol = 'https';
         }
-        $prefix = $this->protocol . '://';
+        $prefix = $this->protocol.'://';
 
         // url should be without http[s]:// prefix and contain
         // host[/path][/index.php]/controller[/method][/params][?getparams]

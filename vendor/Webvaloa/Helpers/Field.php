@@ -67,7 +67,6 @@ class Field
 
             return $row->c;
         } catch (Exception $e) {
-            
         }
 
         // Field not found

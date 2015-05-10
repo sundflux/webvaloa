@@ -125,7 +125,6 @@ class Plugin
 
             return $this->plugins;
         } catch (PDOException $e) {
-
         }
     }
 
@@ -229,7 +228,6 @@ class Plugin
 
             return false;
         } catch (PDOException $e) {
-
         }
     }
 
@@ -248,7 +246,6 @@ class Plugin
             $stmt->set((int) $pluginID);
             $stmt->execute();
         } catch (PDOException $e) {
-
         }
     }
 
@@ -267,7 +264,6 @@ class Plugin
             $stmt->set((int) $pluginID);
             $stmt->execute();
         } catch (PDOException $e) {
-
         }
     }
 

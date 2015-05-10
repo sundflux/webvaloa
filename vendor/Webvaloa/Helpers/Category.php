@@ -172,7 +172,6 @@ class Category
 
             $retval->items = $stmt->fetchAll();
         } catch (Exception $e) {
-
         }
 
         if (isset($retval)) {

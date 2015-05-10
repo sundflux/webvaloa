@@ -194,7 +194,6 @@ class User
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 

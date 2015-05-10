@@ -33,9 +33,6 @@
 namespace Webvaloa\Auth;
 
 use Webvaloa\Auth;
-use Webvaloa\Auth\Password;
-use Webvaloa\Auth\AuthIFace;
-use Webvaloa\Auth\PWResetIFace;
 use Webvaloa;
 use Webvaloa\User;
 

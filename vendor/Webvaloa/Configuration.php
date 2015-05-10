@@ -104,7 +104,6 @@ class Configuration
                 $object->save();
             }
         } catch (PDOException $e) {
-
         }
     }
 
@@ -176,7 +175,6 @@ class Configuration
 
             return $this->config;
         } catch (Exception $e) {
-
         }
     }
 
@@ -205,7 +203,6 @@ class Configuration
 
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 

@@ -369,7 +369,6 @@ class Component
 
             return false;
         } catch (PDOException $e) {
-
         }
     }
 
@@ -388,7 +387,6 @@ class Component
             $stmt->set((int) $componentID);
             $stmt->execute();
         } catch (PDOException $e) {
-
         }
     }
 

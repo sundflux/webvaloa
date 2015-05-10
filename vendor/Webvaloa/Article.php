@@ -141,7 +141,6 @@ class Article
             $this->article = $stmt->fetch();
             $this->loaded = true;
         } catch (Exception $e) {
-
         }
     }
 
@@ -179,7 +178,6 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -212,7 +210,6 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -270,7 +267,6 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -296,7 +292,6 @@ class Article
         try {
             $stmt->execute();
         } catch (Exception $e) {
-
         }
     }
 
@@ -380,7 +375,6 @@ class Article
 
             $this->fieldsloaded = true;
         } catch (Exception $e) {
-
         }
     }
 
@@ -414,7 +408,6 @@ class Article
 
             return $this->article->id;
         } catch (Exception $e) {
-
         }
     }
 
@@ -456,7 +449,6 @@ class Article
                 $categories[] = $row->category_id;
             }
         } catch (Exception $e) {
-
         }
 
         if (isset($categories)) {

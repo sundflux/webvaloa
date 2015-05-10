@@ -141,7 +141,6 @@ class Pagination
 
             return 0;
         } catch (Exception $e) {
-            
         }
     }
 }
