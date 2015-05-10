@@ -33,7 +33,7 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Cache as Memcached;
+use Webvaloa\MemcachedCache as Memcached;
 
 /**
  * Webvaloa caching class.
