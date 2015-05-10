@@ -87,14 +87,14 @@ class Request
         // strip GET parameters, we will add them later
         list($route) = explode('?', $route, 2);
 
-        if ($route[0] == '/') {
-            $route[0] == '';
+        if (substr($route, 0, 1) === '/') {
+            $route = substr($route, 1);
         }
 
         $route = explode('/', $route);
 
         // get controller from route
-        if (isset($route[0])) {
+        if (isset($route[0]) && !empty($route[0])) {
             $this->controller = ucfirst(array_shift($route));
             $this->method = array_shift($route);
         }
