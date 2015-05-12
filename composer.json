@@ -1,0 +1,5 @@
+{
+    "require": {
+        "sundflux/libvaloa": "^1.0.0"
+    }
+}

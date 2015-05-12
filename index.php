@@ -65,6 +65,13 @@ if (!defined('LIBVALOA_PUBLICPATH')) {
     define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.DIRECTORY_SEPARATOR.'public');
 }
 
+// Composer autoloader
+if (!file_exists(LIBVALOA_INSTALLPATH.'/autoload.php')) {
+	die('Please install dependencies first, run: composer install');
+}
+
+require_once LIBVALOA_INSTALLPATH.'/autoload.php';
+
 // Include paths
 set_include_path(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.PATH_SEPARATOR.get_include_path());
 set_include_path(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.PATH_SEPARATOR.get_include_path());
