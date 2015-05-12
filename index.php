@@ -42,9 +42,6 @@ use stdClass;
 use PDOException;
 use Exception;
 
-// Benchmark counter
-Webvaloa::$time = microtime(true);
-
 // Base path on the server
 define('WEBVALOA_BASEDIR', realpath(dirname(__FILE__)));
 
@@ -88,11 +85,6 @@ class Webvaloa
      * Database connection.
      */
     public static $db = false;
-
-    /**
-     * Execution timer.
-     */
-    public static $time;
 
     /**
      * Static var to track if Webvaloa kernel has been loaded.
@@ -558,6 +550,9 @@ class Application
                 // Run plugins
                 $this->plugin->runPlugins();
             }
+
+            Debug::__print('Executed '.\Libvaloa\Db\Db::$querycount.' sql queries.');
+            Debug::__print('Webvaloa finished');
 
             return $xhtml;
         } catch (Exception $e) {
