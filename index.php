@@ -372,25 +372,25 @@ class ApplicationUI
         // File paths for the UI
 
         // Layout and overrides path
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
 
         // Controller
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
 
         // Plugins
-        $ui->includePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
 
         // As above, but from core installation
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
-        $ui->includePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
 
         // Public media paths
-        $ui->includePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->includePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout');
+        $ui->addIncludePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
+        $ui->addIncludePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout');
 
         // Empty template for ajax requests
         if ($request->isAjax()) {
@@ -398,8 +398,6 @@ class ApplicationUI
         }
 
         // UI properties
-        $ui->properties['controller'] = $request->getController();
-        $ui->properties['parentController'] = $request->getMainController();
         $ui->properties['route'] = $request->getCurrentRoute();
         if (isset($_SESSION['locale'])) {
             $ui->properties['locale'] = $_SESSION['locale'];
