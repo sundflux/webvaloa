@@ -418,6 +418,10 @@ class ApplicationUI
             $ui->properties['user'] = $_SESSION['User'];
         }
 
+        // Headers
+        $ui->addHeader('Content-type: '.$ui->properties['contenttype'].'; charset=utf-8');
+        $ui->addHeader('Vary: Accept');
+
         return self::$instance = $ui;
     }
 }
@@ -483,7 +487,7 @@ class Application
     public function __toString()
     {
         // Set page root (template name)
-        if (!$this->ui->issetPageRoot() && $this->request->getMethod()) {
+        if (!$this->ui->getPageRoot() && $this->request->getMethod()) {
             $this->ui->setPageRoot($this->request->getMethod());
         }
 
@@ -530,8 +534,11 @@ class Application
             // Page complete, send headers and output:
 
             // Headers
-            header('Content-type: '.$this->ui->properties['contenttype'].'; charset=utf-8');
-            header('Vary: Accept');
+            if ($headers = $this->ui->getHeaders()) {
+                foreach ($headers as $header) {
+                    header($header);
+                }
+            }
 
             // Rendered XHTML
             $xhtml = (string) $this->ui;
