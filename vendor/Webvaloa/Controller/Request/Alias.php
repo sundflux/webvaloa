@@ -75,6 +75,11 @@ class Alias
 
             $this->db = \Webvaloa\Webvaloa::DBConnection();
 
+            // Aliases must work without db connection
+            if (!method_exists($this->db, 'prepare')) {
+            	return;
+            }
+
             $query = "
                 SELECT id, controller, method, locale
                 FROM alias

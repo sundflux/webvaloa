@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Extension;
 
-use Libvaloa\Controller\Redirect;
+use Webvaloa\Controller\Redirect;
 use Webvaloa\Plugin;
 use Webvaloa\Security;
 use Webvaloa\Helpers\Pagination;

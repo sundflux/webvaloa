@@ -34,7 +34,7 @@ namespace ValoaApplication\Controllers\Content;
 
 use stdClass;
 use Libvaloa\Debug;
-use Libvaloa\Controller\Redirect;
+use Webvaloa\Controller\Redirect;
 use Webvaloa\Tag;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Pagination;

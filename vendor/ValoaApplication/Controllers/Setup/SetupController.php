@@ -33,14 +33,16 @@
 namespace ValoaApplication\Controllers\Setup;
 
 // Libvaloa classes
-use Libvaloa\Controller\Redirect;
 use Libvaloa\Db;
+use Libvaloa\Debug;
 // Webvaloa classes
 use Webvaloa;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Manifest;
 use Webvaloa\Component;
+use Webvaloa\Controller\Redirect;
+use Webvaloa\Locale\Locales;
 // Standard classes
 use stdClass;
 use PDOException;
@@ -49,10 +51,14 @@ use RuntimeException;
 class SetupController extends \Webvaloa\Application
 {
     private $backend;
+    private $locale;
     public $view;
 
     public function __construct()
     {
+        $locales = new Locales;
+        $this->locales = $locales->locales();
+
         $this->ui->addJS('/js/Setup.js');
         $this->ui->addCSS('/css/Setup.css');
         $this->backend = '\Webvaloa\Auth\Db';
@@ -64,7 +70,7 @@ class SetupController extends \Webvaloa\Application
     public function index($locale = false)
     {
         // Change locale
-        if ($locale) {
+        if ($locale && in_array($locale, $this->locales)) {
             $_SESSION['locale'] = $locale;
             $_SESSION['setup']['locale'] = $locale;
 
@@ -266,6 +272,8 @@ class SetupController extends \Webvaloa\Application
             return;
         }
 
+        $locale = getenv('LANG');
+
         $config = "<?php\n";
         $config .= "namespace Webvaloa;\n\n";
         $config .= "class config\n";
@@ -283,6 +291,8 @@ class SetupController extends \Webvaloa\Application
         $config .= "\n";
         $config .= '}';
         $config .= "\n\n";
+        $config .= "putenv('LANG={$locale}');\n";
+        $config .= "setlocale(LC_MESSAGES, '{$locale}');\n";
 
         file_put_contents($configFile, $config);
 
@@ -303,6 +313,12 @@ class SetupController extends \Webvaloa\Application
 
         $setup = $_SESSION['setup'];
         $manifest = new Manifest('Setup');
+
+        \Webvaloa\config::$properties['db_server'] = $setup['db']['db_server'];
+        \Webvaloa\config::$properties['db_host']   = $setup['db']['db_host'];
+        \Webvaloa\config::$properties['db_user']   = $setup['db']['db_user'];
+        \Webvaloa\config::$properties['db_pass']   = $setup['db']['db_pass'];
+        \Webvaloa\config::$properties['db_db']     = $setup['db']['db_db'];
 
         // Install database
         $sqlSchema = $manifest->controllerPath.'/schema-'.$manifest->version.'_'.$setup['db']['db_server'].'.sql';
@@ -354,14 +370,28 @@ class SetupController extends \Webvaloa\Application
             $object->plugin = 'PluginAdministrator';
             $object->system_plugin = 1;
             $object->blocked = 0;
-            $object->ordering = 0;
+            $object->ordering = 1;
             $object->save();
 
             $object = new Db\Object('plugin', $this->db);
             $object->plugin = 'ContentField';
             $object->system_plugin = 1;
             $object->blocked = 0;
-            $object->ordering = 0;
+            $object->ordering = 10;
+            $object->save();
+
+            $object = new Db\Object('plugin', $this->db);
+            $object->plugin = 'ContentMediapicker';
+            $object->system_plugin = 1;
+            $object->blocked = 0;
+            $object->ordering = 10;
+            $object->save();
+
+            $object = new Db\Object('plugin', $this->db);
+            $object->plugin = 'PluginTemplate';
+            $object->system_plugin = 1;
+            $object->blocked = 0;
+            $object->ordering = 10;
             $object->save();
 
             // System components

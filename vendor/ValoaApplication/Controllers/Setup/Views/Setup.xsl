@@ -93,7 +93,19 @@
                     </p>
 
                     <div class="row" id="footer">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="dropup">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CHOOSE_LANGUAGE')"/>  
+                                &#160;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{/page/common/basepath}/setup/en_US">In english</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{/page/common/basepath}/setup/fi_FI">Suomeksi</a></li>
+                            </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             
                             <button type="submit" name="continue" class="btn btn-success pull-right">
                                 <xsl:if test="notWritable">

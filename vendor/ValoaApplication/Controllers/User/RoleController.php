@@ -33,7 +33,7 @@
 namespace ValoaApplication\Controllers\User;
 
 use Libvaloa\Debug;
-use Libvaloa\Controller\Redirect;
+use Webvaloa\Controller\Redirect;
 use Webvaloa\Security;
 use Webvaloa\Component;
 use Webvaloa\Role;

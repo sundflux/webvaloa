@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Content;
 
-use Libvaloa\Controller\Redirect;
+use Webvaloa\Controller\Redirect;
 use Webvaloa\Security;
 use Webvaloa\Helpers\Filesystem;
 use UnexpectedValueException;
