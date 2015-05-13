@@ -208,9 +208,8 @@ class MemcachedCache
         return $v;
     }
 
-    public function delete($key)
+    public function delete($search)
     {
-        $search = $key;
         $keys = $this->connection->getAllKeys();
 
         if ($search !== false) {
@@ -228,6 +227,6 @@ class MemcachedCache
 
     public function _delete($key)
     {
-        return $this->delete($this->prefix.$search);
+        return $this->delete($this->prefix.$key);
     }
 }

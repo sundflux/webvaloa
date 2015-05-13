@@ -176,7 +176,7 @@ class Memcache
         return $this->cache->delete($key);
     }
 
-    public function _delete()
+    public function _delete($key)
     {
         return $this->cache->_delete($key);
     }

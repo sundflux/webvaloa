@@ -56,7 +56,7 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
         );
 
         foreach ($paths as $path) {
-            $this->ui->includePath($path);
+            $this->ui->addIncludePath($path);
         }
     }
 
