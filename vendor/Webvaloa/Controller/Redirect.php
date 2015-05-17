@@ -54,6 +54,11 @@ class Redirect
         $request = Request::getInstance();
         $prepend = '';
 
+        // Default to current url if no url was given
+        if (empty($url)) {
+        	$url = $_SERVER['REQUEST_URI'];
+        }
+
         $pos = strpos($url, '://');
         if (!$omitBase) {
             // Prepend the url only if no protocol defined in the url
@@ -65,4 +70,13 @@ class Redirect
         header('location: '.$prepend.$url);
         exit;
     }
+
+    /**
+     * Redirect client to the current url. This is just an alias for to()
+     */
+    public function reload()
+    {
+    	self::to();
+    }
+
 }

@@ -564,7 +564,7 @@ class Application
             }
 
             Debug::__print('Executed '.\Libvaloa\Db\Db::$querycount.' sql queries.');
-            Debug::__print('Webvaloa finished');
+            Debug::__print('Webvaloa finished with peak memory usage: '. round(memory_get_peak_usage(false) / 1024 / 1024, 2) .' MB');
 
             return $xhtml;
         } catch (Exception $e) {
