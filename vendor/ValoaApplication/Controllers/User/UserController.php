@@ -128,6 +128,14 @@ class UserController extends \Webvaloa\Application
             'password',
             'password2',
         );
+        
+        $user->email = $_POST['email'];
+
+        if (isset($_POST['username']) && !empty($_POST['username'])) {
+            $user->login = $_POST['username'];
+        } else {
+            $user->login = $_POST['email'];
+        }
 
         if (!empty($_POST['password']) && !empty($_POST['password2'])) {
             foreach ($check as $k => $v) {
@@ -143,14 +151,6 @@ class UserController extends \Webvaloa\Application
             }
 
             $user->password = $_POST['password'];
-        }
-
-        $user->email = $_POST['email'];
-
-        if (isset($_POST['username']) && !empty($_POST['username'])) {
-            $user->login = $_POST['username'];
-        } else {
-            $user->login = $_POST['email'];
         }
 
         if (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
