@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:php="http://php.net/xsl">
-    <xsl:output
-    method="xml"
-    version="1.0"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-    indent="yes" />
+    <xsl:output method="html"
+        version="5.0"
+        encoding="utf-8"
+        indent="yes"
+        omit-xml-declaration="yes" />
 
     <!--
     The Initial Developer of the Original Code is
@@ -38,7 +37,7 @@
     -->
 
     <xsl:template match="/page">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+        <html>
             <xsl:attribute name="lang">en</xsl:attribute>
             <head>
                 <meta name="viewport" content="width=device-width" />
