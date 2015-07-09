@@ -410,6 +410,11 @@ class ArticleController extends \Webvaloa\Application
                         $i++;
                         continue;
                     }
+                    
+                    // Remove duplicates from tags (case sensitive)
+                    if ($k == 'tags') {
+                        $v = array_unique($v);
+                    }
 
                     // Find field id
                     $field = new Field();
