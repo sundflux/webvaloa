@@ -111,8 +111,8 @@ class Category
             foreach ($this->fieldFilters as $k => $v) {
                 $q .= '
                     AND content.id = content_field_value.content_id
-                    AND content_field_value.field_id = '.$k.'
-                    AND content_field_value.value = '.$v.'  ';
+                    AND content_field_value.field_id = '.(int)$k.'
+                    AND content_field_value.value = ?  ';
             }
         }
 
@@ -154,6 +154,9 @@ class Category
             $stmt->set((int) $this->published);
             $stmt->set($this->locale);
             $stmt->set((int) $this->id);
+            foreach($this->fieldFilters as $k => $v) {
+				$stmt->set($v);
+			}
             $stmt->execute();
             $count = $stmt->fetch();
 
@@ -168,6 +171,9 @@ class Category
             $stmt->set((int) $this->published);
             $stmt->set($this->locale);
             $stmt->set((int) $this->id);
+            foreach($this->fieldFilters as $k => $v) {
+				$stmt->set($v);
+			}
             $stmt->execute();
 
             $retval->items = $stmt->fetchAll();
