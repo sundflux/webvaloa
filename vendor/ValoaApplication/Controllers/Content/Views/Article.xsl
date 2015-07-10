@@ -47,6 +47,9 @@
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ID')"/>
                     </th>
                     <th>
+                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY')"/>
+                    </th>
+                    <th>
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TITLE')"/>
                     </th>
                     <th data-hide="phone,tablet">
@@ -61,6 +64,9 @@
                         <tr>
                             <td>
                                 <xsl:value-of select="id"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="category"/>
                             </td>
                             <td>
                                 <xsl:if test="published = '0'">
