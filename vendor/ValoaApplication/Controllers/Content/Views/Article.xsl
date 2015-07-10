@@ -280,6 +280,11 @@
                 <br/>
 
                 <ul class="nav nav-tabs" id="groups-tab" data-tabs="tabs">
+                    <li>
+                            <a href="#webvaloa-all-tabs" data-tabs="tabs">
+                                <i class="fa fa-asterisk"></i>
+                            </a>
+                    </li>
                     <xsl:for-each select="fields">
                         <li>
                             <a href="#{name}" data-toggle="tab">
@@ -289,7 +294,7 @@
                     </xsl:for-each>
                 </ul>
 
-                <div class="tab-content">
+                <div class="tab-content" id="tabs">
                     <!-- Groups are at this level -->
                     <xsl:for-each select="fields">
 
