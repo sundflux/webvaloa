@@ -19,6 +19,9 @@
             </a>
 
             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLES')"/>
+            <xsl:if test="category_id!=''">
+                <small>&#160;-&#160;<xsl:value-of select="articles//category"/></small>
+            </xsl:if>
         </h1>
         <hr/>   
 
