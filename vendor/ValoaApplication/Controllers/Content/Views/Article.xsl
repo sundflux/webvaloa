@@ -19,6 +19,9 @@
             </a>
 
             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLES')"/>
+            <xsl:if test="category_id!=''">
+                <small>&#160;-&#160;<xsl:value-of select="articles//category"/></small>
+            </xsl:if>
         </h1>
         <hr/>   
 
@@ -46,6 +49,11 @@
                     <th>
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ID')"/>
                     </th>
+                    <xsl:if test="category_id=''">
+                        <th>
+                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY')"/>
+                        </th>
+                    </xsl:if>
                     <th>
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TITLE')"/>
                     </th>
@@ -62,6 +70,11 @@
                             <td>
                                 <xsl:value-of select="id"/>
                             </td>
+                            <xsl:if test="../category_id=''">
+                                <td>
+                                    <xsl:value-of select="category"/>
+                                </td>
+                            </xsl:if>
                             <td>
                                 <xsl:if test="published = '0'">
                                     <xsl:attribute name="class">text-muted</xsl:attribute>
@@ -152,6 +165,9 @@
             <xsl:value-of select="title"/>
             <xsl:if test="article_id != '' and article_id &gt; 0">
                 <small>&#160;#<xsl:value-of select="article_id"/></small>
+            </xsl:if>
+            <xsl:if test="category_id!=''">
+                <small>&#160;-&#160;<xsl:value-of select="category"/></small>
             </xsl:if>
 
             <xsl:if test="category_id &gt; 0 or category_id = ''">
@@ -280,6 +296,11 @@
                 <br/>
 
                 <ul class="nav nav-tabs" id="groups-tab" data-tabs="tabs">
+                    <li>
+                            <a href="#webvaloa-all-tabs" data-tabs="tabs">
+                                <i class="fa fa-asterisk"></i>
+                            </a>
+                    </li>
                     <xsl:for-each select="fields">
                         <li>
                             <a href="#{name}" data-toggle="tab">
@@ -289,7 +310,7 @@
                     </xsl:for-each>
                 </ul>
 
-                <div class="tab-content">
+                <div class="tab-content" id="tabs">
                     <!-- Groups are at this level -->
                     <xsl:for-each select="fields">
 

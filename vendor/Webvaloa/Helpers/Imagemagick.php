@@ -80,6 +80,8 @@ class Imagemagick
         $this->height = 200;
         $this->crop = true;
         $this->cached = false;
+        $this->background = 'white';
+        $this->flatten = false;
         $this->quality = 95;
         $this->format = 'jpg';
     }
@@ -92,6 +94,16 @@ class Imagemagick
     public function setCrop($c)
     {
         $this->crop = (bool) $c;
+    }
+
+    public function setFlatten($c)
+    {
+        $this->flatten = (bool) $c;
+    }
+
+    public function setBackground($c)
+    {
+        $this->background = (string) $c;
     }
 
     public function setWidth($w)
@@ -129,7 +141,10 @@ class Imagemagick
             return false;
         }
 
-        $this->imagick = new Imagick($this->file);
+        $this->imagick = new Imagick();
+        $this->imagick->setBackgroundColor(new \ImagickPixel());
+        $this->imagick->readImage($this->file);
+        if($this->flatten || $this->format == 'jpg') $this->imagick=$this->imagick->flattenImages();
         $this->imagick->setImageFormat($this->format);
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
         $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);

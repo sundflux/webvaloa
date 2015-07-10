@@ -44,6 +44,15 @@ var Article = {
         jQuery('#alias-toggle').on('click', function() {
             jQuery('#article-alias').toggle();
         });
+
+        jQuery('a[href="#webvaloa-all-tabs"]').click(function(){
+          var $navTabs = jQuery(this).parent().eq(2);
+          jQuery(this).parent().addClass('active');
+          jQuery('#'+jQuery(this).data('tabs') + ' .tab-pane').each(function(i,t){
+            $navTabs.children('li').removeClass('active');
+           jQuery(this).addClass('active');
+          });
+        }).trigger('click');
     }
 
 }
