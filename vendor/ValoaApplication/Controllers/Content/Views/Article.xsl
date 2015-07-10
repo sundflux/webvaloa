@@ -46,9 +46,11 @@
                     <th>
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ID')"/>
                     </th>
-                    <th>
-                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY')"/>
-                    </th>
+                    <xsl:if test="category_id=''">
+                        <th>
+                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY')"/>
+                        </th>
+                    </xsl:if>
                     <th>
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TITLE')"/>
                     </th>
@@ -65,9 +67,11 @@
                             <td>
                                 <xsl:value-of select="id"/>
                             </td>
-                            <td>
-                                <xsl:value-of select="category"/>
-                            </td>
+                            <xsl:if test="../category_id=''">
+                                <td>
+                                    <xsl:value-of select="category"/>
+                                </td>
+                            </xsl:if>
                             <td>
                                 <xsl:if test="published = '0'">
                                     <xsl:attribute name="class">text-muted</xsl:attribute>
