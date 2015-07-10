@@ -114,7 +114,7 @@ class ArticleController extends \Webvaloa\Application
 
         // Get articles
         $query = "
-            SELECT content.id,user_id, publish_up, publish_down, title, locale, published
+            SELECT content.id,user_id, publish_up, publish_down, title, locale, published, content_category.category_id
             FROM content, content_category
             WHERE content.id = content_category.content_id
             AND published > -1
