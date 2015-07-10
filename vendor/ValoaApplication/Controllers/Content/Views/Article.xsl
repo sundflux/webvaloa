@@ -166,6 +166,9 @@
             <xsl:if test="article_id != '' and article_id &gt; 0">
                 <small>&#160;#<xsl:value-of select="article_id"/></small>
             </xsl:if>
+            <xsl:if test="category_id!=''">
+                <small>&#160;-&#160;<xsl:value-of select="category"/></small>
+            </xsl:if>
 
             <xsl:if test="category_id &gt; 0 or category_id = ''">
                 <div class="btn-group pull-right">
