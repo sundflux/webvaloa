@@ -38,6 +38,7 @@ use Webvaloa;
 use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Version;
+use Webvaloa\Security;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
@@ -67,6 +68,7 @@ class ArticleController extends \Webvaloa\Application
         $this->ui->addCSS('/css/Content_Field.css');
         $this->ui->addTemplate('pagination');
         $this->view->category_id = $category_id;
+        $this->view->params = '&page='.$page.'&category_id='.$category_id;
 
         $q = '';
 
@@ -144,12 +146,22 @@ class ArticleController extends \Webvaloa\Application
 
     public function trash($id = false)
     {
+        Security::verify();
+
         $article = new Article($id);
         $article->trash();
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_TRASHED'));
 
-        Redirect::to('content_article');
+        $params = "";
+        if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+            $params .= "/{$_GET['page']}";
+        }
+        if (isset($_GET['category_id']) && is_numeric($_GET['category_id'])) {
+            $params .= "/{$_GET['category_id']}";
+        }
+
+        Redirect::to('content_article'.$params);
     }
 
     public function add($categoryID = false)

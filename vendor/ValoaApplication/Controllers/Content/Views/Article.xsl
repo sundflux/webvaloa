@@ -116,7 +116,7 @@
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:attribute name="href">
-                                                    <xsl:value-of select="/page/common/basepath"/>/content_article/trash/<xsl:value-of select="id"/>?token=<xsl:value-of select="../token"/>
+                                                    <xsl:value-of select="/page/common/basepath"/>/content_article/trash/<xsl:value-of select="id"/>?token=<xsl:value-of select="../token"/><xsl:value-of select="../params"/>
                                                 </xsl:attribute>
                                             </xsl:otherwise>
                                         </xsl:choose>
