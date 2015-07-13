@@ -44,6 +44,7 @@ use Webvaloa\Field\Value;
 use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
+use Webvaloa\Helpers\DateFormat;
 use Webvaloa\Controller\Request\Response;
 use stdClass;
 use UnexpectedValueException;
@@ -435,8 +436,13 @@ class ArticleController extends \Webvaloa\Application
 
             // Publish up/down
             if (isset($_POST['publish_up'])) {
+                if ($_POST['publish_up'] == '0000-00-00 00:00:00' || $_POST['publish_up'] == 0) {
+                    $_POST['publish_up'] = DateFormat::toMySQL(time());
+                }
+
                 $article->setPublishUp($_POST['publish_up']);
             }
+
             if (isset($_POST['publish_down'])) {
                 $article->setPublishDown($_POST['publish_down']);
             }

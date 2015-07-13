@@ -34,10 +34,14 @@ namespace Webvaloa\Helpers;
 
 class DateFormat
 {
-    public static function toMySQL($date)
+    public static function toMySQL($date = '')
     {
         if (!is_numeric($date)) {
             $date = strtotime($date);
+        }
+
+        if (empty($date)) {
+            $date = time();
         }
 
         return date('Y-m-d H:i:s', $date);
