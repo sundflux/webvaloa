@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa\Helpers;
 
 use stdClass;
@@ -130,7 +129,7 @@ class Filesystem
     public function rmdir()
     {
         if (is_dir($this->path) && is_writable($this->path)) {
-            return @ rmdir($this->path);
+            return @rmdir($this->path);
         }
 
         throw new RuntimeException('Directory not empty or writeable.');
@@ -145,7 +144,7 @@ class Filesystem
             throw new RuntimeException('File not found');
         }
 
-        @ unlink($_filename);
+        @unlink($_filename);
     }
 
     private function download($filename, $mimetype = 'application/octet-stream')

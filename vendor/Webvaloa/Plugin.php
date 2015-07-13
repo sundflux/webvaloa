@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -74,22 +73,22 @@ class Plugin
 
     public function __construct($plugin = false)
     {
-        $this->plugin           = $plugin;
+        $this->plugin = $plugin;
 
-        $this->event            = false;
-        $this->plugins          = false;
-        $this->runnablePlugins  = false;
+        $this->event = false;
+        $this->plugins = false;
+        $this->runnablePlugins = false;
 
         // Plugins can access and modify these
-        $this->_properties      = false;
-        $this->ui               = false;
-        $this->controller       = false;
-        $this->request          = false;
-        $this->view             = false;
-        $this->xhtml            = false;
+        $this->_properties = false;
+        $this->ui = false;
+        $this->controller = false;
+        $this->request = false;
+        $this->view = false;
+        $this->xhtml = false;
 
         try {
-            $this->db           = \Webvaloa\Webvaloa::DBConnection();
+            $this->db = \Webvaloa\Webvaloa::DBConnection();
         } catch (Exception $e) {
         }
     }
@@ -190,14 +189,14 @@ class Plugin
 
         foreach ($this->runnablePlugins as $k => $v) {
             $p = '\\'.self::$properties['vendor'].'\Plugins\\'.$v->plugin.'Plugin';
-            $plugin              = new $p();
+            $plugin = new $p();
 
-            $plugin->view        = & $this->view;
-            $plugin->ui          = & $this->ui;
-            $plugin->request     = & $this->request;
-            $plugin->controller  = & $this->controller;
-            $plugin->xhtml       = & $this->xhtml;
-            $plugin->_properties = & $this->_properties;
+            $plugin->view = &$this->view;
+            $plugin->ui = &$this->ui;
+            $plugin->request = &$this->request;
+            $plugin->controller = &$this->controller;
+            $plugin->xhtml = &$this->xhtml;
+            $plugin->_properties = &$this->_properties;
 
             if (method_exists($plugin, $e)) {
                 $plugin->{$e}();

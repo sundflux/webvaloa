@@ -30,7 +30,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa;
 
 use Memcached;
@@ -46,11 +45,11 @@ class MemcachedCache
      * @var type
      */
     public $properties = array(
-        'host'         => 'localhost',
-        'port'         => 11211,
-        'expires'      => 900, // 15 minute cache by default
+        'host' => 'localhost',
+        'port' => 11211,
+        'expires' => 900, // 15 minute cache by default
         'defaultPrefix' => 'WebvaloaObject',
-        'empty'        => '__CACHE_NULL__',
+        'empty' => '__CACHE_NULL__',
     );
 
     private $connection;

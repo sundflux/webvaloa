@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Controllers\User;
 
 use Libvaloa\Debug;
@@ -128,7 +127,7 @@ class UserController extends \Webvaloa\Application
             'password',
             'password2',
         );
-        
+
         $user->email = $_POST['email'];
 
         if (isset($_POST['username']) && !empty($_POST['username'])) {

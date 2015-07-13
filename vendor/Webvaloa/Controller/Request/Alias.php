@@ -30,7 +30,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
@@ -77,7 +76,7 @@ class Alias
 
             // Aliases must work without db connection
             if (!method_exists($this->db, 'prepare')) {
-            	return;
+                return;
             }
 
             $query = "
@@ -158,10 +157,10 @@ class Alias
         $alias = strtolower($alias);
 
         if (isset($this->routes[$alias])) {
-            $this->controller->controller    = $this->routes[$alias]['controller'];
-            $this->controller->method        = $this->routes[$alias]['method'];
-            $this->controller->locale        = $this->routes[$alias]['locale'];
-            $this->controller->id           = -1;
+            $this->controller->controller = $this->routes[$alias]['controller'];
+            $this->controller->method = $this->routes[$alias]['method'];
+            $this->controller->locale = $this->routes[$alias]['locale'];
+            $this->controller->id = -1;
 
             return true;
         }

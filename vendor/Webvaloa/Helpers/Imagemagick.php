@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa\Helpers;
 
 use Imagick;
@@ -144,7 +143,9 @@ class Imagemagick
         $this->imagick = new Imagick();
         $this->imagick->setBackgroundColor(new \ImagickPixel());
         $this->imagick->readImage($this->file);
-        if($this->flatten || $this->format == 'jpg') $this->imagick=$this->imagick->flattenImages();
+        if ($this->flatten || $this->format == 'jpg') {
+            $this->imagick = $this->imagick->flattenImages();
+        }
         $this->imagick->setImageFormat($this->format);
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
         $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
@@ -165,7 +166,7 @@ class Imagemagick
 
     public static function scale($image, $width = 320, $height = 200)
     {
-        $im = new Imagemagick($image);
+        $im = new self($image);
         $im->setCrop(false);
         $im->setWidth($width);
         $im->setHeight($height);
@@ -182,7 +183,7 @@ class Imagemagick
 
     public static function crop($image, $width = 320, $height = 200)
     {
-        $im = new Imagemagick($image);
+        $im = new self($image);
         $im->setCrop(true);
         $im->setWidth($width);
         $im->setHeight($height);

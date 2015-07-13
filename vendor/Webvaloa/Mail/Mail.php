@@ -36,7 +36,6 @@
 /**
  * Valoa- compatible version of https://github.com/eoghanobrien/php-simple-mail.
  */
-
 namespace Webvaloa\Mail;
 
 class Mail
@@ -189,7 +188,6 @@ class Mail
     /**
      * setMessage function.
      *
-     * @access public
      *
      * @param string $message
      *
@@ -222,7 +220,6 @@ class Mail
      * addAttachment function.
      *
      * @todo   Test this.
-     * @access public
      *
      * @param string $path
      * @param string $filename
@@ -473,7 +470,7 @@ class Mail
 
         $h = '';
         $h .= "\r\nMIME-Version: 1.0\r\n";
-        $h .= "Content-Type: multipart/mixed; boundary=\"".$u."\"\r\n\r\n";
+        $h .= 'Content-Type: multipart/mixed; boundary="'.$u."\"\r\n\r\n";
         $h .= "This is a multi-part message in MIME format.\r\n";
         $h .= '--'.$u."\r\n";
         $h .= "Content-type:text/html; charset=\"utf-8\"\r\n";
@@ -482,9 +479,9 @@ class Mail
         $h .= '--'.$u."\r\n";
 
         foreach ($this->_attachmentsFilename as $k => $v) {
-            $h .= "Content-Type: application/octet-stream; name=\"".$v."\"\r\n";
+            $h .= 'Content-Type: application/octet-stream; name="'.$v."\"\r\n";
             $h .= "Content-Transfer-Encoding: base64\r\n";
-            $h .= "Content-Disposition: attachment; filename=\"".$v."\"\r\n\r\n";
+            $h .= 'Content-Disposition: attachment; filename="'.$v."\"\r\n\r\n";
             $h .= $this->_attachments[$k]."\r\n\r\n";
             $h .= '--'.$u."\r\n";
         }

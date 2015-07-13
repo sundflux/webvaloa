@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa\Helpers;
 
 use Webvaloa\Field\Field;
@@ -154,7 +153,7 @@ class Category
             $stmt->set((int) $this->published);
             $stmt->set($this->locale);
             $stmt->set((int) $this->id);
-            foreach($this->fieldFilters as $k => $v) {
+            foreach ($this->fieldFilters as $k => $v) {
                 $stmt->set($v);
             }
             $stmt->execute();
@@ -171,7 +170,7 @@ class Category
             $stmt->set((int) $this->published);
             $stmt->set($this->locale);
             $stmt->set((int) $this->id);
-            foreach($this->fieldFilters as $k => $v) {
+            foreach ($this->fieldFilters as $k => $v) {
                 $stmt->set($v);
             }
             $stmt->execute();

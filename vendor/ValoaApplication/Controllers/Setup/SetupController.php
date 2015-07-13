@@ -29,12 +29,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Controllers\Setup;
 
 // Libvaloa classes
 use Libvaloa\Db;
-use Libvaloa\Debug;
 // Webvaloa classes
 use Webvaloa;
 use Webvaloa\User;
@@ -56,7 +54,7 @@ class SetupController extends \Webvaloa\Application
 
     public function __construct()
     {
-        $locales = new Locales;
+        $locales = new Locales();
         $this->locales = $locales->locales();
 
         $this->ui->addJS('/js/Setup.js');
@@ -104,7 +102,7 @@ class SetupController extends \Webvaloa\Application
 
         if (!file_exists(WEBVALOA_BASEDIR.'/config/config.php') || file_get_contents(WEBVALOA_BASEDIR.'/config/config.php') == '') {
             // Copy stub config for setup
-            if (@ !file_put_contents(WEBVALOA_BASEDIR.'/config/config.php', file_get_contents(WEBVALOA_BASEDIR.'/config/config.php-stub'))) {
+            if (@!file_put_contents(WEBVALOA_BASEDIR.'/config/config.php', file_get_contents(WEBVALOA_BASEDIR.'/config/config.php-stub'))) {
                 $this->ui->addError(\Webvaloa\Webvaloa::translate('CONFIG_NOT_WRITABLE'));
 
                 return;
@@ -160,10 +158,10 @@ class SetupController extends \Webvaloa\Application
 
             // All good, test connection
             \Webvaloa\config::$properties['db_server'] = trim($_POST['db_server']);
-            \Webvaloa\config::$properties['db_host']   = trim($_POST['db_host']);
-            \Webvaloa\config::$properties['db_user']   = trim($_POST['db_user']);
-            \Webvaloa\config::$properties['db_pass']   = trim($_POST['db_pass']);
-            \Webvaloa\config::$properties['db_db']     = trim($_POST['db_db']);
+            \Webvaloa\config::$properties['db_host'] = trim($_POST['db_host']);
+            \Webvaloa\config::$properties['db_user'] = trim($_POST['db_user']);
+            \Webvaloa\config::$properties['db_pass'] = trim($_POST['db_pass']);
+            \Webvaloa\config::$properties['db_db'] = trim($_POST['db_db']);
 
             try {
                 $query = 'SELECT 1';
@@ -315,10 +313,10 @@ class SetupController extends \Webvaloa\Application
         $manifest = new Manifest('Setup');
 
         \Webvaloa\config::$properties['db_server'] = $setup['db']['db_server'];
-        \Webvaloa\config::$properties['db_host']   = $setup['db']['db_host'];
-        \Webvaloa\config::$properties['db_user']   = $setup['db']['db_user'];
-        \Webvaloa\config::$properties['db_pass']   = $setup['db']['db_pass'];
-        \Webvaloa\config::$properties['db_db']     = $setup['db']['db_db'];
+        \Webvaloa\config::$properties['db_host'] = $setup['db']['db_host'];
+        \Webvaloa\config::$properties['db_user'] = $setup['db']['db_user'];
+        \Webvaloa\config::$properties['db_pass'] = $setup['db']['db_pass'];
+        \Webvaloa\config::$properties['db_db'] = $setup['db']['db_db'];
 
         // Install database
         $sqlSchema = $manifest->controllerPath.'/schema-'.$manifest->version.'_'.$setup['db']['db_server'].'.sql';

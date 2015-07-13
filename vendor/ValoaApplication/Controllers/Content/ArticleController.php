@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Debug;
@@ -153,7 +152,7 @@ class ArticleController extends \Webvaloa\Application
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_TRASHED'));
 
-        $params = "";
+        $params = '';
         if (isset($_GET['page']) && is_numeric($_GET['page'])) {
             $params .= "/{$_GET['page']}";
         }
@@ -424,7 +423,7 @@ class ArticleController extends \Webvaloa\Application
                         $i++;
                         continue;
                     }
-                    
+
                     // Remove duplicates from tags (case sensitive)
                     if ($k == 'tags') {
                         $v = array_unique($v);

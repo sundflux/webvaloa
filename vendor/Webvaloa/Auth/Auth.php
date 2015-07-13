@@ -36,7 +36,6 @@
  *
  * Handles user authentication and validation.
  */
-
 namespace Webvaloa\Auth;
 
 use Webvaloa\Controller\Request;
@@ -82,8 +81,6 @@ class Auth
 
     /**
      * Constructor.
-     *
-     * @access      public
      */
     public function __construct()
     {
@@ -106,7 +103,7 @@ class Auth
      */
     public static function getClientIP()
     {
-        $auth = new Auth();
+        $auth = new self();
         $properties = $auth->properties;
 
         // Support for cache servers such as Varnish.
@@ -122,7 +119,6 @@ class Auth
     /**
      * Override default authentication driver.
      *
-     * @access      public
      *
      * @param string $driver Authentication driver
      */
@@ -137,7 +133,6 @@ class Auth
      * Loads authentication driver as defined in config and calls drivers
      * authentication() method..
      *
-     * @access      public
      *
      * @param string $user Username
      * @param string $pass Password
@@ -168,7 +163,6 @@ class Auth
     /**
      * Updates user password using available authentication driver.
      *
-     * @access public
      *
      * @param string $username Username
      * @param string $password Password
@@ -193,7 +187,6 @@ class Auth
      * Checks if user has permissions to access a certain module
      * (groupfeature or userfeature).
      *
-     * @access      public
      *
      * @param string $module Controller name
      *
