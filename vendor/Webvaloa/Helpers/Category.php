@@ -153,8 +153,10 @@ class Category
             $stmt->set((int) $this->published);
             $stmt->set($this->locale);
             $stmt->set((int) $this->id);
-            foreach ($this->fieldFilters as $k => $v) {
-                $stmt->set($v);
+            if ($this->fieldFilters) {
+                foreach ($this->fieldFilters as $k => $v) {
+                    $stmt->set($v);
+                }
             }
             $stmt->execute();
             $count = $stmt->fetch();
@@ -170,8 +172,10 @@ class Category
             $stmt->set((int) $this->published);
             $stmt->set($this->locale);
             $stmt->set((int) $this->id);
-            foreach ($this->fieldFilters as $k => $v) {
-                $stmt->set($v);
+            if ($this->fieldFilters) {
+                foreach ($this->fieldFilters as $k => $v) {
+                    $stmt->set($v);
+                }
             }
             $stmt->execute();
 
