@@ -30,7 +30,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa;
 
 use Webvaloa\MemcachedCache as Memcached;
@@ -59,14 +58,14 @@ class Memcache
                 && !empty(\Webvaloa\config::$properties['memcached_host']) && !empty(\Webvaloa\config::$properties['memcached_port'])) {
             // Memcached driver from libvaloa
             $this->cache = new Memcached();
-            $this->cache->properties['host']        = \Webvaloa\config::$properties['memcached_host'];
-            $this->cache->properties['port']        = \Webvaloa\config::$properties['memcached_port'];
+            $this->cache->properties['host'] = \Webvaloa\config::$properties['memcached_host'];
+            $this->cache->properties['port'] = \Webvaloa\config::$properties['memcached_port'];
         } else {
-            $this->cache = & $_SESSION['__CACHE__'];
+            $this->cache = &$_SESSION['__CACHE__'];
         }
 
         if (isset(\Webvaloa\config::$properties['memcached_expires'])) {
-            $this->cache->properties['expires']     = \Webvaloa\config::$properties['memcached_expires'];
+            $this->cache->properties['expires'] = \Webvaloa\config::$properties['memcached_expires'];
         }
     }
 

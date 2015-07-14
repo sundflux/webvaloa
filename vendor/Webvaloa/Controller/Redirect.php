@@ -36,7 +36,6 @@
  *
  * @uses          Controller_Request
  */
-
 namespace Webvaloa\Controller;
 
 class Redirect
@@ -56,7 +55,7 @@ class Redirect
 
         // Default to current url if no url was given
         if (empty($url)) {
-        	$url = $_SERVER['REQUEST_URI'];
+            $url = $_SERVER['REQUEST_URI'];
         }
 
         $pos = strpos($url, '://');
@@ -72,11 +71,10 @@ class Redirect
     }
 
     /**
-     * Redirect client to the current url. This is just an alias for to()
+     * Redirect client to the current url. This is just an alias for to().
      */
     public function reload()
     {
-    	self::to();
+        self::to();
     }
-
 }

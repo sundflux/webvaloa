@@ -30,7 +30,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa;
 
 use Webvaloa\Controller\Request;
@@ -50,16 +49,15 @@ class FrontController
     private $plugin;
 
     public static $properties = array(
-        'defaultController'         => 'index',
-        'defaultControllerAuthed'   => 'index',
-        'layout'                    => 'default',
-        'vendor'                    => 'ValoaApplication',
+        'defaultController' => 'index',
+        'defaultControllerAuthed' => 'index',
+        'layout' => 'default',
+        'vendor' => 'ValoaApplication',
     );
 
     /**
      * Loads & runs specified controller.
      *
-     * @access      static
      *
      * @uses        Controller_Request
      */
@@ -70,7 +68,7 @@ class FrontController
 
     public function runController()
     {
-        FrontController::defaults();
+        self::defaults();
 
         $locale = false;
         $request = Request::getInstance();
@@ -95,7 +93,7 @@ class FrontController
                 if ($request->getParam(0) == false) {
                     // Load default controller if the request has no
                     // further parameters
-                    FrontController::defaults();
+                    self::defaults();
                 } else {
                     $request->setController($request->getParam(0));
                 }
@@ -162,16 +160,16 @@ class FrontController
         $manifest = new Manifest($controller);
 
         // System event: onFrontcontrollerInit
-        $this->plugin->request = & $request;
+        $this->plugin->request = &$request;
         if ($this->plugin->hasRunnablePlugins()) {
             $this->plugin->setEvent('onAfterFrontControllerInit');
 
             // Give stuff for plugins to modify
-            $this->plugin->ui           = false;
-            $this->plugin->view         = false;
-            $this->plugin->controller   = false;
-            $this->plugin->xhtml        = false;
-            $this->plugin->_properties  = & self::$properties;
+            $this->plugin->ui = false;
+            $this->plugin->view = false;
+            $this->plugin->controller = false;
+            $this->plugin->xhtml = false;
+            $this->plugin->_properties = &self::$properties;
 
             // Run plugins
             $this->plugin->runPlugins();
@@ -193,7 +191,7 @@ class FrontController
 
             // Set backend template only if defined so
             $configuration = new Configuration();
-            if (@ $configuration->template_backend->value == 'yes') {
+            if (@$configuration->template_backend->value == 'yes') {
                 \Webvaloa\Webvaloa::$properties['layout'] = self::$properties['layout'];
             }
         } else {
@@ -230,17 +228,17 @@ class FrontController
         $method = $request->getMethod();
 
         // Plugin event: onBeforeController
-        $this->plugin->request = & $request;
+        $this->plugin->request = &$request;
 
         if ($this->plugin->hasRunnablePlugins()) {
             $this->plugin->setEvent('onBeforeController');
 
             // Give stuff for plugins to modify
-            $this->plugin->_properties  = false;
-            $this->plugin->ui           = & $application->ui;
-            $this->plugin->view         = & $application->view;
-            $this->plugin->controller   = & $application;
-            $this->plugin->xhtml        = false;
+            $this->plugin->_properties = false;
+            $this->plugin->ui = &$application->ui;
+            $this->plugin->view = &$application->view;
+            $this->plugin->controller = &$application;
+            $this->plugin->xhtml = false;
 
             // Run plugins
             $this->plugin->runPlugins();

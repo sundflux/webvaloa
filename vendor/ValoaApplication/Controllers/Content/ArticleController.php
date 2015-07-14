@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Debug;
@@ -38,12 +37,14 @@ use Webvaloa;
 use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Version;
+use Webvaloa\Security;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
+use Webvaloa\Helpers\DateFormat;
 use Webvaloa\Controller\Request\Response;
 use stdClass;
 use UnexpectedValueException;
@@ -66,6 +67,7 @@ class ArticleController extends \Webvaloa\Application
         $this->ui->addCSS('/css/Content_Field.css');
         $this->ui->addTemplate('pagination');
         $this->view->category_id = $category_id;
+        $this->view->params = '&page='.$page.'&category_id='.$category_id;
 
         $q = '';
 
@@ -143,12 +145,22 @@ class ArticleController extends \Webvaloa\Application
 
     public function trash($id = false)
     {
+        Security::verify();
+
         $article = new Article($id);
         $article->trash();
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_TRASHED'));
 
-        Redirect::to('content_article');
+        $params = '';
+        if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+            $params .= "/{$_GET['page']}";
+        }
+        if (isset($_GET['category_id']) && is_numeric($_GET['category_id'])) {
+            $params .= "/{$_GET['category_id']}";
+        }
+
+        Redirect::to('content_article'.$params);
     }
 
     public function add($categoryID = false)
@@ -412,6 +424,11 @@ class ArticleController extends \Webvaloa\Application
                         continue;
                     }
 
+                    // Remove duplicates from tags (case sensitive)
+                    if ($k == 'tags') {
+                        $v = array_unique($v);
+                    }
+
                     // Find field id
                     $field = new Field();
                     $f = $field->findByName($k);
@@ -430,8 +447,13 @@ class ArticleController extends \Webvaloa\Application
 
             // Publish up/down
             if (isset($_POST['publish_up'])) {
+                if ($_POST['publish_up'] == '0000-00-00 00:00:00' || $_POST['publish_up'] == 0) {
+                    $_POST['publish_up'] = DateFormat::toMySQL(time());
+                }
+
                 $article->setPublishUp($_POST['publish_up']);
             }
+
             if (isset($_POST['publish_down'])) {
                 $article->setPublishDown($_POST['publish_down']);
             }

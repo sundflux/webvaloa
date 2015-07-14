@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -46,7 +45,7 @@ class Component
     private $roles;
 
     public static $properties = array(
-        'vendor'              => 'ValoaApplication',
+        'vendor' => 'ValoaApplication',
     );
 
     /**

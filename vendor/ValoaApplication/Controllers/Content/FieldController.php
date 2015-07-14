@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Controllers\Content;
 
 use Webvaloa\Controller\Redirect;
@@ -113,9 +112,9 @@ class FieldController extends \Webvaloa\Application
         if ($group_id && is_numeric($group_id)) {
             $group = new Group($group_id);
 
-            $this->view->group_name =  $group->name;
-            $this->view->group_label =  $group->translation;
-            $this->view->repeatable =  $group->repeatable;
+            $this->view->group_name = $group->name;
+            $this->view->group_label = $group->translation;
+            $this->view->repeatable = $group->repeatable;
 
             // Mark selected categories
             $selected = $group->categories();

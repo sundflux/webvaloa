@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Db;
@@ -44,7 +43,6 @@ class Pagination
     /**
      * Get pagination.
      *
-     * @access      public
      *
      * @param int $page  Current page
      * @param int $total Total number of entries
