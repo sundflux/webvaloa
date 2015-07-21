@@ -144,7 +144,7 @@ class Imagemagick
         $this->imagick->setBackgroundColor(new \ImagickPixel());
         $this->imagick->readImage($this->file);
         if ($this->flatten || $this->format == 'jpg') {
-            $this->imagick = $this->imagick->flattenImages();
+            $this->imagick = $this->imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
         }
         $this->imagick->setImageFormat($this->format);
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
