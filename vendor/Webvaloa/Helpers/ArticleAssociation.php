@@ -112,7 +112,7 @@ class ArticleAssociation
     public function getAssociatedId()
     {
         // Support for associations DISABLED for now
-        return $this->id; 
+        return $this->id;
 
         if (!$this->getLocale()) {
             $this->defaultLocale();
