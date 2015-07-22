@@ -211,7 +211,7 @@ class MemcachedCache
     {
         $keys = $this->connection->getAllKeys();
 
-        if ($search !== false) {
+        if ($search !== false && $keys !== false) {
             foreach ($keys as $index => $key) {
                 if (strpos($key, $search) !== false) {
                     unset($keys[$index]);

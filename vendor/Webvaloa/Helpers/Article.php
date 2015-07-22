@@ -105,12 +105,10 @@ class Article
 
             WHERE
                 field.id = content_field_value.field_id
-                AND content_field_value.locale = ?
                 AND content_field_value.content_id = ?
                 ORDER BY content_field_value.id ASC';
 
         $stmt = $db->prepare($query);
-        $stmt->set(\Webvaloa\Webvaloa::getLocale());
 
         // global fields
         if (!isset($this->article->id)) {

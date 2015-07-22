@@ -34,6 +34,7 @@ namespace Webvaloa\Helpers;
 use Exception;
 use RuntimeException;
 use Webvaloa\Article;
+use Webvaloa\Locale\Locales as LocalesHelper;
 
 /*
  * Associations for article translations.
@@ -114,6 +115,21 @@ class ArticleAssociation
         $this->setAssociatedId($this->loadAssociatedId());
 
         return $this->associatedId;
+    }
+
+    public function getAssociatedIds()
+    {
+        $localesHelper = new LocalesHelper();
+        $locales = $localesHelper->locales();
+        $ids[] = $this->getId();
+
+        foreach ($locales as $locale) {
+            $this->setLocale($locale);
+            $this->setAssociatedId($this->loadAssociatedId());
+            $ids[] = $this->associatedId;
+        }
+
+        return $ids;
     }
 
     private function loadAssociatedId()
