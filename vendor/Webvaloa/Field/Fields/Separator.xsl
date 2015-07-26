@@ -9,7 +9,7 @@
 		<xsl:param name="translation"></xsl:param>
 		<xsl:param name="params"></xsl:param>
 
-		<h1><xsl:value-of select="$translation"/></h1>
+		<h2><xsl:value-of select="$translation"/></h2>
 	</xsl:template>		
 
 </xsl:stylesheet>
