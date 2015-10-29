@@ -35,6 +35,7 @@ use Libvaloa\Db;
 use stdClass;
 use RuntimeException;
 use UnexpectedValueException;
+use Webvaloa\Helpers\ArticleAssociation as ArticleHelper;
 
 /**
  * Handles Webvaloa articles.
@@ -198,17 +199,23 @@ class Article
             throw new OutOfBoundsException('Not a valid publish state');
         }
 
-        $query = '
-            UPDATE content SET published = ?
-            WHERE id = ?';
+        // Update the value for all associated articles
+        $articleHelper = new ArticleHelper((int) $this->article->id);
+        $ids = $articleHelper->getAssociatedIds();
 
-        $stmt = $db->prepare($query);
-        $stmt->set($i);
-        $stmt->set((int) $this->article->id);
+        foreach ($ids as $id) {
+            $query = '
+                UPDATE content SET published = ?
+                WHERE id = ?';
 
-        try {
-            $stmt->execute();
-        } catch (Exception $e) {
+            $stmt = $db->prepare($query);
+            $stmt->set($i);
+            $stmt->set((int) $id);
+
+            try {
+                $stmt->execute();
+            } catch (Exception $e) {
+            }
         }
     }
 
@@ -236,14 +243,20 @@ class Article
             $d = 'publish_up';
         }
 
-        $query = "
-            UPDATE content SET {$d} = ?
-            WHERE id = ?";
+        // Update the value for all associated articles
+        $articleHelper = new ArticleHelper((int) $this->article->id);
+        $ids = $articleHelper->getAssociatedIds();
 
-        $stmt = $db->prepare($query);
-        $stmt->set($i);
-        $stmt->set((int) $this->article->id);
-        $stmt->execute();
+        foreach ($ids as $id) {
+            $query = "
+                UPDATE content SET {$d} = ?
+                WHERE id = ?";
+
+            $stmt = $db->prepare($query);
+            $stmt->set($i);
+            $stmt->set((int) $id);
+            $stmt->execute();
+        }
     }
 
     public function setAssociation($id)

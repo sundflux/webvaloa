@@ -546,7 +546,7 @@
         <xsl:if test="not(onSaveRedirect)">
             <!-- Allow removing articles only from non-frontend links -->
             <xsl:if test="category_id &gt; 0">
-                <a id="trash-article" href="{/page/common/basepath}/content_article/trash/{articleID}" class="btn btn-danger pull-right">
+                <a id="trash-article" href="{/page/common/basepath}/content_article/trash/{articleID}?token={token}" class="btn btn-danger pull-right">
                     <xsl:if test="mode &lt; 1 or article_id = ''">
                         <xsl:attribute name="disabled">disabled</xsl:attribute>
                     </xsl:if>
