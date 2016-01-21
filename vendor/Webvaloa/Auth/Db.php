@@ -31,7 +31,6 @@
  */
 namespace Webvaloa\Auth;
 
-use Webvaloa\Auth;
 use Webvaloa;
 use Webvaloa\Component;
 use Webvaloa\User;
