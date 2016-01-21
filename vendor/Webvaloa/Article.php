@@ -291,6 +291,11 @@ class Article
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
+        // Use transliteration to convert special letters and characters to ascii. Note: this requires setlocale with .UTF-8 to be correctly installed
+        $translit = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", $a);
+        if($translit !== false) {
+               $a = $translit;
+        }
         $a = preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $a)));
 
         $query = '
