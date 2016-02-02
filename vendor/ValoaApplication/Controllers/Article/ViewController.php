@@ -39,19 +39,9 @@ use Webvaloa\Helpers\Article as ArticleHelper;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Value;
-use Webvaloa\Version;
-use Webvaloa\Security;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
-use Webvaloa\Helpers\Pagination;
-use Webvaloa\Helpers\DateFormat;
-use Webvaloa\Controller\Request\Response;
 use stdClass;
-use UnexpectedValueException;
-
-
-
-
 
 class ViewController extends \Webvaloa\Application
 {
@@ -67,17 +57,16 @@ class ViewController extends \Webvaloa\Application
         $group = new Group();
         $value = new Value();
         $globals = $group->globals();
-        $globalValues=array();
-        foreach($globals as $global) {
+        $globalValues = array();
+        foreach ($globals as $global) {
             $globalGroup = new Group($global->id);
             $fields = $globalGroup->fields();
-            foreach($fields as $field) {
+            foreach ($fields as $field) {
                 $globalValues[$field->name] = $value->getValues($field->id);
             }
         }
-		$this->view->globals = $globalValues;
-		
-		
+        $this->view->globals = $globalValues;
+
         //var_dump($globalValues);
         //die();
 
@@ -98,32 +87,30 @@ class ViewController extends \Webvaloa\Application
                 $id = $row->id;
             }
         }
-        
+
         // If requesting without id, return default
-        if($id === false || empty($id)) {
-        	if(isset($globalValues['default_front_page'][0])) {
-        		$id = $globalValues['default_front_page'][0]->value;
-        	} else {
-        		$id = false;
-        	}
-	        
+        if ($id === false || empty($id)) {
+            if (isset($globalValues['default_front_page'][0])) {
+                $id = $globalValues['default_front_page'][0]->value;
+            } else {
+                $id = false;
+            }
         }
-        
+
         // If requesting
-        if(!is_numeric($id)) {
-        	if(isset($globalValues['default_404_page'][0])) {
-	            $id = $globalValues['default_404_page'][0]->value;
-	        } else {
-	        	$id = false;
-	        }
+        if (!is_numeric($id)) {
+            if (isset($globalValues['default_404_page'][0])) {
+                $id = $globalValues['default_404_page'][0]->value;
+            } else {
+                $id = false;
+            }
         }
 
         // Fallback 404
-        if($id === false) {
-        	header('HTTP/1.0 404 Not Found');
-        	exit;
+        if ($id === false) {
+            header('HTTP/1.0 404 Not Found');
+            exit;
         }
-        
 
         // Try loading associated article
         $association = new ArticleAssociation($id);
@@ -133,18 +120,18 @@ class ViewController extends \Webvaloa\Application
         }
 
         $article = new Article($id);
-        if($article->article === false) {
-        	if(isset($globalValues['default_404_page'][0])) {
-	            $id = $globalValues['default_404_page'][0]->value;
-	            $article = new Article($id);
-	        } else {
-	        	header('HTTP/1.0 404 Not Found');
-        		exit;
-	        }
-        }  
+        if ($article->article === false) {
+            if (isset($globalValues['default_404_page'][0])) {
+                $id = $globalValues['default_404_page'][0]->value;
+                $article = new Article($id);
+            } else {
+                header('HTTP/1.0 404 Not Found');
+                exit;
+            }
+        }
         //$articleHelper = new ArticleHelper($id);
         $this->view->id = $id;
-		$this->view->articleID = $id;
+        $this->view->articleID = $id;
         $this->view->article = $article->article; //$articleHelper->article;
 
         // Set template overrides
@@ -169,13 +156,12 @@ class ViewController extends \Webvaloa\Application
             }
         }
 
-		$this->initializeFieldsView($catId[0]);
-		
-		Debug::__print($this->view);
-		
+        $this->initializeFieldsView($catId[0]);
+
+        Debug::__print($this->view);
     }
-	
-	private function initializeFieldsView($categoryID)
+
+    private function initializeFieldsView($categoryID)
     {
         $category = new Category($categoryID);
         $this->view->category = $category->category;
@@ -206,8 +192,7 @@ class ViewController extends \Webvaloa\Application
                 $repeatables[$v]->repeatable[$i]->fields[$field->name]->values[0] = '';
                 // Get params
                 $fieldClass = '\Webvaloa\Field\Fields\\'.$field->type;
-               
-               
+
                 $f = new $fieldClass($field->id, $this->view->articleID);
                 $repeatables[$v]->repeatable[$i]->fields[$field->name]->params = $f->getParams();
                 // Collect field types
@@ -285,11 +270,8 @@ class ViewController extends \Webvaloa\Application
                 Debug::__print($e->getMessage);
             }
         }
-		
-		// Put fields to view
+
+        // Put fields to view
         $this->view->fields = $tmp;
     }
-	
 }
-
-
