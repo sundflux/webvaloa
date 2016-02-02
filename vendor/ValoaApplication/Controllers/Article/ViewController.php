@@ -67,9 +67,6 @@ class ViewController extends \Webvaloa\Application
         }
         $this->view->globals = $globalValues;
 
-        //var_dump($globalValues);
-        //die();
-
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
             $query = '
