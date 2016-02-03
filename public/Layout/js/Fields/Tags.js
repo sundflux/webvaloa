@@ -693,6 +693,7 @@ var Tags = {
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
         var $articleID = jQuery('#article_id').val();
+        var $ordering = jQuery(el).closest('.repeatable-group-holder').parent().index();
 
         var tags = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -711,7 +712,7 @@ var Tags = {
 
         tags.initialize();
 
-        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id + '/' + $articleID, function( data ) {
+        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id + '/' + $articleID + ':' + $ordering, function( data ) {
             var items = [];
             jQuery.each( data, function( key, val ) {
                 items.push('<option value="' + val.value.value + '"  selected="selected">' + val.value.value + '</option>');
