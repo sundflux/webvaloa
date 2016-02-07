@@ -376,7 +376,7 @@ class Request
     public static function encodeRouteParam($val)
     {
         if (strpos($val, '/') !== false) {
-            return "\$enc\$".urlencode(str_replace('/', '.', base64_encode($val)));
+            return '$enc$'.urlencode(str_replace('/', '.', base64_encode($val)));
         } else {
             return urlencode($val);
         }

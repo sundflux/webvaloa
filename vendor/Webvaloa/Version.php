@@ -107,7 +107,7 @@ class Version
 
             $i = 0;
             foreach ($stmt as $row) {
-                $i++;
+                ++$i;
 
                 if ($i > self::MAX_VERSIONS) {
                     $q = '

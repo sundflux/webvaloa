@@ -54,7 +54,7 @@ class DateFormat
 
         return date($format, $date);
     }
-    
+
     public static function localeFormat($date, $format)
     {
         if (!is_numeric($date)) {
@@ -63,9 +63,9 @@ class DateFormat
 
         return strftime($format, $date);
     }
-    
+
     public static function monthName($month)
     {
-        return strftime('%B', mktime(null, null, null, (int)$month, 1));
+        return strftime('%B', mktime(null, null, null, (int) $month, 1));
     }
 }

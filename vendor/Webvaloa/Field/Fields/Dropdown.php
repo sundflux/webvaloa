@@ -220,7 +220,7 @@ class Dropdown
             // Add whole thing to dom
             $dom->appendChild($opt);
 
-            $i++;
+            ++$i;
         }
 
         // <br>, end of row
