@@ -420,7 +420,7 @@ class ArticleController extends \Webvaloa\Application
 
                     // This is the group separator, increase group ordering
                     if ($k == 'group_separator') {
-                        $i++;
+                        ++$i;
                         continue;
                     }
 
@@ -538,7 +538,7 @@ class ArticleController extends \Webvaloa\Application
                 $this->view->fieldTypes[] = $field->type;
             }
 
-            $i++;
+            ++$i;
             $groupindex[$v]->i = $i;
         }
 
@@ -597,7 +597,7 @@ class ArticleController extends \Webvaloa\Application
                     }
                 }
 
-                $i++;
+                ++$i;
                 $index[$v->field_group_id]->i = $i;
             }
         }

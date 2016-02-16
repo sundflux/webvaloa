@@ -100,7 +100,7 @@ class Filesystem
         $i = 0;
         $f = $file;
         while (file_exists($dir.$f)) {
-            $i++;
+            ++$i;
             $fileInfo = pathinfo($dir.$f);
             $f = $fileInfo['filename'].'-'.$i.'.'.$fileInfo['extension'];
         }
@@ -207,7 +207,7 @@ class Filesystem
         $cur = $begin;
         fseek($handle, $begin, 0);
         while (!feof($fm) && $cur < $end && (connection_status() == 0)) {
-            print fread($fm, min(1024 * 16, $end - $cur));
+            echo fread($fm, min(1024 * 16, $end - $cur));
             $cur += 1024 * 16;
         }
     }

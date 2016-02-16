@@ -179,7 +179,7 @@ class MediaController extends \Webvaloa\Application
             } else {
                 $fileCount = count($_FILES['files']['name']);
 
-                for ($i = 0; $i < $fileCount; $i++) {
+                for ($i = 0; $i < $fileCount; ++$i) {
                     $filename = $_FILES['files']['name'][$i];
 
                     move_uploaded_file($_FILES['files']['tmp_name'][$i], $fs->getAvailableFilename($dir, $filename));

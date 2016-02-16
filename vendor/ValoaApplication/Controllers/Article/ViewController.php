@@ -33,15 +33,13 @@ namespace ValoaApplication\Controllers\Article;
 
 use Libvaloa\Debug;
 use Webvaloa\Cache;
-use Webvaloa\Article;
 use Webvaloa\Category;
-use Webvaloa\Helpers\Article as ArticleHelper;
 use Webvaloa\Helpers\ArticleAssociation;
+use Webvaloa\Helpers\ArticleStructure;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
-use stdClass;
 
 class ViewController extends \Webvaloa\Application
 {
@@ -56,6 +54,8 @@ class ViewController extends \Webvaloa\Application
     {
         $group = new Group();
         $value = new Value();
+
+        // Get global fields
         $globals = $group->globals();
         $globalValues = array();
         foreach ($globals as $global) {
@@ -65,7 +65,10 @@ class ViewController extends \Webvaloa\Application
                 $globalValues[$field->name] = $value->getValues($field->id);
             }
         }
-        $this->view->globals = $globalValues;
+
+        if (isset($globalValues)) {
+            $this->view->globals = $globalValues;
+        }
 
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
@@ -116,7 +119,8 @@ class ViewController extends \Webvaloa\Application
             $id = $associatedID;
         }
 
-        $article = new Article($id);
+        $structure = new ArticleStructure($id);
+        $article = $structure->getArticle();
         if ($article->article === false) {
             if (isset($globalValues['default_404_page'][0])) {
                 $id = $globalValues['default_404_page'][0]->value;
@@ -126,15 +130,12 @@ class ViewController extends \Webvaloa\Application
                 exit;
             }
         }
-        //$articleHelper = new ArticleHelper($id);
-        $this->view->id = $id;
-        $this->view->articleID = $id;
-        $this->view->article = $article->article; //$articleHelper->article;
+
+        $this->view->id = $this->view->articleID = $id;
+        $this->view->article = $article->article;
 
         // Set template overrides
-        $catId = $article->getCategory();
-
-        $category = new Category($catId[0]);
+        $category = new Category($structure->getCategoryId());
         $category->loadCategory();
 
         // Template override
@@ -153,122 +154,10 @@ class ViewController extends \Webvaloa\Application
             }
         }
 
-        $this->initializeFieldsView($catId[0]);
+        // Load field structure
+        $this->view->fields = $structure->getFields();
+        $this->view->fieldTypes = $structure->getFieldTypes();
 
         Debug::__print($this->view);
-    }
-
-    private function initializeFieldsView($categoryID)
-    {
-        $category = new Category($categoryID);
-        $this->view->category = $category->category;
-        // Always include these fields:
-        $this->view->fieldTypes[] = 'Datetimepicker';
-        $groups = $category->groups();
-        $fields = $category->fields();
-        // Initialize empty fields for groups
-        foreach ($groups as $k => $v) {
-            // Keep index by field group id
-            if (@!isset($index[$v->field_group_id])) {
-                $groupindex[$v] = new stdClass();
-                $groupindex[$v]->i = 0;
-            }
-            $i = $groupindex[$v]->i;
-            if (!isset($repeatables[$v])) {
-                $repeatables[$v] = new stdClass();
-            }
-            if (!isset($repeatables[$v]->repeatable[$i])) {
-                $repeatables[$v]->repeatable[$i] = new stdClass();
-            }
-            foreach ($fields as $field) {
-                if ($v != $field->field_group_id) {
-                    continue;
-                }
-                $repeatables[$v]->repeatable[$i]->fields[$field->name] = clone $field;
-                $repeatables[$v]->repeatable[$i]->fields[$field->name]->uniqid = uniqid();
-                $repeatables[$v]->repeatable[$i]->fields[$field->name]->values[0] = '';
-                // Get params
-                $fieldClass = '\Webvaloa\Field\Fields\\'.$field->type;
-
-                $f = new $fieldClass($field->id, $this->view->articleID);
-                $repeatables[$v]->repeatable[$i]->fields[$field->name]->params = $f->getParams();
-                // Collect field types
-                $this->view->fieldTypes[] = $field->type;
-            }
-            $i++;
-            $groupindex[$v]->i = $i;
-        }
-        // Put data to fields
-        if (isset($this->view->article->fieldValues)) {
-            foreach ($this->view->article->fieldValues as $repeatable => $v) {
-                // Keep index by field group id
-                if (!isset($index[$v->field_group_id])) {
-                    $index[$v->field_group_id] = new stdClass();
-                    $index[$v->field_group_id]->i = 0;
-                }
-                $i = $index[$v->field_group_id]->i;
-                if (!isset($repeatables[$v->field_group_id])) {
-                    $repeatables[$v->field_group_id] = new stdClass();
-                }
-                if (!isset($repeatables[$v->field_group_id]->repeatable[$i])) {
-                    $repeatables[$v->field_group_id]->repeatable[$i] = new stdClass();
-                }
-                // First group is always guaranteed to have initial field schema.
-                // However repeated groups might differ IF the saved field is empty,
-                // so make sure every field inside the repeated groups has at LEAST
-                // the initial fields.
-                if ($i > 0 && isset($repeatables[$v->field_group_id]->repeatable[0]->fields)) {
-                    foreach ($repeatables[$v->field_group_id]->repeatable[0]->fields as $initialField => $initialFieldObject) {
-                        if (!isset($v->fieldValues[$initialField])) {
-                            $v->fieldValues[$initialField][0] = '';
-                        }
-                    }
-                }
-                // Fill values to fields
-                foreach ($v->fieldValues as $fieldName => $value) {
-                    if (!is_object($fields[$fieldName])) {
-                        continue;
-                    }
-                    $field = clone $fields[$fieldName];
-                    $field->values = $value;
-                    $field->uniqid = uniqid();
-                    // Fields with repeatable > 1 are 'special',
-                    // data is loaded with ajax or other methods.
-                    if ($field->repeatable > 1) {
-                        $field->values = '';
-                    }
-                    foreach ($field as $_fieldName => $_fieldValue) {
-                        if (!isset($repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName])) {
-                            $repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName] = new stdClass();
-                        }
-                        $repeatables[$v->field_group_id]->repeatable[$i]->fields[$fieldName]->$_fieldName = $_fieldValue;
-                    }
-                }
-                $i++;
-                $index[$v->field_group_id]->i = $i;
-            }
-        }
-        // Sort groups and set repeatables data to group
-        foreach ($groups as $k => $v) {
-            try {
-                $group = new Group($v);
-                $tmp[$v] = new stdClass();
-                $tmp[$v]->id = $v;
-                $tmp[$v]->uniqid = uniqid();
-                $tmp[$v]->name = $group->name;
-                $tmp[$v]->translation = $group->translation;
-                $tmp[$v]->repeatable = $group->repeatable;
-                if (isset($repeatables[$v])) {
-                    $tmp[$v]->repeatable_group = $repeatables[$v];
-                }
-            } catch (OutOfBoundsException $e) {
-                // Group assigned to this groups has been deleted
-                Debug::__print('Group not found!');
-                Debug::__print($e->getMessage);
-            }
-        }
-
-        // Put fields to view
-        $this->view->fields = $tmp;
     }
 }

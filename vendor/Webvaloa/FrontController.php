@@ -251,7 +251,7 @@ class FrontController
             $expectedParams = $reflection->getMethod($method)->getNumberOfParameters();
 
             if ($expectedParams > 0) {
-                for (; $expectedParams != 0; $expectedParams--) {
+                for (; $expectedParams != 0; --$expectedParams) {
                     // Params start from 0 in Controller_Request
                     $params[] = $request->getParam($expectedParams - 1);
                 }
@@ -328,6 +328,6 @@ class FrontController
             .'\\'.$childController
             .'Controller';
 
-        return (class_exists($application));
+        return class_exists($application);
     }
 }
