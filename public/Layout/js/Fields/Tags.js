@@ -693,7 +693,7 @@ var Tags = {
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
         var $articleID = jQuery('#article_id').val();
-        var $ordering = jQuery(el).closest('.repeatable-group-holder').parent().index();
+        var $ordering = jQuery(el).closest('.repeatable-group-holder').index()+1;
 
         var tags = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
