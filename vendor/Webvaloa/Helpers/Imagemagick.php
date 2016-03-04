@@ -144,8 +144,12 @@ class Imagemagick
         $this->imagick->setBackgroundColor(new \ImagickPixel($this->background));
         $this->imagick->readImage($this->file);
         if (($this->flatten || $this->format == 'jpg') && $this->imagick->getImageAlphaChannel()) {
-            $this->imagick->setImageAlphaChannel(11);
-            $this->imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            try {
+                $this->imagick->setImageAlphaChannel(11);
+                $this->imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            } catch(\Exception $e) {
+                // Don't die if the imagick support is missing features
+            }
         }
         $this->imagick->setImageFormat($this->format);
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
