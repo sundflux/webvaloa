@@ -139,6 +139,9 @@ var Frontend = {
                     e.preventDefault();
 
                     if(confirm(jQuery('#translation-delete').attr('data-translation-string'))) {
+                        jQuery(this).parent().find('textarea.wysiwyg').each(function(){
+                            CKEDITOR.instances[$(this).attr('name')].destroy();
+                        });
                         jQuery(this).parent().remove();
                     }
                 });
@@ -189,13 +192,19 @@ var Frontend = {
                     e.preventDefault();
 
                     if(confirm(jQuery('#translation-delete').data('translation-string'))) {
-                        jQuery(this).parent().parent().parent().remove();
+                        jQuery(this).closest('.repeatable-group-holder').find('textarea.wysiwyg').each(function(){
+                            CKEDITOR.instances[$(this).attr('name')].destroy();
+                        });
+                        jQuery(this).closest('.repeatable-group-holder').remove();
                     }
                 });
             });
 
             // Remove repeated elements
             $clone.find('.repeatable-field-button-delete').each(function() {
+                jQuery(this).parent().find('textarea.wysiwyg').each(function(){
+                    CKEDITOR.instances[$(this).attr('name')].destroy();
+                });
                 jQuery(this).parent().remove();
             });            
 
@@ -229,6 +238,9 @@ var Frontend = {
                 e.preventDefault();
 
                 if(confirm(jQuery('#translation-delete').data('translation-string'))) {
+                    jQuery(this).parent().find('textarea.wysiwyg').each(function(){
+                        CKEDITOR.instances[$(this).attr('name')].destroy();
+                    });
                     jQuery(this).parent().remove();
                 }
             });
@@ -242,7 +254,10 @@ var Frontend = {
                 e.preventDefault();
 
                 if(confirm(jQuery('#translation-delete').data('translation-string'))) {
-                    jQuery(this).parent().parent().parent().remove();
+                    jQuery(this).closest('.repeatable-group-holder').find('textarea.wysiwyg').each(function(){
+                        CKEDITOR.instances[$(this).attr('name')].destroy();
+                    });
+                    jQuery(this).closest('.repeatable-group-holder').remove();
                 }
             });
         });
