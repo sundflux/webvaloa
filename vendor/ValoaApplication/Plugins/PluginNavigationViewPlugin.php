@@ -32,37 +32,21 @@
 
 namespace ValoaApplication\Plugins;
 
-use Webvaloa\Field\Group;
-use Webvaloa\Field\Value;
-use Webvaloa\Field\Fields;
 use stdClass;
+use Webvaloa\Helpers\Navigation;
+
 
 /**
  * Load global fields to view.
  */
-class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
+class PluginNavigationViewPlugin extends \Webvaloa\Plugin
 {
     public function onBeforeController()
     {
-        $group = new Group();
-
-        $globals = $group->globals();
-        $globalValues = new stdClass;
-        $i = 0;
-
-        foreach ($globals as $global) {
-            $value = new Value('0:'.$i);
-            $globalGroup = new Group($global->id);
-
-            $fields = $globalGroup->fields();
-
-            foreach ($fields as $field) {
-                $valueField = new Value('0');
-                $valueField->fieldOrdering(false);
-                $globalValues->{$field->name} = $valueField->getValues($field->id);
-                ++$i;
-            }
-        }
-        $this->view->_globals = $globalValues;
+        $this->ui->addTemplate('navigation');
+        $navigation = new Navigation();
+        $this->view->_navigation = new stdClass();
+        $this->view->_navigation->navigation = $navigation->get();
+        
     }
 }
