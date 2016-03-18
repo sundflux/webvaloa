@@ -49,6 +49,7 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
         $globals = $group->globals();
         $globalValues = new stdClass;
         $i = 0;
+
         foreach ($globals as $global) {
             $value = new Value('0:'.$i);
             $globalGroup = new Group($global->id);
@@ -56,11 +57,12 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
             $fields = $globalGroup->fields();
 
             foreach ($fields as $field) {
-                $globalValues->{$field->name} = $value->getValues($field->id);
+                $valueField = new Value('0');
+                $valueField->fieldOrdering(false);
+                $globalValues->{$field->name} = $valueField->getValues($field->id);
+                ++$i;
             }
-            ++$i;
         }
-
         $this->view->_globals = $globalValues;
     }
 }
