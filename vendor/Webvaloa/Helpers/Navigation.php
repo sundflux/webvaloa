@@ -47,9 +47,18 @@ class Navigation
         $navi->sub = array();
 
         $query = '
-            SELECT id, parent_id, type, target_id, translation
+            SELECT structure.id AS id, parent_id, type, target_id, structure.translation,
+            CASE
+                WHEN type = "content" THEN content.alias
+                WHEN type = "component" THEN component.controller
+                ELSE NULL
+            END AS target
+ 
             FROM structure
-            WHERE (locale = ? OR locale = ?)
+            LEFT JOIN content ON content.id = structure.target_id
+			LEFT JOIN component ON component.id = structure.target_id
+            WHERE (structure.locale = ? OR structure.locale = ?)
+
             ORDER BY parent_id, ordering ASC';
 
         $stmt = $db->prepare($query);
