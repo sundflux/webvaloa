@@ -52,23 +52,6 @@ class ViewController extends \Webvaloa\Application
 
     public function index($id = false)
     {
-        $group = new Group();
-        $value = new Value();
-
-        // Get global fields
-        $globals = $group->globals();
-        $globalValues = array();
-        foreach ($globals as $global) {
-            $globalGroup = new Group($global->id);
-            $fields = $globalGroup->fields();
-            foreach ($fields as $field) {
-                $globalValues[$field->name] = $value->getValues($field->id);
-            }
-        }
-
-        if (isset($globalValues)) {
-            $this->view->globals = $globalValues;
-        }
 
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
@@ -90,8 +73,8 @@ class ViewController extends \Webvaloa\Application
 
         // If requesting without id, return default
         if ($id === false || empty($id)) {
-            if (isset($globalValues['default_front_page'][0])) {
-                $id = $globalValues['default_front_page'][0]->value;
+            if (isset($this->view->_globals->default_front_page[0])) {
+                $id = $this->view->_globals->default_front_page[0]->value;
             } else {
                 $id = false;
             }
@@ -99,8 +82,8 @@ class ViewController extends \Webvaloa\Application
 
         // If requesting
         if (!is_numeric($id)) {
-            if (isset($globalValues['default_404_page'][0])) {
-                $id = $globalValues['default_404_page'][0]->value;
+            if (isset($this->view->_globals->default_404_page[0])) {
+                $id = $this->view->_globals->default_404_page[0]->value;
             } else {
                 $id = false;
             }
@@ -122,8 +105,8 @@ class ViewController extends \Webvaloa\Application
         $structure = new ArticleStructure($id);
         $article = $structure->getArticle();
         if ($article->article === false) {
-            if (isset($globalValues['default_404_page'][0])) {
-                $id = $globalValues['default_404_page'][0]->value;
+            if (isset($this->view->_globals->default_404_page[0])) {
+                $id = $this->view->_globals->default_404_page[0]->value;
                 $article = new Article($id);
             } else {
                 header('HTTP/1.0 404 Not Found');
