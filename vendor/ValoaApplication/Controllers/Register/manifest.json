@@ -6,7 +6,7 @@
     "www": "http://www.getvaloa.com/",
     "license": "MIT",
     "anonymous": "0",
-    "systemcontroller": "1",
+    "systemcontroller": "0",
     "files": [
 	{ "vendor": "/ValoaApplication/Controllers/Register/RegisterController.php" },
 	{ "vendor": "/ValoaApplication/Controllers/Register/Views/Register.xsl" }
