@@ -43,7 +43,7 @@ use stdClass;
  */
 class PluginArticleFieldViewPlugin extends \Webvaloa\Plugin
 {
-    public function onBeforeRender()
+    public function onAfterController()
     {
         foreach ($this->view->article->fields as $k => $field) {
             if ($field->type === 'Articlepicker') {
