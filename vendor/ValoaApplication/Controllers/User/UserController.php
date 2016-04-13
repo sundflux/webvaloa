@@ -243,26 +243,21 @@ class UserController extends \Webvaloa\Application
         
         if (is_numeric($userID)) {
             $user = new User($userID);
-            
-            $i = 0;
-            
             foreach ($json as $k => $v) {
-                $this->view->meta[$i] = new stdClass;
-                $this->view->meta[$i]->name = $k;
-                $this->view->meta[$i]->value = $user->metadata($k);
+                $meta = new stdClass;
+                $meta->name = $k;
+                $meta->value = $user->metadata($k);
                 
-                $i++;
+                $this->view->meta[]=$meta;
             }
-            
         } else {
-            $i = 0;
             foreach ($json as $k => $v) {
-                $this->view->meta[$i]->name = $k;
-                $i++;
+                $meta = new stdClass;
+                $meta->name = $k;
+                
+                $this->view->meta[]=$meta;
             }
         }
-        
-        Debug::__print($this->view);
     }
     
     public function add()
