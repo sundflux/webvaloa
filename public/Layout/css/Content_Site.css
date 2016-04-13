@@ -1,13 +1,91 @@
-#editable {
-	margin-left: -15px;
+.dd {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
-
-#editable ul,
-#editable * ul {
-	list-style: none;
+.dd-list {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
-
-#editable ul li,
-#editable * ul li {
-	padding: 5px;
+.dd-list .dd-list {} .dd-collapsed .dd-list {
+    display: none;
+}
+.dd-item,
+.dd-empty,
+.dd-placeholder {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 20px;
+    font-size: 13px;
+    line-height: 20px;
+}
+.dd-handle {
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.dd-handle:hover {} .dd-placeholder,
+.dd-empty {
+    margin: 5px 0;
+    padding: 0;
+    min-height: 30px;
+    background: #f2fbff;
+    border: 1px dashed #b6bcbf;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.dd-empty {
+    border: 1px dashed #bbb;
+    min-height: 100px;
+}
+.dd-dragel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+}
+.dd-dragel > .dd-item .dd-handle {
+    padding: 0 15px;
+}
+.dd-dragel .dd-handle {} .dd-item[data-unsaved='1'] {
+    box-shadow: inset 5px 0px #bada55;
+}
+.dd ol li:hover {
+    background: rgba(0, 0, 0, 0.025);
+}
+h1 button {
+    margin-right: inherit !important;
+}
+h1 button.menu-add {
+    margin-right: 10px !important;
+}
+body.dragging,
+body.dragging * {
+    cursor: move !important;
+}
+.dd-handle {
+    cursor: move;
+    margin: 15px 0;
+    display: inline-block;
+}
+.dragged {
+    opacity: 0.5;
+    z-index: 2000;
+}
+.dd ol li {
+    padding: 5px 15px !important;
+}
+.dd ol li .btn {
+    margin-top: 15px
+}
+.sortable-root .placeholder {
+    min-height: 15px;
+    background: #eef5dc;
+    /** More li styles **/
 }
