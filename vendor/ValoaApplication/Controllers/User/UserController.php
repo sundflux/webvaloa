@@ -112,8 +112,6 @@ class UserController extends \Webvaloa\Application
         }
 
         $this->view->user_id = $_SESSION['UserID'];
-        
-        Debug::__print($this->view);
     }
 
     public function edit()
@@ -310,15 +308,6 @@ class UserController extends \Webvaloa\Application
         } else {
             $user->locale = 'en_US';
         }
-
-        if(file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
-            
-            $json = $this->usermeta();
-            
-            foreach ($json as $key => $v) {
-                $user->metadata($key,$_POST[$key]);
-            }
-        }
                 
         $user->firstname = $_POST['firstname'];
         $user->lastname = $_POST['lastname'];
@@ -326,6 +315,19 @@ class UserController extends \Webvaloa\Application
         $user->blocked = 0;
         $userID = $user->save();
 
+        // Save meta for user
+        if(file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
+            
+            $json = $this->usermeta();
+            $user = new User($userID);
+            
+            foreach ($json as $key => $v) {
+                $user->metadata($key,$_POST[$key]);
+            }
+            
+            $userID = $user->save();
+        }
+        
         // Add Registered role for the user
         $user = new User($userID);
 

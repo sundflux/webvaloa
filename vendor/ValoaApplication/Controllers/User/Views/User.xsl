@@ -136,7 +136,7 @@
                                     <xsl:if test="usermeta = 1">
                                     <li>
                                         <a href="#edit-user-meta" data-toggle="tab">
-                                            Metatiedot 
+                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','METADATA')"/>
                                         </a>
                                     </li>
                                     </xsl:if>
@@ -222,7 +222,7 @@
                                     </div>                                    
                                     <xsl:if test="usermeta = 1">
                                         <div class="tab-pane fade in" id="edit-user-meta">
-                                            <div id="edit-user-meta-holder">Lataa...</div>
+                                            <div id="edit-user-meta-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
                                         </div>
                                     </xsl:if>
                                 </div>                              
@@ -268,7 +268,7 @@
                                     <xsl:if test="usermeta = 1">
                                         <li>
                                             <a href="#user-meta" data-toggle="tab">
-                                                Metatiedot 
+                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','METADATA')" /> 
                                             </a>
                                         </li>
                                     </xsl:if>
@@ -362,7 +362,7 @@
                                     </div>                                    
                                     <xsl:if test="usermeta = 1">
                                         <div class="tab-pane fade in" id="user-meta">
-                                            <div id="add-user-meta-holder">Lataa...</div>
+                                            <div id="add-user-meta-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
                                         </div>
                                     </xsl:if>
                                 </div>                              

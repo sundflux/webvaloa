@@ -82,7 +82,6 @@ var User = {
 
             _requestRoles.done(function(response) {
                 jQuery('#edit-user-roles-holder').html(response);
-                console.log(response);
 
                 Loader.hide();
             });
@@ -94,7 +93,6 @@ var User = {
 
             _requestMeta.done(function(response) {
                 jQuery('#edit-user-meta-holder').html(response);
-                console.log(response);
 
                 Loader.hide();
             });
@@ -113,7 +111,6 @@ var User = {
 
             _requestRoles.done(function(response) {
                 jQuery('#add-user-roles-holder').html(response);
-                console.log(response);
 
                 Loader.hide();
             });
@@ -125,7 +122,6 @@ var User = {
 
             _requestMeta.done(function(response) {
                 jQuery('#add-user-meta-holder').html(response);
-                console.log(response);
 
                 Loader.hide();
             });
