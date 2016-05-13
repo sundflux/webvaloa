@@ -29,14 +29,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Article;
 
-use Libvaloa\Debug;
 use Webvaloa\Cache;
 use Webvaloa\Category;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\ArticleStructure;
-use Webvaloa\Field\Group;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
@@ -138,14 +137,14 @@ class ViewController extends \Webvaloa\Application
                 $this->ui->properties['override_layout'] = $tmp;
             }
         }
-       
+
         // Load field structure
         $this->view->fields = $structure->getFields();
         $this->view->fieldsObjects = $this->view->fields;
-        foreach($this->view->fieldsObjects as $fieldsKey => $fields) {
-            foreach($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
-                foreach($repeatable->fields as $fieldName => $field) {
-                    $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName}=$field;
+        foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
+            foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
+                foreach ($repeatable->fields as $fieldName => $field) {
+                    $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
                 }
             }
         }
