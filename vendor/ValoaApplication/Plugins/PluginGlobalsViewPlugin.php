@@ -32,13 +32,10 @@
 
 namespace ValoaApplication\Plugins;
 
-use Libvaloa\Debug;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Fields;
-
 use Webvaloa\Helpers\Article as ArticleHelper;
-
 use stdClass;
 
 /**
@@ -51,7 +48,7 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
         $group = new Group();
 
         $globals = $group->globals();
-        $globalValues = new stdClass;
+        $globalValues = new stdClass();
         $i = 0;
 
         foreach ($globals as $global) {
@@ -64,18 +61,17 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                 $valueField = new Value('0');
                 $valueField->fieldOrdering(false);
                 $fieldValues = $valueField->getValues($field->id);
-    
-                if($field->type == 'Articlepicker') {
-                    
-                    foreach($fieldValues as $key => $fieldValue) {
+
+                if ($field->type == 'Articlepicker') {
+                    foreach ($fieldValues as $key => $fieldValue) {
                         $articleHelper = new ArticleHelper($fieldValue->value);
-                        $article= $articleHelper->article;
+                        $article = $articleHelper->article;
                         $fieldValues[$key]->article = $article;
                     }
                 }
-                
+
                 $globalValues->{$field->name} = $fieldValues;
-                
+
                 ++$i;
             }
         }

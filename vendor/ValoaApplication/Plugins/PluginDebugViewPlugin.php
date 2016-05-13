@@ -1,7 +1,7 @@
 <?php
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -31,17 +31,12 @@
 
 namespace ValoaApplication\Plugins;
 
-use Webvaloa\Security;
 use Libvaloa\Debug;
-use Webvaloa\Cache;
-
-use Webvaloa\Helpers\Article as ArticleStaffHelper;
-use Webvaloa\Helpers\Category as CategoryStaffHelper;
 
 class PluginDebugViewPlugin extends \Webvaloa\Plugin
 {
     public function onAfterController()
     {
-		Debug::__print($this->view);
+        Debug::__print($this->view);
     }
 }

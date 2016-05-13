@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\User;
 
 use Libvaloa\Debug;
@@ -52,18 +53,20 @@ class UserController extends \Webvaloa\Application
 
         $this->view->token = Security::getToken();
         $this->role = new Role();
-        
-        if(file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
+
+        if (file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
             $this->view->usermeta = 1;
         }
     }
 
-    private function usermeta() {
+    private function usermeta()
+    {
         $file = file_get_contents(WEBVALOA_BASEDIR.'/config/usermeta.json');
         $json = json_decode($file, true);
+
         return $json;
     }
-    
+
     public function index($page = 1)
     {
         $q = '';
@@ -171,16 +174,15 @@ class UserController extends \Webvaloa\Application
 
         $user->firstname = $_POST['firstname'];
         $user->lastname = $_POST['lastname'];
-        
-        if(file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
-            
+
+        if (file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
             $json = $this->usermeta();
-            
+
             foreach ($json as $key => $v) {
-                $user->metadata($key,$_POST[$key]);
+                $user->metadata($key, $_POST[$key]);
             }
         }
-        
+
         $user->blocked = 0;
         $userID = $user->save();
 
@@ -234,30 +236,30 @@ class UserController extends \Webvaloa\Application
 
         Debug::__print($this->view->_roles);
     }
-    
+
     public function meta($userID = false)
     {
         $json = $this->usermeta();
-        
+
         if (is_numeric($userID)) {
             $user = new User($userID);
             foreach ($json as $k => $v) {
-                $meta = new stdClass;
+                $meta = new stdClass();
                 $meta->name = $k;
                 $meta->value = $user->metadata($k);
-                
-                $this->view->meta[]=$meta;
+
+                $this->view->meta[] = $meta;
             }
         } else {
             foreach ($json as $k => $v) {
-                $meta = new stdClass;
+                $meta = new stdClass();
                 $meta->name = $k;
-                
-                $this->view->meta[]=$meta;
+
+                $this->view->meta[] = $meta;
             }
         }
     }
-    
+
     public function add()
     {
         Security::verify();
@@ -308,7 +310,7 @@ class UserController extends \Webvaloa\Application
         } else {
             $user->locale = 'en_US';
         }
-                
+
         $user->firstname = $_POST['firstname'];
         $user->lastname = $_POST['lastname'];
         $user->password = $_POST['password'];
@@ -316,18 +318,17 @@ class UserController extends \Webvaloa\Application
         $userID = $user->save();
 
         // Save meta for user
-        if(file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
-            
+        if (file_exists(WEBVALOA_BASEDIR.'/config/usermeta.json')) {
             $json = $this->usermeta();
             $user = new User($userID);
-            
+
             foreach ($json as $key => $v) {
-                $user->metadata($key,$_POST[$key]);
+                $user->metadata($key, $_POST[$key]);
             }
-            
+
             $userID = $user->save();
         }
-        
+
         // Add Registered role for the user
         $user = new User($userID);
 
