@@ -113,9 +113,10 @@ class MediaController extends \Webvaloa\Application
             }
 
             $path = realpath($this->view->mediaPath.'/'.$uploadPath);
+            $mediaPath = realpath($this->view->mediaPath);
             $filename = $path.DIRECTORY_SEPARATOR.$file;
 
-            $pos = strpos($filename, $this->view->mediaPath);
+            $pos = strpos($filename, $mediaPath);
             if ($pos === false) {
                 throw new RuntimeException('File not in media path');
             }
@@ -138,8 +139,9 @@ class MediaController extends \Webvaloa\Application
             }
 
             $path = realpath($this->view->mediaPath.'/'.$uploadPath);
+            $mediaPath = realpath($this->view->mediaPath);
 
-            $pos = strpos($pos, $this->view->mediaPath);
+            $pos = strpos($path, $mediaPath);
             if ($pos === false) {
                 throw new RuntimeException('Folder not in media path');
             }
