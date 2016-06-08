@@ -1,7 +1,7 @@
 <?php
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
  * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
@@ -28,7 +28,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Plugins;
 
 use Webvaloa\Controller\Redirect;
@@ -43,5 +42,4 @@ class ErrorRedirectPlugin extends \Webvaloa\Plugin
             Redirect::to(\Webvaloa\config::$properties['default_controller']);
         }
     }
-
 }

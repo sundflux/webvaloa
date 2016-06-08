@@ -29,12 +29,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Plugins;
 
 use stdClass;
 use Webvaloa\Helpers\Navigation;
-
 
 /**
  * Load global fields to view.
@@ -47,6 +45,5 @@ class PluginNavigationViewPlugin extends \Webvaloa\Plugin
         $navigation = new Navigation();
         $this->view->_navigation = new stdClass();
         $this->view->_navigation->navigation = $navigation->get();
-        
     }
 }
