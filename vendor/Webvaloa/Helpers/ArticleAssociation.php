@@ -33,7 +33,7 @@ namespace Webvaloa\Helpers;
 
 use Exception;
 use RuntimeException;
-use Webvaloa\Article;
+use Webvaloa\Article as ArticleHelper;
 use Webvaloa\Locale\Locales as LocalesHelper;
 
 /*
@@ -146,7 +146,7 @@ class ArticleAssociation
         $db = \Webvaloa\Webvaloa::DBConnection();
         $id = $this->getId();
 
-        $article = new Article($id);
+        $article = new ArticleHelper($id);
         $a = $article->article;
 
         // Locale matches and no associated id is set, so this must be an main article
@@ -188,10 +188,10 @@ class ArticleAssociation
         }
         $id = $this->getId();
 
-        $article = new Article($id);
+        $article = new ArticleHelper($id);
         $a = $article->article;
 
-        $associated = new Article();
+        $associated = new ArticleHelper();
         $associated->publish_up = $a->publish_up;
         $associated->publish_down = $a->publish_down;
         $associated->published = $a->published;
