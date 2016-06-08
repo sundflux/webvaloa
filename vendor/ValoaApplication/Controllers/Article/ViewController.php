@@ -29,7 +29,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 namespace ValoaApplication\Controllers\Article;
 
 use Webvaloa\Cache;
@@ -144,6 +143,10 @@ class ViewController extends \Webvaloa\Application
         foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
             foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
                 foreach ($repeatable->fields as $fieldName => $field) {
+                    if (!isset($this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject)) {
+                        $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject = new \stdClass;
+                    }
+                    
                     $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
                 }
             }
