@@ -36,7 +36,7 @@ use Webvaloa\Category;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
-use Webvaloa\Article;
+use Webvaloa\Article as ArticleHelper;
 use stdClass;
 use RuntimeException;
 
@@ -74,7 +74,7 @@ class ArticleStructure
             $this->associatedId = $associatedId;
         }
 
-        $this->article = new Article($id);
+        $this->article = new ArticleHelper($id);
         $categories = $this->article->getCategory();
 
         if (!empty($categories[0])) {
