@@ -68,6 +68,7 @@ jQuery(document).ready(function() {
 		var modal = $(this);
 		modal.find('.modal-title .name').text($menu.data('name'));
 		modal.find('.modal-body input#name').val($menu.data('name'));
+		modal.find('.modal-body input#alias').val($menu.data('alias'));
 		modal.find('.modal-body input#target').val($menu.data('target'));
 		if ($menu.data('type') == 'url') {
 			modal.find('.modal-body input#url').val($menu.data('target'));
@@ -103,7 +104,12 @@ jQuery(document).ready(function() {
 		var $id = parseInt($('#menu-editor input#id').val());
 		$(this).attr('data-save', 1);
 		var $menu = $('.dd-item[data-id="' + $id + '"]');
-		$menu.data('name', $('#menu-editor input#name').val()).data('type', $('#menu-editor select#type').val()).data('target', $('#menu-editor input#target').val()).data('old', 1);
+		$menu
+				.data('name', $('#menu-editor input#name').val())
+				.data('type', $('#menu-editor select#type').val())
+				.data('target', $('#menu-editor input#target').val())
+				.data('old', 1)
+				.data('alias', $('#menu-editor input#alias').val());
 		if ($('#menu-editor select#type').val() == 'url') {
 			$menu.data('target', $('#menu-editor input#url').val())
 		}
