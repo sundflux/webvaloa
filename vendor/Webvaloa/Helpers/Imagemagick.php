@@ -147,7 +147,7 @@ class Imagemagick
             try {
                 $this->imagick->setImageAlphaChannel(11);
                 $this->imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 // Don't die if the imagick support is missing features
             }
         }

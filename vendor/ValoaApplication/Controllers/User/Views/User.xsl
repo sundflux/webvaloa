@@ -133,6 +133,13 @@
                                             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ROLES')"/>
                                         </a>
                                     </li>
+                                    <xsl:if test="usermeta = 1">
+                                    <li>
+                                        <a href="#edit-user-meta" data-toggle="tab">
+                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','METADATA')"/>
+                                        </a>
+                                    </li>
+                                    </xsl:if>
                                 </ul>
                                 <br/>
 
@@ -213,7 +220,11 @@
                                     <div class="tab-pane fade in" id="edit-user-roles">
                                         <div id="edit-user-roles-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
                                     </div>                                    
-                                    
+                                    <xsl:if test="usermeta = 1">
+                                        <div class="tab-pane fade in" id="edit-user-meta">
+                                            <div id="edit-user-meta-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
+                                        </div>
+                                    </xsl:if>
                                 </div>                              
                             </div>
                             <div class="modal-footer">
@@ -254,6 +265,13 @@
                                             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ROLES')"/>
                                         </a>
                                     </li>
+                                    <xsl:if test="usermeta = 1">
+                                        <li>
+                                            <a href="#user-meta" data-toggle="tab">
+                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','METADATA')" /> 
+                                            </a>
+                                        </li>
+                                    </xsl:if>
                                 </ul>
                                 <br/>
 
@@ -342,7 +360,11 @@
                                     <div class="tab-pane fade in" id="user-roles">
                                         <div id="add-user-roles-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
                                     </div>                                    
-                                    
+                                    <xsl:if test="usermeta = 1">
+                                        <div class="tab-pane fade in" id="user-meta">
+                                            <div id="add-user-meta-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
+                                        </div>
+                                    </xsl:if>
                                 </div>                              
                             </div>
                             <div class="modal-footer">
@@ -376,6 +398,20 @@
                 </option>
             </xsl:for-each>
         </select>
+    </xsl:template>
+    <xsl:template match="meta">
+        <div class="row">
+            <xsl:for-each select="meta">
+                <div class="col-md-6">
+                    <div class="form-group input-group-lg">
+                        <label for="editInputFirstname">
+                            <xsl:value-of select="name" />
+                        </label>
+                        <input type="text" name="{name}" class="form-control" id="{name}" value="{value}" />
+                    </div>
+                </div>
+            </xsl:for-each>
+        </div>
     </xsl:template>
 
 </xsl:stylesheet>

@@ -31,12 +31,10 @@
  */
 namespace ValoaApplication\Controllers\Article;
 
-use Libvaloa\Debug;
 use Webvaloa\Cache;
 use Webvaloa\Category;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\ArticleStructure;
-use Webvaloa\Field\Group;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
@@ -118,8 +116,10 @@ class ViewController extends \Webvaloa\Application
         $this->view->article = $article->article;
 
         // Set template overrides
-        $category = new Category($structure->getCategoryId());
+        $categoryID = $structure->getCategoryId();
+        $category = new Category($categoryID);
         $category->loadCategory();
+        $this->view->categoryID = $categoryID;
 
         // Template override
         if ($tmp = $category->getTemplate()) {
@@ -139,8 +139,18 @@ class ViewController extends \Webvaloa\Application
 
         // Load field structure
         $this->view->fields = $structure->getFields();
+        $this->view->fieldsObjects = $this->view->fields;
+        foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
+            foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
+                foreach ($repeatable->fields as $fieldName => $field) {
+                    if (!isset($this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject)) {
+                        $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject = new \stdClass;
+                    }
+                    
+                    $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
+                }
+            }
+        }
         $this->view->fieldTypes = $structure->getFieldTypes();
-
-        Debug::__print($this->view);
     }
 }

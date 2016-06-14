@@ -75,17 +75,28 @@ var User = {
 
             var _url = jQuery('#basehref').text();
 
-            _request = jQuery.ajax({
+            _requestRoles = jQuery.ajax({
                 type: "POST",
                 url: _url + '/user/roles/' + editId
             });
 
-            _request.done(function(response) {
+            _requestRoles.done(function(response) {
                 jQuery('#edit-user-roles-holder').html(response);
-                console.log(response);
 
                 Loader.hide();
             });
+            
+            _requestMeta = jQuery.ajax({
+                type: "POST",
+                url: _url + '/user/meta/' + editId
+            });
+
+            _requestMeta.done(function(response) {
+                jQuery('#edit-user-meta-holder').html(response);
+
+                Loader.hide();
+            });
+            
         });
 
         jQuery('.load-roles').on('click', function(e) {
@@ -93,17 +104,28 @@ var User = {
 
             var _url = jQuery('#basehref').text();
 
-            _request = jQuery.ajax({
+            _requestRoles = jQuery.ajax({
                 type: "POST",
                 url: _url + '/user/roles'
             });
 
-            _request.done(function(response) {
+            _requestRoles.done(function(response) {
                 jQuery('#add-user-roles-holder').html(response);
-                console.log(response);
 
                 Loader.hide();
             });
+            
+             _requestMeta = jQuery.ajax({
+                type: "POST",
+                url: _url + '/user/meta'
+            });
+
+            _requestMeta.done(function(response) {
+                jQuery('#add-user-meta-holder').html(response);
+
+                Loader.hide();
+            });
+            
         });
     },
     

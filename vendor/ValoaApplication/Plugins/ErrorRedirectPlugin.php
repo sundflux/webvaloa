@@ -1,11 +1,10 @@
 <?php
-
 /**
  * The Initial Developer of the Original Code is
- * Toni Lähdekorpi <toni@lygon.net>.
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2016 Toni Lähdekorpi <toni@lygon.net>
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * All Rights Reserved.
  *
@@ -31,19 +30,16 @@
  */
 namespace ValoaApplication\Plugins;
 
-use stdClass;
-use Webvaloa\Helpers\Navigation;
+use Webvaloa\Controller\Redirect;
 
-/**
- * Load global fields to view.
- */
-class PluginNavigationViewPlugin extends \Webvaloa\Plugin
+class ErrorRedirectPlugin extends \Webvaloa\Plugin
 {
     public function onBeforeController()
     {
-        $this->ui->addTemplate('navigation');
-        $navigation = new Navigation();
-        $this->view->_navigation = new stdClass();
-        $this->view->_navigation->navigation = $navigation->get();
+        if (isset($_SESSION['WEBVALOA_EXCEPTION']) && isset(\Webvaloa\config::$properties['default_controller'])) {
+            $this->ui->addError(\Webvaloa\Webvaloa::translate($_SESSION['WEBVALOA_EXCEPTION']->getMessage(), 'ErrorRedirectPlugin'));
+            unset($_SESSION['WEBVALOA_EXCEPTION']);
+            Redirect::to(\Webvaloa\config::$properties['default_controller']);
+        }
     }
 }

@@ -1,11 +1,10 @@
 <?php
-
 /**
  * The Initial Developer of the Original Code is
- * Toni Lähdekorpi <toni@lygon.net>.
+ * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2016 Toni Lähdekorpi <toni@lygon.net>
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * All Rights Reserved.
  *
@@ -31,19 +30,12 @@
  */
 namespace ValoaApplication\Plugins;
 
-use stdClass;
-use Webvaloa\Helpers\Navigation;
+use Libvaloa\Debug;
 
-/**
- * Load global fields to view.
- */
-class PluginNavigationViewPlugin extends \Webvaloa\Plugin
+class PluginDebugViewPlugin extends \Webvaloa\Plugin
 {
-    public function onBeforeController()
+    public function onAfterController()
     {
-        $this->ui->addTemplate('navigation');
-        $navigation = new Navigation();
-        $this->view->_navigation = new stdClass();
-        $this->view->_navigation->navigation = $navigation->get();
+        Debug::__print($this->view);
     }
 }
