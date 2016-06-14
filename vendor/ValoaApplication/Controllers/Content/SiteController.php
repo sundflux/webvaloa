@@ -117,11 +117,12 @@ class SiteController extends \Webvaloa\Application
     {
         foreach ($items as $sub) {
             $query = "
-            INSERT INTO structure (parent_id, type, target_id, target_url, translation, locale, ordering)
-			VALUES (?, ?, ?, ?, ?, '*', '0')";
+            INSERT INTO structure (alias, parent_id, type, target_id, target_url, translation, locale, ordering)
+			VALUES (?, ?, ?, ?, ?, ?, '*', '0')";
 
             try {
                 $stmt = $this->db->prepare($query);
+				$stmt->set($sub->alias);
                 $stmt->set($parent);
                 $stmt->set($sub->type);
                 if ($sub->type == 'url') {
