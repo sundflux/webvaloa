@@ -115,7 +115,7 @@ class FrontController
             }
 
             // Check for url aliases
-            $alias = new Alias($request->getParam(0));
+            $alias = new Alias($request->getParams());
 
             if (isset($alias->controller->id)) {
                 // Set controlled and method

@@ -392,6 +392,13 @@ class SetupController extends \Webvaloa\Application
             $object->ordering = 10;
             $object->save();
 
+            $object = new Db\Object('plugin', $this->db);
+            $object->plugin = 'PluginNavigationView';
+            $object->system_plugin = 1;
+            $object->blocked = 0;
+            $object->ordering = 10;
+            $object->save();
+            
             // System components
             $component = new Component('Content');
             $component->install();

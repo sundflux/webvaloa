@@ -83,11 +83,18 @@
 
                     <!-- Component output -->
                     <xsl:apply-templates select="/page/module"/>
-                    <xsl:apply-templates select="navi"/>
+
+                    <xsl:apply-templates select="/page/module/*/_navigation/navigation" mode="navigation" />
                 </div>
                 <br/>
             </body>
         </html>
+    </xsl:template>
+    
+    <xsl:template match="/page/module/*/_navigation/navigation" mode="navigation">
+        <xsl:call-template name="navi">
+            <xsl:with-param name="article_id" select="/page/module/*/article/id" />
+        </xsl:call-template>
     </xsl:template>
     
     <xsl:template name="messages">
