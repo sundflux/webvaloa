@@ -94,7 +94,6 @@ class Alias
                 try {
                     $stmt->execute();
                     $row = $stmt->fetch();
-                    print_r($parentRouteItem);
                     if (isset($row->id)) {
                         $parentId = $row->id;
                     }
