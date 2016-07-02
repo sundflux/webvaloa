@@ -33,6 +33,7 @@
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
 use Webvaloa\Cache;
 use stdClass;
 
@@ -81,14 +82,12 @@ class Alias
             }
 
             // Try loading route
-
             $lastRouteItem = array_slice($this->params, -1)[0];
             $parentRouteItem = array_slice($this->params, -2)[0];
 
             // Get parent route
-
             if (!empty($parentRouteItem) && ($parentRouteItem != $lastRouteItem)) {
-                $query = 'SELECT id FROM structure WHERE alias = ?';
+                $query = 'SELECT id,type FROM structure WHERE alias = ?';
                 $stmt = $this->db->prepare($query);
                 $stmt->set($parentRouteItem);
                 try {
@@ -96,6 +95,7 @@ class Alias
                     $row = $stmt->fetch();
                     if (isset($row->id)) {
                         $parentId = $row->id;
+                        $parentType = $row->type;
                     }
                 } catch (PDOException $e) {
                 }
@@ -131,6 +131,12 @@ class Alias
             try {
                 $stmt->execute();
                 $row = $stmt->fetch();
+
+                // If parent is article listing, route to the article_view instead
+                if (!empty($parentType) && $parentType == 'content_listing') {
+                    $row->type = 'content';
+                    $row->target_id = $lastRouteItem;
+                }
 
                 $this->buildContentRoute($row);
 
