@@ -94,6 +94,7 @@ class ListController extends \Webvaloa\Application
         $list->page = $page;
         $list->limit = $limit;
         $this->view->items = $list->getArticles();
+        $this->view->category_id = $id;
 
         // Load articles
         foreach ($this->view->items->items as $k => $v) {
