@@ -84,7 +84,8 @@
                     <!-- Component output -->
                     <xsl:apply-templates select="/page/module"/>
 
-                    <xsl:apply-templates select="/page/module/*/_navigation/navigation" mode="navigation" />
+                    <!-- Example use of navigation -->
+                    <!-- <xsl:apply-templates select="/page/module/*/_navigation/navigation" mode="navigation" /> -->
                 </div>
                 <br/>
             </body>
