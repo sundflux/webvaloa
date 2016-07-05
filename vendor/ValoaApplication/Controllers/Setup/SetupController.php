@@ -271,6 +271,9 @@ class SetupController extends \Webvaloa\Application
         }
 
         $locale = getenv('LANG');
+        // Remove encoding from locale string
+        preg_match("/([^\.]+)[^\.]/",$locale,$locale);
+        $locale = $locale[0];
 
         $config = "<?php\n";
         $config .= "namespace Webvaloa;\n\n";
@@ -289,8 +292,9 @@ class SetupController extends \Webvaloa\Application
         $config .= "\n";
         $config .= '}';
         $config .= "\n\n";
-        $config .= "putenv('LANG={$locale}');\n";
-        $config .= "setlocale(LC_MESSAGES, '{$locale}');\n";
+        $config .= "putenv('LANG={$locale}.UTF-8');\n";
+        $config .= "setlocale(LC_ALL, '{$locale}.UTF-8');\n";
+        $config .= "setlocale(LC_MESSAGES, '{$locale}.UTF-8');\n";
 
         file_put_contents($configFile, $config);
 
