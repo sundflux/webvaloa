@@ -271,6 +271,9 @@ class SetupController extends \Webvaloa\Application
         }
 
         $locale = getenv('LANG');
+        // Remove encoding from locale string
+        preg_match("/([^\.]+)[^\.]/",$locale,$locale);
+        $locale = $locale[0];
 
         $config = "<?php\n";
         $config .= "namespace Webvaloa;\n\n";
@@ -290,7 +293,8 @@ class SetupController extends \Webvaloa\Application
         $config .= '}';
         $config .= "\n\n";
         $config .= "putenv('LANG={$locale}');\n";
-        $config .= "setlocale(LC_MESSAGES, '{$locale}');\n";
+        $config .= "setlocale(LC_ALL, '{$locale}.UTF-8');\n";
+        $config .= "setlocale(LC_MESSAGES, '{$locale}.UTF-8');\n";
 
         file_put_contents($configFile, $config);
 
@@ -392,6 +396,13 @@ class SetupController extends \Webvaloa\Application
             $object->ordering = 10;
             $object->save();
 
+            $object = new Db\Object('plugin', $this->db);
+            $object->plugin = 'PluginNavigationView';
+            $object->system_plugin = 1;
+            $object->blocked = 0;
+            $object->ordering = 10;
+            $object->save();
+            
             // System components
             $component = new Component('Content');
             $component->install();
