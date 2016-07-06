@@ -33,51 +33,107 @@
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
-use Webvaloa\Cache;
+use Libvaloa\Debug;
 use stdClass;
 
 class Alias
 {
     private $db;
-    private $cache;
 
     // Routes from override config
     private $routes;
+
+    // URL params
+    private $params;
 
     public $controller;
 
     public function __construct($alias)
     {
-        $this->cache = new Cache();
         $this->controller = new stdClass();
 
         // Alias
-        if (strlen($alias) == 0) {
+        if (strlen($alias[0]) == 0) {
             return;
         }
-
-        $this->controller->controller = $controller = ucfirst(strtolower($alias));
-
-        // Load from cache
-        $tmpNam = "__alias{$this->controller->controller}";
-        if ($tmp = $this->cache->$tmpNam) {
-            $this->controller = $tmp;
-
-            return;
-        }
+        $this->params = $alias;
+        $this->controller->controller = $controller = ucfirst(strtolower($this->params[0]));
 
         // Load route overrides
         $this->loadRoutesFile();
 
-        if (!$this->loadRoute($alias)) {
-            // Load alias from DB
-
+        if (!$this->loadRoute()) {
             $this->db = \Webvaloa\Webvaloa::DBConnection();
 
             // Aliases must work without db connection
             if (!method_exists($this->db, 'prepare')) {
                 return;
             }
+
+            // Try loading route
+            $lastRouteItem = array_slice($this->params, -1)[0];
+            $parentRouteItem = array_slice($this->params, -2)[0];
+
+            // Get parent route
+            if (!empty($parentRouteItem) && ($parentRouteItem != $lastRouteItem)) {
+                $query = 'SELECT id,type FROM structure WHERE alias = ?';
+                $stmt = $this->db->prepare($query);
+                $stmt->set($parentRouteItem);
+                try {
+                    $stmt->execute();
+                    $row = $stmt->fetch();
+                    if (isset($row->id)) {
+                        $parentId = $row->id;
+                        $parentType = $row->type;
+                    }
+                } catch (PDOException $e) {
+                }
+            }
+
+            // Load the route
+
+            if (!empty($parentId)) {
+                $query = "
+                    SELECT type, parent_id, target_id, target_url, locale
+                    FROM structure
+                    WHERE alias = ?
+                    AND (locale = '*' OR locale = ?)
+                    AND parent_id = ?
+                    LIMIT 1";
+            } else {
+                $query = "
+                    SELECT type, parent_id, target_id, target_url, locale
+                    FROM structure
+                    WHERE alias = ?
+                    AND (locale = '*' OR locale = ?)                
+                    LIMIT 1";
+            }
+
+            $stmt = $this->db->prepare($query);
+            $stmt->set($lastRouteItem);
+            $stmt->set(getenv('LANG'));
+
+            if (!empty($parentId)) {
+                $stmt->set((int) $parentId);
+            }
+
+            try {
+                $stmt->execute();
+                $row = $stmt->fetch();
+
+                // If parent is article listing, route to the article_view instead
+                if (!empty($parentType) && $parentType == 'content_listing') {
+                    $row->type = 'content';
+                    $row->target_id = $lastRouteItem;
+                }
+
+                $this->buildContentRoute($row);
+
+                return;
+            } catch (PDOException $e) {
+            }
+
+            // Try loading alias
 
             $query = "
                 SELECT id, controller, method, locale
@@ -96,7 +152,6 @@ class Alias
 
                 if (isset($row->controller)) {
                     $this->controller = $row;
-                    $this->cache->$tmpNam = $row;
                 }
             } catch (PDOException $e) {
             }
@@ -148,13 +203,15 @@ class Alias
         }
     }
 
-    public function loadRoute($alias)
+    public function loadRoute()
     {
+        $alias = $this->params[0] = strtolower($this->params[0]);
+
+        // Load from routes file if available;
+
         if (!$this->routes) {
             return false;
         }
-
-        $alias = strtolower($alias);
 
         if (isset($this->routes[$alias])) {
             $this->controller->controller = $this->routes[$alias]['controller'];
@@ -166,6 +223,47 @@ class Alias
         }
 
         return false;
+    }
+
+    private function buildContentRoute($row)
+    {
+        switch ($row->type) {
+            case 'content':
+                $this->controller->controller = 'Article_View';
+                $this->controller->method = 'index/'.$row->target_id;
+                $this->controller->locale = $row->locale;
+                $this->controller->id = -1;
+
+                break;
+
+            case 'content_listing':
+                $this->controller->controller = 'Article_List';
+                $this->controller->method = 'index/'.$row->target_id;
+                $this->controller->locale = $row->locale;
+                $this->controller->id = -1;
+
+                break;
+
+            case 'component':
+                $query = 'SELECT controller FROM component WHERE id = ?';
+                $stmt = $this->db->prepare($query);
+                $stmt->set((int) $row->target_id);
+
+                try {
+                    $stmt->execute();
+                    $res = $stmt->fetch();
+                    $this->controller->id = $row->target_id;
+                    $this->controller->controller = $res->controller;
+                    $this->controller->method = 'index';
+                    $this->controller->locale = $row->locale;
+                } catch (PDOException $e) {
+                }
+
+                break;
+
+            default:
+                break;
+        }
     }
 
     public function __toString()

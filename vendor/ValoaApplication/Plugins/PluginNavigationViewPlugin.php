@@ -44,6 +44,7 @@ class PluginNavigationViewPlugin extends \Webvaloa\Plugin
         $this->ui->addTemplate('navigation');
         $navigation = new Navigation();
         $this->view->_navigation = new stdClass();
+        $this->view->_navigation->basepath = $this->request->getBasePath();
         $this->view->_navigation->navigation = $navigation->get();
     }
 }
