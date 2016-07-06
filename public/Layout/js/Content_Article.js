@@ -60,6 +60,9 @@ var Article = {
         jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
           window.location.hash = e.target.hash;
         });
+        jQuery(window).on('hashchange', function() {
+          jQuery('.nav-tabs a[href='+document.location.hash+']').tab('show');
+        });
     }
 }
 
