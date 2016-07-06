@@ -304,7 +304,7 @@
                     <xsl:for-each select="fields">
                         <li>
                             <a href="#{name}" data-toggle="tab">
-                                <xsl:value-of select="translation"/>
+                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate',string(translation))"/>
                             </a>
                         </li>
                     </xsl:for-each>
@@ -334,11 +334,11 @@
                                                             data-container="body" 
                                                             data-toggle="popover" 
                                                             data-placement="bottom" 
-                                                            data-content="{help_text}">
+                                                            data-content="{php:function('\Webvaloa\Webvaloa::translate',string(help_text))}">
                                                             <xsl:if test="help_text != ''">
                                                                 <xsl:attribute name="class">help-text</xsl:attribute>
                                                             </xsl:if>
-                                                            <xsl:value-of select="translation"/>
+                                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate',string(translation))"/>
                                                         </span>
                                                     </label>
 
