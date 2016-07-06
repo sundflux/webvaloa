@@ -277,6 +277,7 @@ class ArticleController extends \Webvaloa\Application
 
     public function globals()
     {
+        $this->ui->addJS('/js/Content_Article.js');
         $this->ui->addJS('/js/Fields/Frontend.js');
         $this->ui->addCSS('/css/Content_Field.css');
         $this->ui->setPageRoot('article');
