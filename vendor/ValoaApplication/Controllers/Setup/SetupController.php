@@ -203,6 +203,9 @@ class SetupController extends \Webvaloa\Application
             }
         }
 
+        $this->view->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
+        $this->view->timezone = date_default_timezone_get();
+
         if (!isset($_POST['continue'])) {
             return;
         }
@@ -287,7 +290,8 @@ class SetupController extends \Webvaloa\Application
         $config .= "        'db_db'                     => '".$setup['db']['db_db']."',\n";
         $config .= "        'default_controller'        => 'login',\n";
         $config .= "        'default_controller_authed' => 'login_logout',\n";
-        $config .= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db'\n";
+        $config .= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db',\n";
+        $config .= "        'time_zone'                 => '".$setup['admin']['tz']."'\n";
         $config .= "    );\n";
         $config .= "\n";
         $config .= '}';
