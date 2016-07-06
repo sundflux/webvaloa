@@ -186,6 +186,7 @@ class FileCache
 
     public function __destruct()
     {
+var_dump("calling __desctruct in filecache");
         if (is_writable($this->file)) {
             file_put_contents($this->file, serialize($this->cache));
         }
