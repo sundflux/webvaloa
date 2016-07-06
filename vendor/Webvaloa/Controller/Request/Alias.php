@@ -34,13 +34,11 @@ namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
-use Webvaloa\Cache;
 use stdClass;
 
 class Alias
 {
     private $db;
-    private $cache;
 
     // Routes from override config
     private $routes;
@@ -52,7 +50,6 @@ class Alias
 
     public function __construct($alias)
     {
-        $this->cache = new Cache();
         $this->controller = new stdClass();
 
         // Alias
@@ -61,14 +58,6 @@ class Alias
         }
         $this->params = $alias;
         $this->controller->controller = $controller = ucfirst(strtolower($this->params[0]));
-
-        // Load from cache
-        $tmpNam = "__alias{$this->controller->controller}";
-        if ($tmp = $this->cache->$tmpNam) {
-            $this->controller = $tmp;
-
-            return;
-        }
 
         // Load route overrides
         $this->loadRoutesFile();
@@ -163,7 +152,6 @@ class Alias
 
                 if (isset($row->controller)) {
                     $this->controller = $row;
-                    $this->cache->$tmpNam = $row;
                 }
             } catch (PDOException $e) {
             }
