@@ -19,7 +19,7 @@
             </a>
 
             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLES')"/>
-            <xsl:if test="category_id!=''">
+            <xsl:if test="articles//category!=''">
                 <small>&#160;-&#160;<xsl:value-of select="articles//category"/></small>
             </xsl:if>
         </h1>
@@ -166,7 +166,7 @@
             <xsl:if test="article_id != '' and article_id &gt; 0">
                 <small>&#160;#<xsl:value-of select="article_id"/></small>
             </xsl:if>
-            <xsl:if test="category_id!=''">
+            <xsl:if test="category!=''">
                 <small>&#160;-&#160;<xsl:value-of select="category"/></small>
             </xsl:if>
 
