@@ -35,6 +35,8 @@ use stdClass;
 
 class Navigation
 {
+    private $navi;
+
     public function __construct()
     {
     }
@@ -43,11 +45,11 @@ class Navigation
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $navi = new stdClass();
-        $navi->sub = array();
+        $this->navi = new stdClass();
+        $this->navi->sub = array();
 
         $query = '
-            SELECT structure.id AS id, parent_id, type, target_id, structure.translation,
+            SELECT structure.id AS id, parent_id, structure.alias as alias, type, target_id, structure.translation,
                 CASE
                     WHEN type = "content" THEN content.alias
                     WHEN type = "component" THEN component.controller
@@ -69,20 +71,25 @@ class Navigation
 
         try {
             foreach ($stmt->execute() as $row) {
-                $navi->sub[$row->id] = $row;
+                $this->navi->sub[$row->id] = $row;
+                $this->navi->sub[$row->id]->route = '/'.$row->alias;
 
                 if (!is_null($row->parent_id)) {
-                    $navi->sub[$row->parent_id]->sub[] = $row;
+                    $this->navi->sub[$row->parent_id]->sub[] = $row;
+
+                    if (isset($this->navi->sub[$row->parent_id]->route)) {
+                        $this->navi->sub[$row->id]->route = $this->navi->sub[$row->parent_id]->route.$this->navi->sub[$row->id]->route;
+                    }
                 }
             }
 
-            foreach ($navi->sub as $k => $v) {
+            foreach ($this->navi->sub as $k => $v) {
                 if (!is_null($v->parent_id)) {
-                    unset($navi->sub[$k]);
+                    unset($this->navi->sub[$k]);
                 }
             }
 
-            return $navi;
+            return $this->navi;
         } catch (Exception $e) {
         }
     }
