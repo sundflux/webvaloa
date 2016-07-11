@@ -29,34 +29,61 @@
  */
 
 jQuery( document ).ready(function() {
-
     jQuery('.articlepicker').each(function() {
         ArticlePicker.initArticlePicker(this);
     });
-
 });
-
 var ArticlePicker = {
+
+    data: {},
 
     initArticlePicker: function(el) {
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
         var $val = jQuery(el).data('field-value');
 
-        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id, function( data ) {
-            var items = [];
-            var $sel = '';
-            jQuery.each( data, function( key, val ) {
-                $sel = '';
-                if($val == val.id) {
-                    $sel = 'selected="selected"';
-                }
-                items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
+        if (typeof ArticlePicker.data[$id] === 'undefined') {
+
+            // No data yet, fetching it as we are the first one
+            ArticlePicker.data[$id] = {};
+            ArticlePicker.data[$id].ready = false;
+            ArticlePicker.data[$id].callbacks = [];
+
+            jQuery.getJSON($url + '/content_article/fieldParams/' + $id, function(data) {
+                ArticlePicker.data[$id].data = data;
+                ArticlePicker.data[$id].ready = true;
+
+                // Call self again as we are done here
+                ArticlePicker.initArticlePicker(el);
+
+                // Looping through all the callbacks that we got while waiting for data
+                ArticlePicker.data[$id].callbacks.forEach(function(current) {
+                    ArticlePicker.initArticlePicker(current);
+                });
             });
+        } else {
+            // There is already something, next up; we find what it is
+            if (ArticlePicker.data[$id].ready) {
+                // We have data. We are using it here
+                var items = [];
+                var $sel = '';
+                var data = ArticlePicker.data[$id].data;
 
-            var $html = items.join('');
-            jQuery($html).appendTo(el);
-        });
+                jQuery.each(data, function(key, val) {
+                    $sel = '';
+                    if ($val == val.id) {
+                        $sel = 'selected="selected"';
+                    }
+                    items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
+                });
+
+                var $html = items.join('');
+                jQuery($html).appendTo(el);
+            } else {
+                // We don't have data. But someone is already trying to fetch it. Be nice and ask them to call back when ready
+                // TODO find out if there is any, even remote possibility that the first fetch might be done before all of these callbacks have been set
+                ArticlePicker.data[$id].callbacks.push(el);
+            }
+        }
     }
-
 }
