@@ -19,7 +19,7 @@
             </a>
 
             <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ARTICLES')"/>
-            <xsl:if test="category_id!=''">
+            <xsl:if test="articles//category!=''">
                 <small>&#160;-&#160;<xsl:value-of select="articles//category"/></small>
             </xsl:if>
         </h1>
@@ -166,7 +166,7 @@
             <xsl:if test="article_id != '' and article_id &gt; 0">
                 <small>&#160;#<xsl:value-of select="article_id"/></small>
             </xsl:if>
-            <xsl:if test="category_id!=''">
+            <xsl:if test="category!=''">
                 <small>&#160;-&#160;<xsl:value-of select="category"/></small>
             </xsl:if>
 
@@ -304,7 +304,7 @@
                     <xsl:for-each select="fields">
                         <li>
                             <a href="#{name}" data-toggle="tab">
-                                <xsl:value-of select="translation"/>
+                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate',string(translation))"/>
                             </a>
                         </li>
                     </xsl:for-each>
@@ -334,11 +334,11 @@
                                                             data-container="body" 
                                                             data-toggle="popover" 
                                                             data-placement="bottom" 
-                                                            data-content="{help_text}">
+                                                            data-content="{php:function('\Webvaloa\Webvaloa::translate',string(help_text))}">
                                                             <xsl:if test="help_text != ''">
                                                                 <xsl:attribute name="class">help-text</xsl:attribute>
                                                             </xsl:if>
-                                                            <xsl:value-of select="translation"/>
+                                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate',string(translation))"/>
                                                         </span>
                                                     </label>
 

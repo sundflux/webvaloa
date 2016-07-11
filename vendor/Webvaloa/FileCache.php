@@ -48,6 +48,11 @@ class FileCache
     public function __construct()
     {
         $this->time = time();
+        $this->read();
+    }
+
+    private function read()
+    {
         $this->file = LIBVALOA_PUBLICPATH.'/cache/.cache';
 
         if (!is_writable($tmp = realpath(dirname($this->file)))) {
@@ -187,6 +192,14 @@ class FileCache
     public function __destruct()
     {
         if (is_writable($this->file)) {
+            // Get a copy of the current cache
+            $newCache = $this->cache;
+            // Read from file in case there were changes after load
+            $this->read();
+            // Update loaded cache before saving
+            foreach($newCache as $k => $item) {
+                $this->cache->{$k} = $item;
+            }
             file_put_contents($this->file, serialize($this->cache));
         }
     }

@@ -223,6 +223,14 @@ class Webvaloa
                 // Make sure we use UTF-8
                 if (\Webvaloa\config::$properties['db_server'] != 'sqlite') {
                     $initquery = "SET NAMES 'UTF8'";
+                    if(isset(\Webvaloa\config::$properties['time_zone'])) {
+                        date_default_timezone_set(\Webvaloa\config::$properties['time_zone']);
+                        $date = new \DateTime();
+                        $hours = $date->getOffset() / 3600;
+                        $seconds = 60 * ($hours - floor($hours));
+                        $offset = sprintf('%+d:%02d', $hours, $seconds);
+                        $initquery .= ", time_zone = '{$offset}'";
+                    }
                 } else {
                     $initquery = '';
                 }

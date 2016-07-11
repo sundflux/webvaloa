@@ -203,6 +203,9 @@ class SetupController extends \Webvaloa\Application
             }
         }
 
+        $this->view->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
+        $this->view->timezone = date_default_timezone_get();
+
         if (!isset($_POST['continue'])) {
             return;
         }
@@ -271,6 +274,9 @@ class SetupController extends \Webvaloa\Application
         }
 
         $locale = getenv('LANG');
+        // Remove encoding from locale string
+        preg_match("/([^\.]+)[^\.]/",$locale,$locale);
+        $locale = $locale[0];
 
         $config = "<?php\n";
         $config .= "namespace Webvaloa;\n\n";
@@ -284,13 +290,15 @@ class SetupController extends \Webvaloa\Application
         $config .= "        'db_db'                     => '".$setup['db']['db_db']."',\n";
         $config .= "        'default_controller'        => 'login',\n";
         $config .= "        'default_controller_authed' => 'login_logout',\n";
-        $config .= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db'\n";
+        $config .= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db',\n";
+        $config .= "        'time_zone'                 => '".$setup['admin']['tz']."'\n";
         $config .= "    );\n";
         $config .= "\n";
         $config .= '}';
         $config .= "\n\n";
         $config .= "putenv('LANG={$locale}');\n";
-        $config .= "setlocale(LC_MESSAGES, '{$locale}');\n";
+        $config .= "setlocale(LC_ALL, '{$locale}.UTF-8');\n";
+        $config .= "setlocale(LC_MESSAGES, '{$locale}.UTF-8');\n";
 
         file_put_contents($configFile, $config);
 
@@ -392,6 +400,13 @@ class SetupController extends \Webvaloa\Application
             $object->ordering = 10;
             $object->save();
 
+            $object = new Db\Object('plugin', $this->db);
+            $object->plugin = 'PluginNavigationView';
+            $object->system_plugin = 1;
+            $object->blocked = 0;
+            $object->ordering = 10;
+            $object->save();
+            
             // System components
             $component = new Component('Content');
             $component->install();

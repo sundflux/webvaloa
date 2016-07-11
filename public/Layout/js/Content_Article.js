@@ -46,15 +46,24 @@ var Article = {
         });
 
         jQuery('a[href="#webvaloa-all-tabs"]').click(function(){
-          var $navTabs = jQuery(this).parent().eq(2);
+          jQuery('#groups-tab li').removeClass('active');
           jQuery(this).parent().addClass('active');
           jQuery('#'+jQuery(this).data('tabs') + ' .tab-pane').each(function(i,t){
-            $navTabs.children('li').removeClass('active');
-           jQuery(this).addClass('active');
+            jQuery(this).addClass('active');
           });
         }).trigger('click');
-    }
 
+        if(document.location.hash) {
+          jQuery('.nav-tabs a[href='+document.location.hash+']').tab('show');
+          jQuery('a[href="#webvaloa-all-tabs"]').parent().remove();
+        }
+        jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+          window.location.hash = e.target.hash;
+        });
+        jQuery(window).on('hashchange', function() {
+          jQuery('.nav-tabs a[href='+document.location.hash+']').tab('show');
+        });
+    }
 }
 
 jQuery(document).ready(function() {

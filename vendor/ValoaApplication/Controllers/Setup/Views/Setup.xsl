@@ -312,6 +312,23 @@
                         <input type="password" name="admin_password2" class="form-control" id="inputPassword2" placeholder="{php:function('\Webvaloa\Webvaloa::translate','PASSWORD_CONFIRM')}" />
                     </div>
 
+                    <div class="form-group input-group-lg">
+                        <xsl:if test="errors['tz']">
+                            <xsl:attribute name="class">form-group input-group-lg has-error</xsl:attribute>
+                        </xsl:if>
+                        <label for="inputTZ"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TIME_ZONE')" /></label>
+                        <select name="tz" class="form-control" id="inputTZ" placeholder="{php:function('\Webvaloa\Webvaloa::translate','TIME_ZONE')}">
+                            <xsl:for-each select="timezones">
+                                <option value="{.}">
+                                    <xsl:if test="../timezone = .">
+                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                    </xsl:if>
+                                    <xsl:value-of select="."/>
+                                </option>
+                            </xsl:for-each>
+                        </select>
+                    </div>
+
                     <br/>
 
                     <div class="row" id="footer">

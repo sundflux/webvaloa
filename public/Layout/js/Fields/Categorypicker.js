@@ -1,11 +1,9 @@
-<?php
-
 /**
  * The Initial Developer of the Original Code is
- * Toni Lähdekorpi <toni@lygon.net>.
+ * Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2016 Toni Lähdekorpi <toni@lygon.net>
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * All Rights Reserved.
  *
@@ -29,22 +27,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-namespace ValoaApplication\Plugins;
 
-use stdClass;
-use Webvaloa\Helpers\Navigation;
+jQuery( document ).ready(function() {
 
-/**
- * Load global fields to view.
- */
-class PluginNavigationViewPlugin extends \Webvaloa\Plugin
-{
-    public function onBeforeController()
-    {
-        $this->ui->addTemplate('navigation');
-        $navigation = new Navigation();
-        $this->view->_navigation = new stdClass();
-        $this->view->_navigation->basepath = $this->request->getBasePath();
-        $this->view->_navigation->navigation = $navigation->get();
+    jQuery('.categorypicker').each(function() {
+        CategoryPicker.initCategoryPicker(this);
+    });
+
+});
+
+var CategoryPicker = {
+
+    initCategoryPicker: function(el) {
+        var $url = jQuery('#basehref').text();
+        var $id = jQuery(el).data('field-id');
+        var $val = jQuery(el).data('field-value');
+
+        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id, function( data ) {
+            var items = [];
+            var $sel = '';
+            jQuery.each( data, function( key, val ) {
+                $sel = '';
+                if($val == val.id) {
+                    $sel = 'selected="selected"';
+                }
+                items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
+            });
+
+            var $html = items.join('');
+            jQuery($html).appendTo(el);
+        });
     }
+
 }
