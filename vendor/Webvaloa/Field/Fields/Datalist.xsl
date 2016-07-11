@@ -15,10 +15,9 @@
 			data-field-name="{$name}"
 			data-field-id="{$id}"
 			data-field-value="{$value}"
-		    value="{$value}"
+			value="{$value}"
 			list="datalist-"/>
 		<datalist id="datalist-">
-				<option value="test"/>
 		</datalist>
 
 		<br/>
