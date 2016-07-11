@@ -8,3 +8,6 @@ Webvaloa contributors
 * **[Toni Lähdekorpi](http://toni.la)**
 
 * **[Margus Kopelma](https://github.com/margusk)**
+
+* **[Joni Halme](http://amigaone.cc/)**
+
