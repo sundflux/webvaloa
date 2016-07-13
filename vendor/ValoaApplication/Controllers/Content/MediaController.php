@@ -242,9 +242,6 @@ class MediaController extends \Webvaloa\Application
         $this->view->filename = $_POST['filename'];
         $this->view->alt = Media::getAlt($_POST['filename']);
         $this->view->title = Media::getTitle($_POST['filename']);
-
-        error_log($this->view->alt);
-        error_log($this->view->title);
     }
 
     public function savefileinfo()
