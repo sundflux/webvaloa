@@ -200,6 +200,74 @@ var Media = {
 
             Media.initFileSelectorBindings();
             Media.initConfirmBindings();
+            Media.initFileInfo();
+
+            Loader.hide();
+        });
+    },
+
+    getFileInfo: function(_filename) {
+        Loader.show();
+
+        jQuery('.file-info-dialog').html('').hide();
+
+        var _request;
+        var _url = jQuery('#basehref').text();
+        var _token = jQuery('#token').text();
+
+        _request = jQuery.ajax({
+            type: "POST",
+            url: _url + '/content_media/fileinfo?token=' + _token,
+            data: {
+                filename: _filename
+            }
+        });
+
+        _request.done(function(response) {
+            jQuery('.file-info-dialog[data-filename="'+_filename+'"]').html(response).toggle();
+
+            jQuery('.btn-save-fileinfo').on('click', function(e) {
+                e.preventDefault();
+
+                var _filename = jQuery(this).parent().find('.filename-holder').val();
+                var _title = jQuery(this).parent().find('.title-holder').val();
+                var _alt = jQuery(this).parent().find('.alt-holder').val();
+
+                Media.saveFileInfo(_filename, _title, _alt);
+            });
+
+            Loader.hide();
+        });
+    },
+
+    initFileInfo: function() {
+        jQuery('.file-info-button').on('click', function(e) {
+            e.preventDefault();
+
+            var _filename = jQuery(this).data('filename');
+            Media.getFileInfo(_filename);
+        });
+    },
+
+    saveFileInfo: function(_filename, _title, _alt) {
+        Loader.show();
+
+        var _request;
+        var _url = jQuery('#basehref').text();
+        var _token = jQuery('#token').text();
+
+        _request = jQuery.ajax({
+            type: "POST",
+            url: _url + '/content_media/savefileinfo?token=' + _token,
+            data: {
+                filename: _filename,
+                title: _title,
+                alt: _alt
+            }
+        });
+
+        _request.done(function(response) {
+            jQuery('.file-info-dialog').html('').hide();
 
             Loader.hide();
         });
