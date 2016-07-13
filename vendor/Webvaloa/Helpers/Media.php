@@ -105,7 +105,6 @@ class Media
         $stmt->set($filename);
 
         try {
-            error_log($query);
             $stmt->execute();
         } catch(\Exception $e) {
             error_log($e->getMessage());
