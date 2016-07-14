@@ -172,6 +172,10 @@ class Category
             $layoutDir = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.$template.DIRECTORY_SEPARATOR.'Article'.DIRECTORY_SEPARATOR.'Views';
         }
 
+        if (!is_readable($layoutDir) || !is_dir($layoutDir)) {
+            return array();
+        }
+
         $fs = new Filesystem($layoutDir);
         $files = $fs->files();
 
