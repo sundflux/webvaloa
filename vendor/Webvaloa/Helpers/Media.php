@@ -35,12 +35,20 @@ class Media
 {
     public static function getTitle($filename)
     {
-        return self::getField('title', $filename);
+        $string = self::getField('title', $filename);
+        if($string === false) {
+            $string = '';
+        }
+        return $string;
     }
 
     public static function getAlt($filename)
     {
-        return self::getField('alt', $filename);
+        $string = self::getField('alt', $filename);
+        if($string === false) {
+            $string = '';
+        }
+        return $string;
     }
 
     private static function getField($field, $filename)
