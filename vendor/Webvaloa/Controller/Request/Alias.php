@@ -227,6 +227,10 @@ class Alias
 
     private function buildContentRoute($row)
     {
+        if (!isset($row->type)) {
+            return false;
+        }
+
         switch ($row->type) {
             case 'content':
                 $this->controller->controller = 'Article_View';
