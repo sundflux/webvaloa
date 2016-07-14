@@ -475,10 +475,22 @@ ADD `alias` varchar(128) NOT NULL AFTER `id`;
 
 /* 1.0.3 schema update */
 
-CREATE TABLE `media` (
+CREATE TABLE IF NOT EXISTS `media` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `filename` varchar(255) NOT NULL,
   `alt` varchar(255) NULL,
   `title` varchar(255) NULL,
   `meta` text NULL
 ) ENGINE='InnoDB' COLLATE 'utf8_general_ci';
+
+CREATE TABLE IF NOT EXISTS `category_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `category_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE='InnoDB' COLLATE 'utf8_general_ci';
+
+ALTER TABLE `category`
+ADD `apply_permissions` tinyint(1) NOT NULL DEFAULT '0' AFTER `layout_list`;
+
