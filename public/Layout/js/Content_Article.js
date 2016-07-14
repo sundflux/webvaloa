@@ -54,14 +54,14 @@ var Article = {
         }).trigger('click');
 
         if(document.location.hash) {
-          jQuery('.nav-tabs a[href='+document.location.hash+']').tab('show');
+          jQuery('.nav-tabs a[href="'+document.location.hash+'"]').tab('show');
           jQuery('a[href="#webvaloa-all-tabs"]').parent().remove();
         }
         jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
           window.location.hash = e.target.hash;
         });
         jQuery(window).on('hashchange', function() {
-          jQuery('.nav-tabs a[href='+document.location.hash+']').tab('show');
+          jQuery('.nav-tabs a[href="'+document.location.hash+'"]').tab('show');
         });
     }
 }
