@@ -45,14 +45,13 @@ jQuery( document ).ready(function() {
 
                 $el.find('.mediapicker').each(function() {
                     var _uniqid = FrontendHelpers.uniqid();
-                    
+
                     jQuery(this).attr('name', _uniqid + '[' + jQuery(this).data('field-name') + '][]');
                     jQuery(this).attr('id', 'mediapickerinput-' + _uniqid);
-                    jQuery(this).data('uniqid', _uniqid);
-                    
+
                     MediaPicker.initMediaPicker(this);
                 });
-                
+
                 MediaPicker.bindRepeatables();
             });
         }); 
@@ -73,6 +72,7 @@ var MediaPicker = {
 
                         jQuery(this).attr('name', _uniqid + '[' + jQuery(this).data('field-name') + '][]');
                         jQuery(this).attr('id', 'mediapickerinput-' + _uniqid);
+                        jQuery(this).attr('data-uniqid', _uniqid);
                         jQuery(this).data('uniqid', _uniqid);
 
                         MediaPicker.initMediaPicker(this);
@@ -84,7 +84,13 @@ var MediaPicker = {
 
     initMediaPicker: function(el) {
         var $url = jQuery('#basehref').text();
-        
+        var _uniqid = FrontendHelpers.uniqid();
+
+        // Reset id/uniqid for repeatables so launching mediapicker
+        // instances doesn't break. This doesn't affect saving.
+        jQuery(el).attr('id', 'mediapickerinput-' + _uniqid);
+        jQuery(el).data('uniqid', _uniqid);
+
         jQuery.get( $url + '/content_media', function( data ) {
             jQuery('#mediapicker-content').html(data);
             
