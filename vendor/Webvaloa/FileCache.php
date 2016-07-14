@@ -198,7 +198,9 @@ class FileCache
             $this->read();
             // Update loaded cache before saving
             foreach($newCache as $k => $item) {
-                $this->cache->{$k} = $item;
+                if ($item->expires > $this->time) {
+                    $this->cache->{$k} = $item;
+                }
             }
             file_put_contents($this->file, serialize($this->cache));
         }
