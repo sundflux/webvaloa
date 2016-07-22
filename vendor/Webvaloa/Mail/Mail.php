@@ -556,7 +556,7 @@ class Mail
     {
         $email = $this->filterEmail($email);
 
-        if (is_null($name)) {
+        if (is_null($name) || empty($name) || $name == $email) {
             return $email;
         }
 
