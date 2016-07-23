@@ -211,7 +211,6 @@ class UserController extends \Webvaloa\Application
         $this->view->_roles = $role->roles();
         $this->view->_userid = $userID;
 
-        // Something is mysteriously caching selected value :P
         foreach ($this->view->_roles as $k => $v) {
             if (isset($v->selected)) {
                 unset($v->selected);

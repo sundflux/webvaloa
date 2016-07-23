@@ -232,7 +232,7 @@ class User
     {
         // Return public role if no user defined
         if (!$this->userID || !is_numeric($this->userID)) {
-            $role = new Role();
+            $role = new Role(); 
             $roles[] = $role->getRoleID('Public');
 
             return $roles;

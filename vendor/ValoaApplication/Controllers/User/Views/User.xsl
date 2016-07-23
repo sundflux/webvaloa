@@ -359,7 +359,7 @@
                                     
                                     <div class="tab-pane fade in" id="user-roles">
                                         <div id="add-user-roles-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
-                                    </div>                                    
+                                    </div>
                                     <xsl:if test="usermeta = 1">
                                         <div class="tab-pane fade in" id="user-meta">
                                             <div id="add-user-meta-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
@@ -379,7 +379,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         
         <div id="basehref" class="hide">
             <xsl:value-of select="/page/common/basehref"/>
@@ -387,7 +387,7 @@
     </xsl:template>
 
     <xsl:template match="roles">
-        <xsl:value-of select="useríd"/>
+        <xsl:value-of select="userid"/>
         <select name="roles[]" multiple="multiple" class="form-control roles">
             <xsl:for-each select="_roles">
                 <option value="{id}">
