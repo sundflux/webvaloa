@@ -517,4 +517,114 @@ class Category
         } catch (Exception $e) {
         }
     }
+
+    public function addRole($roleID)
+    {
+        if (!$this->id) {
+            throw new RuntimeException('CategoryID must be set before running addRole');
+        }
+
+        $roles = $this->roles();
+
+        if (is_array($roles) && in_array($roleID, $roles)) {
+            return true;
+        }
+
+        $object = new DB\Object('category_role', \Webvaloa\Webvaloa::DBConnection());
+        $object->category_id = $this->id;
+        $object->role_id = $roleID;
+
+        return $object->save();
+    }
+
+    public function deleteRole($roleID)
+    {
+        if (!$this->id) {
+            throw new RuntimeException('CategoryID must be set before running deleteRole');
+        }
+
+        $db = \Webvaloa\Webvaloa::DBConnection();
+
+        $query = '
+            DELETE FROM category_role
+            WHERE role_id = ?
+            AND category_id = ?';
+
+        $stmt = $db->prepare($query);
+        $stmt->set((int) $roleID);
+        $stmt->set((int) $this->id);
+
+        try {
+            $stmt->execute();
+        } catch (Exception $e) {
+        }
+    }
+
+    public function dropRoles()
+    {
+        // Delete user roles
+        $roles = $this->roles();
+        foreach ($roles as $k => $v) {
+            $this->deleteRole($v);
+        }
+    }
+
+    /**
+     * Check if category has certain role.
+     *
+     * @param type $roleID
+     *
+     * @return bool
+     */
+    public function hasRole($roleID)
+    {
+        $roles = $this->roles();
+
+        if (in_array($roleID, $roles)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Return all category roles.
+     *
+     * @return array
+     */
+    public function roles()
+    {
+        if (!$this->id || !is_numeric($this->id)) {
+            $role = new Role();
+            $roles[] = $role->getRoleID('Public');
+
+            return $roles;
+        }
+
+        $db = \Webvaloa\Webvaloa::DBConnection();
+
+        $query = '
+            SELECT role_id
+            FROM category_role
+            WHERE category_id = ?';
+
+        $stmt = $db->prepare($query);
+        $stmt->set((int) $this->id);
+
+        try {
+            $stmt->execute();
+
+            foreach ($stmt as $k => $row) {
+                $roles[] = $row->role_id;
+            }
+
+            if (isset($roles)) {
+                return $roles;
+            }
+
+            // No roles
+            return array();
+        } catch (Exception $e) {
+        }
+    }
 }
