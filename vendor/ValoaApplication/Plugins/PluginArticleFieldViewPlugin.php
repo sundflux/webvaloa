@@ -45,6 +45,10 @@ class PluginArticleFieldViewPlugin extends \Webvaloa\Plugin
 {
     public function onAfterController()
     {
+        if (!isset($this->view->article->fields) || (!is_object($this->view->article->fields) || !is_array($this->view->article->fields)) ) {
+            return;
+        }
+
         foreach ($this->view->article->fields as $k => $field) {
             if ($field->type === 'Articlepicker') {
                 $id = (int) $field->value;
