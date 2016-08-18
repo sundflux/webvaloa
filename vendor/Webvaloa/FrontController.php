@@ -33,6 +33,7 @@
 namespace Webvaloa;
 
 use Webvaloa\Controller\Request;
+use Webvaloa\Controller\Redirect;
 use Webvaloa\Auth\Auth;
 use ValoaApplication\Plugins;
 use Webvaloa\Controller\Request\Alias;
@@ -230,6 +231,9 @@ class FrontController
                 $userid = (isset($_SESSION['UserID']) ? $_SESSION['UserID'] : false);
 
                 if (!$auth->authorize($controller, $userid)) {
+                    if($userid === false && isset(\Webvaloa\config::$properties['defaultControllerAccessDenied'])) {
+                        Redirect::to(\Webvaloa\config::$properties['defaultControllerAccessDenied']);
+                    }
                     throw new RuntimeException('Access denied');
                 }
             }
