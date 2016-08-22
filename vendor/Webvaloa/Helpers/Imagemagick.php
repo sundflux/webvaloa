@@ -169,9 +169,10 @@ class Imagemagick
         }
     }
 
-    public static function scale($image, $width = 320, $height = 200)
+    public static function scale($image, $width = 320, $height = 200, $format = 'jpg')
     {
         $im = new self($image);
+        $im->format = $format;
         $im->setCrop(false);
         $im->setWidth($width);
         $im->setHeight($height);
@@ -186,9 +187,10 @@ class Imagemagick
         return $path.$ret;
     }
 
-    public static function crop($image, $width = 320, $height = 200)
+    public static function crop($image, $width = 320, $height = 200, $format = 'jpg')
     {
         $im = new self($image);
+        $im->format = $format;
         $im->setCrop(true);
         $im->setWidth($width);
         $im->setHeight($height);
