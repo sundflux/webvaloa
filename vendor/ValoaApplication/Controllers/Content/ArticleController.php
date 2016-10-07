@@ -384,8 +384,10 @@ class ArticleController extends \Webvaloa\Application
             // Set alias
             if (isset($_POST['alias']) && !empty($_POST['alias'])) {
                 $article->alias($_POST['alias']);
-            } else {
+            } elseif (empty($_POST['alias']) && !empty($_POST['title'])) {
                 $article->alias($_POST['title']);
+            } else {
+                // We're probably saving global fields, which doesn't have alias
             }
 
             $skip = array(
