@@ -330,6 +330,7 @@ class Category
         $object->category = $name;
         $object->parent_id = $parentID;
         $object->deleted = 0;
+        $object->apply_permissions = 0;
 
         $this->id = $object->save();
 
