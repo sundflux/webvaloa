@@ -36,18 +36,20 @@ class Media
     public static function getTitle($filename)
     {
         $string = self::getField('title', $filename);
-        if($string === false) {
+        if ($string === false) {
             $string = '';
         }
+
         return $string;
     }
 
     public static function getAlt($filename)
     {
         $string = self::getField('alt', $filename);
-        if($string === false) {
+        if ($string === false) {
             $string = '';
         }
+
         return $string;
     }
 
@@ -78,17 +80,17 @@ class Media
         }
     }
 
-    public static function setTitle($filename, $text = "")
+    public static function setTitle($filename, $text = '')
     {
         self::setField($filename, $text, 'title');
     }
 
-    public static function setAlt($filename, $text = "")
+    public static function setAlt($filename, $text = '')
     {
         self::setField($filename, $text, 'alt');
     }
 
-    public static function setField($filename, $text = "", $field = "")
+    public static function setField($filename, $text = '', $field = '')
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
@@ -114,7 +116,7 @@ class Media
 
         try {
             $stmt->execute();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             error_log($e->getMessage());
         }
     }
@@ -123,7 +125,7 @@ class Media
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $query = "SELECT id FROM media WHERE `filename` = ? LIMIT 1";
+        $query = 'SELECT id FROM media WHERE `filename` = ? LIMIT 1';
         $stmt = $db->prepare($query);
         $stmt->set($filename);
         try {
@@ -135,7 +137,7 @@ class Media
             }
 
             return false;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             error_log($e->getMessage());
         }
     }

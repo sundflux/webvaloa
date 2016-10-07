@@ -348,7 +348,8 @@ class Request
         return $this->getBaseUri().'/'.$this->getCurrentRoute();
     }
 
-    public function getBasePath() {
+    public function getBasePath()
+    {
         return $this->basepath;
     }
 

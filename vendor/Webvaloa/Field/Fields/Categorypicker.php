@@ -32,8 +32,6 @@
 namespace Webvaloa\Field\Fields;
 
 use stdClass;
-use DOMDocument;
-use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;

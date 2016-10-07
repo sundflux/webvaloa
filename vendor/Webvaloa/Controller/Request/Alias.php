@@ -33,7 +33,6 @@
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
-use Libvaloa\Debug;
 use stdClass;
 
 class Alias

@@ -197,7 +197,7 @@ class FileCache
             // Read from file in case there were changes after load
             $this->read();
             // Update loaded cache before saving
-            foreach($newCache as $k => $item) {
+            foreach ($newCache as $k => $item) {
                 if ($item->expires > $this->time) {
                     $this->cache->{$k} = $item;
                 }

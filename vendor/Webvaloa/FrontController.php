@@ -230,10 +230,10 @@ class FrontController
                 $userid = (isset($_SESSION['UserID']) ? $_SESSION['UserID'] : false);
 
                 if (!$auth->authorize($controller, $userid)) {
-                    if($userid === false && isset(\Webvaloa\config::$properties['default_controller_login'])) {
+                    if ($userid === false && isset(\Webvaloa\config::$properties['default_controller_login'])) {
                         Redirect::to(\Webvaloa\config::$properties['default_controller_login']);
                     }
-                    if($userid !== false && isset(\Webvaloa\config::$properties['default_controller_denied'])) {
+                    if ($userid !== false && isset(\Webvaloa\config::$properties['default_controller_denied'])) {
                         Redirect::to(\Webvaloa\config::$properties['default_controller_denied']);
                     }
                     throw new RuntimeException('Access denied');
