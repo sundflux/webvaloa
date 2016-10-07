@@ -275,7 +275,7 @@ class SetupController extends \Webvaloa\Application
 
         $locale = getenv('LANG');
         // Remove encoding from locale string
-        preg_match("/([^\.]+)[^\.]/",$locale,$locale);
+        preg_match("/([^\.]+)[^\.]/", $locale, $locale);
         $locale = $locale[0];
 
         $config = "<?php\n";
@@ -406,7 +406,7 @@ class SetupController extends \Webvaloa\Application
             $object->blocked = 0;
             $object->ordering = 10;
             $object->save();
-            
+
             // System components
             $component = new Component('Content');
             $component->install();

@@ -67,7 +67,8 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                             $articleHelper = new ArticleHelper($fieldValue->value);
                             $article = $articleHelper->article;
                             $fieldValues[$key]->article = $article;
-                        } catch(\Exception $e) { }
+                        } catch (\Exception $e) {
+                        }
                     }
                 }
 
