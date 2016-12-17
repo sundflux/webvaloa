@@ -471,7 +471,8 @@ CREATE TABLE IF NOT EXISTS `version_history` (
 /* 1.0.2 schema update */
 
 ALTER TABLE `structure`
-ADD `alias` varchar(128) NOT NULL AFTER `id`;
+ADD `alias` varchar(128) NOT NULL AFTER `id`,
+ADD INDEX ( `alias` ) ;
 
 /* 1.0.3 schema update */
 
