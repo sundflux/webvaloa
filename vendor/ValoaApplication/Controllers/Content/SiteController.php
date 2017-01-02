@@ -100,7 +100,8 @@ class SiteController extends \Webvaloa\Application
         $json = json_decode($_POST['json']);
         if (json_last_error() === JSON_ERROR_NONE) {
             try {
-                $stmt = $this->db->prepare('TRUNCATE TABLE structure'); // Delete everything and start from scratch
+                $stmt = $this->db->prepare('DELETE FROM structure WHERE locale = ?'); // Delete everything of selected locale and start from scratch
+                $stmt->set(\Webvaloa\Webvaloa::getLocale());
             $stmt->execute();
             } catch (Exception $e) {
             }
