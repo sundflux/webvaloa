@@ -186,27 +186,55 @@
                         </h4>
                     </div>
                     <div class="">
-                        <form method="post" action="{/page/common/basepath}/content_category/edit" accept-charset="{/page/common/encoding}">
+                        <form method="post" action="{/page/common/basepath}/content_category/edit?token={token}" accept-charset="{/page/common/encoding}">
                             <input type="hidden" name="category_id" id="category_id" />
                             <div class="modal-body">
-                                <div class="form-group input-group-lg">
-                                    <label for="inputCategory">
-                                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY')" />
-                                    </label>
-                                    <input type="text" name="category" class="form-control" id="inputCategoryEdit" placeholder="{php:function('\Webvaloa\Webvaloa::translate','CATEGORY')}" value="{category}" required="required" />
+
+                                <ul class="nav nav-tabs nav-justified" id="edit-category-info-tab" data-tabs="tabs">
+                                    <li class="active">
+                                        <a href="#edit-category-info" data-toggle="tab">
+                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY_INFO')"/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#edit-category-roles" data-toggle="tab">
+                                            <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ROLES')"/>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <br/>
+
+                                <div id="edit-category-info-tab-content" class="tab-content">
+                                    <div class="tab-pane active fade in" id="edit-category-info">
+
+                                        <div class="form-group input-group-lg">
+                                            <label for="inputCategory">
+                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CATEGORY')" />
+                                            </label>
+                                            <input type="text" name="category" class="form-control" id="inputCategoryEdit" placeholder="{php:function('\Webvaloa\Webvaloa::translate','CATEGORY')}" value="{category}" required="required" />
+                                        </div>
+
+                                        <div id="layout-overrides"/>
+
+                                    </div>
+
+                                    <div class="tab-pane fade in" id="edit-category-roles">
+                                        <div id="add-category-roles-holder"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOADING')" /></div>
+                                    </div>
                                 </div>
 
-                                <div id="layout-overrides"/>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CLOSE')"/>
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="add-user-button">
+                                        <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE')"/>
+                                    </button>
+                                </div>
+
                             </div>
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CLOSE')"/>
-                                </button>
-                                <button type="submit" class="btn btn-success" id="add-user-button">
-                                    <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE')"/>
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -278,6 +306,20 @@
                 </xsl:for-each>
             </select>
         </div>
+    </xsl:template>
+
+    <xsl:template match="roles">
+        <xsl:value-of select="userid"/>
+        <select name="roles[]" multiple="multiple" class="form-control roles">
+            <xsl:for-each select="_roles">
+                <option value="{id}">
+                    <xsl:if test="selected">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="role"/>
+                </option>
+            </xsl:for-each>
+        </select>
     </xsl:template>
 
 </xsl:stylesheet>

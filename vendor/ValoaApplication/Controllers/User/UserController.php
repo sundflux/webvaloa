@@ -60,7 +60,13 @@ class UserController extends \Webvaloa\Application
 
     private function usermeta()
     {
-        $file = file_get_contents(WEBVALOA_BASEDIR.'/config/usermeta.json');
+        $usermeta = WEBVALOA_BASEDIR.'/config/usermeta.json';
+
+        if (!is_readable($usermeta)) {
+            return false;
+        }
+
+        $file = file_get_contents($usermeta);
         $json = json_decode($file, true);
 
         return $json;
@@ -211,7 +217,6 @@ class UserController extends \Webvaloa\Application
         $this->view->_roles = $role->roles();
         $this->view->_userid = $userID;
 
-        // Something is mysteriously caching selected value :P
         foreach ($this->view->_roles as $k => $v) {
             if (isset($v->selected)) {
                 unset($v->selected);
@@ -239,6 +244,10 @@ class UserController extends \Webvaloa\Application
     public function meta($userID = false)
     {
         $json = $this->usermeta();
+
+        if ($json === false) {
+            return false;
+        }
 
         if (is_numeric($userID)) {
             $user = new User($userID);

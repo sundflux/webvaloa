@@ -130,18 +130,21 @@
                             <xsl:choose>
                                 <xsl:when test="../mediapicker = '1'">
                                     <a class="btn btn-sm btn-default mediapicker-select-file" href="#" data-file="{../currentPath}{filename}"><i class="fa fa-check"></i> </a>
+                                    <a class="btn btn-sm btn-default file-info-button" data-filename="{../currentPath}{filename}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <a class="btn btn-sm btn-default" href="{/page/common/basepath}public/media/{../currentPath}{filename}"><i class="fa fa-download"></i> </a>
+                                    <a class="btn btn-sm btn-default file-info-button" data-filename="{../currentPath}{filename}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
                                     <a class="btn btn-sm btn-danger confirm-delete" data-message="{php:function('\Webvaloa\Webvaloa::translate','DELETE')}?" href="{/page/common/basepath}content_media/delete?file={filename}&amp;token={../token}"><i class="fa fa-trash-o"></i></a>
                                 </xsl:otherwise>
                             </xsl:choose>
 						</div>
 
 						<span class="filesize pull-right"><xsl:value-of select="filesize"/> &#160;</span>
-
 						<br/>
 					</li>
+
+                    <li class="list-group-item file-info-dialog" style="display:none" data-filename="{../currentPath}{filename}"></li>
 				</xsl:for-each>
 			</ul>
 		</xsl:if>
@@ -161,6 +164,24 @@
 
 	<xsl:template match="delete">
 	</xsl:template>
+
+    <xsl:template match="savefileinfo">
+    </xsl:template>
+
+    <xsl:template match="fileinfo">
+        <form data-filename="{filename}" data-title="{title}" data-alt="{alt}" method="post" action="{/page/common/basepath}/content_media/savefileinfo">
+            <input type="hidden" class="filename-holder" name="filename" value="{filename}"/>
+            <div class="form-group">
+                <label for="title"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','TITLE')"/></label>
+                <input type="text" class="form-control title-holder" id="title" placeholder="" value="{title}" />
+            </div>
+            <div class="form-group">
+                <label for="alt"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ALT')"/></label>
+                <input type="text" class="form-control alt-holder" id="alt" placeholder="" value="{alt}" />
+            </div>
+            <button type="submit" class="btn btn-success btn-save-fileinfo"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SAVE')"/></button>
+        </form>
+    </xsl:template>
 
 	<xsl:template match="upload">
 		<h1>Upload files <small><xsl:value-of select="path"/></small></h1>

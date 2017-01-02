@@ -27,62 +27,75 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
-jQuery( document ).ready(function() {
-    jQuery('.articlepicker').each(function() {
-        ArticlePicker.initArticlePicker(this);
+jQuery(document).ready(function() {
+    jQuery('.datalist').each(function() {
+        DataList.initDataList(this);
+    });
+    jQuery('#article-form').on('change', '.datalist-polyfill', function() {
+        jQuery(this).prev('input').val(jQuery(this).val());
     });
 });
-var ArticlePicker = {
+var DataList = {
 
     data: {},
 
-    initArticlePicker: function(el) {
+    last: 0,
+
+    initDataList: function(el) {
+
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
         var $val = jQuery(el).data('field-value');
+        DataList.last++;
+        var $uniq = 'datalist-uniq-' + DataList.last;
 
-        if (typeof ArticlePicker.data[$id] === 'undefined') {
+        // Polyfill
+        if ('options' in document.createElement('datalist')) {
+            $selector = 'datalist';
+        } else {
+            if (jQuery(el).next('datalist').length) {
 
+                jQuery(el).next('datalist').remove();
+                jQuery(el).after('<select class="datalist-polyfill form-control"/>');
+                $selector = 'select';
+            }
+        }
+
+        jQuery(el).attr('list', $uniq);
+        jQuery(el).next($selector).attr('id', $uniq);
+
+
+        if (typeof DataList.data[$id] === 'undefined') {
             // No data yet, fetching it as we are the first one
-            ArticlePicker.data[$id] = {};
-            ArticlePicker.data[$id].ready = false;
-            ArticlePicker.data[$id].callbacks = [];
+            DataList.data[$id] = {};
+            DataList.data[$id].ready = false;
+            DataList.data[$id].callbacks = [];
 
             jQuery.getJSON($url + '/content_article/fieldParams/' + $id, function(data) {
-                ArticlePicker.data[$id].data = data;
-                ArticlePicker.data[$id].ready = true;
-
+                DataList.data[$id].data = data;
+                DataList.data[$id].ready = true;
                 // Call self again as we are done here
-                ArticlePicker.initArticlePicker(el);
-
+                DataList.initDataList(el);
                 // Looping through all the callbacks that we got while waiting for data
-                ArticlePicker.data[$id].callbacks.forEach(function(current) {
-                    ArticlePicker.initArticlePicker(current);
+                DataList.data[$id].callbacks.forEach(function(current) {
+                    DataList.initDataList(current);
                 });
             });
         } else {
             // There is already something, next up; we find what it is
-            if (ArticlePicker.data[$id].ready) {
+            if (DataList.data[$id].ready) {
                 // We have data. We are using it here
                 var items = [];
-                var $sel = '';
-                var data = ArticlePicker.data[$id].data;
-
+                var data = DataList.data[$id].data;
                 jQuery.each(data, function(key, val) {
-                    $sel = '';
-                    if ($val == val.id) {
-                        $sel = 'selected="selected"';
-                    }
-                    items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
+                    items.push('<option value="' + val.title + '">' + val.title + '</option>');
                 });
-
                 var $html = items.join('');
-                jQuery($html).appendTo(el);
+                jQuery($html).appendTo(jQuery(el).next($selector));
             } else {
-                // We don't have data. But someone is already trying to fetch it. Be nice and ask them to call back when ready
+                //We don't have data. But someone is already trying to fetch it. Be nice and ask them to call back when ready
                 // TODO find out if there is any, even remote possibility that the first fetch might be done before all of these callbacks have been set
-                ArticlePicker.data[$id].callbacks.push(el);
+                DataList.data[$id].callbacks.push(el);
             }
         }
     }

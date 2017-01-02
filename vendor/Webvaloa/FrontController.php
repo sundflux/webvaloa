@@ -115,7 +115,7 @@ class FrontController
             }
 
             // Check for url aliases
-            $alias = new Alias($request->getParam(0));
+            $alias = new Alias($request->getParams());
 
             if (isset($alias->controller->id)) {
                 // Set controlled and method
@@ -230,6 +230,12 @@ class FrontController
                 $userid = (isset($_SESSION['UserID']) ? $_SESSION['UserID'] : false);
 
                 if (!$auth->authorize($controller, $userid)) {
+                    if ($userid === false && isset(\Webvaloa\config::$properties['default_controller_login'])) {
+                        Redirect::to(\Webvaloa\config::$properties['default_controller_login']);
+                    }
+                    if ($userid !== false && isset(\Webvaloa\config::$properties['default_controller_denied'])) {
+                        Redirect::to(\Webvaloa\config::$properties['default_controller_denied']);
+                    }
                     throw new RuntimeException('Access denied');
                 }
             }

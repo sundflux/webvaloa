@@ -84,7 +84,30 @@ var Category = {
                 jQuery('#layout-overrides').html(response);
                 Loader.hide();
             });
+
+
+            jQuery('#edit-category-info-tab a').click(function(e) {
+                e.preventDefault();
+
+                jQuery(this).tab('show');
+            });
+
+            jQuery('#edit-category-info-tab').tab();
+
+            var _url = jQuery('#basehref').text();
+
+            _requestRoles = jQuery.ajax({
+                type: "POST",
+                url: _url + '/content_category/roles/' + jQuery(this).data('category-id')
+            });
+
+            _requestRoles.done(function(response) {
+                jQuery('#add-category-roles-holder').html(response);
+
+                Loader.hide();
+            });
         });
+
     }
 
 }

@@ -122,7 +122,17 @@ class SiteController extends \Webvaloa\Application
 
             try {
                 $stmt = $this->db->prepare($query);
-				$stmt->set($sub->alias);
+                if (empty($sub->alias)) {
+                    $a = $sub->name;
+                        // Use transliteration to convert special letters and characters to ascii. Note: this requires setlocale with .UTF-8 to be correctly installed
+                        $translit = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $a);
+                    if ($translit !== false) {
+                        $a = $translit;
+                    }
+                    $a = preg_replace('/[^A-Za-z0-9\-]/', '', strtolower(str_replace(' ', '-', $a)));
+                    $sub->alias = $a;
+                }
+                $stmt->set($sub->alias);
                 $stmt->set($parent);
                 $stmt->set($sub->type);
                 if ($sub->type == 'url') {

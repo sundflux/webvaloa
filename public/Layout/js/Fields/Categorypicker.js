@@ -28,46 +28,35 @@
  * IN THE SOFTWARE.
  */
 
-var Article = {
-    
-    init: function()
-    {
-        jQuery('.confirm').click(function(e) {
-            var message = jQuery(this).attr('data-message');
-            if (confirm(message)) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-        
-        jQuery('#alias-toggle').on('click', function() {
-            jQuery('#article-alias').toggle();
-        });
+jQuery( document ).ready(function() {
 
-        jQuery('a[href="#webvaloa-all-tabs"]').click(function(){
-          jQuery('#groups-tab li').removeClass('active');
-          jQuery(this).parent().addClass('active');
-          jQuery('#'+jQuery(this).data('tabs') + ' .tab-pane').each(function(i,t){
-            jQuery(this).addClass('active');
-          });
-        }).trigger('click');
-
-        if(document.location.hash) {
-          jQuery('.nav-tabs a[href="'+document.location.hash+'"]').tab('show');
-          jQuery('a[href="#webvaloa-all-tabs"]').parent().remove();
-        }
-        jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-          window.location.hash = e.target.hash;
-        });
-        jQuery(window).on('hashchange', function() {
-          jQuery('.nav-tabs a[href="'+document.location.hash+'"]').tab('show');
-        });
-    }
-}
-
-jQuery(document).ready(function() {
-
-    Article.init();
+    jQuery('.categorypicker').each(function() {
+        CategoryPicker.initCategoryPicker(this);
+    });
 
 });
+
+var CategoryPicker = {
+
+    initCategoryPicker: function(el) {
+        var $url = jQuery('#basehref').text();
+        var $id = jQuery(el).data('field-id');
+        var $val = jQuery(el).data('field-value');
+
+        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id, function( data ) {
+            var items = [];
+            var $sel = '';
+            jQuery.each( data, function( key, val ) {
+                $sel = '';
+                if($val == val.id) {
+                    $sel = 'selected="selected"';
+                }
+                items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
+            });
+
+            var $html = items.join('');
+            jQuery($html).appendTo(el);
+        });
+    }
+
+}

@@ -32,19 +32,15 @@
 namespace Webvaloa\Field;
 
 use Libvaloa\Db;
-use Webvaloa\Cache;
 use RuntimeException;
 
 class Group
 {
     private $groupID;
     private $object;
-    private $cache;
 
     public function __construct($groupID = false)
     {
-        $this->cache = new Cache();
-
         $this->object = new Db\Object('field_group', \Webvaloa\Webvaloa::DBConnection());
         $this->groupID = $groupID;
 

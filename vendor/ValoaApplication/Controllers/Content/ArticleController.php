@@ -277,6 +277,7 @@ class ArticleController extends \Webvaloa\Application
 
     public function globals()
     {
+        $this->ui->addJS('/js/Content_Article.js');
         $this->ui->addJS('/js/Fields/Frontend.js');
         $this->ui->addCSS('/css/Content_Field.css');
         $this->ui->setPageRoot('article');
@@ -383,8 +384,10 @@ class ArticleController extends \Webvaloa\Application
             // Set alias
             if (isset($_POST['alias']) && !empty($_POST['alias'])) {
                 $article->alias($_POST['alias']);
-            } else {
+            } elseif (empty($_POST['alias']) && !empty($_POST['title'])) {
                 $article->alias($_POST['title']);
+            } else {
+                // We're probably saving global fields, which doesn't have alias
             }
 
             $skip = array(

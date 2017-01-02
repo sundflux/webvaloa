@@ -34,6 +34,7 @@ namespace ValoaApplication\Controllers\Content;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Security;
 use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Media;
 use UnexpectedValueException;
 use RuntimeException;
 
@@ -230,5 +231,33 @@ class MediaController extends \Webvaloa\Application
         }
 
         return $p;
+    }
+
+    public function fileinfo()
+    {
+        if (!isset($_POST['filename'])) {
+            return false;
+        }
+
+        $this->view->filename = $_POST['filename'];
+        $this->view->alt = Media::getAlt($_POST['filename']);
+        $this->view->title = Media::getTitle($_POST['filename']);
+    }
+
+    public function savefileinfo()
+    {
+        Security::verify();
+
+        if (!isset($_POST['filename'])) {
+            return false;
+        }
+
+        if (isset($_POST['alt'])) {
+            Media::setAlt($_POST['filename'], $_POST['alt']);
+        }
+
+        if (isset($_POST['title'])) {
+            Media::setTitle($_POST['filename'], $_POST['title']);
+        }
     }
 }

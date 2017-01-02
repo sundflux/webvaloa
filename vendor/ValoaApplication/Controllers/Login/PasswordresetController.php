@@ -110,13 +110,13 @@ class PasswordresetController extends \Webvaloa\Application
                 $admin = $configuration->webmaster_email->value;
                 if (empty($admin)) {
                     $this->ui->addError(\Webvaloa\Webvaloa::translate('WEBMASTER_EMAIL_NOT_SET'));
-                    Redirect::to('register');
+                    Redirect::to('login_passwordreset');
                 }
 
                 $sitename = $configuration->sitename->value;
                 if (empty($sitename)) {
                     $this->ui->addError(\Webvaloa\Webvaloa::translate('SITENAME_NOT_SET'));
-                    Redirect::to('register');
+                    Redirect::to('login_passwordreset');
                 }
 
                 // Write reset hash to user metadata
@@ -139,7 +139,7 @@ class PasswordresetController extends \Webvaloa\Application
                 }
 
                 $mailer = new Mail();
-                $send = $mailer->setTo($row->email, $_POST['username'])
+                $send = $mailer->setTo($row->email, $user->firstname.' '.$user->lastname)
                         ->setSubject(\Webvaloa\Webvaloa::translate('RESET_PASSWORD_CONFIRM').' '.$this->request->getBaseUri())
                         ->setFrom($admin, $sitename)
                         ->addGenericHeader('X-Mailer', 'Webvaloa')

@@ -63,9 +63,12 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
 
                 if ($field->type == 'Articlepicker') {
                     foreach ($fieldValues as $key => $fieldValue) {
-                        $articleHelper = new ArticleHelper($fieldValue->value);
-                        $article = $articleHelper->article;
-                        $fieldValues[$key]->article = $article;
+                        try {
+                            $articleHelper = new ArticleHelper($fieldValue->value);
+                            $article = $articleHelper->article;
+                            $fieldValues[$key]->article = $article;
+                        } catch (\Exception $e) {
+                        }
                     }
                 }
 

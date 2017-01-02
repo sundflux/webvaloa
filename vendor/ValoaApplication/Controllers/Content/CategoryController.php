@@ -211,6 +211,16 @@ class CategoryController extends \Webvaloa\Application
                 $cat->setListLayout($_POST['override_list']);
             }
 
+            $category->dropRoles();
+
+            $role = new Role();
+
+            if (isset($_POST['roles'])) {
+                foreach ($_POST['roles'] as $k => $v) {
+                    $category->addRole($v);
+                }
+            }
+
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('CATEGORY_EDITED'));
         } catch (Exception $e) {
         }
@@ -234,5 +244,35 @@ class CategoryController extends \Webvaloa\Application
         }
 
         Redirect::to('content_category');
+    }
+
+    public function roles($categoryID = false)
+    {
+        $role = new Role();
+        $this->view->_roles = $role->roles();
+        $this->view->_categoryid = $categoryID;
+
+        foreach ($this->view->_roles as $k => $v) {
+            if (isset($v->selected)) {
+                unset($v->selected);
+            }
+
+            $this->view->_roles[$k] = $v;
+        }
+        Debug::__print($this->view->_roles);
+
+        if (is_numeric($categoryID)) {
+            $category = new Category($categoryID);
+            $categoryRoles = $category->roles();
+            Debug::__print($categoryRoles);
+
+            foreach ($this->view->_roles as $k => $v) {
+                if (in_array($v->id, $categoryRoles)) {
+                    $this->view->_roles[$k]->selected = 'selected';
+                }
+            }
+        }
+
+        Debug::__print($this->view->_roles);
     }
 }
