@@ -34,6 +34,7 @@ namespace ValoaApplication\Plugins;
 use Libvaloa\Debug;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Configuration;
+use Webvaloa\Controller\Redirect;
 
 /**
  * Plugin to switch language on-fly.
@@ -58,6 +59,7 @@ class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
 
         // Locale already set
         if (isset($_SESSION['locale'])) {
+            $this->redirect();
             return;
         }
 
@@ -71,5 +73,15 @@ class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
         }
 
         $_SESSION['locale'] = $default;
+
+        $this->redirect();
+
+    }
+
+    private function redirect()
+    {
+        if(isset($_GET['redirect'])) {
+            Redirect::to($_GET['redirect']);
+        }
     }
 }
