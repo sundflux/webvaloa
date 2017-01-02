@@ -151,7 +151,7 @@
 							<div class="form-group" id="menu-alias">
 								<label for="message-text" class="control-label">
 									<xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ALIAS')" />:</label>
-								<input type="text" class="form-control" id="alias" placeholder="" />
+								<input type="text" class="form-control" id="alias" placeholder="{php:function('\Webvaloa\Webvaloa::translate','AUTO_GENERATED')}" />
 							</div>
 
 						</form>

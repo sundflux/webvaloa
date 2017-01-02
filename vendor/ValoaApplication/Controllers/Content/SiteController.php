@@ -118,7 +118,7 @@ class SiteController extends \Webvaloa\Application
         foreach ($items as $sub) {
             $query = "
             INSERT INTO structure (alias, parent_id, type, target_id, target_url, translation, locale, ordering)
-			VALUES (?, ?, ?, ?, ?, ?, '*', '0')";
+			VALUES (?, ?, ?, ?, ?, ?, ?, '0')";
 
             try {
                 $stmt = $this->db->prepare($query);
@@ -144,6 +144,8 @@ class SiteController extends \Webvaloa\Application
                 }
 
                 $stmt->set($sub->name);
+
+                $stmt->set(\Webvaloa\Webvaloa::getLocale());
 
                 $stmt->execute();
 
