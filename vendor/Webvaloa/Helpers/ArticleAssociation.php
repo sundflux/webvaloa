@@ -55,7 +55,7 @@ use Webvaloa\Locale\Locales as LocalesHelper;
  *
  */
 
-// This is somewhat EXPERIMENTAL and at the moment the support for associated articles is disabled.
+// This is somewhat EXPERIMENTAL and at the moment the support for associated articles might break stuff.
 
 class ArticleAssociation
 {
@@ -111,9 +111,7 @@ class ArticleAssociation
 
     public function getAssociatedId()
     {
-        // Support for associations DISABLED for now
-        return $this->id;
-
+        // return $this->id; // To temporarily DISABLE support, uncomment this line
         if (!$this->getLocale()) {
             $this->defaultLocale();
         }

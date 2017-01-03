@@ -205,14 +205,13 @@
 
                     <div class="row" id="footer">
                         <div class="col-md-12">
-                            <button type="submit" name="back" class="btn btn-default pull-left">
-                                <span class="glyphicon glyphicon-chevron-left"></span>&#160;<xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','BACK')" />
-                            </button>
-
                             <button type="submit" name="continue" class="btn btn-success pull-right">
                                 <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ALL_GOOD')"/>&#160;<span class="glyphicon glyphicon-thumbs-up"></span>
                             </button>
 
+                            <button type="submit" name="back" class="btn btn-default pull-left">
+                                <span class="glyphicon glyphicon-chevron-left"></span>&#160;<xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','BACK')" />
+                            </button>
                         </div>
                     </div>
 
@@ -333,11 +332,11 @@
 
                     <div class="row" id="footer">
                         <div class="col-md-12">
-                            <button type="submit" name="back" class="btn btn-default pull-left">
-                                <span class="glyphicon glyphicon-chevron-left"></span>&#160;<xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','BACK')" />
-                            </button>
                             <button type="submit" name="continue" class="btn btn-success pull-right">
                                 <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ALL_GOOD')"/>&#160;<span class="glyphicon glyphicon-thumbs-up"></span>
+                            </button>
+                            <button type="submit" name="back" class="btn btn-default pull-left">
+                                <span class="glyphicon glyphicon-chevron-left"></span>&#160;<xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','BACK')" />
                             </button>
                         </div>
                     </div>

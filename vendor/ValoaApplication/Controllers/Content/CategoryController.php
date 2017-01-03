@@ -38,6 +38,7 @@ use Webvaloa\Tag;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Security;
+Use Webvaloa\Role;
 
 class CategoryController extends \Webvaloa\Application
 {
@@ -211,13 +212,13 @@ class CategoryController extends \Webvaloa\Application
                 $cat->setListLayout($_POST['override_list']);
             }
 
-            $category->dropRoles();
+            $cat->dropRoles();
 
             $role = new Role();
 
             if (isset($_POST['roles'])) {
                 foreach ($_POST['roles'] as $k => $v) {
-                    $category->addRole($v);
+                    $cat->addRole($v);
                 }
             }
 
