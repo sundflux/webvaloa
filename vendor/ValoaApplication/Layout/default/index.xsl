@@ -44,7 +44,17 @@
                 <meta name="viewport" content="width=device-width" />
 
                 <title>
-                    <xsl:value-of select="/page/module/*/sitetitle"/>
+                    <xsl:choose>
+                        <xsl:when test="/page/module/*/_globals/site_title/value != ''">
+                            <xsl:value-of select="/page/module/*/_globals/site_title/value"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="/page/module/*/sitetitle"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:if test="/page/module/*/_globals/site_title_page/value = '1' and /page/module/*/article/title != ''">
+                        <xsl:value-of select="/page/module/*/_globals/site_title_separator/value"/><xsl:value-of select="/page/module/*/article/title"/>
+                    </xsl:if>
                 </title>
                 <base href="{common/basehref}"/>
 
