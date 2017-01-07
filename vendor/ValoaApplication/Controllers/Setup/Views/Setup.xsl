@@ -143,6 +143,34 @@
                     </p>
 
                     <div class="form-group input-group-lg">
+                        <input type="hidden" name="db_profile" value="clean" id="profile-field"/>
+                        <label for="profile"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SETUP_PROFILE')" /></label>
+                        <br/>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="profile">
+                                <xsl:choose>
+                                    <xsl:when test="db_profile != ''">
+                                        <xsl:value-of select="db_profile"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="profiles[position()=1]/name"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <xsl:for-each select="profiles">
+                                    <li><a href="javascript:;" onclick="Setup.profile('{name}')"><strong><xsl:value-of select="name"/></strong><br/><small><xsl:value-of select="description"/></small></a></li>
+                                </xsl:for-each>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group input-group-lg">
+
                         <input type="hidden" name="db_server" value="mysql" id="db-server-field"/>
                         <label for="inputHost"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','DATABASE_SERVER')" /></label>
                         <br/>

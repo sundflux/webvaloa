@@ -1,0 +1,8 @@
+{
+	"name": "Webpage",
+	"description": "Basic installation for normal websites",
+	"config": {
+		"default_controller": "article_view",
+		"default_controller_authed": "article_view"
+	}
+}
