@@ -35,6 +35,7 @@ use Webvaloa\Field\Group;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Article as ArticleHelper;
+use Webvaloa\Helpers\ArticleAssociation;
 use stdClass;
 
 /**
@@ -58,13 +59,21 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
 
             foreach ($fields as $field) {
                 $valueField = new Value('0');
+                $valueField->fieldLocale(\Webvaloa\Webvaloa::getLocale());
                 $valueField->fieldOrdering(false);
                 $fieldValues = $valueField->getValues($field->id);
 
                 if ($field->type == 'Articlepicker') {
                     foreach ($fieldValues as $key => $fieldValue) {
                         try {
-                            $articleHelper = new ArticleHelper($fieldValue->value);
+                            $id = $fieldValue->value;
+                            // Try loading associated article
+                            $association = new ArticleAssociation($id);
+                            $association->setLocale(\Webvaloa\Webvaloa::getLocale());
+                            if ($associatedID = $association->getAssociatedId()) {
+                               $id = $associatedID;
+                            }
+                            $articleHelper = new ArticleHelper($id);
                             $article = $articleHelper->article;
                             $fieldValues[$key]->article = $article;
                         } catch (\Exception $e) {
