@@ -43,6 +43,12 @@ var Setup = {
         }
     },
 
+    profile: function(v)
+    {
+        jQuery('#profile-field').val(v);
+        jQuery('#profile').text(v);
+    },
+
     toggleDisabled: function(el)
     {
         jQuery('#' + el).prop("disabled", !jQuery('#' + el).prop("disabled"));
