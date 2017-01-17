@@ -72,8 +72,16 @@ class Value
             DELETE FROM content_field_value
             WHERE content_id = ?';
 
+        if ($this->fieldLocale !== false) {
+            $query .= ' AND locale = ? ';
+        }
+
         $stmt = $db->prepare($query);
         $stmt->set((int) $this->articleID);
+
+        if ($this->fieldLocale !== false) {
+            $stmt->set($this->fieldLocale);
+        }
 
         try {
             $stmt->execute();
@@ -146,6 +154,10 @@ class Value
             $query .= ' AND ordering = ? ';
         }
 
+        if ($this->fieldLocale !== false) {
+            $query .= ' AND locale = ? ';
+        }
+
         $stmt = $db->prepare($query);
 
         try {
@@ -157,6 +169,10 @@ class Value
 
             if ($this->fieldOrdering !== false) {
                 $stmt->set((int) $this->fieldOrdering);
+            }
+
+            if ($this->fieldLocale !== false) {
+                 $stmt->set($this->fieldLocale);
             }
 
             $stmt->execute();

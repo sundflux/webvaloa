@@ -46,5 +46,8 @@ class PluginNavigationViewPlugin extends \Webvaloa\Plugin
         $this->view->_navigation = new stdClass();
         $this->view->_navigation->basepath = $this->request->getBasePath();
         $this->view->_navigation->navigation = $navigation->get();
+        $this->view->_locale = new stdClass();
+        $this->view->_locale->country = \Webvaloa\Webvaloa::getLocale();
+        $this->view->_locale->language = substr($this->view->_locale->country, 0, 2);
     }
 }

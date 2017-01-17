@@ -397,6 +397,7 @@ class ArticleController extends \Webvaloa\Application
 
             // Drop old fields
             $value = new Value($id);
+            $value->fieldLocale(\Webvaloa\Webvaloa::getLocale());
             $value->dropValues();
 
             // Group ordering counter
