@@ -293,6 +293,8 @@ class SetupController extends \Webvaloa\Application
         $configData = array(
                 'default_controller' => 'login',
                 'default_controller_authed' => 'login_logout',
+		'default_controller_login' => 'login',
+		'default_controller_denied' => 'error',
                 'webvaloa_auth' => 'Webvaloa\Auth\Db'
         );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
@@ -317,10 +319,6 @@ class SetupController extends \Webvaloa\Application
         foreach($configData as $configKey => $configValue) {
             $config .= "\t\t'{$configKey}'\t=> '{$configValue}',\n";
 	}
-
-//        $config .= "        'default_controller'        => 'login',\n";
-//        $config .= "        'default_controller_authed' => 'login_logout',\n";
-//        $config .= "        'webvaloa_auth'             => 'Webvaloa\Auth\Db',\n";
 
         $config .= "\n\t\t'time_zone'\t\t\t\t\t\t=> '".$setup['admin']['tz']."'\n";
         $config .= "\t);\n";
