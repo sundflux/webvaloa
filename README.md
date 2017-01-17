@@ -55,4 +55,5 @@ error_reporting(E_ALL);
 
 ### Misc
 License: [The MIT License (MIT)](LICENSE)
+
 [Contributors](CONTRIBUTORS.md)
