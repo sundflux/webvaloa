@@ -52,3 +52,7 @@ While developing you can enable debugging by either configuring your server to s
 ```php
 error_reporting(E_ALL);
 ```
+
+### Misc
+License: [The MIT License (MIT)](LICENSE)
+[Contributors](CONTRIBUTORS.md)
