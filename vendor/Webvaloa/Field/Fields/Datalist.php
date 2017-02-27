@@ -83,7 +83,8 @@ class Datalist
             $query = '
             SELECT *
             FROM content_field_value
-            WHERE field_id = ?';
+            WHERE field_id = ?
+            GROUP BY value';
 
             $stmt = $db->prepare($query);
             $stmt->set($this->fieldID);
