@@ -42,11 +42,9 @@ class Configuration
     private $db;
     private $config;
     private $componentID;
-    private $reload;
 
     public function __construct($component = false)
     {
-        $this->reload = false;
         $this->config = false;
         $this->componentID = null;
         $this->db = \Webvaloa\Webvaloa::DBConnection();
@@ -65,21 +63,22 @@ class Configuration
      */
     public function __set($k, $v)
     {
-        if (!$this->config) {
-            $this->loadConfiguration();
-        }
+        $this->configuration();
 
-        // Check that configuration key exists
-        $conf = $this->configuration();
+        // Check that configuration key exists if we 
+        // try to access global settings variables.
+        if ($this->componentID == null) {
+            $conf = $this->config;
 
-        if (is_array($conf) || is_object($conf)) {
-            foreach ($conf as $tmp => $c) {
-                $keys[] = $c->key;
+            if (is_array($conf) || is_object($conf)) {
+                foreach ($conf as $tmp => $c) {
+                    $keys[] = $c->key;
+                }
             }
-        }
 
-        if (isset($keys) && !in_array($k, $keys)) {
-            return false;
+            if (isset($keys) && !in_array($k, $keys)) {
+                return false;
+            }
         }
 
         try {
@@ -102,8 +101,12 @@ class Configuration
                 $object->component_id = $this->componentID;
                 $object->save();
             }
+
         } catch (PDOException $e) {
         }
+
+        // Reload configuration
+        $this->config = false;
     }
 
     /**
@@ -115,9 +118,8 @@ class Configuration
      */
     public function __get($k)
     {
-        if (!$this->config) {
-            $this->loadConfiguration();
-        }
+        // Load configs
+        $this->configuration();
 
         if (isset($this->config->$k) && !empty($this->config->$k)) {
             return $this->config->$k;
