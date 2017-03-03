@@ -51,6 +51,10 @@ class Filesystem
 
     public function _readdir()
     {
+        if (!is_readable($this->path)) {
+            throw new RuntimeException('Path is not readable.');
+        }
+
         $fs = new DirectoryIterator($this->path);
 
         foreach ($fs as $fileInfo) {
