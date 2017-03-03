@@ -58,6 +58,10 @@ class Locales
     public function locales()
     {
         foreach ($this->paths as $k => $path) {
+            if (!is_readable($path)) {
+                continue;
+            }
+
             if ($handle = opendir($path)) {
                 while (false !== ($entry = readdir($handle))) {
                     if (strpos($entry, '_') !== false && strlen($entry) == 5) {
