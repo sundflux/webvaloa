@@ -31,6 +31,7 @@
  */
 namespace ValoaApplication\Plugins;
 
+use Libvaloa\Debug;
 use Webvaloa\Helpers\Filesystem;
 use stdClass;
 
@@ -42,8 +43,18 @@ class SettingsTemplateListPlugin extends \Webvaloa\Plugin
     public function onAfterController()
     {
         // Get available templates
-        $filesystem = new Filesystem(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.\Webvaloa\Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout');
-        $templates = $filesystem->folders();
+        try {
+            $filesystem = new Filesystem(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.\Webvaloa\Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout');
+            $templates = $filesystem->folders();
+        } catch(\RuntimeException $e) {
+            Debug::__print('Could not read layout path.');
+
+            return;
+        }
+
+        if (!isset($templates)) {
+            return;
+        }
 
         // Look for template key in settings
         foreach ($this->view->settings as $k => $v) {
