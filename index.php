@@ -52,17 +52,17 @@ if (is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
 
 // Core paths
 if (!defined('LIBVALOA_INSTALLPATH')) {
-    define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.DIRECTORY_SEPARATOR.'vendor');
+    define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.'/'.'vendor');
 }
 
 // Extensions
 if (!defined('LIBVALOA_EXTENSIONSPATH')) {
-    define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.DIRECTORY_SEPARATOR.'vendor');
+    define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.'/'.'vendor');
 }
 
 // Public media
 if (!defined('LIBVALOA_PUBLICPATH')) {
-    define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.DIRECTORY_SEPARATOR.'public');
+    define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.'/'.'public');
 }
 
 // Composer autoloader
@@ -73,8 +73,8 @@ if (!file_exists(LIBVALOA_INSTALLPATH.'/autoload.php')) {
 require_once LIBVALOA_INSTALLPATH.'/autoload.php';
 
 // Include paths
-set_include_path(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.PATH_SEPARATOR.get_include_path());
-set_include_path(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.PATH_SEPARATOR.get_include_path());
+set_include_path(LIBVALOA_EXTENSIONSPATH.'/'.PATH_SEPARATOR.get_include_path());
+set_include_path(LIBVALOA_INSTALLPATH.'/'.PATH_SEPARATOR.get_include_path());
 
 /**
  * Webvaloa kernel class.
@@ -182,14 +182,14 @@ class Webvaloa
         if ($lastNsPos = strrpos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);
-            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR;
+            $fileName  = str_replace('\\', '/', $namespace).'/';
         }
 
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+        $fileName .= str_replace('_', '/', $className).'.php';
 
         // Look first from the extensionspath, then fallback to core installpath
-        $search[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.$fileName;
-        $search[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.$fileName;
+        $search[] = LIBVALOA_EXTENSIONSPATH.'/'.$fileName;
+        $search[] = LIBVALOA_INSTALLPATH.'/'.$fileName;
 
         // Include classes if found
         foreach ($search as $v) {
@@ -328,12 +328,12 @@ class Webvaloa
         $translate = new I18n\Translate($args);
 
         // Default to installpath
-        if (file_exists(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale'.DIRECTORY_SEPARATOR.self::getLocale().DIRECTORY_SEPARATOR.'LC_MESSAGES'.DIRECTORY_SEPARATOR.$domain.'.ini')) {
+        if (file_exists(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Locale'.'/'.self::getLocale().'/'.'LC_MESSAGES'.'/'.$domain.'.ini')) {
             $path = LIBVALOA_INSTALLPATH;
         }
 
         // Override from extensionspath if found
-        if (file_exists(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale'.DIRECTORY_SEPARATOR.self::getLocale().DIRECTORY_SEPARATOR.'LC_MESSAGES'.DIRECTORY_SEPARATOR.$domain.'.ini')) {
+        if (file_exists(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Locale'.'/'.self::getLocale().'/'.'LC_MESSAGES'.'/'.$domain.'.ini')) {
             $path = LIBVALOA_EXTENSIONSPATH;
         }
 
@@ -342,7 +342,7 @@ class Webvaloa
             return $args[0];
         }
 
-        $translate->bindTextDomain($domain, $path.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Locale');
+        $translate->bindTextDomain($domain, $path.'/'.Webvaloa::$properties['vendor'].'/'.'Locale');
         $t = (string) $translate;
 
         return $t;
@@ -387,25 +387,25 @@ class ApplicationUI
         // File paths for the UI
 
         // Layout and overrides path
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.$request->getMainController().'/'.'Views');
 
         // Controller
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Controllers'.'/'.$request->getMainController().'/'.'Views');
 
         // Plugins
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
+        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Plugins');
 
         // As above, but from core installation
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout'].DIRECTORY_SEPARATOR.'Views');
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers'.DIRECTORY_SEPARATOR.$request->getMainController().DIRECTORY_SEPARATOR.'Views');
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins');
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views');
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Controllers'.'/'.$request->getMainController().'/'.'Views');
+        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Plugins');
 
         // Public media paths
-        $ui->addIncludePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout'.DIRECTORY_SEPARATOR.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_PUBLICPATH.DIRECTORY_SEPARATOR.'Layout');
+        $ui->addIncludePath(LIBVALOA_PUBLICPATH.'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
+        $ui->addIncludePath(LIBVALOA_PUBLICPATH.'/'.'Layout');
 
         // Empty template for ajax requests
         if ($request->isAjax()) {
