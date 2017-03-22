@@ -273,14 +273,11 @@ class User
 
         if ($key === false) {
             // Get all metadata
-            $meta = $this->object->meta;
-
-            if (empty($meta)) {
-                return false;
+            if (!empty((string) $this->object->meta)) {
+                return json_decode($this->object->meta);
             }
 
-            $meta = json_decode($meta);
-            return $meta;
+            return false;
         } elseif ($value === false) {
             // Get specific metadata
             $meta = $this->object->meta;
