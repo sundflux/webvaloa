@@ -265,14 +265,24 @@ class User
         }
     }
 
-    public function metadata($key, $value = false)
+    public function metadata($key = false, $value = false)
     {
         if (!$this->userID) {
             throw new RuntimeException('UserID must be set before using metadata');
         }
 
-        if ($value === false) {
-            // Get metadata
+        if ($key === false) {
+            // Get all metadata
+            $meta = $this->object->meta;
+
+            if (empty($meta)) {
+                return false;
+            }
+
+            $meta = json_decode($meta);
+            return $meta;
+        } elseif ($value === false) {
+            // Get specific metadata
             $meta = $this->object->meta;
 
             if (empty($meta)) {
