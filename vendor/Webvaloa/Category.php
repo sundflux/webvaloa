@@ -216,7 +216,12 @@ class Category
         try {
             $stmt->execute();
             $this->category = $stmt->fetch();
+            $category = $this->category;
         } catch (Exception $e) {
+        }
+        
+        if (isset($category)) {
+            return $category;
         }
     }
 
