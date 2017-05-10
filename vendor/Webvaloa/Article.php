@@ -72,8 +72,8 @@ class Article
     public function initEmpty()
     {
         $this->article->published = 1;
-        $this->article->publish_up = 'NOW()';
-        $this->article->publish_down = null;
+        $this->article->publish_up = date("Y-m-d H:i:s");
+        $this->article->publish_down = '1970-01-01 00:00:01';
         $this->article->locale = Webvaloa::getLocale();
 
         if (isset($_SESSION['UserID'])) {
@@ -403,18 +403,22 @@ class Article
             INSERT INTO content (
                 `published` ,
                 `publish_up` ,
+                `publish_down` ,
                 `locale` ,
                 `user_id`
             )
             VALUES (
                 ?,
-                NOW(),
+                ?,
+                ?,
                 ?,
                 ?
             )';
 
         $stmt = $db->prepare($query);
         $stmt->set($this->article->published);
+        $stmt->set($this->article->publish_up);
+        $stmt->set($this->article->publish_down);
         $stmt->set($this->article->locale);
         $stmt->set($this->article->user_id);
 

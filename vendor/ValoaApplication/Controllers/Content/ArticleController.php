@@ -458,6 +458,10 @@ class ArticleController extends \Webvaloa\Application
                 $article->setPublishUp($_POST['publish_up']);
             }
 
+            if (empty($_POST['publish_down'])) {
+                $_POST['publish_down'] = '1970-01-01 00:00:01';
+            }
+
             if (isset($_POST['publish_down'])) {
                 $article->setPublishDown($_POST['publish_down']);
             }
