@@ -71,7 +71,7 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                             $association = new ArticleAssociation($id);
                             $association->setLocale(\Webvaloa\Webvaloa::getLocale());
                             if ($associatedID = $association->getAssociatedId()) {
-                               $id = $associatedID;
+                                $id = $associatedID;
                             }
                             $articleHelper = new ArticleHelper($id);
                             $article = $articleHelper->article;

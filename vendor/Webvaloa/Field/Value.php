@@ -172,7 +172,7 @@ class Value
             }
 
             if ($this->fieldLocale !== false) {
-                 $stmt->set($this->fieldLocale);
+                $stmt->set($this->fieldLocale);
             }
 
             $stmt->execute();

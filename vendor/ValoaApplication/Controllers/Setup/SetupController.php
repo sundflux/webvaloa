@@ -66,10 +66,10 @@ class SetupController extends \Webvaloa\Application
         // Specific to setup
         $this->view = new stdClass();
         $this->manifest = new Manifest('Setup');
-        foreach(glob($this->manifest->controllerPath.'/profiles/*/profile.json') as $profileFile) {
-		$profile = json_decode(file_get_contents($profileFile));
-                $profile->directory = basename(substr($profileFile,0,-12));
-                $this->profiles[] = $profile;
+        foreach (glob($this->manifest->controllerPath.'/profiles/*/profile.json') as $profileFile) {
+            $profile = json_decode(file_get_contents($profileFile));
+            $profile->directory = basename(substr($profileFile, 0, -12));
+            $this->profiles[] = $profile;
         }
     }
 
@@ -293,14 +293,14 @@ class SetupController extends \Webvaloa\Application
         $configData = array(
                 'default_controller' => 'login',
                 'default_controller_authed' => 'login_logout',
-		'default_controller_login' => 'login',
-		'default_controller_denied' => 'error',
+        'default_controller_login' => 'login',
+        'default_controller_denied' => 'error',
                 'webvaloa_auth' => 'Webvaloa\Auth\Db'
         );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
-        if(is_object($currentProfile->config)) {
-            foreach($currentProfile->config as $configKey => $configValue) {
+        if (is_object($currentProfile->config)) {
+            foreach ($currentProfile->config as $configKey => $configValue) {
                 $configData[$configKey]=$configValue;
             }
         }
@@ -316,9 +316,9 @@ class SetupController extends \Webvaloa\Application
         $config .= "\t\t'db_pass'\t\t\t\t\t\t=> '".$setup['db']['db_pass']."',\n";
         $config .= "\t\t'db_db'\t\t\t\t\t\t\t=> '".$setup['db']['db_db']."',\n\n";
 
-        foreach($configData as $configKey => $configValue) {
+        foreach ($configData as $configKey => $configValue) {
             $config .= "\t\t'{$configKey}'\t=> '{$configValue}',\n";
-	}
+        }
 
         $config .= "\n\t\t'time_zone'\t\t\t\t\t\t=> '".$setup['admin']['tz']."'\n";
         $config .= "\t);\n";
@@ -359,7 +359,7 @@ class SetupController extends \Webvaloa\Application
 
         // Profile schema
         $profile = $this->getProfileByName($setup['db']['db_profile']);
-        if(isset($profile->directory) && !empty($profile->directory)) {
+        if (isset($profile->directory) && !empty($profile->directory)) {
             $profileSql = $this->manifest->controllerPath.'/profiles/'.$profile->directory.'/db.sql';
         }
 
@@ -375,7 +375,7 @@ class SetupController extends \Webvaloa\Application
             $query = file_get_contents($sqlSchema);
 
             // Inject additional schema from profile
-            if(file_exists($profileSql)) {
+            if (file_exists($profileSql)) {
                 $query .= "\n".file_get_contents($profileSql);
             }
 
@@ -506,12 +506,12 @@ class SetupController extends \Webvaloa\Application
 
     private function getProfileByName($name)
     {
-	$find = false;
-        array_walk($this->profiles, function($profile) use($name, &$find) {
-            if($profile->name == $name) {
-		return $find = $profile;
+        $find = false;
+        array_walk($this->profiles, function ($profile) use ($name, &$find) {
+            if ($profile->name == $name) {
+                return $find = $profile;
             }
         });
-	return $find;
+        return $find;
     }
 }

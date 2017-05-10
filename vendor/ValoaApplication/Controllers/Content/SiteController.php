@@ -102,7 +102,7 @@ class SiteController extends \Webvaloa\Application
             try {
                 $stmt = $this->db->prepare('DELETE FROM structure WHERE locale = ?'); // Delete everything of selected locale and start from scratch
                 $stmt->set(\Webvaloa\Webvaloa::getLocale());
-            $stmt->execute();
+                $stmt->execute();
             } catch (Exception $e) {
             }
 

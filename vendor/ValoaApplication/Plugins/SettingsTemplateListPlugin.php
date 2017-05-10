@@ -46,7 +46,7 @@ class SettingsTemplateListPlugin extends \Webvaloa\Plugin
         try {
             $filesystem = new Filesystem(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.\Webvaloa\Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout');
             $templates = $filesystem->folders();
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             Debug::__print('Could not read layout path.');
 
             return;

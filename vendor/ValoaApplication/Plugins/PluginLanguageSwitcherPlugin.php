@@ -75,12 +75,11 @@ class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
         $_SESSION['locale'] = $default;
 
         $this->redirect();
-
     }
 
     private function redirect()
     {
-        if(isset($_GET['redirect'])) {
+        if (isset($_GET['redirect'])) {
             Redirect::to($_GET['redirect']);
         }
     }

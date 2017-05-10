@@ -77,7 +77,7 @@ class RegisterController extends \Webvaloa\Application
         Debug::__print($_POST);
 
         // Cache post
-        $this->cache->_set('registration',  $_POST);
+        $this->cache->_set('registration', $_POST);
 
         // Validate inputs
         $require = array(

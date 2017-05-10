@@ -65,7 +65,7 @@ class Configuration
     {
         $this->configuration();
 
-        // Check that configuration key exists if we 
+        // Check that configuration key exists if we
         // try to access global settings variables.
         if ($this->componentID == null) {
             $conf = $this->config;
@@ -101,7 +101,6 @@ class Configuration
                 $object->component_id = $this->componentID;
                 $object->save();
             }
-
         } catch (PDOException $e) {
         }
 

@@ -38,7 +38,7 @@ use Webvaloa\Tag;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Security;
-Use Webvaloa\Role;
+use Webvaloa\Role;
 
 class CategoryController extends \Webvaloa\Application
 {
