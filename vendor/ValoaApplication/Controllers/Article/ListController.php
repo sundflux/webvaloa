@@ -35,6 +35,7 @@ use Libvaloa\Debug;
 use Webvaloa\Cache;
 use Webvaloa\Article;
 use Webvaloa\Category;
+use Webvaloa\User;
 use Webvaloa\Helpers\Article as ArticleHelper;
 use Webvaloa\Helpers\Category as CategoryHelper;
 
@@ -68,6 +69,9 @@ class ListController extends \Webvaloa\Application
                 $limit = 1;
             }
         }
+
+        // Check permissions
+        $this->checkPermissions($id);
 
         // Load category
         $category = new Category($id);
@@ -108,5 +112,35 @@ class ListController extends \Webvaloa\Application
         }
 
         Debug::__print($this->view);
+    }
+
+    private function checkPermissions($categoryId)
+    {
+        if (isset($_SESSION['UserID'])) {
+            $user = new User($_SESSION['UserID']);
+        } else {
+            $user = new User();
+        }
+
+        // Get user roles
+        $userRoles = $user->roles();
+
+        $categories[] = $categoryId;
+
+        $access = false;
+        foreach ($categories as $k => $v) {
+            $category = new Category($v);
+
+            foreach ($userRoles as $k => $role) {
+                if ($category->hasRole($role)) {
+                    $access = true;
+                }
+            }
+        }
+
+        if (!$access) {
+            header('HTTP/1.0 404 Not Found');
+            exit;
+        }
     }
 }
