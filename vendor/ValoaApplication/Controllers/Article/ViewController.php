@@ -38,6 +38,7 @@ use Webvaloa\Helpers\ArticleStructure;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
+use Webvaloa\User;
 
 class ViewController extends \Webvaloa\Application
 {
@@ -50,7 +51,6 @@ class ViewController extends \Webvaloa\Application
 
     public function index($id = false)
     {
-
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
             $query = '
@@ -112,6 +112,8 @@ class ViewController extends \Webvaloa\Application
             }
         }
 
+        $this->checkPermissions($article);
+
         $this->view->id = $this->view->articleID = $id;
         $this->view->article = $article->article;
 
@@ -152,5 +154,36 @@ class ViewController extends \Webvaloa\Application
             }
         }
         $this->view->fieldTypes = $structure->getFieldTypes();
+    }
+
+    private function checkPermissions($article)
+    {
+        if (isset($_SESSION['UserID'])) {
+            $user = new User($_SESSION['UserID']);
+        } else {
+            $user = new User();
+        }
+
+        // Get user roles
+        $userRoles = $user->roles();
+
+        // Get categories for the article
+        $categories = $article->getCategory();
+
+        $access = false;
+        foreach ($categories as $k => $v) {
+            $category = new Category($v);
+
+            foreach ($userRoles as $k => $role) {
+                if ($category->hasRole($role)) {
+                    $access = true;
+                }
+            }
+        }
+
+        if (!$access) {
+            header('HTTP/1.0 404 Not Found');
+            exit;
+        }
     }
 }

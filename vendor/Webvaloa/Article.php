@@ -517,4 +517,5 @@ class Article
 
         return false;
     }
+
 }
