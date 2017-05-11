@@ -32,7 +32,7 @@
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Debug;
-use Webvaloa\Category;
+use Webvaloa\Category as CategoryHelper;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
@@ -133,7 +133,7 @@ class ArticleStructure
             $categoryId = $this->categoryId;
         }
 
-        $category = new Category($categoryId);
+        $category = new CategoryHelper($categoryId);
         $_fields->category = $category->category;
 
         // Always include these fields:
