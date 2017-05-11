@@ -111,7 +111,7 @@ class Webvaloa
     /**
      * Whoops
      */
-    public static $whoops;
+    public $whoops;
 
     /**
      * Properties array.
