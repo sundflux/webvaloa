@@ -109,6 +109,11 @@ class Webvaloa
     public static $session = false;
 
     /**
+     * Whoops
+     */
+    public static $whoops;
+
+    /**
      * Properties array.
      *
      * startSession         - defines if the kernel should start session.
@@ -133,7 +138,15 @@ class Webvaloa
         spl_autoload_register(array('Webvaloa\Webvaloa', 'autoload'));
 
         // Uncaught exception handler.
-        set_exception_handler(array('Webvaloa\Webvaloa', 'exceptionHandler'));
+        if (error_reporting() !== E_ALL) {
+            // Default, safer handler for production mode
+            set_exception_handler(array('Webvaloa\Webvaloa', 'exceptionHandler'));
+        } else {
+            // Register whoops for developer mode
+            $this->whoops = new \Whoops\Run;
+            $this->whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $this->whoops->register();
+        }
 
         self::$loaded = true;
     }

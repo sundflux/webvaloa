@@ -1,5 +1,6 @@
 {
     "require": {
-        "sundflux/libvaloa": "^1.0.0"
+        "sundflux/libvaloa": "^1.0.0",
+        "filp/whoops": "^2.1"
     }
 }
