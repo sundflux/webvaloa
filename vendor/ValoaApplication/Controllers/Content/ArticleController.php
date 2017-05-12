@@ -38,6 +38,7 @@ use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Version;
 use Webvaloa\Security;
+use Webvaloa\User;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
@@ -138,7 +139,18 @@ class ArticleController extends \Webvaloa\Application
             }
 
             $stmt->execute();
-            $this->view->articles = $stmt->fetchAll();
+            $articles = $stmt->fetchAll();
+
+            foreach ($articles as $k => $v) {
+                $tmp[$k] = $v;
+
+                $article = new Article($v->id);
+                $tmp[$k]->has_access = (int) $this->checkPermissions($article);
+            }
+
+            if (isset($tmp)) {
+                $this->view->articles = $tmp;
+            }
         } catch (Exception $e) {
         }
     }
@@ -148,6 +160,11 @@ class ArticleController extends \Webvaloa\Application
         Security::verify();
 
         $article = new Article($id);
+
+        if ((int) $this->checkPermissions($article) == 0) {
+            throw new \Exception('Permission denied');
+        }
+
         $article->trash();
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_TRASHED'));
@@ -165,6 +182,12 @@ class ArticleController extends \Webvaloa\Application
 
     public function add($categoryID = false)
     {
+        if ($categoryID !== false) {
+            if ((int) $this->checkPermissionsByCategoryId($categoryID) == 0) {
+                throw new \Exception('Permission denied');
+            }
+        }
+
         $this->ui->addJS('/js/Fields/Frontend.js');
         $this->ui->addJS('/js/Content_Article.js');
         $this->ui->addCSS('/css/Content_Field.css');
@@ -252,6 +275,10 @@ class ArticleController extends \Webvaloa\Application
         $category = $article->getCategory();
 
         $this->view->category_id = $category[0];
+
+        if ((int) $this->checkPermissionsByCategoryId($this->view->category_id) == 0) {
+            throw new \Exception('Permission denied');
+        }
 
         $this->initializeFieldsView($category[0]);
 
@@ -349,6 +376,10 @@ class ArticleController extends \Webvaloa\Application
             }
 
             $article = new Article($id);
+
+            if ((int) $this->checkPermissions($article) == 0) {
+                throw new \Exception('Permission denied');
+            }
 
             if (!isset($id) || !is_numeric($id)) {
                 $id = $article->insert();
@@ -634,7 +665,9 @@ class ArticleController extends \Webvaloa\Application
         }
 
         // Put fields to view
-        $this->view->fields = $tmp;
+        if (isset($tmp)) {
+            $this->view->fields = $tmp;
+        }
 
         // Get unique field types and include their media
         $this->view->fieldTypes = array_unique($this->view->fieldTypes);
@@ -684,4 +717,60 @@ class ArticleController extends \Webvaloa\Application
         $p = $f->getParams();
         Response::JSON($p);
     }
+
+    private function checkPermissionsByCategoryId($categoryId)
+    {
+        if (isset($_SESSION['UserID'])) {
+            $user = new User($_SESSION['UserID']);
+        } else {
+            $user = new User();
+        }
+
+        // Get user roles
+        $userRoles = $user->roles();
+
+        $categories[] = $categoryId;
+
+        $access = false;
+        foreach ($categories as $k => $v) {
+            $category = new Category($v);
+
+            foreach ($userRoles as $k => $role) {
+                if ($category->hasRole($role)) {
+                    $access = true;
+                }
+            }
+        }
+
+        return $access;
+    }
+
+    private function checkPermissions($article)
+    {
+        if (isset($_SESSION['UserID'])) {
+            $user = new User($_SESSION['UserID']);
+        } else {
+            $user = new User();
+        }
+
+        // Get user roles
+        $userRoles = $user->roles();
+
+        // Get categories for the article
+        $categories = $article->getCategory();
+
+        $access = false;
+        foreach ($categories as $k => $v) {
+            $category = new Category($v);
+
+            foreach ($userRoles as $k => $role) {
+                if ($category->hasRole($role)) {
+                    $access = true;
+                }
+            }
+        }
+
+        return $access;
+    }
+
 }

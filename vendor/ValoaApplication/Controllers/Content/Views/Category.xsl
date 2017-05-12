@@ -74,19 +74,52 @@
                                 <xsl:value-of select="category"/>
                             </td>
                             <td class="footable-last-column">
+
                                 <div class="btn-group">
-                                    <a href="{/page/common/basepath}/content_article/add/{id}" class="btn btn-default">
+                                    <a>
+                                        <xsl:choose>
+                                            <xsl:when test="has_access = '1' or category = 'Uncategorized'">
+                                                <xsl:attribute name="href">
+                                                    <xsl:value-of select="/page/common/basehref" />/content_article/add/<xsl:value-of select="id"/>
+                                                </xsl:attribute>
+                                                <xsl:attribute name="class">
+                                                    btn btn-default
+                                                </xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute name="class">
+                                                    btn btn-default
+                                                </xsl:attribute>
+                                                <xsl:attribute name="disabled">disabled</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                         <span class="glyphicon glyphicon-plus"></span>&#160;
                                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ADD_ARTICLE')"/>
                                     </a>
 
-                                    <a href="{/page/common/basepath}/content_article/1/{id}" class="btn btn-default">
+                                    <a>
+                                        <xsl:choose>
+                                            <xsl:when test="has_access = '1' or category = 'Uncategorized'">
+                                                <xsl:attribute name="href">
+                                                    <xsl:value-of select="/page/common/basehref" />/content_article/1/<xsl:value-of select="id"/>
+                                                </xsl:attribute>
+                                                <xsl:attribute name="class">
+                                                    btn btn-default
+                                                </xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute name="class">
+                                                    btn btn-default
+                                                </xsl:attribute>
+                                                <xsl:attribute name="disabled">disabled</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                         <span class="glyphicon glyphicon-list-alt"></span>&#160;
                                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LIST_ARTICLES')"/>
                                     </a>
 
                                     <button class="btn btn-default edit-category" data-category-id="{id}" data-category-name="{category}" data-toggle="modal" data-target="#edit-category">
-                                        <xsl:if test="category = 'Uncategorized'">  
+                                        <xsl:if test="has_access = '0' or category = 'Uncategorized'">
                                             <xsl:attribute name="href">javascript:;</xsl:attribute>
                                             <xsl:attribute name="disabled">disabled</xsl:attribute>
                                         </xsl:if>
@@ -94,13 +127,19 @@
                                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','EDIT')"/>
                                     </button>
 
-                                    <a class="btn btn-danger confirm" data-message="{php:function('\Webvaloa\Webvaloa::translate','ARE_YOU_SURE')}">
+                                    <a data-message="{php:function('\Webvaloa\Webvaloa::translate','ARE_YOU_SURE')}">
                                         <xsl:choose>
-                                            <xsl:when test="category = 'Uncategorized'">  
+                                            <xsl:when test="has_access = '0' or category = 'Uncategorized'">
+                                                <xsl:attribute name="class">
+                                                    btn btn-danger
+                                                </xsl:attribute>
                                                 <xsl:attribute name="href">javascript:;</xsl:attribute>
                                                 <xsl:attribute name="disabled">disabled</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
+                                                <xsl:attribute name="class">
+                                                    btn btn-danger confirm
+                                                </xsl:attribute>
                                                 <xsl:attribute name="href">
                                                     <xsl:value-of select="/page/common/basepath"/>/content_category/delete/<xsl:value-of select="id"/>?token=<xsl:value-of select="../token"/>
                                                 </xsl:attribute>
@@ -109,6 +148,7 @@
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </a>
                                 </div>
+
                             </td>
                         </tr>
                     </xsl:for-each>

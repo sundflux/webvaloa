@@ -39,6 +39,7 @@ use Webvaloa\Category;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Security;
 use Webvaloa\Role;
+use Webvaloa\User;
 
 class CategoryController extends \Webvaloa\Application
 {
@@ -95,7 +96,14 @@ class CategoryController extends \Webvaloa\Application
 
             $stmt->execute();
 
-            $this->view->categories = $stmt->fetchAll();
+            $categories = $stmt->fetchAll();
+            foreach ($categories as $k => $v) {
+                $tmp[$k] = $v;
+                $tmp[$k]->has_access = (int) $this->checkPermissions($v->id);
+                Debug::__print($v);
+            }
+
+            $this->view->categories = $tmp;
         } catch (Exception $e) {
             Debug::__print($e->getMessage());
         }
@@ -186,6 +194,10 @@ class CategoryController extends \Webvaloa\Application
             Redirect::to('content_category');
         }
 
+        if ((int) $this->checkPermissions($_POST['category_id']) == 0) {
+            throw new \Exception('Permission denied');
+        }
+
         $query = '
             UPDATE category SET category = ?
             WHERE id = ?';
@@ -231,6 +243,10 @@ class CategoryController extends \Webvaloa\Application
 
     public function delete($id)
     {
+        if ((int) $this->checkPermissions($id) == 0) {
+            throw new \Exception('Permission denied');
+        }
+
         $query = '
             UPDATE category SET deleted = 1
             WHERE id = ?';
@@ -276,4 +292,32 @@ class CategoryController extends \Webvaloa\Application
 
         Debug::__print($this->view->_roles);
     }
+
+    private function checkPermissions($categoryId)
+    {
+        if (isset($_SESSION['UserID'])) {
+            $user = new User($_SESSION['UserID']);
+        } else {
+            $user = new User();
+        }
+
+        // Get user roles
+        $userRoles = $user->roles();
+
+        $categories[] = $categoryId;
+
+        $access = false;
+        foreach ($categories as $k => $v) {
+            $category = new Category($v);
+
+            foreach ($userRoles as $k => $role) {
+                if ($category->hasRole($role)) {
+                    $access = true;
+                }
+            }
+        }
+
+        return $access;
+    }
+
 }
