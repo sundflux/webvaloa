@@ -7,6 +7,8 @@
 		<xsl:param name="name"></xsl:param>
 		<xsl:param name="value"></xsl:param>
 		<xsl:param name="translation"></xsl:param>
+		<xsl:param name="default_value"></xsl:param>
+		<xsl:param name="validation"></xsl:param>
 		<xsl:param name="params"></xsl:param>
 
 		<textarea class="form-control" rows="10" name="{$uniqid}[{$name}][]" data-field-name="{$name}"><xsl:value-of select="$value"/></textarea>

@@ -7,6 +7,8 @@
 		<xsl:param name="name"></xsl:param>
 		<xsl:param name="value"></xsl:param>
 		<xsl:param name="translation"></xsl:param>
+		<xsl:param name="default_value"></xsl:param>
+		<xsl:param name="validation"></xsl:param>
 		<xsl:param name="params"></xsl:param>
 
 		<input type="text" class="form-control datepicker" name="{$uniqid}[{$name}][]" data-field-name="{$name}" value="{$value}" />

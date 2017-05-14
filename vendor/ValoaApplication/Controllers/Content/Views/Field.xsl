@@ -236,6 +236,20 @@
                     <p class="help-block"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','FIELD_HELP_TEXT_INFO')"/></p>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="validation"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','HTML5_VALIDATION')"/></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="validation" value="{validation}" name="validation" placeholder="html5 validation regexp" />
+                    <p class="help-block"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','FIELD_HTML5_VALIDATION_INFO')"/></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="default_value"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','DEFAULT_VALUE')"/></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="default_value" value="{default_value}" name="default_value" placeholder="default value" />
+                    <p class="help-block"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','FIELD_DEFAULT_VALUE_INFO')"/></p>
+                </div>
+            </div>
             <div class="form-group" id="repeatable_field_holder">
                 <label class="col-sm-4 control-label" for="repeatable_field"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','REPEATABLE')"/></label>
                 <div class="col-sm-8">

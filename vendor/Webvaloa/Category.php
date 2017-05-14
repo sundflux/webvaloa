@@ -280,7 +280,7 @@ class Category
         }
 
         $query = '
-            SELECT id, field_group_id, name, help_text, translation, repeatable, type, ordering
+            SELECT *
             FROM field
             WHERE field_group_id IN ( '.implode(',', $groups).' )
             ORDER BY field_group_id ASC, ordering ASC';

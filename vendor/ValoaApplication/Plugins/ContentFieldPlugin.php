@@ -50,8 +50,8 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
         }
 
         $paths = array(
-            LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields',
-            LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields',
+            LIBVALOA_INSTALLPATH.'/'.'Webvaloa'.'/'.'Field'.'/'.'Fields',
+            LIBVALOA_EXTENSIONSPATH.'/'.'Webvaloa'.'/'.'Field'.'/'.'Fields',
         );
 
         foreach ($paths as $path) {
@@ -149,6 +149,8 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
                         <xsl:with-param name="name" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../name" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                         <xsl:with-param name="translation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../translation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                         <xsl:with-param name="value" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="." xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
+                        <xsl:with-param name="default_value" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../default_value" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
+                        <xsl:with-param name="validation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../validation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                         <xsl:with-param name="params" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../params" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                     </xsl:call-template>
 
