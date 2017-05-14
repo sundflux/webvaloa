@@ -33,6 +33,7 @@ namespace Webvaloa\Field;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
+use Webvaloa\Helpers\Filesystem;
 use stdClass;
 
 class Field
@@ -106,18 +107,21 @@ class Field
         $search[] = LIBVALOA_EXTENSIONSPATH.'/Webvaloa/Field/Fields';
 
         foreach ($search as $path) {
-            Debug::__print($path);
-            if ($handle = opendir($path)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if (substr($entry, -4) == '.php') {
-                        $this->fields[] = substr($entry, 0, -4);
+            try {
+                $fs = new Filesystem($path);
+                $files = $fs->files();
+                foreach ($files as $file) {
+                    if (substr($file->filename, -4) != '.php') {
+                        continue;
                     }
+
+                    $this->fields[] = substr($file->filename, 0, -4);
                 }
-                closedir($handle);
+            } catch(\RuntimeException $e) {
+                Debug::__print($e->getMessage());
+                Debug::__print($path);
             }
         }
-
-        $this->fields = array_unique($this->fields);
 
         Debug::__print('Available fields:');
         Debug::__print($this->fields);
