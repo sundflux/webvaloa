@@ -32,7 +32,9 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
 use RuntimeException;
+use Webvaloa\Helpers\Filesystem;
 
 /**
  * Manage and run plugins.
@@ -328,8 +330,8 @@ class Plugin
         }
 
         // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';
-        $paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';
+        $paths[] = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/'.'Plugins';
+        $paths[] = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/'.'Plugins';
 
         $skip = array(
             '.',
@@ -340,28 +342,32 @@ class Plugin
 
         // Look for new plugins
         foreach ($paths as $path) {
-            if ($handle = opendir($path)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ($entry == '.' || $entry == '..') {
-                        continue;
-                    }
+            Debug::__print('Discovering plugins from');
+            Debug::__print($path);
 
-                    if (substr($entry, -3) != 'php') {
-                        continue;
-                    }
+            try {
+                $fs = new Filesystem($path);
+                $files = $fs->files();
+            } catch(RuntimeException $e) {
+                Debug::__print($e->getMessage());
 
-                    $pluginName = str_replace('Plugin.php', '', $entry);
+                continue;
+            }
 
-                    if (!isset($installablePlugins)) {
-                        $installablePlugins = array();
-                    }
-
-                    if (!in_array($pluginName, $plugins) && !in_array($pluginName, $installablePlugins)) {
-                        $installablePlugins[] = $pluginName;
-                    }
+            foreach ($files as $file) {
+                if (substr($file->filename, -3) != 'php') {
+                    continue;
                 }
 
-                closedir($handle);
+                $pluginName = str_replace('Plugin.php', '', $file->filename);
+
+                if (!isset($installablePlugins)) {
+                    $installablePlugins = array();
+                }
+
+                if (!in_array($pluginName, $plugins) && !in_array($pluginName, $installablePlugins)) {
+                    $installablePlugins[] = $pluginName;
+                }
             }
         }
 
