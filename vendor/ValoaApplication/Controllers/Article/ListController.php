@@ -38,6 +38,7 @@ use Webvaloa\Category;
 use Webvaloa\User;
 use Webvaloa\Helpers\Article as ArticleHelper;
 use Webvaloa\Helpers\Category as CategoryHelper;
+use Webvaloa\Helpers\ContentAccess;
 
 class ListController extends \Webvaloa\Application
 {
@@ -71,7 +72,12 @@ class ListController extends \Webvaloa\Application
         }
 
         // Check permissions
-        $this->checkPermissions($id);
+        if (!$this->checkPermissions($id)) {
+            Debug::__print('Oops, no permissions');
+
+            header('HTTP/1.0 404 Not Found');
+            exit;
+        }
 
         // Load category
         $category = new Category($id);
@@ -116,31 +122,16 @@ class ListController extends \Webvaloa\Application
 
     private function checkPermissions($categoryId)
     {
-        if (isset($_SESSION['UserID'])) {
-            $user = new User($_SESSION['UserID']);
-        } else {
-            $user = new User();
+        try {
+            $contentAccess = new ContentAccess($categoryId);
+            return $contentAccess->checkPermissions();
+        } catch(\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch(\Exception $e) {
+            Debug::__print($e->getMessage());
         }
 
-        // Get user roles
-        $userRoles = $user->roles();
-
-        $categories[] = $categoryId;
-
-        $access = false;
-        foreach ($categories as $k => $v) {
-            $category = new Category($v);
-
-            foreach ($userRoles as $k => $role) {
-                if ($category->hasRole($role)) {
-                    $access = true;
-                }
-            }
-        }
-
-        if (!$access) {
-            header('HTTP/1.0 404 Not Found');
-            exit;
-        }
+        return false;
     }
+
 }

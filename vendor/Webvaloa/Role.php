@@ -82,7 +82,7 @@ class Role
         return array();
     }
 
-    public function getRoleID($roleName)
+    public function getRoleId($roleName)
     {
         foreach ($this->roles as $k => $v) {
             if ($v->role == $roleName) {

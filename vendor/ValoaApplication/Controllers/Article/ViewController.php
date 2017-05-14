@@ -31,10 +31,12 @@
  */
 namespace ValoaApplication\Controllers\Article;
 
+use Libvaloa\Debug;
 use Webvaloa\Cache;
 use Webvaloa\Category;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\ArticleStructure;
+use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
@@ -112,7 +114,12 @@ class ViewController extends \Webvaloa\Application
             }
         }
 
-        $this->checkPermissions($article);
+        if (!$this->checkPermissions($article)) {
+            Debug::__print('Oops, no permissions');
+
+            header('HTTP/1.0 404 Not Found');
+            exit;
+        }
 
         $this->view->id = $this->view->articleID = $id;
         $this->view->article = $article->article;
@@ -142,48 +149,35 @@ class ViewController extends \Webvaloa\Application
         // Load field structure
         $this->view->fields = $structure->getFields();
         $this->view->fieldsObjects = $this->view->fields;
-        foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
-            foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
-                foreach ($repeatable->fields as $fieldName => $field) {
-                    if (!isset($this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject)) {
-                        $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject = new \stdClass();
-                    }
 
-                    $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
+        if (is_object($this->view->fieldsObjects)) {
+            foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
+                foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
+                    foreach ($repeatable->fields as $fieldName => $field) {
+                        if (!isset($this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject)) {
+                            $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject = new \stdClass();
+                        }
+
+                        $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
+                    }
                 }
             }
         }
+
         $this->view->fieldTypes = $structure->getFieldTypes();
     }
 
     private function checkPermissions($article)
     {
-        if (isset($_SESSION['UserID'])) {
-            $user = new User($_SESSION['UserID']);
-        } else {
-            $user = new User();
+        try {
+            $contentAccess = new ContentAccess($article);
+            return $contentAccess->checkPermissions();
+        } catch(\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch(\Exception $e) {
+            Debug::__print($e->getMessage());
         }
 
-        // Get user roles
-        $userRoles = $user->roles();
-
-        // Get categories for the article
-        $categories = $article->getCategory();
-
-        $access = false;
-        foreach ($categories as $k => $v) {
-            $category = new Category($v);
-
-            foreach ($userRoles as $k => $role) {
-                if ($category->hasRole($role)) {
-                    $access = true;
-                }
-            }
-        }
-
-        if (!$access) {
-            header('HTTP/1.0 404 Not Found');
-            exit;
-        }
+        return false;
     }
 }

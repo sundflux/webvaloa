@@ -46,6 +46,7 @@ use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\DateFormat;
+use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Controller\Request\Response;
 use stdClass;
 use UnexpectedValueException;
@@ -183,7 +184,7 @@ class ArticleController extends \Webvaloa\Application
     public function add($categoryID = false)
     {
         if ($categoryID !== false) {
-            if ((int) $this->checkPermissionsByCategoryId($categoryID) == 0) {
+            if ((int) $this->checkPermissions($categoryID) == 0) {
                 throw new \Exception('Permission denied');
             }
         }
@@ -276,7 +277,7 @@ class ArticleController extends \Webvaloa\Application
 
         $this->view->category_id = $category[0];
 
-        if ((int) $this->checkPermissionsByCategoryId($this->view->category_id) == 0) {
+        if ((int) $this->checkPermissions($this->view->category_id) == 0) {
             throw new \Exception('Permission denied');
         }
 
@@ -378,7 +379,9 @@ class ArticleController extends \Webvaloa\Application
             $article = new Article($id);
 
             if ((int) $this->checkPermissions($article) == 0) {
-                throw new \Exception('Permission denied');
+                Debug::__print($id);
+die();
+                throw new \Exception('Permission denied to article ' . $id);
             }
 
             if (!isset($id) || !is_numeric($id)) {
@@ -718,59 +721,21 @@ class ArticleController extends \Webvaloa\Application
         Response::JSON($p);
     }
 
-    private function checkPermissionsByCategoryId($categoryId)
-    {
-        if (isset($_SESSION['UserID'])) {
-            $user = new User($_SESSION['UserID']);
-        } else {
-            $user = new User();
-        }
-
-        // Get user roles
-        $userRoles = $user->roles();
-
-        $categories[] = $categoryId;
-
-        $access = false;
-        foreach ($categories as $k => $v) {
-            $category = new Category($v);
-
-            foreach ($userRoles as $k => $role) {
-                if ($category->hasRole($role)) {
-                    $access = true;
-                }
-            }
-        }
-
-        return $access;
-    }
-
     private function checkPermissions($article)
     {
-        if (isset($_SESSION['UserID'])) {
-            $user = new User($_SESSION['UserID']);
-        } else {
-            $user = new User();
+        try {
+            $contentAccess = new ContentAccess($article);
+            $permission = $contentAccess->checkPermissions();
+     
+            Debug::__print($permission);
+            return $permission;
+        } catch(\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch(\Exception $e) {
+            Debug::__print($e->getMessage());
         }
 
-        // Get user roles
-        $userRoles = $user->roles();
-
-        // Get categories for the article
-        $categories = $article->getCategory();
-
-        $access = false;
-        foreach ($categories as $k => $v) {
-            $category = new Category($v);
-
-            foreach ($userRoles as $k => $role) {
-                if ($category->hasRole($role)) {
-                    $access = true;
-                }
-            }
-        }
-
-        return $access;
+        return false;
     }
 
 }

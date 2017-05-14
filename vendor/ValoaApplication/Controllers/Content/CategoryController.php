@@ -37,6 +37,7 @@ use Webvaloa\Controller\Redirect;
 use Webvaloa\Tag;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Pagination;
+use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Security;
 use Webvaloa\Role;
 use Webvaloa\User;
@@ -295,29 +296,19 @@ class CategoryController extends \Webvaloa\Application
 
     private function checkPermissions($categoryId)
     {
-        if (isset($_SESSION['UserID'])) {
-            $user = new User($_SESSION['UserID']);
-        } else {
-            $user = new User();
+        try {
+            $contentAccess = new ContentAccess($categoryId);
+            $permission = $contentAccess->checkPermissions();
+     
+            Debug::__print($permission);
+            return $permission;
+        } catch(\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch(\Exception $e) {
+            Debug::__print($e->getMessage());
         }
 
-        // Get user roles
-        $userRoles = $user->roles();
-
-        $categories[] = $categoryId;
-
-        $access = false;
-        foreach ($categories as $k => $v) {
-            $category = new Category($v);
-
-            foreach ($userRoles as $k => $role) {
-                if ($category->hasRole($role)) {
-                    $access = true;
-                }
-            }
-        }
-
-        return $access;
+        return false;
     }
 
 }

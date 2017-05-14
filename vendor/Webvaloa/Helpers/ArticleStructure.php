@@ -273,7 +273,10 @@ class ArticleStructure
         }
 
         // Put fields to view
-        $_fields->fields = $tmp;
+
+        if (isset($tmp)) {
+            $_fields->fields = $tmp;
+        }
         $this->fields = $_fields;
 
         return $this->fields;

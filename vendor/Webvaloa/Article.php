@@ -453,6 +453,10 @@ class Article
             $this->loadArticle();
         }
 
+        if (!isset($this->article->id)) {
+            return false;
+        }
+
         $db = \Webvaloa\Webvaloa::DBConnection();
 
         $query = '
