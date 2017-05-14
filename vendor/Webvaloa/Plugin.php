@@ -333,13 +333,6 @@ class Plugin
         $paths[] = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/'.'Plugins';
         $paths[] = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/'.'Plugins';
 
-        $skip = array(
-            '.',
-            '..',
-        );
-
-        $plugins = array_merge($plugins, $skip);
-
         // Look for new plugins
         foreach ($paths as $path) {
             Debug::__print('Discovering plugins from');
