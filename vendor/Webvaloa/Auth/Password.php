@@ -32,6 +32,8 @@
  */
 namespace Webvaloa\Auth;
 
+use Webvaloa\Configuration;
+
 class Password
 {
     /**
@@ -57,11 +59,13 @@ class Password
      */
     public static function cryptPassword($username, $plaintextPassword)
     {
+        $config = new Configuration();
+
         $username = trim($username);
         $plaintextPassword = trim($plaintextPassword);
 
         if (self::$properties['passwordUseCrypt'] == 1) {
-            return crypt($username.$plaintextPassword);
+            return crypt($username.$plaintextPassword, $config->salt);
         }
 
         $password = str_split(
@@ -82,8 +86,10 @@ class Password
      */
     public static function verify($username, $plaintextPassword, $crypted)
     {
+        $config = new Configuration();
+
         if (self::$properties['passwordUseCrypt'] == 1) {
-            if (crypt($username.$plaintextPassword, $crypted) == $crypted) {
+            if (crypt($username.$plaintextPassword, $config->salt) == $crypted) {
                 return true;
             }
 

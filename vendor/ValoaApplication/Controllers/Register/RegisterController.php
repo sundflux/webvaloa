@@ -42,14 +42,14 @@ use Webvaloa\Configuration;
 use stdClass;
 use UnexpectedValueException;
 use RuntimeException;
+use RandomLib;
+use SecurityLib;
 
 class RegisterController extends \Webvaloa\Application
 {
     public $message;
 
     private $cache;
-    private $user;
-    private $mail;
     private $admin;
     private $sitename;
 
@@ -153,7 +153,10 @@ class RegisterController extends \Webvaloa\Application
 
         $user->firstname = $_POST['firstname'];
         $user->lastname = $_POST['lastname'];
-        $user->password = null;
+
+        $factory = new RandomLib\Factory;
+        $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
+        $user->password = $generator->generate(32);
         $user->blocked = 1;
 
         $meta = new stdClass();
@@ -194,11 +197,7 @@ class RegisterController extends \Webvaloa\Application
             $send = $mailer->setTo($email, $firstname.' '.$lastname)
                     ->setSubject(\Webvaloa\Webvaloa::translate('REGISTRATION_CONFIRM'))
                     ->setFrom($this->admin, $this->sitename)
-                    ->addGenericHeader('MIME-Version', '1.0')
-                    ->addGenericHeader('X-Mailer', 'Webvaloa')
-                    ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
-                    ->setMessage($this->message)
-                    ->setWrap(100)
+                    ->setHtmlMessage($this->message)
                     ->send();
 
             $val = (string) $send;
