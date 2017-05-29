@@ -98,6 +98,12 @@ class Mail
         $this->mailer->setFrom($email, $name);
         return $this;
     }
+    
+    public function addCC($email, $name)
+    {
+        $this->mailer->addCC($email, $name);
+        return $this;
+    }
 
     public function send()
     {
