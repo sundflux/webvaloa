@@ -35,6 +35,7 @@
 namespace Webvaloa\Mail;
 
 use PHPMailer;
+use Libvaloa\Debug;
 use Webvaloa\Configuration;
 
 class Mail
@@ -100,6 +101,8 @@ class Mail
 
     public function send()
     {
-        return $this->mailer->send();
+        $mail = $this->mailer->send();
+        Debug::__print($this->mailer->ErrorInfo);
+        return $mail;
     }
 }
