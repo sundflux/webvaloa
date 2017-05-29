@@ -64,7 +64,7 @@ class Password
         $username = trim($username);
         $plaintextPassword = trim($plaintextPassword);
 
-        if (self::$properties['passwordUseCrypt'] == 1) {
+        if (self::$properties['passwordUseCrypt'] == 1 && $config->salt) {
             return crypt($username.$plaintextPassword, $config->salt);
         }
 
@@ -88,8 +88,8 @@ class Password
     {
         $config = new Configuration();
 
-        if (self::$properties['passwordUseCrypt'] == 1) {
-            if (crypt($username.$plaintextPassword, $config->salt) == $crypted) {
+        if (self::$properties['passwordUseCrypt'] == 1 && $config->salt) {
+            if (hash_equals($crypted, self::cryptPassword($username.$plaintextPassword, $config->salt))) {
                 return true;
             }
 
