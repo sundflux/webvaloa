@@ -81,7 +81,7 @@ class Imagemagick
         $this->cached = false;
         $this->background = 'white';
         $this->flatten = false;
-        $this->quality = 95;
+        $this->quality = 90;
         $this->format = 'jpg';
     }
 
@@ -155,6 +155,8 @@ class Imagemagick
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
         $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
         $this->imagick->setImageCompressionQuality($this->quality);
+        $this->imagick->stripImage();
+        $this->imagick->setSamplingFactors(array('2x2', '1x1', '1x1'));
 
         if ($this->crop) {
             $this->imagick->cropThumbnailImage($this->width, $this->height);
@@ -178,7 +180,7 @@ class Imagemagick
         $im->setHeight($height);
 
         if (!$ret = $im->resize()) {
-            return 'http://placehold.it/'.$width.'x'.$height;
+            return 'https://placehold.it/'.$width.'x'.$height;
         }
 
         $request = Request::getInstance();
@@ -196,7 +198,7 @@ class Imagemagick
         $im->setHeight($height);
 
         if (!$ret = $im->resize()) {
-            return 'http://placehold.it/'.$width.'x'.$height;
+            return 'https://placehold.it/'.$width.'x'.$height;
         }
 
         $request = Request::getInstance();
