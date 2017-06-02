@@ -147,7 +147,7 @@ class ArticleAssociation
         $a = $article->article;
 
         // Locale matches and no associated id is set, so this must be an main article
-        if (!empty($a->locale) && $a->locale == $this->getLocale() 
+        if (!empty($a->locale) && $a->locale == $this->getLocale()
             && empty($a->associated_content_id)) {
             return $id;
         }

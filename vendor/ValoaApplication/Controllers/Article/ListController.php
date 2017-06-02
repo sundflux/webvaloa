@@ -125,13 +125,12 @@ class ListController extends \Webvaloa\Application
         try {
             $contentAccess = new ContentAccess($categoryId);
             return $contentAccess->checkPermissions();
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Debug::__print($e->getMessage());
         }
 
         return false;
     }
-
 }

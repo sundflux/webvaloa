@@ -117,7 +117,7 @@ class Field
 
                     $this->fields[] = substr($file->filename, 0, -4);
                 }
-            } catch(\RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 Debug::__print($e->getMessage());
                 Debug::__print($path);
             }

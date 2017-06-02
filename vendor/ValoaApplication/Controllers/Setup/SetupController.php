@@ -50,7 +50,6 @@ use RuntimeException;
 use RandomLib;
 use SecurityLib;
 
-
 class SetupController extends \Webvaloa\Application
 {
     private $backend;

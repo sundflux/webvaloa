@@ -380,7 +380,6 @@ class ArticleController extends \Webvaloa\Application
 
             if ((int) $this->checkPermissions($article) == 0) {
                 Debug::__print($id);
-die();
                 throw new \Exception('Permission denied to article ' . $id);
             }
 
@@ -729,13 +728,12 @@ die();
      
             Debug::__print($permission);
             return $permission;
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Debug::__print($e->getMessage());
         }
 
         return false;
     }
-
 }

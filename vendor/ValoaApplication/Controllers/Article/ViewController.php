@@ -172,9 +172,9 @@ class ViewController extends \Webvaloa\Application
         try {
             $contentAccess = new ContentAccess($article);
             return $contentAccess->checkPermissions();
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Debug::__print($e->getMessage());
         }
 

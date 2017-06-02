@@ -341,7 +341,7 @@ class Plugin
             try {
                 $fs = new Filesystem($path);
                 $files = $fs->files();
-            } catch(RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 Debug::__print($e->getMessage());
 
                 continue;

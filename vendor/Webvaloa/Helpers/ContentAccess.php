@@ -121,7 +121,7 @@ class ContentAccess
 
         if (empty($this->article->article->id)) {
             // This article does not have id yet,
-            // so it's empty article object which can't have 
+            // so it's empty article object which can't have
             // permissions yet set.
 
             return true;
