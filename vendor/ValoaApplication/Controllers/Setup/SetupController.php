@@ -46,6 +46,11 @@ use stdClass;
 use PDOException;
 use RuntimeException;
 
+// Seclib
+use RandomLib;
+use SecurityLib;
+
+
 class SetupController extends \Webvaloa\Application
 {
     private $backend;
@@ -104,6 +109,11 @@ class SetupController extends \Webvaloa\Application
 
         if (!isset($_SESSION['setup'])) {
             $_SESSION['setup'] = array();
+
+            // Generate salt for this installation
+            $factory = new RandomLib\Factory;
+            $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
+            $_SESSION['setup']['salt'] = $generator->generate(32);
         }
 
         // Initial config file trickery
@@ -291,11 +301,12 @@ class SetupController extends \Webvaloa\Application
         preg_match("/([^\.]+)[^\.]/", $locale, $locale);
         $locale = $locale[0];
         $configData = array(
-                'default_controller' => 'login',
-                'default_controller_authed' => 'login_logout',
-        'default_controller_login' => 'login',
-        'default_controller_denied' => 'error',
-                'webvaloa_auth' => 'Webvaloa\Auth\Db'
+            'default_controller' => 'login',
+            'default_controller_authed' => 'login_logout',
+            'default_controller_login' => 'login',
+            'default_controller_denied' => 'error',
+            'webvaloa_auth' => 'Webvaloa\Auth\Db',
+            'salt' => $_SESSION['setup']['salt']
         );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
