@@ -1,0 +1,11 @@
+# There is no reason to allow script execution in the public directory. Users can also upload code via content_media.
+<FilesMatch "(?i)\.(php[0-9]?|phtml|cgi|py|pl|plx|ppl|perl|shtml)$">
+    Order Deny,Allow
+    Deny from All
+</FilesMatch>
+
+# Cache all public files for a month after access (A).
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault A2629743
+</IfModule>
