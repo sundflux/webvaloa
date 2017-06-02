@@ -3,4 +3,20 @@
     RewriteCond %{SCRIPT_FILENAME} !-f
     RewriteCond %{SCRIPT_FILENAME} !-d
     RewriteRule ^(.*)$ index.php/$1  [L,QSA]
+    
+    # Block access to hidden files.
+    RewriteRule "/\.|^\.(?!well-known/)" - [F]
+</IfModule>
+
+# Default to no directory listings.
+Options -Indexes
+# Make sure that we always handle index.php first.
+DirectoryIndex index.php index.html index.htm
+
+# Basic header safety.
+<IfModule mod_headers.c>
+    # Disable content sniffing, since it's an attack vector.
+    Header always set X-Content-Type-Options nosniff
+    # Disable Proxy header, since it's an attack vector.
+    RequestHeader unset Proxy
 </IfModule>
