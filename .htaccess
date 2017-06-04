@@ -20,3 +20,8 @@ DirectoryIndex index.php index.html index.htm
     # Disable Proxy header, since it's an attack vector.
     RequestHeader unset Proxy
 </IfModule>
+
+<Directory .git>
+    Order Allow,Deny
+    Deny From All
+</Directory>
