@@ -110,12 +110,15 @@ class Field
             try {
                 $fs = new Filesystem($path);
                 $files = $fs->files();
-                foreach ($files as $file) {
-                    if (substr($file->filename, -4) != '.php') {
-                        continue;
-                    }
+                
+                if (is_array($files)) {
+                    foreach ($files as $file) {
+                        if (substr($file->filename, -4) != '.php') {
+                            continue;
+                        }
 
-                    $this->fields[] = substr($file->filename, 0, -4);
+                        $this->fields[] = substr($file->filename, 0, -4);
+                    }
                 }
             } catch (\RuntimeException $e) {
                 Debug::__print($e->getMessage());
