@@ -103,7 +103,7 @@ class Dropdown
                 $d->value = $vals[$k];
 
                 if (isset($values[0]->value) && $values[0]->value == $d->key) {
-                    $a->selected = 'selected';
+                    $d->selected = 'selected';
                 }
 
                 $retval[] = $d;
