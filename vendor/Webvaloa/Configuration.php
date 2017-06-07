@@ -32,6 +32,7 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
 use stdClass;
 
 /**
@@ -117,6 +118,10 @@ class Configuration
      */
     public function __get($k)
     {
+        if (isset(\Webvaloa\config::$properties[$k])) {
+            Debug::__print('Warning: configuration value overridden from config.php');
+            return \Webvaloa\config::$properties[$k];
+        }
         // Load configs
         $this->configuration();
 
