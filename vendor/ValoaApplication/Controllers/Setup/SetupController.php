@@ -112,7 +112,7 @@ class SetupController extends \Webvaloa\Application
             // Generate salt for this installation
             $factory = new RandomLib\Factory;
             $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
-            $_SESSION['setup']['salt'] = $generator->generate(32);
+            $_SESSION['setup']['salt'] = $generator->generateString(32);
         }
 
         // Initial config file trickery

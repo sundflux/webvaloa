@@ -156,7 +156,7 @@ class RegisterController extends \Webvaloa\Application
 
         $factory = new RandomLib\Factory;
         $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
-        $user->password = $generator->generate(32);
+        $user->password = $generator->generateString(32);
         $user->blocked = 1;
 
         $meta = new stdClass();
