@@ -40,7 +40,7 @@ This setup wizard will create a `config/config.php` file based on your selection
 The Webvaloa installation should be left as-is except for the `public/media` directory that contains all the user uploaded contents.
 The directory for your custom components and overriding code can be defined at the end of the `config/config.php` file:
 ```php
-DEFINE('LIBVALOA_EXTENSIONSPATH', '<your custom path>');
+define('LIBVALOA_EXTENSIONSPATH', '<your custom path>');
 ```
 This could be for example a `custom` directory outside the Webvaloa directory that contains the same diretory structure.
 For example a custom controller would go into `custom/vendor/ValoaApplication/Controllers/Somecontroller`.
