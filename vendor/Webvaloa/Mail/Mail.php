@@ -45,6 +45,7 @@ class Mail
     public function __construct()
     {
         $this->mailer = new PHPMailer();
+        $this->mailer->CharSet = "UTF-8";
 
         $config = new Configuration();
 
