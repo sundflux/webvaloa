@@ -33,16 +33,13 @@ namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Debug;
 use Webvaloa\Controller\Redirect;
-use Webvaloa;
 use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Version;
 use Webvaloa\Security;
-use Webvaloa\User;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
-use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\DateFormat;
@@ -321,6 +318,7 @@ class ArticleController extends \Webvaloa\Application
 
         // Load article
         $article = new Article(0);
+        Debug::__print($article->article);
         $this->view->article = $article->article;
 
         if (is_numeric($categoryID)) {
