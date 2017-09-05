@@ -363,6 +363,7 @@ class SetupController extends \Webvaloa\Application
         \Webvaloa\config::$properties['db_user'] = $setup['db']['db_user'];
         \Webvaloa\config::$properties['db_pass'] = $setup['db']['db_pass'];
         \Webvaloa\config::$properties['db_db'] = $setup['db']['db_db'];
+        \Webvaloa\config::$properties['salt'] = $setup['salt'];
 
         // Install database
         $sqlSchema = $this->manifest->controllerPath.'/schema-'.$this->manifest->version.'_'.$setup['db']['db_server'].'.sql';
@@ -396,7 +397,7 @@ class SetupController extends \Webvaloa\Application
             $user = new User();
             $user->email = $setup['admin']['admin_email'];
 
-            if (isset($setup['admin']['admin_username']) && !empty($setup['admin']['admin_username'])) {
+            if (!empty($setup['admin']['admin_username'])) {
                 $user->login = $setup['admin']['admin_username'];
             } else {
                 $user->login = $setup['admin']['admin_email'];

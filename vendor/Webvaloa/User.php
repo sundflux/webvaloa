@@ -98,15 +98,14 @@ class User
     public function __set($k, $v)
     {
         if ($k == 'password') {
-            $tmp = $this->object->email;
+            $email = $this->object->email;
+            $login = $this->object->login;
 
-            if (empty($tmp)) {
-                throw new RuntimeException('Please set email before password');
+            if (empty($email) || empty($login)) {
+                throw new RuntimeException('Please set email and login before updating password');
             }
-        }
 
-        if ($k == 'password') {
-            $v = Password::cryptPassword($this->object->login, $v);
+            $v = Password::cryptPassword($login, $v);
         }
 
         $this->object->$k = $v;
