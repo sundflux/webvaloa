@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -120,6 +121,7 @@ class Configuration
     {
         if (isset(\Webvaloa\config::$properties[$k])) {
             Debug::__print('Warning: configuration value overridden from config.php');
+
             return \Webvaloa\config::$properties[$k];
         }
         // Load configs

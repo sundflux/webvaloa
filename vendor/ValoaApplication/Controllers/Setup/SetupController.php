@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Setup;
 
 // Libvaloa classes
@@ -45,7 +46,6 @@ use Webvaloa\Locale\Locales;
 use stdClass;
 use PDOException;
 use RuntimeException;
-
 // Seclib
 use RandomLib;
 use SecurityLib;
@@ -110,7 +110,7 @@ class SetupController extends \Webvaloa\Application
             $_SESSION['setup'] = array();
 
             // Generate salt for this installation
-            $factory = new RandomLib\Factory;
+            $factory = new RandomLib\Factory();
             $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
             $_SESSION['setup']['salt'] = $generator->generateString(32);
         }
@@ -159,7 +159,7 @@ class SetupController extends \Webvaloa\Application
                 'db_user',
                 'db_pass',
                 'db_db',
-                'db_profile'
+                'db_profile',
             );
 
             foreach ($required as $k => $v) {
@@ -305,13 +305,13 @@ class SetupController extends \Webvaloa\Application
             'default_controller_login' => 'login',
             'default_controller_denied' => 'error',
             'webvaloa_auth' => 'Webvaloa\Auth\Db',
-            'salt' => $_SESSION['setup']['salt']
+            'salt' => $_SESSION['setup']['salt'],
         );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
         if (is_object($currentProfile->config)) {
             foreach ($currentProfile->config as $configKey => $configValue) {
-                $configData[$configKey]=$configValue;
+                $configData[$configKey] = $configValue;
             }
         }
 
@@ -523,6 +523,7 @@ class SetupController extends \Webvaloa\Application
                 return $find = $profile;
             }
         });
+
         return $find;
     }
 }

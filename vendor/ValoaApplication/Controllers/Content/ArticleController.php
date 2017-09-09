@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Debug;
@@ -378,7 +379,7 @@ class ArticleController extends \Webvaloa\Application
 
             if ((int) $this->checkPermissions($article) == 0) {
                 Debug::__print($id);
-                throw new \Exception('Permission denied to article ' . $id);
+                throw new \Exception('Permission denied to article '.$id);
             }
 
             if (!isset($id) || !is_numeric($id)) {
@@ -723,8 +724,9 @@ class ArticleController extends \Webvaloa\Application
         try {
             $contentAccess = new ContentAccess($article);
             $permission = $contentAccess->checkPermissions();
-     
+
             Debug::__print($permission);
+
             return $permission;
         } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());

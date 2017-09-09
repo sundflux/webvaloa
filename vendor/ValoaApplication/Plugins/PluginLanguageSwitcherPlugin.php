@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug;
@@ -60,6 +61,7 @@ class PluginLanguageSwitcherPlugin extends \Webvaloa\Plugin
         // Locale already set
         if (isset($_SESSION['locale'])) {
             $this->redirect();
+
             return;
         }
 

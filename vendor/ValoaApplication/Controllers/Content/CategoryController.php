@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use stdClass;
@@ -40,7 +41,6 @@ use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Security;
 use Webvaloa\Role;
-use Webvaloa\User;
 
 class CategoryController extends \Webvaloa\Application
 {
@@ -299,8 +299,9 @@ class CategoryController extends \Webvaloa\Application
         try {
             $contentAccess = new ContentAccess($categoryId);
             $permission = $contentAccess->checkPermissions();
-     
+
             Debug::__print($permission);
+
             return $permission;
         } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());

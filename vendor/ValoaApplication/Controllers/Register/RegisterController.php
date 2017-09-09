@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Register;
 
 use Libvaloa\Debug;
@@ -154,7 +155,7 @@ class RegisterController extends \Webvaloa\Application
         $user->firstname = $_POST['firstname'];
         $user->lastname = $_POST['lastname'];
 
-        $factory = new RandomLib\Factory;
+        $factory = new RandomLib\Factory();
         $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
         $user->password = $generator->generateString(32);
         $user->blocked = 1;

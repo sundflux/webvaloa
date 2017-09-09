@@ -36,6 +36,7 @@
  *
  * Handles user authentication and validation.
  */
+
 namespace Webvaloa\Auth;
 
 use Webvaloa\Controller\Request;

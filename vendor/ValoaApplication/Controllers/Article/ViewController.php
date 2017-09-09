@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Article;
 
 use Libvaloa\Debug;
@@ -40,7 +41,6 @@ use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
-use Webvaloa\User;
 
 class ViewController extends \Webvaloa\Application
 {
@@ -171,6 +171,7 @@ class ViewController extends \Webvaloa\Application
     {
         try {
             $contentAccess = new ContentAccess($article);
+
             return $contentAccess->checkPermissions();
         } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());

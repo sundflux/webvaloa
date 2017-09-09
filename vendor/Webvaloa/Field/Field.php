@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field;
 
 use Libvaloa\Db;
@@ -110,7 +111,7 @@ class Field
             try {
                 $fs = new Filesystem($path);
                 $files = $fs->files();
-                
+
                 if (is_array($files)) {
                     foreach ($files as $file) {
                         if (substr($file->filename, -4) != '.php') {

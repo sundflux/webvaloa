@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -219,7 +220,7 @@ class Category
             $category = $this->category;
         } catch (Exception $e) {
         }
-        
+
         if (isset($category)) {
             return $category;
         }

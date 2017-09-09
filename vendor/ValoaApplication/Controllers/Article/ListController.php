@@ -29,13 +29,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Article;
 
 use Libvaloa\Debug;
 use Webvaloa\Cache;
 use Webvaloa\Article;
 use Webvaloa\Category;
-use Webvaloa\User;
 use Webvaloa\Helpers\Article as ArticleHelper;
 use Webvaloa\Helpers\Category as CategoryHelper;
 use Webvaloa\Helpers\ContentAccess;
@@ -124,6 +124,7 @@ class ListController extends \Webvaloa\Application
     {
         try {
             $contentAccess = new ContentAccess($categoryId);
+
             return $contentAccess->checkPermissions();
         } catch (\RuntimeException $e) {
             Debug::__print($e->getMessage());

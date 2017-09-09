@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Debug;
@@ -95,7 +96,7 @@ class ContentAccess
     private function checkIsAdministrator()
     {
         if (!empty($_SESSION['UserID'])) {
-            $role = new Role;
+            $role = new Role();
             $user = new User($_SESSION['UserID']);
             if ($user->hasRole($role->getRoleId('Administrator'))) {
                 $this->isAdministrator = true;

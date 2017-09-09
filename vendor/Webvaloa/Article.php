@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -59,7 +60,7 @@ class Article
         $this->fieldsloaded = false;
         $this->article = new stdClass();
 
-        $this->article->id = $id;
+        $this->article->id = (int) $id;
         if (is_numeric($id) || $id === 0) {
             $this->loadArticle();
             $this->loadFields();
@@ -72,7 +73,7 @@ class Article
     public function initEmpty()
     {
         $this->article->published = 1;
-        $this->article->publish_up = date("Y-m-d H:i:s");
+        $this->article->publish_up = date('Y-m-d H:i:s');
         $this->article->publish_down = '1970-01-01 00:00:01';
         $this->article->locale = Webvaloa::getLocale();
 
@@ -231,7 +232,7 @@ class Article
 
     private function setPublish($i, $down = false)
     {
-        if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
+        if (!isset($this->article->id) || !is_numeric($this->article->id)) {
             throw new RuntimeException('Article not loadable');
         }
 

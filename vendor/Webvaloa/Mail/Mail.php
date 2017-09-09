@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * 2017 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * 2017 Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Contributor(s):
  *
@@ -45,7 +45,7 @@ class Mail
     public function __construct()
     {
         $this->mailer = new PHPMailer();
-        $this->mailer->CharSet = "UTF-8";
+        $this->mailer->CharSet = 'UTF-8';
 
         $config = new Configuration();
 
@@ -61,48 +61,56 @@ class Mail
     public function setTo($email, $name)
     {
         $this->mailer->addAddress($email, $name);
+
         return $this;
     }
 
     public function setSubject($subject)
     {
         $this->mailer->Subject = $subject;
+
         return $this;
     }
 
     public function setHtmlMessage($message)
     {
         $this->mailer->msgHTML($message);
+
         return $this;
     }
 
     public function setMessage($message)
     {
         $this->mailer->AltBody = $message;
+
         return $this;
     }
 
     public function addAttachment($path, $filename = null)
     {
-        $this->mailer->addAttachment($path."/".$filename);
+        $this->mailer->addAttachment($path.'/'.$filename);
+
         return $this;
     }
 
     public function addAttachmentFilename($filename)
     {
         $this->mailer->addAttachment($filename);
+
         return $this;
     }
 
     public function setFrom($email, $name)
     {
         $this->mailer->setFrom($email, $name);
+
         return $this;
     }
-    
+
     public function addCC($email, $name)
     {
         $this->mailer->addCC($email, $name);
+
         return $this;
     }
 
@@ -110,6 +118,7 @@ class Mail
     {
         $mail = $this->mailer->send();
         Debug::__print($this->mailer->ErrorInfo);
+
         return $mail;
     }
 }

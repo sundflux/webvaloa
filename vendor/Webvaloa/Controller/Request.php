@@ -42,6 +42,7 @@
  * If controller is not found, it is appended to parameters and default controller is opened
  * Parameters can be used as variable1/value1/variable2/value2 or value1/value2/value3 etc
  */
+
 namespace Webvaloa\Controller;
 
 class Request
