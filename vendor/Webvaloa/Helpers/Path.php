@@ -54,7 +54,7 @@ class Path
     public function __construct()
     {
         $this->basePath = WEBVALOA_BASEDIR;
-        $this->publicPath = WEBVALOA_BASEDIR.'/public';
+        $this->publicPath = LIBVALOA_PUBLICPATH;
         $this->configPath = WEBVALOA_BASEDIR.'/config';
 
         $this->systemPaths = false;

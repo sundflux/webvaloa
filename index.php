@@ -35,6 +35,7 @@ namespace Webvaloa;
 
 use Libvaloa\Debug;
 use Libvaloa\I18n;
+use Webvaloa\Helpers\Path;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Controller\Request;
 use stdClass;
@@ -419,27 +420,27 @@ class ApplicationUI
         $ui = new $uiInterface();
 
         // File paths for the UI
+        $pathHelper = new Path();
+        $systemPaths = $pathHelper->getSystemPaths();
 
-        // Layout and overrides path
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views');
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.$request->getMainController().'/'.'Views');
+        $uiPaths = [
+            'Layout',
+            'Layout'.'/'.Webvaloa::$properties['layout'],
+            'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views',
+            'Layout'.'/'.Webvaloa::$properties['layout'].'/'.$request->getMainController().'/'.'Views',
+            'Controllers'.'/'.$request->getMainController().'/'.'Views',
+            'Plugins'
+        ];
 
-        // Controller
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Controllers'.'/'.$request->getMainController().'/'.'Views');
-
-        // Plugins
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Plugins');
-
-        // As above, but from core installation
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views');
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Controllers'.'/'.$request->getMainController().'/'.'Views');
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Plugins');
+        foreach ($systemPaths as $path) {
+            foreach ($uiPaths as $uiPath) {
+                $ui->addIncludePath($path.'/'.$uiPath);
+            }
+        }
 
         // Public media paths
-        $ui->addIncludePath(LIBVALOA_PUBLICPATH.'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_PUBLICPATH.'/'.'Layout');
+        $ui->addIncludePath($pathHelper->getPublicPath().'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
+        $ui->addIncludePath($pathHelper->getPublicPath().'/'.'Layout');
 
         // Empty template for ajax requests
         if ($request->isAjax()) {
