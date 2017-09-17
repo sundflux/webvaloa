@@ -129,10 +129,12 @@ class Path
         }
 
         foreach ($this->systemPaths as $path) {
-            if (file_exists($path.'/'.self::$properties['vendor'].'/Controllers')) {
-                $this->controllerPaths[] = $path.'/'.self::$properties['vendor'].'/Controllers';
+            if (file_exists($path.'/Controllers')) {
+                $this->controllerPaths[] = $path.'/Controllers';
             }
         }
+
+        return $this->controllerPaths;
     }
 
     /**
@@ -145,10 +147,12 @@ class Path
         }
 
         foreach ($this->systemPaths as $path) {
-            if (file_exists($path.'/'.self::$properties['vendor'].'/Plugins')) {
-                $this->pluginPaths[] = $path.'/'.self::$properties['vendor'].'/Plugins';
+            if (file_exists($path.'/Plugins')) {
+                $this->pluginPaths[] = $path.'/Plugins';
             }
         }
+
+        return $this->pluginPaths;
     }
 
     /**
@@ -161,9 +165,11 @@ class Path
         }
 
         foreach ($this->systemPaths as $path) {
-            if (file_exists($path.'/'.self::$properties['vendor'].'/Plugins')) {
-                $this->layoutPaths[] = $path.'/'.self::$properties['vendor'].'/Layout';
+            if (file_exists($path.'/Plugins')) {
+                $this->layoutPaths[] = $path.'/Layout';
             }
         }
+
+        return $this->layoutPaths;
     }
 }

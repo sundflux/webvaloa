@@ -36,6 +36,7 @@ use Libvaloa\Db;
 use Libvaloa\Debug;
 use RuntimeException;
 use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Path;
 
 /**
  * Manage and run plugins.
@@ -323,6 +324,8 @@ class Plugin
 
     public function discover()
     {
+        $pathHelper = new Path();
+
         // Installed plugins
         $tmp = $this->plugins();
 
@@ -330,12 +333,8 @@ class Plugin
             $plugins[] = $plugin->plugin;
         }
 
-        // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/'.'Plugins';
-        $paths[] = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/'.'Plugins';
-
         // Look for new plugins
-        foreach ($paths as $path) {
+        foreach ($pathHelper->getPluginPaths() as $path) {
             Debug::__print('Discovering plugins from');
             Debug::__print($path);
 

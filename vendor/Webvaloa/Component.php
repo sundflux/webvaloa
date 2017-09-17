@@ -35,6 +35,7 @@ namespace Webvaloa;
 use Libvaloa\Db;
 use Libvaloa\Debug;
 use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Path;
 use RuntimeException;
 
 /**
@@ -394,18 +395,16 @@ class Component
 
     public function discover()
     {
+        $pathHelper = new Path();
+
         // Installed components
         $tmp = $this->components();
         foreach ($tmp as $v => $component) {
             $installedComponents[] = $component->controller;
         }
 
-        // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/'.'Controllers';
-        $paths[] = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/'.'Controllers';
-
         // Look for new components
-        foreach ($paths as $path) {
+        foreach ($pathHelper->getControllerPaths() as $path) {
             if (!is_readable($path)) {
                 Debug::__print('Controller path not readable:');
                 Debug::__print($path);
