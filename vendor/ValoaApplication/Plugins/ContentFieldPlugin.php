@@ -33,6 +33,7 @@
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug;
+use Webvaloa\Helpers\Path;
 use DOMDocument;
 use DOMXpath;
 
@@ -49,14 +50,9 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
         if ($this->request->getChildController() !== 'Article') {
             return;
         }
-
-        $paths = array(
-            LIBVALOA_INSTALLPATH.'/'.'Webvaloa'.'/'.'Field'.'/'.'Fields',
-            LIBVALOA_EXTENSIONSPATH.'/'.'Webvaloa'.'/'.'Field'.'/'.'Fields',
-        );
-
-        foreach ($paths as $path) {
-            $this->ui->addIncludePath($path);
+        $pathHelper = new Path;
+        foreach ($pathHelper->getSystemPaths() as $path) {
+            $this->ui->addIncludePath($path.'/'.'Webvaloa'.'/'.'Field'.'/'.'Fields');
         }
     }
 
