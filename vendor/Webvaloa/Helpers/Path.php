@@ -74,16 +74,7 @@ class Path
 
     public function scanPaths()
     {
-        foreach ($this->paths as $path) {
-            if (file_exists($path.'/'.self::$properties['vendor'])) {
-                $this->systemPaths[] = realpath($path.'/'.self::$properties['vendor']);
-            }
-        }
-
-        if (is_array($this->systemPaths)) {
-            $this->systemPaths = array_reverse(array_unique($this->systemPaths));
-        }
-
+        $this->systemPaths = \Webvaloa\Webvaloa::getSystemPaths();
         Debug::__print($this->systemPaths);
     }
 

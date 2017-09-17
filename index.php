@@ -34,7 +34,6 @@
 namespace Webvaloa;
 
 use Libvaloa\Debug;
-use Libvaloa\Db;
 use Libvaloa\I18n;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Controller\Request;
@@ -177,6 +176,32 @@ class Webvaloa
         }
     }
 
+    public static function getSystemPaths()
+    {
+        $paths[] = LIBVALOA_INSTALLPATH;
+        $paths[] = LIBVALOA_EXTENSIONSPATH;
+        $paths = array_merge($paths, explode(':', get_include_path()));
+
+        foreach ($paths as $path) {
+            if (file_exists($path.'/'.self::$properties['vendor'])) {
+                $systemPaths[] = realpath($path.'/'.self::$properties['vendor']);
+            }
+
+            // Treat any path with FrontController as system path.
+            if (file_exists($path.'/Webvaloa/FrontController.php')) {
+                $systemPaths[] = $path;
+            }
+        }
+
+        if (is_array($systemPaths)) {
+            $systemPaths = array_reverse(array_unique($systemPaths));
+
+            return $systemPaths;
+        }
+
+        throw new \RuntimeException('Could not find any system paths');
+    }
+
     /**
      * Class autoloader.
      *
@@ -200,17 +225,13 @@ class Webvaloa
 
         $fileName .= str_replace('_', '/', $className).'.php';
 
-        // Look first from the extensionspath, then fallback to core installpath
-        $search[] = LIBVALOA_EXTENSIONSPATH.'/'.$fileName;
-        $search[] = LIBVALOA_INSTALLPATH.'/'.$fileName;
-
         // Include classes if found
-        foreach ($search as $v) {
-            if (!is_readable($v)) {
+        foreach (self::getSystemPaths() as $v) {
+            if (!is_readable($v.'/'.$fileName)) {
                 continue;
             }
-            require_once $v;
 
+            require_once $v.'/'.$fileName;
             return;
         }
     }
