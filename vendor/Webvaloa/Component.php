@@ -33,6 +33,8 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
+use Webvaloa\Helpers\Filesystem;
 use RuntimeException;
 
 /**
@@ -395,46 +397,51 @@ class Component
         // Installed components
         $tmp = $this->components();
         foreach ($tmp as $v => $component) {
-            $components[] = $component->controller;
+            $installedComponents[] = $component->controller;
         }
 
         // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers';
-        $paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers';
-
-        $skip = array(
-            '.',
-            '..',
-        );
-
-        $components = array_merge($components, $skip);
+        $paths[] = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/'.'Controllers';
+        $paths[] = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/'.'Controllers';
 
         // Look for new components
         foreach ($paths as $path) {
-            if ($handle = opendir($path)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ($entry == '.' || $entry == '..') {
+            if (!is_readable($path)) {
+                Debug::__print('Controller path not readable:');
+                Debug::__print($path);
+
+                continue;
+            }
+
+            try {
+                $fs = new Filesystem($path);
+                $folders = $fs->folders();
+
+                foreach ($folders as $folder) {
+                    if (!is_readable($path. '/' . $folder . '/manifest.json')) {
                         continue;
                     }
 
-                    if (file_exists($path.DIRECTORY_SEPARATOR.$entry.DIRECTORY_SEPARATOR.'manifest.json') && !in_array($entry, $components)) {
-                        $manifest = new Manifest($entry);
+                    $manifest = new Manifest($folder);
 
-                        if ($manifest->anonymous == 1) {
-                            continue;
-                        }
-
-                        if (!isset($controllers)) {
-                            $controllers = array();
-                        }
-
-                        if (!in_array($entry, $controllers)) {
-                            $controllers[] = $entry;
-                        }
+                    if ($manifest->anonymous == 1) {
+                        continue;
                     }
+
+                    if (!isset($controllers)) {
+                        $controllers = array();
+                    }
+
+                    if (in_array($folder, $installedComponents)) {
+                        continue;
+                    }
+
+                    $controllers[] = $folder;
                 }
 
-                closedir($handle);
+            } catch(\Exception $e) {
+                Debug::__print($e->getMessage());
+                Debug::__print($path);
             }
         }
 
