@@ -347,21 +347,23 @@ class Plugin
                 continue;
             }
 
-            foreach ($files as $file) {
-                if (substr($file->filename, -3) != 'php') {
-                    continue;
-                }
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    if (substr($file->filename, -3) != 'php') {
+                        continue;
+                    }
 
-                $pluginName = str_replace('Plugin.php', '', $file->filename);
+                    $pluginName = str_replace('Plugin.php', '', $file->filename);
 
-                if (!isset($installablePlugins)) {
-                    $installablePlugins = array();
-                }
+                    if (!isset($installablePlugins)) {
+                        $installablePlugins = array();
+                    }
 
-                if (!in_array($pluginName, $plugins) && !in_array($pluginName, $installablePlugins)) {
-                    $installablePlugins[] = $pluginName;
+                    if (!in_array($pluginName, $plugins) && !in_array($pluginName, $installablePlugins)) {
+                        $installablePlugins[] = $pluginName;
+                    }
                 }
-            }
+            } 
         }
 
         if (isset($installablePlugins)) {
