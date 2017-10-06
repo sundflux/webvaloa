@@ -220,7 +220,7 @@ class ArticleStructure
 
                 // Fill values to fields
                 foreach ($v->fieldValues as $fieldName => $value) {
-                    if (!is_object($fields[$fieldName])) {
+                    if (!isset($fields[$fieldName]) || !is_object($fields[$fieldName])) {
                         continue;
                     }
 
