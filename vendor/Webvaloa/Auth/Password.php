@@ -45,7 +45,7 @@ class Password
      */
     public static function cryptPassword($username, $plaintextPassword)
     {
-        return password_hash($username.$plaintextPassword);
+        return password_hash($username.$plaintextPassword, PASSWORD_DEFAULT);
     }
 
     /**
