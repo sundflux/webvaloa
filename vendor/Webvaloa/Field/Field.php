@@ -35,6 +35,7 @@ namespace Webvaloa\Field;
 use Libvaloa\Db;
 use Libvaloa\Debug;
 use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Path;
 use stdClass;
 
 class Field
@@ -43,10 +44,13 @@ class Field
     private $fieldID;
     private $contentID;
 
+    private $pathHelper;
+
     public $fields = array();
 
     public function __construct($fieldID = false, $contentID = false)
     {
+        $this->pathHelper = new Path();
         $this->object = new Db\Object('field', \Webvaloa\Webvaloa::DBConnection());
         $this->fieldID = $fieldID;
 
@@ -104,12 +108,9 @@ class Field
 
     public function fields()
     {
-        $search[] = LIBVALOA_INSTALLPATH.'/Webvaloa/Field/Fields';
-        $search[] = LIBVALOA_EXTENSIONSPATH.'/Webvaloa/Field/Fields';
-
-        foreach ($search as $path) {
+        foreach ($this->pathHelper->getSystemPaths() as $path) {
             try {
-                $fs = new Filesystem($path);
+                $fs = new Filesystem($path . '/Webvaloa/Field/Fields');
                 $files = $fs->files();
 
                 if (is_array($files)) {
@@ -117,8 +118,8 @@ class Field
                         if (substr($file->filename, -4) != '.php') {
                             continue;
                         }
-
-                        $this->fields[] = substr($file->filename, 0, -4);
+                        $field = substr($file->filename, 0, -4);
+                        $this->fields[$field] = $field;
                     }
                 }
             } catch (\RuntimeException $e) {
