@@ -352,7 +352,6 @@ CREATE TABLE IF NOT EXISTS `structure` (
   `ordering` int(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id` (`id`,`parent_id`,`type`,`target_id`,`locale`),
-  KEY `translation` (`translation`),
   KEY `ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Site structure' AUTO_INCREMENT=1 ;
 
@@ -507,3 +506,8 @@ ADD `validation` varchar(128) COLLATE 'utf8_general_ci' NULL COMMENT 'html5 vali
  */
 ALTER TABLE `user`
 CHANGE `password` `password` varchar(255) COLLATE 'utf8_general_ci' NULL AFTER `email`;
+
+/**
+ * Also removed:   KEY `translation` (`translation`),
+ * from structure table
+ */
