@@ -9,7 +9,7 @@ Getting started
 ---------------
 
 ### Requirements
-Tested to work with: nginx, apache.
+Tested to work with NGINX and Apache. Example config for NGINX is included, /config/nginx.conf
 - PHP >= 5.6.4 
 - php-imagick
 - php-intl
