@@ -105,7 +105,7 @@ class MediaController extends \Webvaloa\Application
         Security::verify();
 
         // Delete file
-        if (isset($_GET['file']) && !empty($_GET['file'])) {
+        if (!empty($_GET['file'])) {
             $file = $_GET['file'];
 
             // Must be set by media manager
@@ -129,7 +129,7 @@ class MediaController extends \Webvaloa\Application
         }
 
         // Delete folder
-        if (isset($_GET['folder']) && !empty($_GET['folder'])) {
+        if (!empty($_GET['folder'])) {
             if ($_GET['folder'] != $_SESSION['upload_subdir']) {
                 throw new UnexpectedValueException('Folder does not match upload_subdir');
             }
