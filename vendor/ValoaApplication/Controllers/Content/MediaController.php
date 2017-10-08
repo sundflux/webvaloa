@@ -128,7 +128,7 @@ class MediaController extends \Webvaloa\Application
             return $filesystem->delete($file);
         }
 
-        // Delete folfder
+        // Delete folder
         if (isset($_GET['folder']) && !empty($_GET['folder'])) {
             if ($_GET['folder'] != $_SESSION['upload_subdir']) {
                 throw new UnexpectedValueException('Folder does not match upload_subdir');
