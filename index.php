@@ -185,6 +185,7 @@ class Webvaloa
 
         foreach ($paths as $path) {
             if (file_exists($path.'/'.self::$properties['vendor'])) {
+                $systemPaths[] = realpath($path);
                 $systemPaths[] = realpath($path.'/'.self::$properties['vendor']);
             }
 
