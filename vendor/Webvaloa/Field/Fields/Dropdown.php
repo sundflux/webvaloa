@@ -111,7 +111,7 @@ class Dropdown
             }
 
             if (isset($retval)) {
-                return (object) $retval;
+                return $retval;
             }
         }
 
