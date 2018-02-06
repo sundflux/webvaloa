@@ -114,7 +114,7 @@ class Tags
         }
 
         if (isset($retval)) {
-            return (object) $retval;
+            return $retval;
         }
 
         return array();

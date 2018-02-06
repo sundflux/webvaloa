@@ -105,7 +105,7 @@ class Datalist
                 }
 
                 if (isset($retval)) {
-                    return (object) $retval;
+                    return $retval;
                 }
 
                 return false;
