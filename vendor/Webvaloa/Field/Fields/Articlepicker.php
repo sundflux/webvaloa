@@ -111,7 +111,7 @@ class Articlepicker
             }
 
             if (isset($retval)) {
-                return (object) $retval;
+                return $retval;
             }
         }
 
