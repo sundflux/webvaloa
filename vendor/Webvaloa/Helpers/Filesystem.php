@@ -71,7 +71,7 @@ class Filesystem
                 $tmp->fileinfo = pathinfo($this->path.'/'.$tmp->filename);
                 $tmp->fullpath = $tmp->fileinfo['dirname'].'/'.$tmp->fileinfo['basename'];
                 $tmp->filesize = $this->formatFilesize(filesize($this->path.'/'.$tmp->filename));
-                $tmp->extension = $tmp->fileinfo['extension'];
+                $tmp->extension = strtolower($tmp->fileinfo['extension']);
                 $this->files[] = $tmp;
             }
         }
