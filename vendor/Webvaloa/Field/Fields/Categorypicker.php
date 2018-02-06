@@ -94,7 +94,7 @@ class Categorypicker
         }
 
         if (isset($retval)) {
-            return (object) $retval;
+            return $retval;
         }
 
         return array();
