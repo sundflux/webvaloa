@@ -54,7 +54,16 @@ class SiteController extends \Webvaloa\Application
         $this->view->editablemenu->navigation = $navigation->get();
 
         $article = new Article(0);
-        $this->view->contents = $article->getArticles();
+        $articles = $article->getArticles();
+        $this->view->contents = array();
+        foreach($articles as $article) {
+            $articleHelper = new ArticleHelper((int) $article->id);
+            $associatedId=$articleHelper->getAssociatedId();
+            if($associatedId) {
+                $associatedArticle = new Article((int) $associatedId);
+                $this->view->contents[] = $associatedArticle;
+            }
+        }
 
         $query = '
             SELECT *
