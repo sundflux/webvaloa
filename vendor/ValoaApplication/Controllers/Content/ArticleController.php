@@ -244,6 +244,13 @@ class ArticleController extends \Webvaloa\Application
             }
         }
 
+        // Test to see if we are trying to load an associated article
+        $preloadArticle = new Article($articleID);
+        if($preloadArticle->associated_content_id) {
+            // Redirect to the actual article
+            Redirect::to('content_article/edit/'.$preloadArticle->associated_content_id);
+        }
+
         // Try loading associated article
         $association = new ArticleAssociation($articleID);
         $association->setLocale(\Webvaloa\Webvaloa::getLocale());
