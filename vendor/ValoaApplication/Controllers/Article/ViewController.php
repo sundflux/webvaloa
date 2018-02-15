@@ -74,6 +74,7 @@ class ViewController extends \Webvaloa\Application
         // If requesting without id, return default
         if ($id === false || empty($id)) {
             if (isset($this->view->_globals->default_front_page[0])) {
+                header('HTTP/1.0 404 Not Found');
                 $id = $this->view->_globals->default_front_page[0]->value;
             } else {
                 $id = false;
@@ -83,6 +84,7 @@ class ViewController extends \Webvaloa\Application
         // If requesting
         if (!is_numeric($id)) {
             if (isset($this->view->_globals->default_404_page[0])) {
+                header('HTTP/1.0 404 Not Found');
                 $id = $this->view->_globals->default_404_page[0]->value;
             } else {
                 $id = false;
@@ -105,11 +107,11 @@ class ViewController extends \Webvaloa\Application
         $structure = new ArticleStructure($id);
         $article = $structure->getArticle();
         if ($article->article === false) {
+            header('HTTP/1.0 404 Not Found');
             if (isset($this->view->_globals->default_404_page[0])) {
                 $id = $this->view->_globals->default_404_page[0]->value;
                 $article = new Article($id);
             } else {
-                header('HTTP/1.0 404 Not Found');
                 exit;
             }
         }
