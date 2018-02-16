@@ -33,12 +33,16 @@
 namespace Webvaloa;
 
 use stdClass;
+use Configuration;
 
 class Version
 {
     private $object;
 
     const MAX_VERSIONS = 10;
+    const MAX_VERSIONS_HARD_LIMIT = 128;
+
+    private $max_versions;
 
     public function __construct()
     {
@@ -50,6 +54,17 @@ class Version
 
         if (isset($_SESSION['UserID'])) {
             $this->object->user_id = $_SESSION['UserID'];
+        }
+
+        $configuration = new Configuration();
+        $this->max_versions = $configuration->max_versions_history;
+
+        if (!is_numeric($this->max_versions)) {
+            $this->max_versions = self::MAX_VERSIONS;
+        }
+
+        if ($this->max_versions > self::MAX_VERSIONS_HARD_LIMIT) {
+            $this->max_versions = self::MAX_VERSIONS_HARD_LIMIT;
         }
     }
 
@@ -110,7 +125,7 @@ class Version
             foreach ($stmt as $row) {
                 ++$i;
 
-                if ($i > self::MAX_VERSIONS) {
+                if ($i > $this->max_versions) {
                     $q = '
                         DELETE FROM version_history
                         WHERE id = ?';
@@ -135,7 +150,7 @@ class Version
             AND target_id = ?
             ORDER BY id
             DESC
-            LIMIT 10';
+            LIMIT ' . $this->max_versions;
 
         $stmt = $db->prepare($query);
         try {
