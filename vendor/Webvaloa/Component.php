@@ -437,8 +437,7 @@ class Component
 
                     $controllers[] = $folder;
                 }
-
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 Debug::__print($e->getMessage());
                 Debug::__print($path);
             }

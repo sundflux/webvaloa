@@ -77,8 +77,11 @@ class Request
 
         // Route when rewrite..
         if (strpos($uri, 'index.php') === false) {
-            $uri = str_replace($_SERVER['HTTP_HOST'],
-                $_SERVER['HTTP_HOST'].'index.php', $uri);
+            $uri = str_replace(
+                $_SERVER['HTTP_HOST'],
+                $_SERVER['HTTP_HOST'].'index.php',
+                $uri
+            );
         }
 
         list($host, $route) = explode('index.php', $uri, 2);
@@ -110,8 +113,11 @@ class Request
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
             $this->ajax = true;
 
-            if (isset($_SERVER['HTTP_ACCEPT']) && in_array('application/json',
-                explode(',', $_SERVER['HTTP_ACCEPT']), true)) {
+            if (isset($_SERVER['HTTP_ACCEPT']) && in_array(
+                'application/json',
+                explode(',', $_SERVER['HTTP_ACCEPT']),
+                true
+            )) {
                 $this->json = true;
             }
         }
@@ -306,8 +312,10 @@ class Request
      */
     public function getPath()
     {
-        return rtrim(dirname(substr($_SERVER['SCRIPT_FILENAME'],
-            strlen($_SERVER['DOCUMENT_ROOT']))), '/');
+        return rtrim(dirname(substr(
+            $_SERVER['SCRIPT_FILENAME'],
+            strlen($_SERVER['DOCUMENT_ROOT'])
+        )), '/');
     }
 
     /**
@@ -375,8 +383,11 @@ class Request
     private function decodeRouteParam($val)
     {
         if (substr($val, 0, 5) === '$enc$') {
-            return base64_decode(str_replace('.', '/',
-                urldecode(substr($val, 5))));
+            return base64_decode(str_replace(
+                '.',
+                '/',
+                urldecode(substr($val, 5))
+            ));
         } else {
             return urldecode($val);
         }

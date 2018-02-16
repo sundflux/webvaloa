@@ -363,7 +363,7 @@ class Plugin
                         $installablePlugins[] = $pluginName;
                     }
                 }
-            } 
+            }
         }
 
         if (isset($installablePlugins)) {

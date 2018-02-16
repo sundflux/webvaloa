@@ -116,9 +116,12 @@ class Filesystem
     public function getChildren()
     {
         foreach (new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($this->path,
-                RecursiveDirectoryIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::CHILD_FIRST) as $dir => $fileInfo) {
+            new RecursiveDirectoryIterator(
+                $this->path,
+                RecursiveDirectoryIterator::SKIP_DOTS
+            ),
+                RecursiveIteratorIterator::CHILD_FIRST
+        ) as $dir => $fileInfo) {
             if ($fileInfo->isDir()) {
                 $children[] = str_replace($this->path, '', $dir);
             }

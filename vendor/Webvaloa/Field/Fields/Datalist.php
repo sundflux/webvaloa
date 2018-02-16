@@ -79,7 +79,7 @@ class Datalist
     {
         if (isset($this->fieldID) && is_numeric($this->fieldID)) {
             // Get values for this field
-        $db = \Webvaloa\Webvaloa::DBConnection();
+            $db = \Webvaloa\Webvaloa::DBConnection();
 
             $query = '
             SELECT *

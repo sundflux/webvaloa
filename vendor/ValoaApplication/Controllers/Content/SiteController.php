@@ -57,10 +57,10 @@ class SiteController extends \Webvaloa\Application
         $article = new Article(0);
         $articles = $article->getArticles();
         $this->view->contents = array();
-        foreach($articles as $article) {
+        foreach ($articles as $article) {
             $articleHelper = new ArticleHelper((int) $article->id);
             $associatedId=$articleHelper->getAssociatedId();
-            if($associatedId) {
+            if ($associatedId) {
                 $associatedArticle = new Article((int) $associatedId);
                 $this->view->contents[] = $associatedArticle;
             }
@@ -136,8 +136,8 @@ class SiteController extends \Webvaloa\Application
                 $stmt = $this->db->prepare($query);
                 if (empty($sub->alias)) {
                     $a = $sub->name;
-                        // Use transliteration to convert special letters and characters to ascii. Note: this requires setlocale with .UTF-8 to be correctly installed
-                        $translit = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $a);
+                    // Use transliteration to convert special letters and characters to ascii. Note: this requires setlocale with .UTF-8 to be correctly installed
+                    $translit = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $a);
                     if ($translit !== false) {
                         $a = $translit;
                     }

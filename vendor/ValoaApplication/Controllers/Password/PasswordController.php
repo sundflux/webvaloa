@@ -91,9 +91,9 @@ class PasswordController extends \Webvaloa\Application
         $user->password = trim($_POST['new_password']);
 
         try {
-           $user->save();
-           $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGED'));
-        } catch(\Exception $e) {
+            $user->save();
+            $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGED'));
+        } catch (\Exception $e) {
             $this->ui->addMessage($e->getMessage());
         } finally {
             Redirect::to('password');
