@@ -33,7 +33,7 @@
 namespace Webvaloa;
 
 use stdClass;
-use Configuration;
+use Configuration as Conf;
 
 class Version
 {
@@ -56,7 +56,7 @@ class Version
             $this->object->user_id = $_SESSION['UserID'];
         }
 
-        $configuration = new Configuration();
+        $configuration = new Conf();
         $this->max_versions = $configuration->max_versions_history;
 
         if (!is_numeric($this->max_versions)) {
