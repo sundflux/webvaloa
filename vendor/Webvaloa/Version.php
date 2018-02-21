@@ -33,7 +33,7 @@
 namespace Webvaloa;
 
 use stdClass;
-use Configuration as Conf;
+use Webvaloa\Configuration as Conf;
 
 class Version
 {
