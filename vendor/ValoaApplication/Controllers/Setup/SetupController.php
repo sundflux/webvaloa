@@ -108,11 +108,21 @@ class SetupController extends \Webvaloa\Application
 
         if (!isset($_SESSION['setup'])) {
             $_SESSION['setup'] = array();
+        }
 
-            // Generate salt for this installation
+        // Generate salt for this installation
+
+        //
+        $errorReportingLevel = error_reporting();
+
+        if (empty($_SESSION['setup']['salt'])) {
+            // Fixme: Because deprecated mcrypt is used by randomlib,
+            // we temporarely disable warnings from randomlib
+            error_reporting(0);
             $factory = new RandomLib\Factory();
             $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
             $_SESSION['setup']['salt'] = $generator->generateString(32);
+            error_reporting($errorReportingLevel);
         }
 
         // Initial config file trickery
