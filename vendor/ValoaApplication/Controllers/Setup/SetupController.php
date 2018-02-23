@@ -196,7 +196,7 @@ class SetupController extends \Webvaloa\Application
         }
 
         if (isset($_SESSION['setup']['db'])) {
-            $this->view = $_SESSION['setup']['db'];
+            $this->view = (object) $_SESSION['setup']['db'];
             $this->view->profiles = $this->profiles;
         }
 
