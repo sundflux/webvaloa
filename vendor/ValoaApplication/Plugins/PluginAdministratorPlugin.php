@@ -109,9 +109,6 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
             // Custom branding
             $this->view->_settings->webvaloa_branding = $config->webvaloa_branding->value;
 
-            // Hide developer tools
-            $this->view->_settings->webvaloa_hide_developer_tools = $config->webvaloa_hide_developer_tools->value;
-
             // Security token
             $this->view->token = \Webvaloa\Security::getToken();
 
