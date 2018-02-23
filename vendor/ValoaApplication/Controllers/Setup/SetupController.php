@@ -309,7 +309,7 @@ class SetupController extends \Webvaloa\Application
         );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
-        if (is_object($currentProfile->config)) {
+        if (isset($currentProfile->config) && is_object($currentProfile->config)) {
             foreach ($currentProfile->config as $configKey => $configValue) {
                 $configData[$configKey] = $configValue;
             }
@@ -386,7 +386,7 @@ class SetupController extends \Webvaloa\Application
             $query = file_get_contents($sqlSchema);
 
             // Inject additional schema from profile
-            if (file_exists($profileSql)) {
+            if (!empty($profileSql) && file_exists($profileSql)) {
                 $query .= "\n".file_get_contents($profileSql);
             }
 
