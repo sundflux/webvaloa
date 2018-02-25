@@ -3,6 +3,7 @@
         "sundflux/libvaloa": "^1.0.0",
         "filp/whoops": "^2.1",
         "phpmailer/phpmailer": "^5.2",
-        "ircmaxell/random-lib": "^1.2"
+        "ircmaxell/random-lib": "^1.2",
+	"nategood/commando": "*"
     }
 }
