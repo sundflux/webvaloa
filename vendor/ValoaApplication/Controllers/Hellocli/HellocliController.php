@@ -64,5 +64,4 @@ class HellocliController extends \Webvaloa\Application
     {
         Debug::__print('Hello from cli world method!');
     }
-
 }
