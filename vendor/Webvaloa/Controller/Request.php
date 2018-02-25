@@ -140,22 +140,39 @@ class Request
     public function mapCommandLine()
     {
         Debug::__print('Command Line Debug: Command line support enabled.');
+
         $this->isJson(true);
 
         $this->cli = new \Commando\Command();
 
-        $this->cli->option('c')
-            ->aka('controller')
+        $this->cli->option('controller')
+            ->aka('c')
             ->require()
             ->describedAs('Controller to run');
 
-        $this->cli->option('m')
-            ->aka('method')
+        $this->cli->option('method')
+            ->aka('m')
             ->require()
+            ->describedAs('Controller method to run');
+
+        $this->cli->option('parameters')
+            ->aka('p')
             ->describedAs('Controller method to run');
 
         $this->setController($this->cli['controller']);
         $this->setMethod($this->cli['method']);
+
+        $params = $this->cli['parameters'];
+
+        if (!empty($params)) {
+            $params = explode('/', $params);
+            $this->setParams($params);
+        }
+
+        Debug::__print('Mapped:');
+        Debug::__print($this->cli['controller']);
+        Debug::__print($this->cli['method']);
+        Debug::__print($this->cli['parameters']);
     }
 
     /**
