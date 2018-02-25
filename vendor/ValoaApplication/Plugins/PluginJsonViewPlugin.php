@@ -42,7 +42,7 @@ class PluginJsonViewPlugin extends \Webvaloa\Plugin
 
     public function onAfterRender()
     {
-        if (isset($_GET['json'])) {
+        if ($this->request->isJson()) {
             $this->ui->properties['contenttype'] = 'application/json';
             $this->xhtml = (string) json_encode($this->view);
         }

@@ -114,6 +114,11 @@ class Webvaloa
     public $whoops;
 
     /**
+     * Cli
+     */
+    public static $cli = false;
+
+    /**
      * Properties array.
      *
      * startSession         - defines if the kernel should start session.
@@ -148,7 +153,17 @@ class Webvaloa
             $this->whoops->register();
         }
 
+        self::$cli = self::isCommandLine();
         self::$loaded = true;
+    }
+
+    public static function isCommandLine()
+    {
+        if (php_sapi_name() == "cli") {
+            return true;
+        }
+
+        return false;
     }
 
     public static function initializeSession()

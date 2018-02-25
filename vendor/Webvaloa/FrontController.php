@@ -36,7 +36,6 @@ namespace Webvaloa;
 use Webvaloa\Controller\Request;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Auth\Auth;
-use ValoaApplication\Plugins;
 use Webvaloa\Controller\Request\Alias;
 use Webvaloa\Locale\Locales;
 use ReflectionClass;

@@ -45,6 +45,8 @@
 
 namespace Webvaloa\Controller;
 
+use Libvaloa\Debug;
+
 class Request
 {
     private static $instance = false;
@@ -59,8 +61,18 @@ class Request
     private $ajax = false;
     private $json = false;
 
+    private $cli = false;
+
     public function __construct()
     {
+        if (\Webvaloa\Webvaloa::isCommandLine()) {
+            $_SERVER['HTTP_HOST'] = 'localhost';
+            $_SERVER['REQUEST_URI'] = '';
+
+            $this->cli = true;
+            $this->mapCommandLine();
+        }
+
         $script = str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']);
         $uri = $_SERVER['HTTP_HOST'].$script.str_replace(str_replace('index.php', '', $script), '/', $_SERVER['REQUEST_URI']);
 
@@ -123,6 +135,27 @@ class Request
         }
 
         self::$instance = $this;
+    }
+
+    public function mapCommandLine()
+    {
+        Debug::__print('Command Line Debug: Command line support enabled.');
+        $this->isJson(true);
+
+        $this->cli = new \Commando\Command();
+
+        $this->cli->option('c')
+            ->aka('controller')
+            ->require()
+            ->describedAs('Controller to run');
+
+        $this->cli->option('m')
+            ->aka('method')
+            ->require()
+            ->describedAs('Controller method to run');
+
+        $this->setController($this->cli['controller']);
+        $this->setMethod($this->cli['method']);
     }
 
     /**
