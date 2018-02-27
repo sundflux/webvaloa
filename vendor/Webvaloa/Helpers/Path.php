@@ -81,7 +81,7 @@ class Path
                 $path[$k] = rtrim($v);
                 $path[$k] = rtrim($path[$k], '/');
             }
-        } elseif(is_string($path)) {
+        } elseif (is_string($path)) {
             $path = rtrim($path);
             $path = rtrim($path, '/');
         }
