@@ -53,18 +53,20 @@ class Path
 
     public function __construct()
     {
-        $this->basePath = WEBVALOA_BASEDIR;
-        $this->publicPath = LIBVALOA_PUBLICPATH;
-        $this->configPath = WEBVALOA_BASEDIR.'/config';
+        $this->basePath = self::trimPath(WEBVALOA_BASEDIR);
+        $this->publicPath = self::trimPath(LIBVALOA_PUBLICPATH);
+        $this->configPath = self::trimPath(WEBVALOA_BASEDIR.'/config');
 
         $this->systemPaths = false;
         $this->layoutPaths = false;
         $this->pluginPaths = false;
         $this->controllerPaths = false;
 
-        $this->paths[] = LIBVALOA_INSTALLPATH;
-        $this->paths[] = LIBVALOA_EXTENSIONSPATH;
+        $this->paths[] = self::trimPath(LIBVALOA_INSTALLPATH);
+        $this->paths[] = self::trimPath(LIBVALOA_EXTENSIONSPATH);
         $this->paths = array_merge($this->paths, explode(':', get_include_path()));
+        $this->paths = self::trimPath($this->paths);
+        $this->paths = array_unique($this->paths);
 
         Debug::__print('Scanning following paths for system files:');
         Debug::__print($this->paths);
@@ -72,9 +74,24 @@ class Path
         $this->scanPaths();
     }
 
+    public static function trimPath($path)
+    {
+        if (is_array($path)) {
+            foreach ($path as $k => $v) {
+                $path[$k] = rtrim($v);
+                $path[$k] = rtrim($path[$k], '/');
+            }
+        } elseif(is_string($path)) {
+            $path = rtrim($path);
+            $path = rtrim($path, '/');
+        }
+
+        return $path;
+    }
+
     public function scanPaths()
     {
-        $this->systemPaths = \Webvaloa\Webvaloa::getSystemPaths();
+        $this->systemPaths = self::trimPath(\Webvaloa\Webvaloa::getSystemPaths());
         Debug::__print($this->systemPaths);
     }
 
@@ -125,7 +142,7 @@ class Path
             }
         }
 
-        return $this->controllerPaths;
+        return self::trimPath($this->controllerPaths);
     }
 
     /**
@@ -143,7 +160,7 @@ class Path
             }
         }
 
-        return $this->pluginPaths;
+        return self::trimPath($this->pluginPaths);
     }
 
     /**
@@ -161,6 +178,6 @@ class Path
             }
         }
 
-        return $this->layoutPaths;
+        return self::trimPath($this->layoutPaths);
     }
 }
