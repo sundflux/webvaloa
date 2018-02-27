@@ -36,6 +36,7 @@ namespace Webvaloa;
 use Libvaloa\Debug;
 use Libvaloa\I18n;
 use Webvaloa\Helpers\Path;
+use Webvaloa\Configuration;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Controller\Request;
 use stdClass;
@@ -92,6 +93,7 @@ class Webvaloa
      * Database connection.
      */
     public static $db = false;
+
 
     /**
      * Static var to track if Webvaloa kernel has been loaded.
@@ -157,6 +159,9 @@ class Webvaloa
         self::$loaded = true;
     }
 
+    /**
+     * @return bool
+     */
     public static function isCommandLine()
     {
         if (php_sapi_name() == "cli") {
@@ -166,6 +171,9 @@ class Webvaloa
         return false;
     }
 
+    /**
+     *
+     */
     public static function initializeSession()
     {
         // Start the session
@@ -192,6 +200,9 @@ class Webvaloa
         }
     }
 
+    /**
+     * @return array
+     */
     public static function getSystemPaths()
     {
         $paths[] = LIBVALOA_INSTALLPATH;
@@ -379,7 +390,17 @@ class Webvaloa
             $domain = $request->getMainController();
         }
 
-        $translate = new I18n\Translate($args);
+        // Select translator backend
+        $configuration = new \Webvaloa\Configuration();
+        $translatorBackend = $configuration->default_translator_backend;
+
+        if (!empty($translatorBackend) && $translatorBackend !== false) {
+            $params = array_merge($args, array('backend' => $translatorBackend));
+        } else {
+            $params = $args;
+        }
+
+        $translate = new I18n\Translate($params);
 
         // Default to installpath
         if (file_exists(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Locale'.'/'.self::getLocale().'/'.'LC_MESSAGES'.'/'.$domain.'.ini')) {
@@ -498,8 +519,15 @@ class ApplicationUI
  */
 class Application
 {
+    /**
+     * @var bool
+     */
     protected $params = false;
 
+    /**
+     * @param $k
+     * @return stdClass|string|void|Request|DB|Plugin
+     */
     public function __get($k)
     {
         // Core classes available for controllers/applications
@@ -542,6 +570,10 @@ class Application
         return;
     }
 
+    /**
+     * @param $k
+     * @return bool
+     */
     public function __isset($k)
     {
         if (!empty($this->params)) {
@@ -551,6 +583,9 @@ class Application
         return isset($this->{$k});
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         // Set page root (template name)
@@ -634,6 +669,9 @@ class Application
         }
     }
 
+    /**
+     *
+     */
     private function parseParameters()
     {
         if (is_array($this->params)) {
