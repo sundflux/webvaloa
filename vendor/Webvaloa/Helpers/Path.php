@@ -34,23 +34,62 @@ namespace Webvaloa\Helpers;
 
 use Libvaloa\Debug;
 
+/**
+ * Class Path
+ * @package Webvaloa\Helpers
+ */
 class Path
 {
+    /**
+     * @var array
+     */
     public static $properties = array(
         'vendor' => 'ValoaApplication',
     );
 
+    /**
+     * @var array
+     */
     private $paths;
 
+    /**
+     * @var array|string
+     */
     private $basePath;
+
+    /**
+     * @var array|string
+     */
     private $publicPath;
+
+    /**
+     * @var array|string
+     */
     private $configPath;
 
+    /**
+     * @var bool
+     */
     private $systemPaths;
+
+    /**
+     * @var bool
+     */
     private $layoutPaths;
+
+    /**
+     * @var bool
+     */
     private $pluginPaths;
+
+    /**
+     * @var bool
+     */
     private $controllerPaths;
 
+    /**
+     * Path constructor.
+     */
     public function __construct()
     {
         $this->basePath = self::trimPath(WEBVALOA_BASEDIR);
@@ -74,6 +113,10 @@ class Path
         $this->scanPaths();
     }
 
+    /**
+     * @param $path
+     * @return array|string
+     */
     public static function trimPath($path)
     {
         if (is_array($path)) {
@@ -89,6 +132,9 @@ class Path
         return $path;
     }
 
+    /**
+     *
+     */
     public function scanPaths()
     {
         $this->systemPaths = \Webvaloa\Webvaloa::getSystemPaths();

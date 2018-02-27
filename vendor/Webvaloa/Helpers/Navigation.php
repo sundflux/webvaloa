@@ -34,14 +34,27 @@ namespace Webvaloa\Helpers;
 
 use stdClass;
 
+/**
+ * Class Navigation
+ * @package Webvaloa\Helpers
+ */
 class Navigation
 {
+    /**
+     * @var
+     */
     private $navi;
 
+    /**
+     * Navigation constructor.
+     */
     public function __construct()
     {
     }
 
+    /**
+     * @return stdClass
+     */
     public function get()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

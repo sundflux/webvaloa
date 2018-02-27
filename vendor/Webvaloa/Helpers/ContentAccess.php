@@ -37,13 +37,36 @@ use Webvaloa\User;
 use Webvaloa\Category;
 use Webvaloa\Role;
 
+/**
+ * Class ContentAccess
+ * @package Webvaloa\Helpers
+ */
 class ContentAccess
 {
+    /**
+     * @var bool|\Webvaloa\Article
+     */
     private $article;
+
+    /**
+     * @var string
+     */
     private $category;
+
+    /**
+     * @var int|string
+     */
     private $categoryId;
+
+    /**
+     * @var bool
+     */
     private $isAdministrator;
 
+    /**
+     * ContentAccess constructor.
+     * @param bool $contentItem
+     */
     public function __construct($contentItem = false)
     {
         $this->article = false;
@@ -93,6 +116,9 @@ class ContentAccess
         }
     }
 
+    /**
+     * @return bool
+     */
     private function checkIsAdministrator()
     {
         if (!empty($_SESSION['UserID'])) {
@@ -108,6 +134,9 @@ class ContentAccess
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function checkPermissionsByArticleItem()
     {
         if (!$this->article instanceof \Webvaloa\Article) {
@@ -148,6 +177,10 @@ class ContentAccess
         return $access;
     }
 
+    /**
+     * @param $categoryId
+     * @return bool
+     */
     public function checkPermissionsByCategoryId($categoryId)
     {
         if (isset($_SESSION['UserID'])) {
@@ -175,6 +208,9 @@ class ContentAccess
         return $access;
     }
 
+    /**
+     * @return bool
+     */
     public function checkPermissions()
     {
         if ($this->isAdministrator === true) {

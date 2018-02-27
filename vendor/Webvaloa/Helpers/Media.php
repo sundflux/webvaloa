@@ -32,8 +32,16 @@
 
 namespace Webvaloa\Helpers;
 
+/**
+ * Class Media
+ * @package Webvaloa\Helpers
+ */
 class Media
 {
+    /**
+     * @param $filename
+     * @return bool|string
+     */
     public static function getTitle($filename)
     {
         $string = self::getField('title', $filename);
@@ -44,6 +52,10 @@ class Media
         return $string;
     }
 
+    /**
+     * @param $filename
+     * @return bool|string
+     */
     public static function getAlt($filename)
     {
         $string = self::getField('alt', $filename);
@@ -54,6 +66,11 @@ class Media
         return $string;
     }
 
+    /**
+     * @param $field
+     * @param $filename
+     * @return bool|string
+     */
     private static function getField($field, $filename)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -81,16 +98,30 @@ class Media
         }
     }
 
+    /**
+     * @param $filename
+     * @param string $text
+     */
     public static function setTitle($filename, $text = '')
     {
         self::setField($filename, $text, 'title');
     }
 
+    /**
+     * @param $filename
+     * @param string $text
+     */
     public static function setAlt($filename, $text = '')
     {
         self::setField($filename, $text, 'alt');
     }
 
+    /**
+     * @param $filename
+     * @param string $text
+     * @param string $field
+     * @return bool|string
+     */
     public static function setField($filename, $text = '', $field = '')
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -122,6 +153,10 @@ class Media
         }
     }
 
+    /**
+     * @param $filename
+     * @return bool
+     */
     private static function exists($filename)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

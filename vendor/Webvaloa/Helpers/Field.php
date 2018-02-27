@@ -32,8 +32,16 @@
 
 namespace Webvaloa\Helpers;
 
+/**
+ * Class Field
+ * @package Webvaloa\Helpers
+ */
 class Field
 {
+    /**
+     * @param $name
+     * @return mixed|null|string|string[]
+     */
     public function formatName($name)
     {
         $name = trim($name);
@@ -43,6 +51,11 @@ class Field
         return $name;
     }
 
+    /**
+     * @param $name
+     * @param bool $group
+     * @return int
+     */
     public function fieldExists($name, $group = false)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -73,6 +86,10 @@ class Field
         return 0;
     }
 
+    /**
+     * @param $name
+     * @return int
+     */
     public function groupExists($name)
     {
         return $this->fieldExists($name, true);

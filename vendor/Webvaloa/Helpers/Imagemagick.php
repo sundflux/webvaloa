@@ -35,20 +35,61 @@ namespace Webvaloa\Helpers;
 use Imagick;
 use Webvaloa\Controller\Request;
 
+/**
+ * Class Imagemagick
+ * @package Webvaloa\Helpers
+ */
 class Imagemagick
 {
+    /**
+     * @var string
+     */
     public $cachePath;
 
+    /**
+     * @var
+     */
     private $file;
+
+    /**
+     * @var bool
+     */
     private $cached;
+
+    /**
+     * @var int
+     */
     private $width;
+
+    /**
+     * @var int
+     */
     private $height;
+
+    /**
+     * @var bool
+     */
     private $crop;
+
+    /**
+     * @var string
+     */
     private $format;
+
+    /**
+     * @var int
+     */
     private $quality;
 
+    /**
+     * @var
+     */
     private $imagick;
 
+    /**
+     * Imagemagick constructor.
+     * @param $file
+     */
     public function __construct($file)
     {
         $this->cachePath = LIBVALOA_PUBLICPATH.'/cache';
@@ -86,41 +127,66 @@ class Imagemagick
         $this->format = 'jpg';
     }
 
+    /**
+     * @param $f
+     */
     public function setFormat($f)
     {
         $this->format = $f;
     }
 
+    /**
+     * @param $c
+     */
     public function setCrop($c)
     {
         $this->crop = (bool) $c;
     }
 
+    /**
+     * @param $c
+     */
     public function setFlatten($c)
     {
         $this->flatten = (bool) $c;
     }
 
+    /**
+     * @param $c
+     */
     public function setBackground($c)
     {
         $this->background = (string) $c;
     }
 
+    /**
+     * @param $w
+     */
     public function setWidth($w)
     {
         $this->width = (int) $w;
     }
 
+    /**
+     * @param $h
+     */
     public function setHeight($h)
     {
         $this->height = (int) $h;
     }
 
+    /**
+     * @param int $q
+     */
     public function setQuality($q = 100)
     {
         $this->quality = (int) $q;
     }
 
+    /**
+     * @return bool|string
+     * @throws \ImagickException
+     */
     public function resize()
     {
         // File doesn't exist, it's not a file or it's not readable
@@ -172,6 +238,14 @@ class Imagemagick
         }
     }
 
+    /**
+     * @param $image
+     * @param int $width
+     * @param int $height
+     * @param string $format
+     * @return string
+     * @throws \ImagickException
+     */
     public static function scale($image, $width = 320, $height = 200, $format = 'jpg')
     {
         $im = new self($image);
@@ -190,6 +264,14 @@ class Imagemagick
         return $path.$ret;
     }
 
+    /**
+     * @param $image
+     * @param int $width
+     * @param int $height
+     * @param string $format
+     * @return string
+     * @throws \ImagickException
+     */
     public static function crop($image, $width = 320, $height = 200, $format = 'jpg')
     {
         $im = new self($image);

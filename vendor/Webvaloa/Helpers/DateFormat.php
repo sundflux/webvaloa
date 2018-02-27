@@ -32,8 +32,17 @@
 
 namespace Webvaloa\Helpers;
 
+/**
+ * Class DateFormat
+ * @package Webvaloa\Helpers
+ */
 class DateFormat
 {
+
+    /**
+     * @param string $date
+     * @return false|string
+     */
     public static function toMySQL($date = '')
     {
         if (!is_numeric($date)) {
@@ -47,6 +56,11 @@ class DateFormat
         return date('Y-m-d H:i:s', $date);
     }
 
+    /**
+     * @param $date
+     * @param $format
+     * @return false|string
+     */
     public static function format($date, $format)
     {
         if (!is_numeric($date)) {
@@ -56,6 +70,11 @@ class DateFormat
         return date($format, $date);
     }
 
+    /**
+     * @param $date
+     * @param $format
+     * @return string
+     */
     public static function localeFormat($date, $format)
     {
         if (!is_numeric($date)) {
@@ -65,6 +84,10 @@ class DateFormat
         return strftime($format, $date);
     }
 
+    /**
+     * @param $month
+     * @return string
+     */
     public static function monthName($month)
     {
         return strftime('%B', mktime(null, null, null, (int) $month, 1));

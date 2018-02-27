@@ -38,18 +38,40 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
 
+/**
+ * Class Filesystem
+ * @package Webvaloa\Helpers
+ */
 class Filesystem
 {
+    /**
+     * @var
+     */
     private $path;
+
+    /**
+     * @var
+     */
     private $files;
+
+    /**
+     * @var
+     */
     private $folders;
 
+    /**
+     * Filesystem constructor.
+     * @param $path
+     */
     public function __construct($path)
     {
         $this->path = $path;
         $this->_readdir();
     }
 
+    /**
+     *
+     */
     public function _readdir()
     {
         if (!is_readable($this->path)) {
@@ -77,21 +99,36 @@ class Filesystem
         }
     }
 
+    /**
+     * @param $n
+     * @return bool
+     */
     public function createDirectory($n)
     {
         return mkdir($this->path.'/'.$n);
     }
 
+    /**
+     * @return mixed
+     */
     public function files()
     {
         return $this->files;
     }
 
+    /**
+     * @return mixed
+     */
     public function folders()
     {
         return $this->folders;
     }
 
+    /**
+     * @param $bytes
+     * @param int $decimals
+     * @return string
+     */
     public function formatFilesize($bytes, $decimals = 2)
     {
         $sz = 'BKMGTP';
@@ -100,6 +137,11 @@ class Filesystem
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
     }
 
+    /**
+     * @param $dir
+     * @param $file
+     * @return string
+     */
     public function getAvailableFilename($dir, $file)
     {
         $i = 0;
@@ -113,6 +155,9 @@ class Filesystem
         return $dir.$f;
     }
 
+    /**
+     * @return array
+     */
     public function getChildren()
     {
         foreach (new RecursiveIteratorIterator(
@@ -134,6 +179,9 @@ class Filesystem
         return array();
     }
 
+    /**
+     * @return bool
+     */
     public function rmdir()
     {
         if (is_dir($this->path) && is_writable($this->path)) {
@@ -143,6 +191,9 @@ class Filesystem
         throw new RuntimeException('Directory not empty or writeable.');
     }
 
+    /**
+     * @param $filename
+     */
     public function delete($filename)
     {
         $path = pathinfo($this->path.'/'.$filename);
@@ -155,6 +206,10 @@ class Filesystem
         @unlink($_filename);
     }
 
+    /**
+     * @param $filename
+     * @param string $mimetype
+     */
     private function download($filename, $mimetype = 'application/octet-stream')
     {
         // Based on techniques described here:

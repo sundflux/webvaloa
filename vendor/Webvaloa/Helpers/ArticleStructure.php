@@ -41,14 +41,41 @@ use Webvaloa\Article as ArticleHelper;
 use stdClass;
 use RuntimeException;
 
+/**
+ * Class ArticleStructure
+ * @package Webvaloa\Helpers
+ */
 class ArticleStructure
 {
+    /**
+     * @var bool
+     */
     public $id;
+
+    /**
+     * @var bool
+     */
     public $associatedId;
+
+    /**
+     * @var
+     */
     public $categoryId;
+
+    /**
+     * @var stdClass
+     */
     public $article;
+
+    /**
+     * @var
+     */
     public $fields;
 
+    /**
+     * ArticleStructure constructor.
+     * @param bool $articleId
+     */
     public function __construct($articleId = false)
     {
         $this->id = $articleId;
@@ -60,6 +87,9 @@ class ArticleStructure
         }
     }
 
+    /**
+     *
+     */
     private function loadArticle()
     {
         if (!is_numeric($this->id)) {
@@ -84,21 +114,33 @@ class ArticleStructure
         }
     }
 
+    /**
+     * @return bool
+     */
     public function getArticleId()
     {
         return $this->id;
     }
 
+    /**
+     * @return stdClass
+     */
     public function getArticle()
     {
         return $this->article;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCategoryId()
     {
         return $this->categoryId;
     }
 
+    /**
+     * @return bool
+     */
     public function getCategory()
     {
         if (isset($this->fields->category)) {
@@ -108,6 +150,9 @@ class ArticleStructure
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function getFields()
     {
         if (isset($this->fields->fields)) {
@@ -117,6 +162,9 @@ class ArticleStructure
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function getFieldTypes()
     {
         if (isset($this->fields->fieldTypes)) {
@@ -126,6 +174,10 @@ class ArticleStructure
         return false;
     }
 
+    /**
+     * @param bool $categoryId
+     * @return stdClass
+     */
     public function initializeFieldsView($categoryId = false)
     {
         $_fields = new stdClass();
