@@ -35,15 +35,29 @@ namespace Webvaloa;
 use stdClass;
 use Webvaloa\Configuration as Conf;
 
+/**
+ * Class Version
+ * @package Webvaloa
+ */
 class Version
 {
+
+    /**
+     * @var stdClass
+     */
     private $object;
 
     const MAX_VERSIONS = 10;
     const MAX_VERSIONS_HARD_LIMIT = 128;
 
+    /**
+     * @var int
+     */
     private $max_versions;
 
+    /**
+     * Version constructor.
+     */
     public function __construct()
     {
         $this->object = new stdClass();
@@ -68,6 +82,10 @@ class Version
         }
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if (isset($this->object->$k)) {
@@ -79,6 +97,9 @@ class Version
         }
     }
 
+    /**
+     *
+     */
     public function save()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -102,6 +123,9 @@ class Version
         $this->checkMaxVersions();
     }
 
+    /**
+     *
+     */
     private function checkMaxVersions()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -139,6 +163,9 @@ class Version
         }
     }
 
+    /**
+     * @return array|bool
+     */
     public function getVersions()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -171,6 +198,10 @@ class Version
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|mixed
+     */
     public function loadVersion($id)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

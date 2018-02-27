@@ -38,13 +38,29 @@ namespace Webvaloa;
  * Read manifests.
  *
  * Manifests contain information about components.
+ *
+ * @package Webvaloa
  */
 class Manifest
 {
+    /**
+     * @var mixed
+     */
     private $manifest;
+
+    /**
+     * @var string
+     */
     private $schema;
+
+    /**
+     * @var string
+     */
     private $controllerPath;
 
+    /**
+     * @var array
+     */
     public static $properties = array(
         'vendor' => 'ValoaApplication',
     );
@@ -75,6 +91,10 @@ class Manifest
         }
     }
 
+    /**
+     * @param $k
+     * @return bool|string
+     */
     public function __get($k)
     {
         if (isset($this->manifest->$k)) {

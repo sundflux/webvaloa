@@ -36,10 +36,14 @@ use Webvaloa\Controller\Request;
 use Exception;
 
 /**
- * Common security helpers.
+ * Class Security
+ * @package Webvaloa
  */
 class Security
 {
+    /**
+     * @throws Exception
+     */
     public static function verify()
     {
         self::verifyReferer();

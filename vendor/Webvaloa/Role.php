@@ -36,16 +36,29 @@ use Libvaloa\Db;
 use RuntimeException;
 
 /**
- * Manage roles.
+ * Class Role
+ * @package Webvaloa
  */
 class Role
 {
+    /**
+     * @var
+     */
     private $role;
+
+    /**
+     * @var array
+     */
     private $roles;
+
+    /**
+     * @var bool|type
+     */
     private $roleID;
 
     /**
-     * @param type $roleID
+     * Role constructor.
+     * @param bool $roleID
      */
     public function __construct($roleID = false)
     {
@@ -83,6 +96,10 @@ class Role
         return array();
     }
 
+    /**
+     * @param $roleName
+     * @return mixed
+     */
     public function getRoleId($roleName)
     {
         foreach ($this->roles as $k => $v) {
@@ -92,6 +109,9 @@ class Role
         }
     }
 
+    /**
+     * @return array
+     */
     public function components()
     {
         if (!$this->roleID) {
@@ -124,6 +144,9 @@ class Role
         }
     }
 
+    /**
+     *
+     */
     public function dropComponents()
     {
         if (!$this->roleID) {
@@ -145,6 +168,10 @@ class Role
         }
     }
 
+    /**
+     * @param $name
+     * @return bool|type
+     */
     public function addRole($name)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -158,6 +185,9 @@ class Role
         return $this->roleID;
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         if (!$this->roleID) {

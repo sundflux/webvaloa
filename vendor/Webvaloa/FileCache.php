@@ -36,22 +36,43 @@ namespace Webvaloa;
 use stdClass;
 
 /**
- * Webvaloa file caching class.
+ * Class FileCache
+ * @package Webvaloa
  */
 class FileCache
 {
+    /**
+     * @var int
+     */
     private $time;
+
+    /**
+     * @var
+     */
     private $cache;
+
+    /**
+     * @var
+     */
     private $file;
 
+    /**
+     * @var
+     */
     private $expires;
 
+    /**
+     * FileCache constructor.
+     */
     public function __construct()
     {
         $this->time = time();
         $this->read();
     }
 
+    /**
+     *
+     */
     private function read()
     {
         $this->file = LIBVALOA_PUBLICPATH.'/cache/.cache';
@@ -167,7 +188,7 @@ class FileCache
         return $this->set($key, $value);
     }
 
-    /*
+    /**
      * Get local cache value by key.
      *
      * @param  type  $key
@@ -180,16 +201,25 @@ class FileCache
         return $this->get($key);
     }
 
+    /**
+     * @param $key
+     */
     public function delete($key)
     {
         // TODO
     }
 
+    /**
+     * @param $key
+     */
     public function _delete($key)
     {
         // TODO
     }
 
+    /**
+     *
+     */
     public function __destruct()
     {
         if (is_writable($this->file)) {

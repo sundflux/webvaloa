@@ -36,7 +36,8 @@ namespace Webvaloa;
 use Memcached;
 
 /**
- * Webvaloa Memcached caching class.
+ * Class MemcachedCache
+ * @package Webvaloa
  */
 class MemcachedCache
 {
@@ -53,10 +54,25 @@ class MemcachedCache
         'empty' => '__CACHE_NULL__',
     );
 
+    /**
+     * @var
+     */
     private $connection;
+
+    /**
+     * @var
+     */
     private $connectionName;
+
+    /**
+     * @var string
+     */
     private $prefix;
 
+    /**
+     * MemcachedCache constructor.
+     * @param bool $connectionName
+     */
     public function __construct($connectionName = false)
     {
         $this->connectionName = $connectionName;
@@ -208,6 +224,10 @@ class MemcachedCache
         return $v;
     }
 
+    /**
+     * @param $search
+     * @return mixed
+     */
     public function delete($search)
     {
         $keys = $this->connection->getAllKeys();
@@ -225,6 +245,10 @@ class MemcachedCache
         return $keys;
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function _delete($key)
     {
         return $this->delete($this->prefix.$key);

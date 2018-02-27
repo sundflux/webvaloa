@@ -43,12 +43,20 @@ use BadMethodCallException;
 use RuntimeException;
 
 /**
+ * Class FrontController
  * FrontController, runs components and plugins.
+ * @package Webvaloa
  */
 class FrontController
 {
+    /**
+     * @var Plugin
+     */
     private $plugin;
 
+    /**
+     * @var array
+     */
     public static $properties = array(
         'defaultController' => 'index',
         'defaultControllerAuthed' => 'index',
@@ -57,16 +65,16 @@ class FrontController
     );
 
     /**
-     * Loads & runs specified controller.
-     *
-     *
-     * @uses        Controller_Request
+     * FrontController constructor.
      */
     public function __construct()
     {
         $this->plugin = new Plugin();
     }
 
+    /**
+     * @return string
+     */
     public function runController()
     {
         self::defaults();
@@ -357,6 +365,11 @@ class FrontController
         return $exists;
     }
 
+    /**
+     * @param $controller
+     * @param int $pos
+     * @return string
+     */
     public static function getControllerName($controller, $pos = 0)
     {
         $controller = strtolower($controller);
@@ -373,11 +386,19 @@ class FrontController
         }
     }
 
+    /**
+     * @param $controller
+     * @return string
+     */
     public static function getMainControllerName($controller)
     {
         return self::getControllerName($controller, 0);
     }
 
+    /**
+     * @param $controller
+     * @return string
+     */
     public static function getChildControllerName($controller)
     {
         return self::getControllerName($controller, 1);

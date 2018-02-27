@@ -39,15 +39,24 @@ use RuntimeException;
 use stdClass;
 
 /**
- * Manage users.
+ * Class User
+ * @package Webvaloa
  */
 class User
 {
+    /**
+     * @var bool|type
+     */
     private $userID;
+
+    /**
+     * @var Db\Object
+     */
     private $object;
 
     /**
-     * @param type $userID
+     * User constructor.
+     * @param bool $userID
      */
     public function __construct($userID = false)
     {
@@ -59,6 +68,10 @@ class User
         }
     }
 
+    /**
+     * @param $username
+     * @param string $field
+     */
     public function byUsername($username, $field = 'login')
     {
         $fields = array('login', 'email');
@@ -91,11 +104,18 @@ class User
         unset($row);
     }
 
+    /**
+     * @param $email
+     */
     public function byEmail($email)
     {
         return $this->byUsername($email, 'email');
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if ($k == 'password') {
@@ -112,16 +132,26 @@ class User
         $this->object->$k = $v;
     }
 
+    /**
+     * @param $k
+     * @return null|string
+     */
     public function __get($k)
     {
         return $this->object->$k;
     }
 
+    /**
+     * @return mixed
+     */
     public function save()
     {
         return $this->object->save();
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         // Delete user roles
@@ -196,6 +226,9 @@ class User
         }
     }
 
+    /**
+     *
+     */
     public function dropRoles()
     {
         // Delete user roles
@@ -265,6 +298,11 @@ class User
         }
     }
 
+    /**
+     * @param bool $key
+     * @param bool $value
+     * @return bool|mixed
+     */
     public function metadata($key = false, $value = false)
     {
         if (!$this->userID) {

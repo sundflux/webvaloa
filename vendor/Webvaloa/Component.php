@@ -39,15 +39,30 @@ use Webvaloa\Helpers\Path;
 use RuntimeException;
 
 /**
- * Handles Webvaloa components.
+ * Class Component
+ * @package Webvaloa
  */
 class Component
 {
+    /**
+     * @var bool
+     */
     private $id;
-    private $controller;
-    private $component;
-    private $roles;
 
+    /**
+     * @var bool|string
+     */
+    private $controller;
+
+    /**
+     * @var bool
+     */
+    private $component;
+
+
+    /**
+     * @var array
+     */
     public static $properties = array(
         'vendor' => 'ValoaApplication',
     );
@@ -64,6 +79,10 @@ class Component
         $this->component = false;
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if (!$this->component) {
@@ -78,6 +97,10 @@ class Component
         $this->component->$k = $v;
     }
 
+    /**
+     * @param $k
+     * @return bool
+     */
     public function __get($k)
     {
         if (!$this->component) {
@@ -91,6 +114,9 @@ class Component
         return false;
     }
 
+    /**
+     * @param $componentID
+     */
     public function byID($componentID)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -240,6 +266,9 @@ class Component
         return $object->save();
     }
 
+    /**
+     *
+     */
     public function dropRoles()
     {
         if (!$this->component) {
@@ -266,6 +295,9 @@ class Component
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isPublic()
     {
         $role = new Role();
@@ -349,6 +381,10 @@ class Component
         }
     }
 
+    /**
+     * @param $componentID
+     * @return bool
+     */
     public static function getComponentStatus($componentID)
     {
         $query = '
@@ -375,6 +411,10 @@ class Component
         }
     }
 
+    /**
+     * @param $componentID
+     * @param int $status
+     */
     public static function setComponentStatus($componentID, $status = 0)
     {
         $query = '
@@ -393,6 +433,9 @@ class Component
         }
     }
 
+    /**
+     * @return array
+     */
     public function discover()
     {
         $pathHelper = new Path();
