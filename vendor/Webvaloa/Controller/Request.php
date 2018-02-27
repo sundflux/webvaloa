@@ -47,22 +47,73 @@ namespace Webvaloa\Controller;
 
 use Libvaloa\Debug;
 
+/**
+ * Class Request
+ * @package Webvaloa\Controller
+ */
 class Request
 {
+    /**
+     * @var bool|Request
+     */
     private static $instance = false;
 
+    /**
+     * @var bool|string
+     */
     private $basepath;
-    private $baseuri = array();       // host (with http[s]:// prefix) and path
-    private $controller = false;      // requested controller to load
-    private $method = 'index';        // requested method to call from controller
-    private $parameters = array();    // parameters for controller
+
+    /**
+     * host (with http[s]:// prefix) and path
+     *
+     * @var array
+     */
+    private $baseuri = array();
+
+    /**
+     * requested controller to load
+     *
+     * @var bool|string
+     */
+    private $controller = false;
+
+    /**
+     * requested method to call from controller
+     *
+     * @var mixed|string
+     */
+    private $method = 'index';
+
+    /**
+     * parameters for controller
+     *
+     * @var array
+     */
+    private $parameters = array();
+
+    /**
+     * @var string
+     */
     private $protocol = 'http';
 
+    /**
+     * @var bool
+     */
     private $ajax = false;
+
+    /**
+     * @var bool
+     */
     private $json = false;
 
+    /**
+     * @var bool
+     */
     private $cli = false;
 
+    /**
+     * Request constructor.
+     */
     public function __construct()
     {
         if (\Webvaloa\Webvaloa::isCommandLine()) {
@@ -137,6 +188,9 @@ class Request
         self::$instance = $this;
     }
 
+    /**
+     * Map command line parameters to Commando
+     */
     public function mapCommandLine()
     {
         Debug::__print('Command Line Debug: Command line support enabled.');
@@ -218,6 +272,9 @@ class Request
         $this->controller = false;
     }
 
+    /**
+     *
+     */
     public function shiftParam()
     {
         array_shift($this->parameters);
@@ -251,7 +308,7 @@ class Request
         }
     }
 
-    /*
+    /**
      * Set protocol
      */
     public function setProtocol($protocol)
@@ -303,11 +360,17 @@ class Request
         return ucfirst($this->controller);
     }
 
+    /**
+     * @return string
+     */
     public function getMainController()
     {
         return $this->getController(false);
     }
 
+    /**
+     * @return string
+     */
     public function getChildController()
     {
         $tmp = explode('_', $this->controller);
@@ -407,11 +470,18 @@ class Request
         return $this->getBaseUri().'/'.$this->getCurrentRoute();
     }
 
+    /**
+     * @return bool|string
+     */
     public function getBasePath()
     {
         return $this->basepath;
     }
 
+    /**
+     * @param null $val
+     * @return bool
+     */
     public function isAjax($val = null)
     {
         if ($val !== null) {
@@ -421,6 +491,10 @@ class Request
         return $this->ajax;
     }
 
+    /**
+     * @param null $val
+     * @return bool
+     */
     public function isJson($val = null)
     {
         if ($val !== null) {
@@ -430,6 +504,10 @@ class Request
         return $this->json;
     }
 
+    /**
+     * @param $val
+     * @return bool|string
+     */
     private function decodeRouteParam($val)
     {
         if (substr($val, 0, 5) === '$enc$') {
@@ -443,6 +521,10 @@ class Request
         }
     }
 
+    /**
+     * @param $val
+     * @return string
+     */
     public static function encodeRouteParam($val)
     {
         if (strpos($val, '/') !== false) {

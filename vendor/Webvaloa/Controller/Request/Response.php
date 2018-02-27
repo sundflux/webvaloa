@@ -33,8 +33,16 @@
 
 namespace Webvaloa\Controller\Request;
 
+/**
+ * Class Response
+ * @package Webvaloa\Controller\Request
+ */
 class Response
 {
+
+    /**
+     * @param $response
+     */
     public static function JSON($response)
     {
         header('Content-type: application/json');
