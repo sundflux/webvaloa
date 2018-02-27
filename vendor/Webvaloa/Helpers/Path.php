@@ -68,7 +68,7 @@ class Path
         $this->paths = self::trimPath($this->paths);
         $this->paths = array_unique($this->paths);
 
-        Debug::__print('Scanning following paths for system files:');
+        Debug::__print('Scanning following paths for files:');
         Debug::__print($this->paths);
 
         $this->scanPaths();
@@ -91,7 +91,9 @@ class Path
 
     public function scanPaths()
     {
-        $this->systemPaths = self::trimPath(\Webvaloa\Webvaloa::getSystemPaths());
+        $this->systemPaths = \Webvaloa\Webvaloa::getSystemPaths();
+
+        Debug::__print('Scanning following system paths for files:');
         Debug::__print($this->systemPaths);
     }
 
