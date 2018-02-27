@@ -435,6 +435,9 @@ class Webvaloa
  */
 class ApplicationUI
 {
+    /**
+     * @var bool 
+     */
     private static $instance = false;
 
     /**
