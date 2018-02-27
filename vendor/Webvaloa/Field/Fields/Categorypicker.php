@@ -38,13 +38,32 @@ use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 use Libvaloa\Debug;
 
+/**
+ * Class Categorypicker
+ * @package Webvaloa\Field\Fields
+ */
 class Categorypicker
 {
+    /**
+     * @var stdClass
+     */
     private $field;
 
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * Categorypicker constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->fieldID = $fieldID;
@@ -59,16 +78,25 @@ class Categorypicker
         }
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -76,6 +104,9 @@ class Categorypicker
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         // Get categories
@@ -100,6 +131,9 @@ class Categorypicker
         return array();
     }
 
+    /**
+     *
+     */
     public function getSettings()
     {
     }

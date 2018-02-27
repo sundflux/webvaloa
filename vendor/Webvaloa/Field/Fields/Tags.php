@@ -36,14 +36,37 @@ use stdClass;
 use DOMDocument;
 use Webvaloa\Field\Value;
 
+/**
+ * Class Tags
+ * @package Webvaloa\Field\Fields
+ */
 class Tags
 {
+    /**
+     * @var
+     */
     private $field;
 
+    /**
+     * @var int|string
+     */
     private $fieldID;
+
+    /**
+     * @var int|string
+     */
     private $contentID;
+
+    /**
+     * @var
+     */
     private $ordering;
 
+    /**
+     * Tags constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->ordering = false;
@@ -63,6 +86,9 @@ class Tags
         }
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array(
@@ -70,6 +96,9 @@ class Tags
         );
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array(
@@ -78,6 +107,9 @@ class Tags
         );
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -85,6 +117,9 @@ class Tags
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         if ($this->fieldID == false || $this->contentID == false) {
@@ -120,6 +155,9 @@ class Tags
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         $dom = new DOMDocument();

@@ -38,11 +38,26 @@ use Libvaloa\Debug;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 
+/**
+ * Class Dropdown
+ * @package Webvaloa\Field\Fields
+ */
 class Dropdown
 {
+    /**
+     * @var stdClass
+     */
     private $field;
+
+    /**
+     * @var bool
+     */
     private $fieldID;
 
+    /**
+     * Dropdown constructor.
+     * @param bool $fieldID
+     */
     public function __construct($fieldID = false)
     {
         $this->fieldID = $fieldID;
@@ -54,16 +69,25 @@ class Dropdown
         }
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -71,6 +95,9 @@ class Dropdown
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         $values = '';
@@ -118,6 +145,9 @@ class Dropdown
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         $dom = new DOMDocument();

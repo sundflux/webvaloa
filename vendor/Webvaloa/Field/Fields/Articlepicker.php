@@ -40,13 +40,32 @@ use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 use Libvaloa\Debug;
 
+/**
+ * Class Articlepicker
+ * @package Webvaloa\Field\Fields
+ */
 class Articlepicker
 {
+    /**
+     * @var stdClass
+     */
     private $field;
 
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * Articlepicker constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->fieldID = $fieldID;
@@ -61,16 +80,25 @@ class Articlepicker
         }
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -78,6 +106,9 @@ class Articlepicker
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         // Selected category from settings
@@ -118,6 +149,9 @@ class Articlepicker
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         $dom = new DOMDocument();

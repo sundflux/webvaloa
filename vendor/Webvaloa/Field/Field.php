@@ -38,16 +38,42 @@ use Webvaloa\Helpers\Filesystem;
 use Webvaloa\Helpers\Path;
 use stdClass;
 
+/**
+ * Class Field
+ * @package Webvaloa\Field
+ */
 class Field
 {
+    /**
+     * @var Db\Object
+     */
     private $object;
+
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * @var Path
+     */
     private $pathHelper;
 
+    /**
+     * @var array
+     */
     public $fields = array();
 
+    /**
+     * Field constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->pathHelper = new Path();
@@ -59,26 +85,44 @@ class Field
         }
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         $this->object->$k = $v;
     }
 
+    /**
+     * @param $k
+     * @return null|string
+     */
     public function __get($k)
     {
         return $this->object->$k;
     }
 
+    /**
+     * @return mixed
+     */
     public function save()
     {
         return $this->object->save();
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         return $this->object->delete();
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     public function findByName($name)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -106,6 +150,9 @@ class Field
         }
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         foreach ($this->pathHelper->getSystemPaths() as $path) {
@@ -134,6 +181,9 @@ class Field
         return $this->fields;
     }
 
+    /**
+     * @return array|bool
+     */
     public function fieldSettings()
     {
         $fields = $this->fields();

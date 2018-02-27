@@ -36,15 +36,41 @@ use Libvaloa\Db;
 use Libvaloa\Debug;
 use UnexpectedValueException;
 
+/**
+ * Class Value
+ * @package Webvaloa\Field
+ */
 class Value
 {
+    /**
+     * @var bool
+     */
     private $articleID;
 
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var bool
+     */
     private $fieldValue;
+
+    /**
+     * @var bool
+     */
     private $fieldLocale;
+
+    /**
+     * @var
+     */
     private $fieldOrdering;
 
+    /**
+     * Value constructor.
+     * @param bool $articleID
+     */
     public function __construct($articleID = false)
     {
         $this->fieldID = false;
@@ -61,6 +87,9 @@ class Value
         $this->articleID = $articleID;
     }
 
+    /**
+     *
+     */
     public function dropValues()
     {
         if (!is_numeric($this->articleID)) {
@@ -91,11 +120,17 @@ class Value
         }
     }
 
+    /**
+     * @param $fieldID
+     */
     public function fieldID($fieldID)
     {
         $this->fieldID = $fieldID;
     }
 
+    /**
+     * @param $value
+     */
     public function fieldValue($value)
     {
         if ($this->fieldID) {
@@ -105,16 +140,25 @@ class Value
         $this->fieldValue = $value;
     }
 
+    /**
+     * @param $locale
+     */
     public function fieldLocale($locale)
     {
         $this->fieldLocale = $locale;
     }
 
+    /**
+     * @param $ordering
+     */
     public function fieldOrdering($ordering)
     {
         $this->fieldOrdering = $ordering;
     }
 
+    /**
+     *
+     */
     public function insert()
     {
         if (!is_numeric($this->articleID)) {
@@ -134,6 +178,10 @@ class Value
         }
     }
 
+    /**
+     * @param $field_id
+     * @return array|bool
+     */
     public function getValues($field_id)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -193,6 +241,10 @@ class Value
         return false;
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     private function onSave($value)
     {
         if (!$this->fieldID) {
