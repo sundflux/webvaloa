@@ -199,6 +199,9 @@ class Webvaloa
         $paths = array_merge($paths, explode(':', get_include_path()));
 
         foreach ($paths as $path) {
+            $path = rtrim($path);
+            $path = rtrim($path, '/');
+
             if (file_exists($path.'/'.self::$properties['vendor'])) {
                 $systemPaths[] = realpath($path);
                 $systemPaths[] = realpath($path.'/'.self::$properties['vendor']);
