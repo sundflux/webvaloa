@@ -19,14 +19,14 @@
                         </div>
                         <br/>
                         <form method="post" action="{/page/common/basepath}/login/login" accept-charset="{/page/common/encoding}" class="form-signin" id="form-signin">
-                            <input name="username" type="text" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','EMAIL_ADDRESS')}" required="required" autofocus="autofocus" />
-                            <input name="password" type="password" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','PASSWORD')}" required="required" />
+                            <input name="username" type="text" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','Email')}" required="required" autofocus="autofocus" />
+                            <input name="password" type="password" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','Password')}" required="required" />
                             <button class="btn btn-lg btn-primary btn-block" type="submit">
-                               <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SIGN_IN')"/>
+                               <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Sign in')"/>
                             </button>
-                            
-                            <a href="{/page/common/basepath}/login_passwordreset" class="pull-right need-help"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','FORGOT_PASSWORD')"/> </a>
-                            
+
+                            <a href="{/page/common/basepath}/login_passwordreset" class="pull-right need-help"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Forgot password?')"/> </a>
+
                             <span class="clearfix"></span>
                         </form>
                     </div>

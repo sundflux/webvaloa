@@ -19,18 +19,18 @@
                         </div>
                         <br/>
                         <form method="post" action="{/page/common/basepath}/login_passwordreset?token={token}" accept-charset="{/page/common/encoding}" class="form-signin" id="form-passwordreset">
-                            <input name="username" type="email" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','EMAIL_ADDRESS')}" required="required" autofocus="autofocus" />
+                            <input name="username" type="email" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','Email')}" required="required" autofocus="autofocus" />
                         	<p class="text-muted text-center">
-                        		<small><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','RESET_PASSWORD_TEXT')"/></small>
+                        		<small><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Enter your username to send password reset request.')"/></small>
                         	</p>
                             <br/>
                             <button class="btn btn-lg btn-primary btn-block" type="submit">
-                               <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','RESET_PASSWORD')"/>
+                               <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Reset password')"/>
                             </button>
                             <span class="clearfix"></span>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -57,23 +57,23 @@
                         </div>
                         <br/>
                         <form method="post" action="{/page/common/basepath}/login_passwordreset/verify/{hash}" accept-charset="{/page/common/encoding}" class="form-signin" id="form-passwordreset">
-                            <input name="password" type="password" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','NEW_PASSWORD')}" required="required" autofocus="autofocus" />
-                            <input name="password2" type="password" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','NEW_PASSWORD_VERIFY')}" required="required" />
+                            <input name="password" type="password" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','New password')}" required="required" autofocus="autofocus" />
+                            <input name="password2" type="password" class="form-control" placeholder="{php:function('\Webvaloa\Webvaloa::translate','Verify new password')}" required="required" />
 
                             <p class="text-muted text-center">
-                                <small><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','ENTER_NEW_PASSWORD')"/></small>
+                                <small><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Enter new password')"/></small>
                             </p>
                             <br/>
                             <button class="btn btn-lg btn-primary btn-block" type="submit">
-                               <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CHANGE_PASSWORD')"/>
+                               <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Change password')"/>
                             </button>
                             <span class="clearfix"></span>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-    </xsl:template>    
+    </xsl:template>
 
 </xsl:stylesheet>

@@ -82,7 +82,7 @@ class LoginController extends \Webvaloa\Application
                 $auth->setAuthenticationDriver(new $this->backend());
 
                 if (!$auth->authenticate($_POST['username'], $_POST['password'])) {
-                    throw new RuntimeException(\Webvaloa\Webvaloa::translate('LOGIN_FAILED'));
+                    throw new RuntimeException(\Webvaloa\Webvaloa::translate('Login failed'));
                 }
             } catch (RuntimeException $e) {
                 $this->ui->addError($e->getMessage());

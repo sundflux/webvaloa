@@ -1,0 +1,104 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+msgid "Already registered?"
+msgstr "Oletko jo rekisteröitynyt?"
+
+msgid "Cancel login"
+msgstr "Peruuta kirjautuminen"
+
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+msgid "Email"
+msgstr "Sähköpostiosoite"
+
+msgid "Password"
+msgstr "Salasana"
+
+msgid "Sign in"
+msgstr "Kirjaudu"
+
+msgid "Logout"
+msgstr "Kirjaudu ulos"
+
+msgid "Remember me"
+msgstr "Muista minut"
+
+msgid "Create an account"
+msgstr "Luo uusi tunnus"
+
+msgid "Forgot password?"
+msgstr "Unohtuiko salasana?"
+
+msgid "Reset password"
+msgstr "Alusta salasana"
+
+msgid "Enter your username to send password reset request."
+msgstr "Anna käyttäjätunnuksesi lähettääksesi alustuspyynnön."
+
+msgid "User not found"
+msgstr "Käyttäjää ei lyötynyt"
+
+msgid "Request sent. Check your email."
+msgstr "Pyyntö lähetetty. Tarkista sähköpostisi."
+
+msgid "Password change request for site"
+msgstr "Salasanan vaihtopyyntö sivustolle"
+
+msgid "You did a password change request. If you want to change your password, click the link below"
+msgstr "Olet pyytänyt salasanan vaihtoa. Voit vaihtaa salasanasi alla olevasta linkistä"
+
+msgid "If you did not do this request, you can safely delete this mail."
+msgstr "Jos et tehnyt tätä pyyntöä, voit poistaa tämän sähköpostin."
+
+msgid "Hash missing"
+msgstr "Tunniste hukassa"
+
+msgid "Not a valid hash"
+msgstr "Tunniste ei kelpaa"
+
+msgid "Account blocked"
+msgstr "Käyttäjätunnus on suljettu"
+
+msgid "Password is too short"
+msgstr "Annettu salasana on liian lyhyt"
+
+msgid "Passwords did not match"
+msgstr "Salasanat eivät täsmänneet"
+
+msgid "Password changed"
+msgstr "Salasana vaihdettu"
+
+msgid "Change password"
+msgstr "Vaihda salasana"
+
+msgid "Enter new password"
+msgstr "Anna uusi salasana"
+
+msgid "New password"
+msgstr "Uusi salasana"
+
+msgid "Verify new password"
+msgstr "Varmista uusi salasana"
+
+msgid "Login failed"
+msgstr "Kirjautuminen epäonnistui"
+
+msgid "Sending the email failed"
+msgstr "Sähköpostin lähetys epäonnistui"
+
+msgid "Webmaster email must be set in settings first"
+msgstr "Ylläpitäjän sähköpostiosoite on asetettava ensin asetuksista"
+
+msgid "Site name must be set in settings first"
+msgstr "Sivuston nimi on asetettava ensin asetuksista"

@@ -7,7 +7,7 @@
             accept-charset="{/page/common/encoding}"
             class="form-signin">
 
-            <button class="btn btn-block btn-primary btn-lg" type="submit" name="logout"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','LOGOUT')"/></button>
+            <button class="btn btn-block btn-primary btn-lg" type="submit" name="logout"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','Logout')"/></button>
         </form>
 	</xsl:template>
 

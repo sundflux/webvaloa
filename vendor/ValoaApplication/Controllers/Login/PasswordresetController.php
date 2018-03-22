@@ -80,7 +80,7 @@ class PasswordresetController extends \Webvaloa\Application
 
             // User not found
             if (User::usernameAvailable($_POST['username'])) {
-                $this->ui->addError(\Webvaloa\Webvaloa::translate('USER_NOT_FOUND'));
+                $this->ui->addError(\Webvaloa\Webvaloa::translate('User not found'));
 
                 return;
             }
@@ -100,7 +100,7 @@ class PasswordresetController extends \Webvaloa\Application
 
                 // User not found
                 if (!isset($row->id)) {
-                    $this->ui->addError(\Webvaloa\Webvaloa::translate('USER_NOT_FOUND'));
+                    $this->ui->addError(\Webvaloa\Webvaloa::translate('User not found'));
 
                     return;
                 }
@@ -110,13 +110,13 @@ class PasswordresetController extends \Webvaloa\Application
 
                 $admin = $configuration->webmaster_email->value;
                 if (empty($admin)) {
-                    $this->ui->addError(\Webvaloa\Webvaloa::translate('WEBMASTER_EMAIL_NOT_SET'));
+                    $this->ui->addError(\Webvaloa\Webvaloa::translate('Webmaster email must be set in settings first'));
                     Redirect::to('login_passwordreset');
                 }
 
                 $sitename = $configuration->sitename->value;
                 if (empty($sitename)) {
-                    $this->ui->addError(\Webvaloa\Webvaloa::translate('SITENAME_NOT_SET'));
+                    $this->ui->addError(\Webvaloa\Webvaloa::translate('Site name must be set in settings first'));
                     Redirect::to('login_passwordreset');
                 }
 
@@ -132,16 +132,16 @@ class PasswordresetController extends \Webvaloa\Application
 
                 // Allow overriding the message with plugins
                 if (!isset($this->message) || empty($this->message)) {
-                    $this->message = \Webvaloa\Webvaloa::translate('RESET_PASSWORD_MAIL_1');
+                    $this->message = \Webvaloa\Webvaloa::translate('You did a password change request. If you want to change your password, click the link below');
                     $this->message .= '<br><br>';
-                    $this->message .= '<a href="'.$link.'"> '.\Webvaloa\Webvaloa::translate('RESET_PASSWORD').' </a>';
+                    $this->message .= '<a href="'.$link.'"> '.\Webvaloa\Webvaloa::translate('Reset password').' </a>';
                     $this->message .= '<br><br>';
-                    $this->message .= \Webvaloa\Webvaloa::translate('RESET_PASSWORD_MAIL_2');
+                    $this->message .= \Webvaloa\Webvaloa::translate('If you did not do this request, you can safely delete this mail.');
                 }
 
                 $mailer = new Mail();
                 $send = $mailer->setTo($row->email, $user->firstname.' '.$user->lastname)
-                        ->setSubject(\Webvaloa\Webvaloa::translate('RESET_PASSWORD_CONFIRM').' '.$this->request->getBaseUri())
+                        ->setSubject(\Webvaloa\Webvaloa::translate('Password change request for site').' '.$this->request->getBaseUri())
                         ->setFrom($admin, $sitename)
                         ->addGenericHeader('X-Mailer', 'Webvaloa')
                         ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
@@ -152,11 +152,11 @@ class PasswordresetController extends \Webvaloa\Application
                 $val = (string) $send;
 
                 if (!$val) {
-                    $this->ui->addError(\Webvaloa\Webvaloa::translate('MAIL_SENDING_FAILED'));
+                    $this->ui->addError(\Webvaloa\Webvaloa::translate('Sending the email failed'));
                     Redirect::to('login_passwordreset');
                 }
 
-                $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_RESET_REQUEST_SENT'));
+                $this->ui->addMessage(\Webvaloa\Webvaloa::translate('Request sent. Check your email.'));
             } catch (Exception $e) {
             }
         }
@@ -167,7 +167,7 @@ class PasswordresetController extends \Webvaloa\Application
         $this->view->hash = $hash;
 
         if (!$hash) {
-            throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('HASH_MISSING')));
+            throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('Hash missing')));
         }
 
         $data = explode(':', base64_decode($hash));
@@ -179,21 +179,21 @@ class PasswordresetController extends \Webvaloa\Application
         Debug::__print($userhash);
 
         if (!isset($userhash) || empty($userhash) || $userhash != $data[1]) {
-            throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('HASH_NOT_MATCH')));
+            throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('Not a valid hash')));
         }
 
         if ($user->blocked > 0) {
-            throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('USER_BLOCKED')));
+            throw new UnexpectedValueException($this->ui->addError(\Webvaloa\Webvaloa::translate('Account blocked')));
         }
 
         if (isset($_POST['password']) && !empty($_POST['password'])) {
             if (!isset($_POST['password']) || empty($_POST['password']) || strlen($_POST['password']) < 8) {
-                $this->ui->addError(\Webvaloa\Webvaloa::translate('PASSWORD_TOO_SHORT'));
+                $this->ui->addError(\Webvaloa\Webvaloa::translate('Password is too short'));
                 Redirect::to('login_passwordreset/verify/'.$hash);
             }
 
             if (!isset($_POST['password2']) || $_POST['password'] != $_POST['password2']) {
-                $this->ui->addError(\Webvaloa\Webvaloa::translate('CHECK_PASSWORD'));
+                $this->ui->addError(\Webvaloa\Webvaloa::translate('Passwords did not match'));
                 Redirect::to('login_passwordreset/'.$hash);
             }
 
@@ -202,7 +202,7 @@ class PasswordresetController extends \Webvaloa\Application
             $user->metadata('PasswordResetHash', '');
             $user->save();
 
-            $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGED'));
+            $this->ui->addMessage(\Webvaloa\Webvaloa::translate('Password changed'));
 
             Redirect::to(\Webvaloa\config::$properties['default_controller']);
         }
