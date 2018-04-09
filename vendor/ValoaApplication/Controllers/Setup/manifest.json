@@ -1,6 +1,6 @@
 {
     "application": "Setup",
-    "version": "1.0.3",
+    "version": "1.0.6",
     "author": "webvaloa.com",
     "email": "info@webvaloa.com",
     "www": "http://www.getvaloa.com/",
@@ -10,7 +10,7 @@
     "files": [
         { "vendor": "/ValoaApplication/Controllers/Setup/SetupController.php" },
         { "vendor": "/ValoaApplication/Controllers/Setup/Views/Setup.xsl" },
-        { "vendor": "/ValoaApplication/Controllers/Setup/schema-1.0.1_mysql.sql" },
+        { "vendor": "/ValoaApplication/Controllers/Setup/schema-1.0.6_mysql.sql" },
         { "public": "/Layout/css/Setup.css" }
     ]
 }
