@@ -65,19 +65,21 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                 $fieldValues = $valueField->getValues($field->id);
 
                 if ($field->type == 'Articlepicker') {
-                    foreach ($fieldValues as $key => $fieldValue) {
-                        try {
-                            $id = $fieldValue->value;
-                            // Try loading associated article
-                            $association = new ArticleAssociation($id);
-                            $association->setLocale(\Webvaloa\Webvaloa::getLocale());
-                            if ($associatedID = $association->getAssociatedId()) {
-                                $id = $associatedID;
+                    if(is_array($fieldValues)) {
+                        foreach ($fieldValues as $key => $fieldValue) {
+                            try {
+                                $id = $fieldValue->value;
+                                // Try loading associated article
+                                $association = new ArticleAssociation($id);
+                                $association->setLocale(\Webvaloa\Webvaloa::getLocale());
+                                if ($associatedID = $association->getAssociatedId()) {
+                                    $id = $associatedID;
+                                }
+                                $articleHelper = new ArticleHelper($id);
+                                $article = $articleHelper->article;
+                                $fieldValues[$key]->article = $article;
+                            } catch (\Exception $e) {
                             }
-                            $articleHelper = new ArticleHelper($id);
-                            $article = $articleHelper->article;
-                            $fieldValues[$key]->article = $article;
-                        } catch (\Exception $e) {
                         }
                     }
                 }
