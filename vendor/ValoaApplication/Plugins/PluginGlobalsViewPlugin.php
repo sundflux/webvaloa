@@ -64,22 +64,20 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                 $valueField->fieldOrdering(false);
                 $fieldValues = $valueField->getValues($field->id);
 
-                if ($field->type == 'Articlepicker') {
-                    if(is_array($fieldValues)) {
-                        foreach ($fieldValues as $key => $fieldValue) {
-                            try {
-                                $id = $fieldValue->value;
-                                // Try loading associated article
-                                $association = new ArticleAssociation($id);
-                                $association->setLocale(\Webvaloa\Webvaloa::getLocale());
-                                if ($associatedID = $association->getAssociatedId()) {
-                                    $id = $associatedID;
-                                }
-                                $articleHelper = new ArticleHelper($id);
-                                $article = $articleHelper->article;
-                                $fieldValues[$key]->article = $article;
-                            } catch (\Exception $e) {
+                if ($field->type == 'Articlepicker' && is_array($fieldValues)) {
+                    foreach ($fieldValues as $key => $fieldValue) {
+                        try {
+                            $id = $fieldValue->value;
+                            // Try loading associated article
+                            $association = new ArticleAssociation($id);
+                            $association->setLocale(\Webvaloa\Webvaloa::getLocale());
+                            if ($associatedID = $association->getAssociatedId()) {
+                                $id = $associatedID;
                             }
+                            $articleHelper = new ArticleHelper($id);
+                            $article = $articleHelper->article;
+                            $fieldValues[$key]->article = $article;
+                        } catch (\Exception $e) {
                         }
                     }
                 }
