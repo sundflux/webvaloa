@@ -64,7 +64,7 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                 $valueField->fieldOrdering(false);
                 $fieldValues = $valueField->getValues($field->id);
 
-                if ($field->type == 'Articlepicker') {
+                if ($field->type == 'Articlepicker' && is_array($fieldValues)) {
                     foreach ($fieldValues as $key => $fieldValue) {
                         try {
                             $id = $fieldValue->value;
