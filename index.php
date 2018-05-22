@@ -36,46 +36,74 @@ namespace Webvaloa;
 use Libvaloa\Debug;
 use Libvaloa\I18n;
 use Webvaloa\Helpers\Path;
-use Webvaloa\Configuration;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Controller\Request;
 use stdClass;
 use PDOException;
 use Exception;
 
-// Base path on the server
-define('WEBVALOA_BASEDIR', realpath(dirname(__FILE__)));
+class WebvaloaBootstrap
+{
+    public function __construct()
+    {
+        // Base path on the server
+        define('WEBVALOA_BASEDIR', realpath(dirname(__FILE__)));
 
-// Include separate config-file
-if (is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
-    require_once WEBVALOA_BASEDIR.'/config/config.php';
+        // Core paths
+        if (!defined('LIBVALOA_INSTALLPATH')) {
+            define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.'/'.'vendor');
+        }
+
+        // Extensions
+        if (!defined('LIBVALOA_EXTENSIONSPATH')) {
+            define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.'/'.'vendor');
+        }
+
+        // Public media
+        if (!defined('LIBVALOA_PUBLICPATH')) {
+            define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.'/'.'public');
+        }
+
+        // Include paths
+        set_include_path(LIBVALOA_EXTENSIONSPATH.'/'.PATH_SEPARATOR.get_include_path());
+        set_include_path(LIBVALOA_INSTALLPATH.'/'.PATH_SEPARATOR.get_include_path());
+
+        // Composer autoloader
+        if (!file_exists(LIBVALOA_INSTALLPATH.'/autoload.php')) {
+            die('Please install dependencies first, run: composer install');
+        }
+
+        require_once LIBVALOA_INSTALLPATH.'/autoload.php';
+    }
+
+    public function loadRuntimeConfiguration()
+    {
+        // Include separate config-file
+        if (is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
+            // Configuration found
+
+            require_once WEBVALOA_BASEDIR.'/config/config.php';
+        } elseif (file_exists(WEBVALOA_BASEDIR.'/config/config.php') && !is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
+            // Configuration exists, but is not readable, so don't proceed
+
+            die("Configuration exists, but configuration is not readable.");
+        } elseif (!file_exists(WEBVALOA_BASEDIR.'/config/config.php') && file_exists(WEBVALOA_BASEDIR.'/config/config.php-stub')) {
+            // Configuration doesn't exist, but -stub does, so we can
+            // assume clean install - copy stub file as temporary configuration
+
+            if (is_readable(WEBVALOA_BASEDIR.'/config/config.php-stub')) {
+                copy(WEBVALOA_BASEDIR.'/config/config.php-stub', WEBVALOA_BASEDIR.'/config/config.php');
+
+                header('location: '.$_SERVER['REQUEST_URI']);
+                exit;
+            } else {
+                die("Could not copy configuration.");
+            }
+        } else {
+            die('Could not load runtime configuration.');
+        }
+    }
 }
-
-// Core paths
-if (!defined('LIBVALOA_INSTALLPATH')) {
-    define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.'/'.'vendor');
-}
-
-// Extensions
-if (!defined('LIBVALOA_EXTENSIONSPATH')) {
-    define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.'/'.'vendor');
-}
-
-// Public media
-if (!defined('LIBVALOA_PUBLICPATH')) {
-    define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.'/'.'public');
-}
-
-// Composer autoloader
-if (!file_exists(LIBVALOA_INSTALLPATH.'/autoload.php')) {
-	die('Please install dependencies first, run: composer install');
-}
-
-require_once LIBVALOA_INSTALLPATH.'/autoload.php';
-
-// Include paths
-set_include_path(LIBVALOA_EXTENSIONSPATH.'/'.PATH_SEPARATOR.get_include_path());
-set_include_path(LIBVALOA_INSTALLPATH.'/'.PATH_SEPARATOR.get_include_path());
 
 /**
  * Webvaloa kernel class.
@@ -288,7 +316,7 @@ class Webvaloa
                 // Make sure we use UTF-8
                 if (\Webvaloa\config::$properties['db_server'] != 'sqlite') {
                     $initquery = "SET NAMES 'UTF8'";
-                    if(isset(\Webvaloa\config::$properties['time_zone'])) {
+                    if (isset(\Webvaloa\config::$properties['time_zone'])) {
                         date_default_timezone_set(\Webvaloa\config::$properties['time_zone']);
                         $date = new \DateTime();
                         $hours = $date->getOffset() / 3600;
@@ -312,7 +340,8 @@ class Webvaloa
                     \Webvaloa\config::$properties['db_db'],
                     \Webvaloa\config::$properties['db_server'],
                     false,
-                    $initquery);
+                    $initquery
+                );
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage());
             }
@@ -688,6 +717,10 @@ class Application
         $this->params = false;
     }
 }
+
+// Load runtime configuration
+$webvaloaBootstrap = new WebvaloaBootstrap();
+$webvaloaBootstrap->loadRuntimeConfiguration();
 
 // Load the kernel
 new Webvaloa();
