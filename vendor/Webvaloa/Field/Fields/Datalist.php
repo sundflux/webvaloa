@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field\Fields;
 
 use stdClass;
@@ -36,13 +37,32 @@ use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 use Libvaloa\Debug;
 
+/**
+ * Class Datalist
+ * @package Webvaloa\Field\Fields
+ */
 class Datalist
 {
+    /**
+     * @var stdClass
+     */
     private $field;
 
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * Datalist constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->fieldID = $fieldID;
@@ -57,16 +77,25 @@ class Datalist
         }
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -74,11 +103,14 @@ class Datalist
         );
     }
 
+    /**
+     * @return array|bool
+     */
     public function getParams()
     {
         if (isset($this->fieldID) && is_numeric($this->fieldID)) {
             // Get values for this field
-        $db = \Webvaloa\Webvaloa::DBConnection();
+            $db = \Webvaloa\Webvaloa::DBConnection();
 
             $query = '
             SELECT *
@@ -104,7 +136,7 @@ class Datalist
                 }
 
                 if (isset($retval)) {
-                    return (object) $retval;
+                    return $retval;
                 }
 
                 return false;
@@ -115,6 +147,9 @@ class Datalist
         return array();
     }
 
+    /**
+     *
+     */
     public function getSettings()
     {
     }

@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug;
@@ -46,7 +47,7 @@ class SettingsTemplateListPlugin extends \Webvaloa\Plugin
         try {
             $filesystem = new Filesystem(LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.\Webvaloa\Webvaloa::$properties['vendor'].DIRECTORY_SEPARATOR.'Layout');
             $templates = $filesystem->folders();
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             Debug::__print('Could not read layout path.');
 
             return;

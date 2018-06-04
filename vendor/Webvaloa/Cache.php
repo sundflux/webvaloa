@@ -30,10 +30,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Debug;
 
+/**
+ * Interface ICache
+ * @package Webvaloa
+ */
 interface ICache
 {
     public function set($key, $value);
@@ -45,12 +50,19 @@ interface ICache
 }
 
 /**
- * Webvaloa caching class.
+ * Class Cache
+ * @package Webvaloa
  */
 class Cache implements ICache
 {
+    /**
+     * @var
+     */
     private $cache;
 
+    /**
+     * Cache constructor.
+     */
     public function __construct()
     {
 
@@ -160,11 +172,19 @@ class Cache implements ICache
         return $this->cacheLocal->_get($key);
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function delete($key)
     {
         return $this->cache->delete($key);
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function _delete($key)
     {
         return $this->cache->_delete($key);

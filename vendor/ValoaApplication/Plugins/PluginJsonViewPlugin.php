@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Plugins;
 
 /**
@@ -41,7 +42,7 @@ class PluginJsonViewPlugin extends \Webvaloa\Plugin
 
     public function onAfterRender()
     {
-        if (isset($_GET['json'])) {
+        if ($this->request->isJson()) {
             $this->ui->properties['contenttype'] = 'application/json';
             $this->xhtml = (string) json_encode($this->view);
         }

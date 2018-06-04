@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field\Fields;
 
 use DOMDocument;
@@ -37,11 +38,26 @@ use Libvaloa\Debug;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 
+/**
+ * Class Dropdown
+ * @package Webvaloa\Field\Fields
+ */
 class Dropdown
 {
+    /**
+     * @var stdClass
+     */
     private $field;
+
+    /**
+     * @var bool
+     */
     private $fieldID;
 
+    /**
+     * Dropdown constructor.
+     * @param bool $fieldID
+     */
     public function __construct($fieldID = false)
     {
         $this->fieldID = $fieldID;
@@ -53,16 +69,25 @@ class Dropdown
         }
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -70,6 +95,9 @@ class Dropdown
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         $values = '';
@@ -103,20 +131,23 @@ class Dropdown
                 $d->value = $vals[$k];
 
                 if (isset($values[0]->value) && $values[0]->value == $d->key) {
-                    $a->selected = 'selected';
+                    $d->selected = 'selected';
                 }
 
                 $retval[] = $d;
             }
 
             if (isset($retval)) {
-                return (object) $retval;
+                return $retval;
             }
         }
 
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         $dom = new DOMDocument();

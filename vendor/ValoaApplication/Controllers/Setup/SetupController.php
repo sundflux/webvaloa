@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Setup;
 
 // Libvaloa classes
@@ -45,6 +46,9 @@ use Webvaloa\Locale\Locales;
 use stdClass;
 use PDOException;
 use RuntimeException;
+// Seclib
+use RandomLib;
+use SecurityLib;
 
 class SetupController extends \Webvaloa\Application
 {
@@ -66,10 +70,10 @@ class SetupController extends \Webvaloa\Application
         // Specific to setup
         $this->view = new stdClass();
         $this->manifest = new Manifest('Setup');
-        foreach(glob($this->manifest->controllerPath.'/profiles/*/profile.json') as $profileFile) {
-		$profile = json_decode(file_get_contents($profileFile));
-                $profile->directory = basename(substr($profileFile,0,-12));
-                $this->profiles[] = $profile;
+        foreach (glob($this->manifest->controllerPath.'/profiles/*/profile.json') as $profileFile) {
+            $profile = json_decode(file_get_contents($profileFile));
+            $profile->directory = basename(substr($profileFile, 0, -12));
+            $this->profiles[] = $profile;
         }
     }
 
@@ -104,6 +108,21 @@ class SetupController extends \Webvaloa\Application
 
         if (!isset($_SESSION['setup'])) {
             $_SESSION['setup'] = array();
+        }
+
+        // Generate salt for this installation
+
+        //
+        $errorReportingLevel = error_reporting();
+
+        if (empty($_SESSION['setup']['salt'])) {
+            // Fixme: Because deprecated mcrypt is used by randomlib,
+            // we temporarely disable warnings from randomlib
+            error_reporting(0);
+            $factory = new RandomLib\Factory();
+            $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
+            $_SESSION['setup']['salt'] = $generator->generateString(32);
+            error_reporting($errorReportingLevel);
         }
 
         // Initial config file trickery
@@ -150,7 +169,7 @@ class SetupController extends \Webvaloa\Application
                 'db_user',
                 'db_pass',
                 'db_db',
-                'db_profile'
+                'db_profile',
             );
 
             foreach ($required as $k => $v) {
@@ -187,7 +206,7 @@ class SetupController extends \Webvaloa\Application
         }
 
         if (isset($_SESSION['setup']['db'])) {
-            $this->view = $_SESSION['setup']['db'];
+            $this->view = (object) $_SESSION['setup']['db'];
             $this->view->profiles = $this->profiles;
         }
 
@@ -291,17 +310,18 @@ class SetupController extends \Webvaloa\Application
         preg_match("/([^\.]+)[^\.]/", $locale, $locale);
         $locale = $locale[0];
         $configData = array(
-                'default_controller' => 'login',
-                'default_controller_authed' => 'login_logout',
-		'default_controller_login' => 'login',
-		'default_controller_denied' => 'error',
-                'webvaloa_auth' => 'Webvaloa\Auth\Db'
+            'default_controller' => 'login',
+            'default_controller_authed' => 'login_logout',
+            'default_controller_login' => 'login',
+            'default_controller_denied' => 'error',
+            'webvaloa_auth' => 'Webvaloa\Auth\Db',
+            'salt' => $_SESSION['setup']['salt'],
         );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
-        if(is_object($currentProfile->config)) {
-            foreach($currentProfile->config as $configKey => $configValue) {
-                $configData[$configKey]=$configValue;
+        if (isset($currentProfile->config) && is_object($currentProfile->config)) {
+            foreach ($currentProfile->config as $configKey => $configValue) {
+                $configData[$configKey] = $configValue;
             }
         }
 
@@ -316,9 +336,9 @@ class SetupController extends \Webvaloa\Application
         $config .= "\t\t'db_pass'\t\t\t\t\t\t=> '".$setup['db']['db_pass']."',\n";
         $config .= "\t\t'db_db'\t\t\t\t\t\t\t=> '".$setup['db']['db_db']."',\n\n";
 
-        foreach($configData as $configKey => $configValue) {
+        foreach ($configData as $configKey => $configValue) {
             $config .= "\t\t'{$configKey}'\t=> '{$configValue}',\n";
-	}
+        }
 
         $config .= "\n\t\t'time_zone'\t\t\t\t\t\t=> '".$setup['admin']['tz']."'\n";
         $config .= "\t);\n";
@@ -353,13 +373,14 @@ class SetupController extends \Webvaloa\Application
         \Webvaloa\config::$properties['db_user'] = $setup['db']['db_user'];
         \Webvaloa\config::$properties['db_pass'] = $setup['db']['db_pass'];
         \Webvaloa\config::$properties['db_db'] = $setup['db']['db_db'];
+        \Webvaloa\config::$properties['salt'] = $setup['salt'];
 
         // Install database
         $sqlSchema = $this->manifest->controllerPath.'/schema-'.$this->manifest->version.'_'.$setup['db']['db_server'].'.sql';
 
         // Profile schema
         $profile = $this->getProfileByName($setup['db']['db_profile']);
-        if(isset($profile->directory) && !empty($profile->directory)) {
+        if (isset($profile->directory) && !empty($profile->directory)) {
             $profileSql = $this->manifest->controllerPath.'/profiles/'.$profile->directory.'/db.sql';
         }
 
@@ -375,7 +396,7 @@ class SetupController extends \Webvaloa\Application
             $query = file_get_contents($sqlSchema);
 
             // Inject additional schema from profile
-            if(file_exists($profileSql)) {
+            if (!empty($profileSql) && file_exists($profileSql)) {
                 $query .= "\n".file_get_contents($profileSql);
             }
 
@@ -386,7 +407,7 @@ class SetupController extends \Webvaloa\Application
             $user = new User();
             $user->email = $setup['admin']['admin_email'];
 
-            if (isset($setup['admin']['admin_username']) && !empty($setup['admin']['admin_username'])) {
+            if (!empty($setup['admin']['admin_username'])) {
                 $user->login = $setup['admin']['admin_username'];
             } else {
                 $user->login = $setup['admin']['admin_email'];
@@ -506,12 +527,13 @@ class SetupController extends \Webvaloa\Application
 
     private function getProfileByName($name)
     {
-	$find = false;
-        array_walk($this->profiles, function($profile) use($name, &$find) {
-            if($profile->name == $name) {
-		return $find = $profile;
+        $find = false;
+        array_walk($this->profiles, function ($profile) use ($name, &$find) {
+            if ($profile->name == $name) {
+                return $find = $profile;
             }
         });
-	return $find;
+
+        return $find;
     }
 }

@@ -30,10 +30,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Controller\Request;
 
+/**
+ * Class Response
+ * @package Webvaloa\Controller\Request
+ */
 class Response
 {
+
+    /**
+     * @param $response
+     */
     public static function JSON($response)
     {
         header('Content-type: application/json');

@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Plugins;
 
 use Webvaloa\Field\Group;
@@ -63,7 +64,7 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                 $valueField->fieldOrdering(false);
                 $fieldValues = $valueField->getValues($field->id);
 
-                if ($field->type == 'Articlepicker') {
+                if ($field->type == 'Articlepicker' && is_array($fieldValues)) {
                     foreach ($fieldValues as $key => $fieldValue) {
                         try {
                             $id = $fieldValue->value;
@@ -71,7 +72,7 @@ class PluginGlobalsViewPlugin extends \Webvaloa\Plugin
                             $association = new ArticleAssociation($id);
                             $association->setLocale(\Webvaloa\Webvaloa::getLocale());
                             if ($associatedID = $association->getAssociatedId()) {
-                               $id = $associatedID;
+                                $id = $associatedID;
                             }
                             $articleHelper = new ArticleHelper($id);
                             $article = $articleHelper->article;

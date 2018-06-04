@@ -29,20 +29,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
 use stdClass;
 
 /**
- * Set configuration variables to DB.
+ * Class Configuration
+ * @package Webvaloa
  */
 class Configuration
 {
+    /**
+     * @var \Webvaloa\DB
+     */
     private $db;
+
+    /**
+     * @var bool
+     */
     private $config;
+
+    /**
+     * @var bool
+     */
     private $componentID;
 
+    /**
+     * Configuration constructor.
+     * @param bool $component
+     */
     public function __construct($component = false)
     {
         $this->config = false;
@@ -58,14 +76,15 @@ class Configuration
     /**
      * Insert a configuration key/value to DB.
      *
-     * @param mixed $k
-     * @param mixed $v
+     * @param $k
+     * @param $v
+     * @return bool
      */
     public function __set($k, $v)
     {
         $this->configuration();
 
-        // Check that configuration key exists if we 
+        // Check that configuration key exists if we
         // try to access global settings variables.
         if ($this->componentID == null) {
             $conf = $this->config;
@@ -101,7 +120,6 @@ class Configuration
                 $object->component_id = $this->componentID;
                 $object->save();
             }
-
         } catch (PDOException $e) {
         }
 
@@ -118,6 +136,11 @@ class Configuration
      */
     public function __get($k)
     {
+        if (isset(\Webvaloa\config::$properties[$k])) {
+            Debug::__print('Warning: configuration value overridden from config.php');
+
+            return \Webvaloa\config::$properties[$k];
+        }
         // Load configs
         $this->configuration();
 
@@ -135,6 +158,9 @@ class Configuration
      */
     public function loadConfiguration()
     {
+        if($this->db == false) {
+            return $this->config;
+        }
         $name = 'config'.(int) $this->componentID;
 
         $query = '
@@ -179,6 +205,10 @@ class Configuration
         }
     }
 
+    /**
+     * @param bool $id
+     * @return bool
+     */
     public function delete($id = false)
     {
         if (!$this->componentID || !is_numeric($this->componentID)) {
@@ -207,6 +237,9 @@ class Configuration
         }
     }
 
+    /**
+     * @return bool
+     */
     public function configuration()
     {
         if (!$this->config) {

@@ -30,6 +30,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Webvaloa\MemcachedCache as Memcached;
@@ -41,11 +42,19 @@ use Webvaloa\MemcachedCache as Memcached;
  * set() and get() (and their respective magic versions) set stuff to global cache
  *
  * To use session/user specific caching, use _set() and _get() instead.
+ *
+ * @package Webvaloa
  */
 class Memcache
 {
+    /**
+     * @var
+     */
     private $cache;
 
+    /**
+     * Memcache constructor.
+     */
     public function __construct()
     {
         // Skip caching if config doesn't exist to prevent failed connections
@@ -170,11 +179,19 @@ class Memcache
         return false;
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function delete($key)
     {
         return $this->cache->delete($key);
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     */
     public function _delete($key)
     {
         return $this->cache->_delete($key);

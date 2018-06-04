@@ -29,30 +29,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field\Fields;
 
+/**
+ * Class Text
+ * @package Webvaloa\Field\Fields
+ */
 class Text
 {
+    /**
+     * @var
+     */
     private $field;
 
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * Text constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->fieldID = $fieldID;
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -60,11 +89,17 @@ class Text
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         return '';

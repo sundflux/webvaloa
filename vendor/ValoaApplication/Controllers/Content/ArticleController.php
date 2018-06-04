@@ -29,11 +29,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use Libvaloa\Debug;
 use Webvaloa\Controller\Redirect;
-use Webvaloa;
 use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Version;
@@ -41,10 +41,10 @@ use Webvaloa\Security;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
-use Webvaloa\Field\Fields;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\DateFormat;
+use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Controller\Request\Response;
 use stdClass;
 use UnexpectedValueException;
@@ -138,7 +138,18 @@ class ArticleController extends \Webvaloa\Application
             }
 
             $stmt->execute();
-            $this->view->articles = $stmt->fetchAll();
+            $articles = $stmt->fetchAll();
+
+            foreach ($articles as $k => $v) {
+                $tmp[$k] = $v;
+
+                $article = new Article($v->id);
+                $tmp[$k]->has_access = (int) $this->checkPermissions($article);
+            }
+
+            if (isset($tmp)) {
+                $this->view->articles = $tmp;
+            }
         } catch (Exception $e) {
         }
     }
@@ -148,6 +159,11 @@ class ArticleController extends \Webvaloa\Application
         Security::verify();
 
         $article = new Article($id);
+
+        if ((int) $this->checkPermissions($article) == 0) {
+            throw new \Exception('Permission denied');
+        }
+
         $article->trash();
 
         $this->ui->addMessage(\Webvaloa\Webvaloa::translate('ARTICLE_TRASHED'));
@@ -165,6 +181,12 @@ class ArticleController extends \Webvaloa\Application
 
     public function add($categoryID = false)
     {
+        if ($categoryID !== false) {
+            if ((int) $this->checkPermissions($categoryID) == 0) {
+                throw new \Exception('Permission denied');
+            }
+        }
+
         $this->ui->addJS('/js/Fields/Frontend.js');
         $this->ui->addJS('/js/Content_Article.js');
         $this->ui->addCSS('/css/Content_Field.css');
@@ -222,6 +244,13 @@ class ArticleController extends \Webvaloa\Application
             }
         }
 
+        // Test to see if we are trying to load an associated article
+        $preloadArticle = new Article($articleID);
+        if ($preloadArticle->associated_content_id) {
+            // Redirect to the actual article
+            Redirect::to('content_article/edit/'.$preloadArticle->associated_content_id);
+        }
+
         // Try loading associated article
         $association = new ArticleAssociation($articleID);
         $association->setLocale(\Webvaloa\Webvaloa::getLocale());
@@ -252,6 +281,10 @@ class ArticleController extends \Webvaloa\Application
         $category = $article->getCategory();
 
         $this->view->category_id = $category[0];
+
+        if ((int) $this->checkPermissions($this->view->category_id) == 0) {
+            throw new \Exception('Permission denied');
+        }
 
         $this->initializeFieldsView($category[0]);
 
@@ -293,6 +326,7 @@ class ArticleController extends \Webvaloa\Application
 
         // Load article
         $article = new Article(0);
+        Debug::__print($article->article);
         $this->view->article = $article->article;
 
         if (is_numeric($categoryID)) {
@@ -349,6 +383,11 @@ class ArticleController extends \Webvaloa\Application
             }
 
             $article = new Article($id);
+
+            if ((int) $this->checkPermissions($article) == 0) {
+                Debug::__print($id);
+                throw new \Exception('Permission denied to article '.$id);
+            }
 
             if (!isset($id) || !is_numeric($id)) {
                 $id = $article->insert();
@@ -456,6 +495,10 @@ class ArticleController extends \Webvaloa\Application
                 }
 
                 $article->setPublishUp($_POST['publish_up']);
+            }
+
+            if (empty($_POST['publish_down'])) {
+                $_POST['publish_down'] = '1970-01-01 00:00:01';
             }
 
             if (isset($_POST['publish_down'])) {
@@ -578,7 +621,7 @@ class ArticleController extends \Webvaloa\Application
 
                 // Fill values to fields
                 foreach ($v->fieldValues as $fieldName => $value) {
-                    if (!is_object($fields[$fieldName])) {
+                    if (!isset($fields[$fieldName]) || !is_object($fields[$fieldName])) {
                         continue;
                     }
 
@@ -630,7 +673,9 @@ class ArticleController extends \Webvaloa\Application
         }
 
         // Put fields to view
-        $this->view->fields = $tmp;
+        if (isset($tmp)) {
+            $this->view->fields = $tmp;
+        }
 
         // Get unique field types and include their media
         $this->view->fieldTypes = array_unique($this->view->fieldTypes);
@@ -679,5 +724,23 @@ class ArticleController extends \Webvaloa\Application
 
         $p = $f->getParams();
         Response::JSON($p);
+    }
+
+    private function checkPermissions($article)
+    {
+        try {
+            $contentAccess = new ContentAccess($article);
+            $permission = $contentAccess->checkPermissions();
+
+            Debug::__print($permission);
+
+            return $permission;
+        } catch (\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch (\Exception $e) {
+            Debug::__print($e->getMessage());
+        }
+
+        return false;
     }
 }

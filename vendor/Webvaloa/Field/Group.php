@@ -29,16 +29,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field;
 
 use Libvaloa\Db;
 use RuntimeException;
 
+/**
+ * Class Group
+ * @package Webvaloa\Field
+ */
 class Group
 {
+    /**
+     * @var bool
+     */
     private $groupID;
+
+    /**
+     * @var Db\Object
+     */
     private $object;
 
+    /**
+     * Group constructor.
+     * @param bool $groupID
+     */
     public function __construct($groupID = false)
     {
         $this->object = new Db\Object('field_group', \Webvaloa\Webvaloa::DBConnection());
@@ -49,11 +65,19 @@ class Group
         }
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         $this->object->$k = $v;
     }
 
+    /**
+     * @param $k
+     * @return bool|null|string
+     */
     public function __get($k)
     {
         try {
@@ -65,11 +89,17 @@ class Group
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function save()
     {
         return $this->object->save();
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         // Delete fields
@@ -85,6 +115,10 @@ class Group
         return $this->object->delete();
     }
 
+    /**
+     * @param $fieldID
+     * @return bool
+     */
     public function deleteField($fieldID)
     {
         if (!$this->groupID) {
@@ -110,6 +144,9 @@ class Group
         }
     }
 
+    /**
+     * @return bool
+     */
     public function deleteFromCategories()
     {
         if (!$this->groupID) {
@@ -133,6 +170,9 @@ class Group
         }
     }
 
+    /**
+     * @param $category_id
+     */
     public function addCategory($category_id)
     {
         if (!$this->groupID) {
@@ -146,6 +186,9 @@ class Group
         $object->save();
     }
 
+    /**
+     * @return array
+     */
     public function categories()
     {
         if (!$this->groupID) {
@@ -178,6 +221,9 @@ class Group
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function groups()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -197,6 +243,9 @@ class Group
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function globals()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -217,6 +266,9 @@ class Group
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function fields()
     {
         if (!$this->groupID) {

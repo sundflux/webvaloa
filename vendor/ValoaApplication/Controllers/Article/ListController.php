@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Article;
 
 use Libvaloa\Debug;
@@ -37,6 +38,7 @@ use Webvaloa\Article;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Article as ArticleHelper;
 use Webvaloa\Helpers\Category as CategoryHelper;
+use Webvaloa\Helpers\ContentAccess;
 
 class ListController extends \Webvaloa\Application
 {
@@ -67,6 +69,14 @@ class ListController extends \Webvaloa\Application
             if ($limit < 1) {
                 $limit = 1;
             }
+        }
+
+        // Check permissions
+        if (!$this->checkPermissions($id)) {
+            Debug::__print('Oops, no permissions');
+
+            header('HTTP/1.0 404 Not Found');
+            exit;
         }
 
         // Load category
@@ -108,5 +118,20 @@ class ListController extends \Webvaloa\Application
         }
 
         Debug::__print($this->view);
+    }
+
+    private function checkPermissions($categoryId)
+    {
+        try {
+            $contentAccess = new ContentAccess($categoryId);
+
+            return $contentAccess->checkPermissions();
+        } catch (\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch (\Exception $e) {
+            Debug::__print($e->getMessage());
+        }
+
+        return false;
     }
 }

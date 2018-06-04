@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -36,20 +37,30 @@ use Webvaloa\Helpers\Filesystem;
 use RuntimeException;
 
 /**
- * Handles Webvaloa categories.
+ * Class Category
+ * @package Webvaloa
  */
 class Category
 {
+    /**
+     * @var bool
+     */
     private $id;
+
+    /**
+     * @var
+     */
     private $category;
+
+    /**
+     * @var bool
+     */
     private $fields;
 
     const GLOBAL_GROUP_ID = 0;
-
     const OVERRIDE_TEMPLATE = -1;
     const OVERRIDE_LAYOUT = 0;
     const OVERRIDE_LIST_LAYOUT = 1;
-
     const USE_TEMPLATE_DIR = 1;
 
     /**
@@ -64,10 +75,18 @@ class Category
         $this->id = $id;
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
     }
 
+    /**
+     * @param $k
+     * @return bool
+     */
     public function __get($k)
     {
         if (!$this->category) {
@@ -81,6 +100,11 @@ class Category
         return false;
     }
 
+    /**
+     * @param $layout
+     * @param int $type
+     * @return bool
+     */
     public function setLayout($layout, $type = 0)
     {
         // No category loaded yet
@@ -121,16 +145,27 @@ class Category
         }
     }
 
+    /**
+     * @param $layout
+     * @return bool
+     */
     public function setTemplate($layout)
     {
         return $this->setLayout($layout, self::OVERRIDE_TEMPLATE);
     }
 
+    /**
+     * @param $layout
+     * @return bool
+     */
     public function setListLayout($layout)
     {
         return $this->setLayout($layout, self::OVERRIDE_LIST_LAYOUT);
     }
 
+    /**
+     * @return bool
+     */
     public function getTemplate()
     {
         // No category loaded yet
@@ -141,6 +176,9 @@ class Category
         return $this->category->template;
     }
 
+    /**
+     * @return bool
+     */
     public function getLayout()
     {
         // No category loaded yet
@@ -151,6 +189,9 @@ class Category
         return $this->category->layout;
     }
 
+    /**
+     * @return bool
+     */
     public function getListLayout()
     {
         // No category loaded yet
@@ -161,6 +202,10 @@ class Category
         return $this->category->layout_list;
     }
 
+    /**
+     * @param bool $useTemplateDir
+     * @return array
+     */
     public function getAvailableLayouts($useTemplateDir = false)
     {
         $conf = new Configuration();
@@ -192,6 +237,9 @@ class Category
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getAvailableTemplates()
     {
         return $this->getAvailableLayouts(self::USE_TEMPLATE_DIR);
@@ -216,10 +264,18 @@ class Category
         try {
             $stmt->execute();
             $this->category = $stmt->fetch();
+            $category = $this->category;
         } catch (Exception $e) {
+        }
+
+        if (isset($category)) {
+            return $category;
         }
     }
 
+    /**
+     * @return array
+     */
     public function groups()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -263,6 +319,9 @@ class Category
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -275,7 +334,7 @@ class Category
         }
 
         $query = '
-            SELECT id, field_group_id, name, help_text, translation, repeatable, type, ordering
+            SELECT *
             FROM field
             WHERE field_group_id IN ( '.implode(',', $groups).' )
             ORDER BY field_group_id ASC, ordering ASC';
@@ -297,6 +356,9 @@ class Category
         return array();
     }
 
+    /**
+     * @return mixed
+     */
     public function categories()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -322,6 +384,11 @@ class Category
         }
     }
 
+    /**
+     * @param $name
+     * @param null $parentID
+     * @return bool
+     */
     public function addCategory($name, $parentID = null)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -337,6 +404,9 @@ class Category
         return $this->id;
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         if (!$this->id) {
@@ -379,6 +449,9 @@ class Category
         return $object->save();
     }
 
+    /**
+     * @return mixed
+     */
     public function getStarred()
     {
         // Database connection
@@ -405,6 +478,9 @@ class Category
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isStarred()
     {
         // No category loaded yet, load before changing starred status
@@ -428,6 +504,9 @@ class Category
         return false;
     }
 
+    /**
+     * @return bool|void
+     */
     public function addStarred()
     {
         // No category loaded yet, load before changing starred status
@@ -446,6 +525,9 @@ class Category
         $this->addTag($starredTagId);
     }
 
+    /**
+     *
+     */
     public function removeStarred()
     {
         $tag = new Tag();
@@ -454,6 +536,9 @@ class Category
         $this->removeTag($starredTagId);
     }
 
+    /**
+     * @param $tag
+     */
     public function addTag($tag)
     {
         // Database connection
@@ -471,6 +556,9 @@ class Category
         return $object->save();
     }
 
+    /**
+     * @param $tag
+     */
     public function removeTag($tag)
     {
         // Database connection
@@ -491,6 +579,9 @@ class Category
         }
     }
 
+    /**
+     * @return array
+     */
     public function tags()
     {
         // Database connection
@@ -519,6 +610,10 @@ class Category
         }
     }
 
+    /**
+     * @param $roleID
+     * @return bool
+     */
     public function addRole($roleID)
     {
         if (!$this->id) {
@@ -538,6 +633,9 @@ class Category
         return $object->save();
     }
 
+    /**
+     * @param $roleID
+     */
     public function deleteRole($roleID)
     {
         if (!$this->id) {
@@ -561,6 +659,9 @@ class Category
         }
     }
 
+    /**
+     *
+     */
     public function dropRoles()
     {
         // Delete user roles

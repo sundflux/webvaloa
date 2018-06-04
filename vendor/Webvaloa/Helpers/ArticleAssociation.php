@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use Exception;
@@ -36,7 +37,7 @@ use RuntimeException;
 use Webvaloa\Article as ArticleHelper;
 use Webvaloa\Locale\Locales as LocalesHelper;
 
-/*
+/**
  * Associations for article translations.
  *
  * // Get associated content id for the locale
@@ -55,14 +56,32 @@ use Webvaloa\Locale\Locales as LocalesHelper;
  *
  */
 
-// This is somewhat EXPERIMENTAL and at the moment the support for associated articles might break stuff.
-
+/**
+ * Class ArticleAssociation
+ * @package Webvaloa\Helpers
+ */
 class ArticleAssociation
 {
+    /**
+     * @var int|string
+     */
     public $id;
+
+    /**
+     * @var bool
+     */
     public $associatedId;
+
+    /**
+     * @var bool
+     */
     private $locale;
 
+    /**
+     * ArticleAssociation constructor.
+     * @param bool $id
+     * @throws Exception
+     */
     public function __construct($id = false)
     {
         if (!is_numeric($id)) {
@@ -79,39 +98,59 @@ class ArticleAssociation
         $this->locale = false;
     }
 
+    /**
+     * @param $locale
+     */
     public function setLocale($locale)
     {
         $this->locale = $locale;
     }
 
+    /**
+     * @return bool
+     */
     public function getLocale()
     {
         return $this->locale;
     }
 
+    /**
+     *
+     */
     private function defaultLocale()
     {
         $this->setLocale(\Webvaloa\Webvaloa::getLocale());
     }
 
+    /**
+     * @param $id
+     */
     public function setId($id)
     {
         $this->id = $id;
     }
 
+    /**
+     * @return int|string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param $id
+     */
     public function setAssociatedId($id)
     {
         $this->associatedId = $id;
     }
 
+    /**
+     * @return bool
+     */
     public function getAssociatedId()
     {
-        // return $this->id; // To temporarily DISABLE support, uncomment this line
         if (!$this->getLocale()) {
             $this->defaultLocale();
         }
@@ -121,6 +160,9 @@ class ArticleAssociation
         return $this->associatedId;
     }
 
+    /**
+     * @return array
+     */
     public function getAssociatedIds()
     {
         $localesHelper = new LocalesHelper();
@@ -136,6 +178,9 @@ class ArticleAssociation
         return $ids;
     }
 
+    /**
+     * @return bool|int|string
+     */
     private function loadAssociatedId()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -148,7 +193,8 @@ class ArticleAssociation
         $a = $article->article;
 
         // Locale matches and no associated id is set, so this must be an main article
-        if ($a->locale == $this->getLocale() && empty($a->associated_content_id)) {
+        if (!empty($a->locale) && $a->locale == $this->getLocale()
+            && empty($a->associated_content_id)) {
             return $id;
         }
 
@@ -174,6 +220,9 @@ class ArticleAssociation
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function createAssociation()
     {
         // Association already exists

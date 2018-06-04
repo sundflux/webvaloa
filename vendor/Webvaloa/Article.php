@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
@@ -38,14 +39,29 @@ use UnexpectedValueException;
 use Webvaloa\Helpers\ArticleAssociation as ArticleHelper;
 
 /**
- * Handles Webvaloa articles.
+ * Class Article
+ * @package Webvaloa
  */
 class Article
 {
+    /**
+     * @var stdClass
+     */
     public $article;
+
+    /**
+     * @var bool
+     */
     private $loaded;
+
+    /**
+     * @var bool
+     */
     private $fieldsloaded;
 
+    /**
+     *
+     */
     const GLOBAL_GROUP_ID = 0;
 
     /**
@@ -59,7 +75,7 @@ class Article
         $this->fieldsloaded = false;
         $this->article = new stdClass();
 
-        $this->article->id = $id;
+        $this->article->id = (int) $id;
         if (is_numeric($id) || $id === 0) {
             $this->loadArticle();
             $this->loadFields();
@@ -69,11 +85,14 @@ class Article
         }
     }
 
+    /**
+     *
+     */
     public function initEmpty()
     {
         $this->article->published = 1;
-        $this->article->publish_up = 'NOW()';
-        $this->article->publish_down = null;
+        $this->article->publish_up = date('Y-m-d H:i:s');
+        $this->article->publish_down = '1970-01-01 00:00:01';
         $this->article->locale = Webvaloa::getLocale();
 
         if (isset($_SESSION['UserID'])) {
@@ -83,6 +102,10 @@ class Article
         }
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if (isset($this->article->$k)) {
@@ -90,6 +113,10 @@ class Article
         }
     }
 
+    /**
+     * @param $k
+     * @return bool|stdClass
+     */
     public function __get($k)
     {
         if (!$this->loaded) {
@@ -108,6 +135,9 @@ class Article
         return false;
     }
 
+    /**
+     *
+     */
     public function loadArticle()
     {
         if ($this->loaded) {
@@ -144,21 +174,33 @@ class Article
         }
     }
 
+    /**
+     *
+     */
     public function trash()
     {
         return $this->setPublished(-1);
     }
 
+    /**
+     *
+     */
     public function publish()
     {
         return $this->setPublished(1);
     }
 
+    /**
+     *
+     */
     public function unpublish()
     {
         return $this->setPublished(0);
     }
 
+    /**
+     * @param $title
+     */
     public function setTitle($title)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
@@ -181,6 +223,9 @@ class Article
         }
     }
 
+    /**
+     * @param $i
+     */
     public function setPublished($i)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
@@ -219,19 +264,29 @@ class Article
         }
     }
 
+    /**
+     * @param $i
+     */
     public function setPublishUp($i)
     {
         return $this->setPublish($i);
     }
 
+    /**
+     * @param $i
+     */
     public function setPublishDown($i)
     {
         return $this->setPublish($i, true);
     }
 
+    /**
+     * @param $i
+     * @param bool $down
+     */
     private function setPublish($i, $down = false)
     {
-        if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
+        if (!isset($this->article->id) || !is_numeric($this->article->id)) {
             throw new RuntimeException('Article not loadable');
         }
 
@@ -259,6 +314,9 @@ class Article
         }
     }
 
+    /**
+     * @param $id
+     */
     public function setAssociation($id)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
@@ -282,6 +340,10 @@ class Article
         }
     }
 
+    /**
+     * @param $a
+     * @return bool
+     */
     public function alias($a)
     {
         if (!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) {
@@ -312,6 +374,9 @@ class Article
         }
     }
 
+    /**
+     *
+     */
     public function loadFields()
     {
         if ($this->fieldsloaded) {
@@ -395,6 +460,9 @@ class Article
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function insert()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -403,18 +471,22 @@ class Article
             INSERT INTO content (
                 `published` ,
                 `publish_up` ,
+                `publish_down` ,
                 `locale` ,
                 `user_id`
             )
             VALUES (
                 ?,
-                NOW(),
+                ?,
+                ?,
                 ?,
                 ?
             )';
 
         $stmt = $db->prepare($query);
         $stmt->set($this->article->published);
+        $stmt->set($this->article->publish_up);
+        $stmt->set($this->article->publish_down);
         $stmt->set($this->article->locale);
         $stmt->set($this->article->user_id);
 
@@ -428,6 +500,10 @@ class Article
         }
     }
 
+    /**
+     * @param $category_id
+     * @return mixed
+     */
     public function addCategory($category_id)
     {
         if (!$this->loaded) {
@@ -443,10 +519,17 @@ class Article
         return $c->save();
     }
 
+    /**
+     * @return array|bool
+     */
     public function getCategory()
     {
         if (!$this->loaded) {
             $this->loadArticle();
+        }
+
+        if (!isset($this->article->id)) {
+            return false;
         }
 
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -475,6 +558,10 @@ class Article
         return false;
     }
 
+    /**
+     * @param bool $category_id
+     * @return bool
+     */
     public function getArticles($category_id = false)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

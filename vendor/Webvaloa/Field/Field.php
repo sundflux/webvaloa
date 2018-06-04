@@ -29,22 +29,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field;
 
 use Libvaloa\Db;
 use Libvaloa\Debug;
+use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Path;
 use stdClass;
 
+/**
+ * Class Field
+ * @package Webvaloa\Field
+ */
 class Field
 {
+    /**
+     * @var Db\Object
+     */
     private $object;
+
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * @var Path
+     */
+    private $pathHelper;
+
+    /**
+     * @var array
+     */
     public $fields = array();
 
+    /**
+     * Field constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
+        $this->pathHelper = new Path();
         $this->object = new Db\Object('field', \Webvaloa\Webvaloa::DBConnection());
         $this->fieldID = $fieldID;
 
@@ -53,26 +85,44 @@ class Field
         }
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         $this->object->$k = $v;
     }
 
+    /**
+     * @param $k
+     * @return null|string
+     */
     public function __get($k)
     {
         return $this->object->$k;
     }
 
+    /**
+     * @return mixed
+     */
     public function save()
     {
         return $this->object->save();
     }
 
+    /**
+     *
+     */
     public function delete()
     {
         return $this->object->delete();
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     public function findByName($name)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -100,24 +150,30 @@ class Field
         }
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
-        $search[] = LIBVALOA_INSTALLPATH.'/Webvaloa/Field/Fields';
-        $search[] = LIBVALOA_EXTENSIONSPATH.'/Webvaloa/Field/Fields';
+        foreach ($this->pathHelper->getSystemPaths() as $path) {
+            try {
+                $fs = new Filesystem($path . '/Webvaloa/Field/Fields');
+                $files = $fs->files();
 
-        foreach ($search as $path) {
-            Debug::__print($path);
-            if ($handle = opendir($path)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if (substr($entry, -4) == '.php') {
-                        $this->fields[] = substr($entry, 0, -4);
+                if (is_array($files)) {
+                    foreach ($files as $file) {
+                        if (substr($file->filename, -4) != '.php') {
+                            continue;
+                        }
+                        $field = substr($file->filename, 0, -4);
+                        $this->fields[$field] = $field;
                     }
                 }
-                closedir($handle);
+            } catch (\RuntimeException $e) {
+                Debug::__print($e->getMessage());
+                Debug::__print($path);
             }
         }
-
-        $this->fields = array_unique($this->fields);
 
         Debug::__print('Available fields:');
         Debug::__print($this->fields);
@@ -125,6 +181,9 @@ class Field
         return $this->fields;
     }
 
+    /**
+     * @return array|bool
+     */
     public function fieldSettings()
     {
         $fields = $this->fields();

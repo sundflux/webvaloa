@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Auth;
 
 use Webvaloa\Auth;
@@ -36,14 +37,21 @@ use Webvaloa;
 use Webvaloa\User;
 
 /**
+ * Class Sso
+ *
  * Authentication driver, implementing libvaloa's authentication
  * for single-sign-on plugins. Authenticate immediatly logs in the
  * user, so external sso plugins should handle the actual
  * authentication process, and use this class only to initialize
  * webvaloa session.
+ *
+ * @package Webvaloa\Auth
  */
 class Sso implements AuthIFace, PWResetIFace
 {
+    /**
+     * Sso constructor.
+     */
     public function __construct()
     {
         $this->auth = new Db();

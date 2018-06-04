@@ -29,21 +29,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
+use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Path;
 use RuntimeException;
 
 /**
- * Handles Webvaloa components.
+ * Class Component
+ * @package Webvaloa
  */
 class Component
 {
+    /**
+     * @var bool
+     */
     private $id;
-    private $controller;
-    private $component;
-    private $roles;
 
+    /**
+     * @var bool|string
+     */
+    private $controller;
+
+    /**
+     * @var bool
+     */
+    private $component;
+
+
+    /**
+     * @var array
+     */
     public static $properties = array(
         'vendor' => 'ValoaApplication',
     );
@@ -60,6 +79,10 @@ class Component
         $this->component = false;
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if (!$this->component) {
@@ -74,6 +97,10 @@ class Component
         $this->component->$k = $v;
     }
 
+    /**
+     * @param $k
+     * @return bool
+     */
     public function __get($k)
     {
         if (!$this->component) {
@@ -87,6 +114,9 @@ class Component
         return false;
     }
 
+    /**
+     * @param $componentID
+     */
     public function byID($componentID)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -236,6 +266,9 @@ class Component
         return $object->save();
     }
 
+    /**
+     *
+     */
     public function dropRoles()
     {
         if (!$this->component) {
@@ -262,6 +295,9 @@ class Component
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isPublic()
     {
         $role = new Role();
@@ -345,6 +381,10 @@ class Component
         }
     }
 
+    /**
+     * @param $componentID
+     * @return bool
+     */
     public static function getComponentStatus($componentID)
     {
         $query = '
@@ -371,6 +411,10 @@ class Component
         }
     }
 
+    /**
+     * @param $componentID
+     * @param int $status
+     */
     public static function setComponentStatus($componentID, $status = 0)
     {
         $query = '
@@ -389,51 +433,56 @@ class Component
         }
     }
 
+    /**
+     * @return array
+     */
     public function discover()
     {
+        $pathHelper = new Path();
+
         // Installed components
         $tmp = $this->components();
         foreach ($tmp as $v => $component) {
-            $components[] = $component->controller;
+            $installedComponents[] = $component->controller;
         }
 
-        // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers';
-        $paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Controllers';
-
-        $skip = array(
-            '.',
-            '..',
-        );
-
-        $components = array_merge($components, $skip);
-
         // Look for new components
-        foreach ($paths as $path) {
-            if ($handle = opendir($path)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ($entry == '.' || $entry == '..') {
+        foreach ($pathHelper->getControllerPaths() as $path) {
+            if (!is_readable($path)) {
+                Debug::__print('Controller path not readable:');
+                Debug::__print($path);
+
+                continue;
+            }
+
+            try {
+                $fs = new Filesystem($path);
+                $folders = $fs->folders();
+
+                foreach ($folders as $folder) {
+                    if (!is_readable($path. '/' . $folder . '/manifest.json')) {
                         continue;
                     }
 
-                    if (file_exists($path.DIRECTORY_SEPARATOR.$entry.DIRECTORY_SEPARATOR.'manifest.json') && !in_array($entry, $components)) {
-                        $manifest = new Manifest($entry);
+                    $manifest = new Manifest($folder);
 
-                        if ($manifest->anonymous == 1) {
-                            continue;
-                        }
-
-                        if (!isset($controllers)) {
-                            $controllers = array();
-                        }
-
-                        if (!in_array($entry, $controllers)) {
-                            $controllers[] = $entry;
-                        }
+                    if ($manifest->anonymous == 1) {
+                        continue;
                     }
-                }
 
-                closedir($handle);
+                    if (!isset($controllers)) {
+                        $controllers = array();
+                    }
+
+                    if (in_array($folder, $installedComponents)) {
+                        continue;
+                    }
+
+                    $controllers[] = $folder;
+                }
+            } catch (\Exception $e) {
+                Debug::__print($e->getMessage());
+                Debug::__print($path);
             }
         }
 

@@ -42,24 +42,88 @@
  * If controller is not found, it is appended to parameters and default controller is opened
  * Parameters can be used as variable1/value1/variable2/value2 or value1/value2/value3 etc
  */
+
 namespace Webvaloa\Controller;
 
+use Libvaloa\Debug;
+
+/**
+ * Class Request
+ * @package Webvaloa\Controller
+ */
 class Request
 {
+    /**
+     * @var bool|Request
+     */
     private static $instance = false;
 
+    /**
+     * @var bool|string
+     */
     private $basepath;
-    private $baseuri = array();       // host (with http[s]:// prefix) and path
-    private $controller = false;      // requested controller to load
-    private $method = 'index';        // requested method to call from controller
-    private $parameters = array();    // parameters for controller
+
+    /**
+     * host (with http[s]:// prefix) and path
+     *
+     * @var array
+     */
+    private $baseuri = array();
+
+    /**
+     * requested controller to load
+     *
+     * @var bool|string
+     */
+    private $controller = false;
+
+    /**
+     * requested method to call from controller
+     *
+     * @var mixed|string
+     */
+    private $method = 'index';
+
+    /**
+     * parameters for controller
+     *
+     * @var array
+     */
+    private $parameters = array();
+
+    /**
+     * @var string
+     */
     private $protocol = 'http';
 
+    /**
+     * @var bool
+     */
     private $ajax = false;
+
+    /**
+     * @var bool
+     */
     private $json = false;
 
+    /**
+     * @var bool
+     */
+    private $cli = false;
+
+    /**
+     * Request constructor.
+     */
     public function __construct()
     {
+        if (\Webvaloa\Webvaloa::isCommandLine()) {
+            $_SERVER['HTTP_HOST'] = 'localhost';
+            $_SERVER['REQUEST_URI'] = '';
+
+            $this->cli = true;
+            $this->mapCommandLine();
+        }
+
         $script = str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']);
         $uri = $_SERVER['HTTP_HOST'].$script.str_replace(str_replace('index.php', '', $script), '/', $_SERVER['REQUEST_URI']);
 
@@ -76,8 +140,11 @@ class Request
 
         // Route when rewrite..
         if (strpos($uri, 'index.php') === false) {
-            $uri = str_replace($_SERVER['HTTP_HOST'],
-                $_SERVER['HTTP_HOST'].'index.php', $uri);
+            $uri = str_replace(
+                $_SERVER['HTTP_HOST'],
+                $_SERVER['HTTP_HOST'].'index.php',
+                $uri
+            );
         }
 
         list($host, $route) = explode('index.php', $uri, 2);
@@ -109,13 +176,57 @@ class Request
             && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
             $this->ajax = true;
 
-            if (isset($_SERVER['HTTP_ACCEPT']) && in_array('application/json',
-                explode(',', $_SERVER['HTTP_ACCEPT']), true)) {
+            if (isset($_SERVER['HTTP_ACCEPT']) && in_array(
+                'application/json',
+                explode(',', $_SERVER['HTTP_ACCEPT']),
+                true
+            )) {
                 $this->json = true;
             }
         }
 
         self::$instance = $this;
+    }
+
+    /**
+     * Map command line parameters to Commando
+     */
+    public function mapCommandLine()
+    {
+        Debug::__print('Command Line Debug: Command line support enabled.');
+
+        $this->isJson(true);
+
+        $this->cli = new \Commando\Command();
+
+        $this->cli->option('controller')
+            ->aka('c')
+            ->require()
+            ->describedAs('Controller to run');
+
+        $this->cli->option('method')
+            ->aka('m')
+            ->require()
+            ->describedAs('Controller method to run');
+
+        $this->cli->option('parameters')
+            ->aka('p')
+            ->describedAs('Controller method to run');
+
+        $this->setController($this->cli['controller']);
+        $this->setMethod($this->cli['method']);
+
+        $params = $this->cli['parameters'];
+
+        if (!empty($params)) {
+            $params = explode('/', $params);
+            $this->setParams($params);
+        }
+
+        Debug::__print('Mapped:');
+        Debug::__print($this->cli['controller']);
+        Debug::__print($this->cli['method']);
+        Debug::__print($this->cli['parameters']);
     }
 
     /**
@@ -161,6 +272,9 @@ class Request
         $this->controller = false;
     }
 
+    /**
+     *
+     */
     public function shiftParam()
     {
         array_shift($this->parameters);
@@ -194,7 +308,7 @@ class Request
         }
     }
 
-    /*
+    /**
      * Set protocol
      */
     public function setProtocol($protocol)
@@ -246,11 +360,17 @@ class Request
         return ucfirst($this->controller);
     }
 
+    /**
+     * @return string
+     */
     public function getMainController()
     {
         return $this->getController(false);
     }
 
+    /**
+     * @return string
+     */
     public function getChildController()
     {
         $tmp = explode('_', $this->controller);
@@ -305,8 +425,10 @@ class Request
      */
     public function getPath()
     {
-        return rtrim(dirname(substr($_SERVER['SCRIPT_FILENAME'],
-            strlen($_SERVER['DOCUMENT_ROOT']))), '/');
+        return rtrim(dirname(substr(
+            $_SERVER['SCRIPT_FILENAME'],
+            strlen($_SERVER['DOCUMENT_ROOT'])
+        )), '/');
     }
 
     /**
@@ -348,11 +470,18 @@ class Request
         return $this->getBaseUri().'/'.$this->getCurrentRoute();
     }
 
+    /**
+     * @return bool|string
+     */
     public function getBasePath()
     {
         return $this->basepath;
     }
 
+    /**
+     * @param null $val
+     * @return bool
+     */
     public function isAjax($val = null)
     {
         if ($val !== null) {
@@ -362,6 +491,10 @@ class Request
         return $this->ajax;
     }
 
+    /**
+     * @param null $val
+     * @return bool
+     */
     public function isJson($val = null)
     {
         if ($val !== null) {
@@ -371,16 +504,27 @@ class Request
         return $this->json;
     }
 
+    /**
+     * @param $val
+     * @return bool|string
+     */
     private function decodeRouteParam($val)
     {
         if (substr($val, 0, 5) === '$enc$') {
-            return base64_decode(str_replace('.', '/',
-                urldecode(substr($val, 5))));
+            return base64_decode(str_replace(
+                '.',
+                '/',
+                urldecode(substr($val, 5))
+            ));
         } else {
             return urldecode($val);
         }
     }
 
+    /**
+     * @param $val
+     * @return string
+     */
     public static function encodeRouteParam($val)
     {
         if (strpos($val, '/') !== false) {

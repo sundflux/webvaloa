@@ -36,6 +36,7 @@
  *
  * @uses          Controller_Request
  */
+
 namespace Webvaloa\Controller;
 
 class Redirect

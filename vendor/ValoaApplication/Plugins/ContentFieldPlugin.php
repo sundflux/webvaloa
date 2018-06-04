@@ -29,9 +29,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug;
+use Webvaloa\Helpers\Path;
 use DOMDocument;
 use DOMXpath;
 
@@ -48,14 +50,9 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
         if ($this->request->getChildController() !== 'Article') {
             return;
         }
-
-        $paths = array(
-            LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields',
-            LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.'Webvaloa'.DIRECTORY_SEPARATOR.'Field'.DIRECTORY_SEPARATOR.'Fields',
-        );
-
-        foreach ($paths as $path) {
-            $this->ui->addIncludePath($path);
+        $pathHelper = new Path;
+        foreach ($pathHelper->getSystemPaths() as $path) {
+            $this->ui->addIncludePath($path.'/'.'Webvaloa'.'/'.'Field'.'/'.'Fields');
         }
     }
 
@@ -149,6 +146,8 @@ class ContentFieldPlugin extends \Webvaloa\Plugin
                         <xsl:with-param name="name" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../name" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                         <xsl:with-param name="translation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../translation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                         <xsl:with-param name="value" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="." xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
+                        <xsl:with-param name="default_value" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../default_value" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
+                        <xsl:with-param name="validation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../validation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                         <xsl:with-param name="params" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:value-of select="../params" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"/></xsl:with-param>
                     </xsl:call-template>
 

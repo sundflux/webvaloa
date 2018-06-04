@@ -181,7 +181,7 @@
                                         PostgreSQL
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        MySQL / MariaDB
+                                        MySQL <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','COMPATIBLE')" />
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </button>
@@ -190,7 +190,7 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="javascript:;" onclick="Setup.db('mysql')">MySQL / MariaDB</a></li>
+                                <li><a href="javascript:;" onclick="Setup.db('mysql')">MySQL <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','COMPATIBLE')" /></a></li>
                                 <!-- PostgreSQL support not yet done -->
                                 <li class="disabled"><a href="javascript:;" onclick="return false;Setup.db('postgres')" disabled="disabled">PostgreSQL</a></li>
                             </ul>

@@ -29,16 +29,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use stdClass;
 use Exception;
 use RuntimeException;
 
+/**
+ * Class Article
+ * @package Webvaloa\Helpers
+ */
 class Article
 {
+    /**
+     * @var stdClass
+     */
     public $article;
 
+    /**
+     * Article constructor.
+     * @param bool $id
+     * @throws Exception
+     */
     public function __construct($id = false)
     {
         if (!is_numeric($id)) {
@@ -51,6 +64,9 @@ class Article
         $this->loadFields();
     }
 
+    /**
+     *
+     */
     public function loadArticle()
     {
         if (!is_numeric($this->article->id)) {
@@ -77,6 +93,9 @@ class Article
         }
     }
 
+    /**
+     *
+     */
     public function loadFields()
     {
         if ((!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) // Regular article check
@@ -147,6 +166,9 @@ class Article
         }
     }
 
+    /**
+     * @return array
+     */
     public static function tags()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

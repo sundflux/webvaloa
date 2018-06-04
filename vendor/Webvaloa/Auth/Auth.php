@@ -5,7 +5,7 @@
  * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2004 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2004,2018 Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * All Rights Reserved.
  *
@@ -36,12 +36,14 @@
  *
  * Handles user authentication and validation.
  */
+
 namespace Webvaloa\Auth;
 
 use Webvaloa\Controller\Request;
 
 /**
- * Auth api interface.
+ * Interface AuthIFace
+ * @package Webvaloa\Auth
  */
 interface AuthIFace
 {
@@ -53,13 +55,18 @@ interface AuthIFace
 }
 
 /**
- * Password reset interface.
+ * Interface PWResetIFace
+ * @package Webvaloa\Auth
  */
 interface PWResetIFace
 {
     public function updatePassword($username, $password);
 }
 
+/**
+ * Class Auth
+ * @package Webvaloa\Auth
+ */
 class Auth
 {
     /**
@@ -77,6 +84,9 @@ class Auth
         'authCheckForwardFor' => 1,
     );
 
+    /**
+     * @var
+     */
     private $backend;
 
     /**

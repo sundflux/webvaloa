@@ -30,31 +30,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Controller\Request;
 
 use Libvaloa\Db;
 use stdClass;
 
+/**
+ * Class Alias
+ * @package Webvaloa\Controller\Request
+ */
 class Alias
 {
+
+    /**
+     * @var \Webvaloa\DB
+     */
     private $db;
 
-    // Routes from override config
+    /**
+     * @var
+     */
     private $routes;
 
-    // URL params
+    /**
+     * @var
+     */
     private $params;
 
+    /**
+     * @var
+     */
     public $controller;
 
+    /**
+     * Alias constructor.
+     * @param $alias
+     */
     public function __construct($alias)
     {
         $this->controller = new stdClass();
 
-        // Alias
-        if (strlen($alias[0]) == 0) {
+        if (!is_array($alias)) {
+            $alias = (array) $alias;
+        }
+
+        if (empty($alias[0])) {
             return;
         }
+
         $this->params = $alias;
         $this->controller->controller = $controller = ucfirst(strtolower($this->params[0]));
 
@@ -157,6 +181,9 @@ class Alias
         }
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         if (isset($this->controller->method) && !empty($this->controller->method)) {
@@ -172,6 +199,9 @@ class Alias
         return 'index';
     }
 
+    /**
+     * @return array|bool
+     */
     public function getParams()
     {
         if (isset($this->controller->method) && !empty($this->controller->method)) {
@@ -191,6 +221,9 @@ class Alias
         }
     }
 
+    /**
+     *
+     */
     private function loadRoutesFile()
     {
         if (is_readable(WEBVALOA_BASEDIR.'/config/routes.php')) {
@@ -202,6 +235,9 @@ class Alias
         }
     }
 
+    /**
+     * @return bool
+     */
     public function loadRoute()
     {
         $alias = $this->params[0] = strtolower($this->params[0]);
@@ -224,6 +260,10 @@ class Alias
         return false;
     }
 
+    /**
+     * @param $row
+     * @return bool
+     */
     private function buildContentRoute($row)
     {
         if (!isset($row->type)) {
@@ -269,6 +309,9 @@ class Alias
         }
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return (string) $this->controller->controller;

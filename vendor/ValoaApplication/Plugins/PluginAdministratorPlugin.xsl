@@ -209,29 +209,6 @@
                                         </xsl:for-each>
                                     </xsl:if>
 
-                                    <xsl:if test="/page/module//_settings/webvaloa_hide_developer_tools != 'yes'">
-                                        <li class="divider"></li>
-                                        <li class="dropdown-header">
-                                            <span>
-                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','DEVELOPER_TOOLS', 'PluginAdministratorPlugin')"/>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <a href="{/page/common/basepath}/extension_developer/create/component"><i class="fa fa-wrench"></i>&#160;
-                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CREATE_COMPONENT', 'PluginAdministratorPlugin')"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{/page/common/basepath}/extension_developer/create/plugin"><i class="fa fa-wrench"></i>&#160;
-                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','CREATE_PLUGIN', 'PluginAdministratorPlugin')"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{/page/common/basepath}/extension_developer/export"><i class="fa fa-upload"></i>&#160;
-                                                <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','EXPORT', 'PluginAdministratorPlugin')"/>...
-                                            </a>
-                                        </li>
-                                    </xsl:if>
                                 </ul>
                             </li>
                         </xsl:if>

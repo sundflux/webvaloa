@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Auth;
 
 use Webvaloa;
@@ -36,11 +37,18 @@ use Webvaloa\Component;
 use Webvaloa\User;
 
 /**
+ * Class Db
+ *
  * Authentication driver, implementing libvaloa's authentication
  * and password reset interfaces.
+ *
+ * @package Webvaloa\Auth
  */
 class Db implements AuthIFace, PWResetIFace
 {
+    /**
+     * Db constructor.
+     */
     public function __construct()
     {
     }

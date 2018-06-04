@@ -34,47 +34,76 @@
 namespace Webvaloa;
 
 use Libvaloa\Debug;
-use Libvaloa\Db;
 use Libvaloa\I18n;
+use Webvaloa\Helpers\Path;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Controller\Request;
 use stdClass;
 use PDOException;
 use Exception;
 
-// Base path on the server
-define('WEBVALOA_BASEDIR', realpath(dirname(__FILE__)));
+class WebvaloaBootstrap
+{
+    public function __construct()
+    {
+        // Base path on the server
+        define('WEBVALOA_BASEDIR', realpath(dirname(__FILE__)));
 
-// Include separate config-file
-if (is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
-    require_once WEBVALOA_BASEDIR.'/config/config.php';
+        // Core paths
+        if (!defined('LIBVALOA_INSTALLPATH')) {
+            define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.'/'.'vendor');
+        }
+
+        // Extensions
+        if (!defined('LIBVALOA_EXTENSIONSPATH')) {
+            define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.'/'.'vendor');
+        }
+
+        // Public media
+        if (!defined('LIBVALOA_PUBLICPATH')) {
+            define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.'/'.'public');
+        }
+
+        // Include paths
+        set_include_path(LIBVALOA_EXTENSIONSPATH.'/'.PATH_SEPARATOR.get_include_path());
+        set_include_path(LIBVALOA_INSTALLPATH.'/'.PATH_SEPARATOR.get_include_path());
+
+        // Composer autoloader
+        if (!file_exists(LIBVALOA_INSTALLPATH.'/autoload.php')) {
+            die('Please install dependencies first, run: composer install');
+        }
+
+        require_once LIBVALOA_INSTALLPATH.'/autoload.php';
+    }
+
+    public function loadRuntimeConfiguration()
+    {
+        // Include separate config-file
+        if (is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
+            // Configuration found
+
+            require_once WEBVALOA_BASEDIR.'/config/config.php';
+        } elseif (file_exists(WEBVALOA_BASEDIR.'/config/config.php') && !is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
+            // Configuration exists, but is not readable, so don't proceed
+
+            die("Configuration exists, but configuration is not readable.");
+        } elseif (!file_exists(WEBVALOA_BASEDIR.'/config/config.php') && file_exists(WEBVALOA_BASEDIR.'/config/config.php-stub')) {
+            // Configuration doesn't exist, but -stub does, so we can
+            // assume clean install - copy stub file as temporary configuration
+
+            if (is_readable(WEBVALOA_BASEDIR.'/config/config.php-stub')) {
+                copy(WEBVALOA_BASEDIR.'/config/config.php-stub', WEBVALOA_BASEDIR.'/config/config.php');
+
+                header('location: '.$_SERVER['REQUEST_URI']);
+                exit;
+            } else {
+                die("Could not copy configuration.");
+            }
+        } else {
+            die('Could not load runtime configuration.');
+        }
+    }
 }
-
-// Core paths
-if (!defined('LIBVALOA_INSTALLPATH')) {
-    define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.'/'.'vendor');
-}
-
-// Extensions
-if (!defined('LIBVALOA_EXTENSIONSPATH')) {
-    define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.'/'.'vendor');
-}
-
-// Public media
-if (!defined('LIBVALOA_PUBLICPATH')) {
-    define('LIBVALOA_PUBLICPATH', WEBVALOA_BASEDIR.'/'.'public');
-}
-
-// Composer autoloader
-if (!file_exists(LIBVALOA_INSTALLPATH.'/autoload.php')) {
-	die('Please install dependencies first, run: composer install');
-}
-
-require_once LIBVALOA_INSTALLPATH.'/autoload.php';
-
-// Include paths
-set_include_path(LIBVALOA_EXTENSIONSPATH.'/'.PATH_SEPARATOR.get_include_path());
-set_include_path(LIBVALOA_INSTALLPATH.'/'.PATH_SEPARATOR.get_include_path());
 
 /**
  * Webvaloa kernel class.
@@ -93,6 +122,7 @@ class Webvaloa
      */
     public static $db = false;
 
+
     /**
      * Static var to track if Webvaloa kernel has been loaded.
      */
@@ -107,6 +137,16 @@ class Webvaloa
      * Session.
      */
     public static $session = false;
+
+    /**
+     * Whoops
+     */
+    public $whoops;
+
+    /**
+     * Cli
+     */
+    public static $cli = false;
 
     /**
      * Properties array.
@@ -133,11 +173,35 @@ class Webvaloa
         spl_autoload_register(array('Webvaloa\Webvaloa', 'autoload'));
 
         // Uncaught exception handler.
-        set_exception_handler(array('Webvaloa\Webvaloa', 'exceptionHandler'));
+        if (error_reporting() !== E_ALL) {
+            // Default, safer handler for production mode
+            set_exception_handler(array('Webvaloa\Webvaloa', 'exceptionHandler'));
+        } else {
+            // Register whoops for developer mode
+            $this->whoops = new \Whoops\Run;
+            $this->whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $this->whoops->register();
+        }
 
+        self::$cli = self::isCommandLine();
         self::$loaded = true;
     }
 
+    /**
+     * @return bool
+     */
+    public static function isCommandLine()
+    {
+        if (php_sapi_name() == "cli") {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *
+     */
     public static function initializeSession()
     {
         // Start the session
@@ -165,6 +229,39 @@ class Webvaloa
     }
 
     /**
+     * @return array
+     */
+    public static function getSystemPaths()
+    {
+        $paths[] = LIBVALOA_INSTALLPATH;
+        $paths[] = LIBVALOA_EXTENSIONSPATH;
+        $paths = array_merge($paths, explode(':', get_include_path()));
+
+        foreach ($paths as $path) {
+            $path = rtrim($path);
+            $path = rtrim($path, '/');
+
+            if (file_exists($path.'/'.self::$properties['vendor'])) {
+                $systemPaths[] = realpath($path);
+                $systemPaths[] = realpath($path.'/'.self::$properties['vendor']);
+            }
+
+            // Treat any path with FrontController as system path.
+            if (file_exists($path.'/Webvaloa/FrontController.php')) {
+                $systemPaths[] = $path;
+            }
+        }
+
+        if (is_array($systemPaths)) {
+            $systemPaths = array_reverse(array_unique($systemPaths));
+
+            return $systemPaths;
+        }
+
+        throw new \RuntimeException('Could not find any system paths');
+    }
+
+    /**
      * Class autoloader.
      *
      * @access public
@@ -187,17 +284,13 @@ class Webvaloa
 
         $fileName .= str_replace('_', '/', $className).'.php';
 
-        // Look first from the extensionspath, then fallback to core installpath
-        $search[] = LIBVALOA_EXTENSIONSPATH.'/'.$fileName;
-        $search[] = LIBVALOA_INSTALLPATH.'/'.$fileName;
-
         // Include classes if found
-        foreach ($search as $v) {
-            if (!is_readable($v)) {
+        foreach (self::getSystemPaths() as $v) {
+            if (!is_readable($v.'/'.$fileName)) {
                 continue;
             }
-            require_once $v;
 
+            require_once $v.'/'.$fileName;
             return;
         }
     }
@@ -223,7 +316,7 @@ class Webvaloa
                 // Make sure we use UTF-8
                 if (\Webvaloa\config::$properties['db_server'] != 'sqlite') {
                     $initquery = "SET NAMES 'UTF8'";
-                    if(isset(\Webvaloa\config::$properties['time_zone'])) {
+                    if (isset(\Webvaloa\config::$properties['time_zone'])) {
                         date_default_timezone_set(\Webvaloa\config::$properties['time_zone']);
                         $date = new \DateTime();
                         $hours = $date->getOffset() / 3600;
@@ -247,7 +340,8 @@ class Webvaloa
                     \Webvaloa\config::$properties['db_db'],
                     \Webvaloa\config::$properties['db_server'],
                     false,
-                    $initquery);
+                    $initquery
+                );
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage());
             }
@@ -325,7 +419,17 @@ class Webvaloa
             $domain = $request->getMainController();
         }
 
-        $translate = new I18n\Translate($args);
+        // Select translator backend
+        $configuration = new \Webvaloa\Configuration();
+        $translatorBackend = $configuration->default_translator_backend;
+
+        if (!empty($translatorBackend) && $translatorBackend !== false) {
+            $params = array_merge($args, array('backend' => $translatorBackend));
+        } else {
+            $params = $args;
+        }
+
+        $translate = new I18n\Translate($params);
 
         // Default to installpath
         if (file_exists(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Locale'.'/'.self::getLocale().'/'.'LC_MESSAGES'.'/'.$domain.'.ini')) {
@@ -360,6 +464,9 @@ class Webvaloa
  */
 class ApplicationUI
 {
+    /**
+     * @var bool
+     */
     private static $instance = false;
 
     /**
@@ -385,27 +492,27 @@ class ApplicationUI
         $ui = new $uiInterface();
 
         // File paths for the UI
+        $pathHelper = new Path();
+        $systemPaths = $pathHelper->getSystemPaths();
 
-        // Layout and overrides path
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views');
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.$request->getMainController().'/'.'Views');
+        $uiPaths = [
+            'Layout',
+            'Layout'.'/'.Webvaloa::$properties['layout'],
+            'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views',
+            'Layout'.'/'.Webvaloa::$properties['layout'].'/'.$request->getMainController().'/'.'Views',
+            'Controllers'.'/'.$request->getMainController().'/'.'Views',
+            'Plugins'
+        ];
 
-        // Controller
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Controllers'.'/'.$request->getMainController().'/'.'Views');
-
-        // Plugins
-        $ui->addIncludePath(LIBVALOA_EXTENSIONSPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Plugins');
-
-        // As above, but from core installation
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Layout'.'/'.Webvaloa::$properties['layout'].'/'.'Views');
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Controllers'.'/'.$request->getMainController().'/'.'Views');
-        $ui->addIncludePath(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Plugins');
+        foreach ($systemPaths as $path) {
+            foreach ($uiPaths as $uiPath) {
+                $ui->addIncludePath($path.'/'.$uiPath);
+            }
+        }
 
         // Public media paths
-        $ui->addIncludePath(LIBVALOA_PUBLICPATH.'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
-        $ui->addIncludePath(LIBVALOA_PUBLICPATH.'/'.'Layout');
+        $ui->addIncludePath($pathHelper->getPublicPath().'/'.'Layout'.'/'.Webvaloa::$properties['layout']);
+        $ui->addIncludePath($pathHelper->getPublicPath().'/'.'Layout');
 
         // Empty template for ajax requests
         if ($request->isAjax()) {
@@ -444,8 +551,15 @@ class ApplicationUI
  */
 class Application
 {
+    /**
+     * @var bool
+     */
     protected $params = false;
 
+    /**
+     * @param $k
+     * @return stdClass|string|void|Request|DB|Plugin
+     */
     public function __get($k)
     {
         // Core classes available for controllers/applications
@@ -488,6 +602,10 @@ class Application
         return;
     }
 
+    /**
+     * @param $k
+     * @return bool
+     */
     public function __isset($k)
     {
         if (!empty($this->params)) {
@@ -497,6 +615,9 @@ class Application
         return isset($this->{$k});
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         // Set page root (template name)
@@ -580,6 +701,9 @@ class Application
         }
     }
 
+    /**
+     *
+     */
     private function parseParameters()
     {
         if (is_array($this->params)) {
@@ -593,6 +717,10 @@ class Application
         $this->params = false;
     }
 }
+
+// Load runtime configuration
+$webvaloaBootstrap = new WebvaloaBootstrap();
+$webvaloaBootstrap->loadRuntimeConfiguration();
 
 // Load the kernel
 new Webvaloa();

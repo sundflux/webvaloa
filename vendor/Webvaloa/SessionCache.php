@@ -30,21 +30,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use stdClass;
 
 /**
- * Webvaloa session caching class.
+ * Class SessionCache
+ * @package Webvaloa
  */
 class SessionCache
 {
+    /**
+     * @var int
+     */
     private $time;
-    private $cache;
 
-    // 10 minute session cache
+    /**
+     * 10 minute session cache
+     * @var int
+     */
     private $expires = 600;
 
+    /**
+     * SessionCache constructor.
+     */
     public function __construct()
     {
         $this->time = time();
@@ -144,11 +154,17 @@ class SessionCache
         return $this->get($key);
     }
 
+    /**
+     * @param $key
+     */
     public function delete($key)
     {
         // TODO
     }
 
+    /**
+     * @param $key
+     */
     public function _delete($key)
     {
         // TODO

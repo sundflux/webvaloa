@@ -29,11 +29,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use Webvaloa\Helpers\Navigation;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Article;
+use Webvaloa\Helpers\ArticleAssociation as ArticleHelper;
 use Webvaloa\Category;
 use stdClass;
 
@@ -53,7 +55,16 @@ class SiteController extends \Webvaloa\Application
         $this->view->editablemenu->navigation = $navigation->get();
 
         $article = new Article(0);
-        $this->view->contents = $article->getArticles();
+        $articles = $article->getArticles();
+        $this->view->contents = array();
+        foreach ($articles as $article) {
+            $articleHelper = new ArticleHelper((int) $article->id);
+            $associatedId=$articleHelper->getAssociatedId();
+            if ($associatedId) {
+                $associatedArticle = new Article((int) $associatedId);
+                $this->view->contents[] = $associatedArticle;
+            }
+        }
 
         $query = '
             SELECT *
@@ -102,7 +113,7 @@ class SiteController extends \Webvaloa\Application
             try {
                 $stmt = $this->db->prepare('DELETE FROM structure WHERE locale = ?'); // Delete everything of selected locale and start from scratch
                 $stmt->set(\Webvaloa\Webvaloa::getLocale());
-            $stmt->execute();
+                $stmt->execute();
             } catch (Exception $e) {
             }
 
@@ -125,8 +136,8 @@ class SiteController extends \Webvaloa\Application
                 $stmt = $this->db->prepare($query);
                 if (empty($sub->alias)) {
                     $a = $sub->name;
-                        // Use transliteration to convert special letters and characters to ascii. Note: this requires setlocale with .UTF-8 to be correctly installed
-                        $translit = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $a);
+                    // Use transliteration to convert special letters and characters to ascii. Note: this requires setlocale with .UTF-8 to be correctly installed
+                    $translit = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $a);
                     if ($translit !== false) {
                         $a = $translit;
                     }

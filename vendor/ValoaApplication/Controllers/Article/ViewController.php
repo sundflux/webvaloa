@@ -29,12 +29,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Article;
 
+use Libvaloa\Debug;
 use Webvaloa\Cache;
 use Webvaloa\Category;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\ArticleStructure;
+use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
@@ -50,7 +53,6 @@ class ViewController extends \Webvaloa\Application
 
     public function index($id = false)
     {
-
         // Check if we got alias instead
         if (!is_numeric($id) && strlen($id) > 0) {
             $query = '
@@ -72,6 +74,7 @@ class ViewController extends \Webvaloa\Application
         // If requesting without id, return default
         if ($id === false || empty($id)) {
             if (isset($this->view->_globals->default_front_page[0])) {
+                header('HTTP/1.0 404 Not Found');
                 $id = $this->view->_globals->default_front_page[0]->value;
             } else {
                 $id = false;
@@ -81,6 +84,7 @@ class ViewController extends \Webvaloa\Application
         // If requesting
         if (!is_numeric($id)) {
             if (isset($this->view->_globals->default_404_page[0])) {
+                header('HTTP/1.0 404 Not Found');
                 $id = $this->view->_globals->default_404_page[0]->value;
             } else {
                 $id = false;
@@ -103,13 +107,20 @@ class ViewController extends \Webvaloa\Application
         $structure = new ArticleStructure($id);
         $article = $structure->getArticle();
         if ($article->article === false) {
+            header('HTTP/1.0 404 Not Found');
             if (isset($this->view->_globals->default_404_page[0])) {
                 $id = $this->view->_globals->default_404_page[0]->value;
                 $article = new Article($id);
             } else {
-                header('HTTP/1.0 404 Not Found');
                 exit;
             }
+        }
+
+        if (!$this->checkPermissions($article)) {
+            Debug::__print('Oops, no permissions');
+
+            header('HTTP/1.0 404 Not Found');
+            exit;
         }
 
         $this->view->id = $this->view->articleID = $id;
@@ -140,17 +151,36 @@ class ViewController extends \Webvaloa\Application
         // Load field structure
         $this->view->fields = $structure->getFields();
         $this->view->fieldsObjects = $this->view->fields;
-        foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
-            foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
-                foreach ($repeatable->fields as $fieldName => $field) {
-                    if (!isset($this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject)) {
-                        $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject = new \stdClass();
-                    }
 
-                    $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
+        if (is_object($this->view->fieldsObjects)) {
+            foreach ($this->view->fieldsObjects as $fieldsKey => $fields) {
+                foreach ($fields->repeatable_group->repeatable as $repeatableKey => $repeatable) {
+                    foreach ($repeatable->fields as $fieldName => $field) {
+                        if (!isset($this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject)) {
+                            $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject = new \stdClass();
+                        }
+
+                        $this->view->fieldsObjects[$fieldsKey]->repeatable_group->repeatable[$repeatableKey]->fieldsObject->{$fieldName} = $field;
+                    }
                 }
             }
         }
+
         $this->view->fieldTypes = $structure->getFieldTypes();
+    }
+
+    private function checkPermissions($article)
+    {
+        try {
+            $contentAccess = new ContentAccess($article);
+
+            return $contentAccess->checkPermissions();
+        } catch (\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch (\Exception $e) {
+            Debug::__print($e->getMessage());
+        }
+
+        return false;
     }
 }

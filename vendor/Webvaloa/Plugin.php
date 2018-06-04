@@ -29,29 +29,78 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
+use Libvaloa\Debug;
 use RuntimeException;
+use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Helpers\Path;
 
 /**
+ * Class Plugin
  * Manage and run plugins.
+ *
+ * @package Webvaloa
  */
 class Plugin
 {
+    /**
+     * @var \Webvaloa\DB
+     */
     private $db;
+
+    /**
+     * @var bool
+     */
     private $plugins;
+
+    /**
+     * @var bool
+     */
     private $runnablePlugins;
+
+    /**
+     * @var bool
+     */
     private $plugin;
 
     // Objects that plugins can access
+
+    /**
+     * @var bool
+     */
     public $_properties;
+
+    /**
+     * @var bool
+     */
     public $ui;
+
+    /**
+     * @var bool
+     */
     public $controller;
+
+    /**
+     * @var bool
+     */
     public $request;
+
+    /**
+     * @var bool
+     */
     public $view;
+
+    /**
+     * @var bool
+     */
     public $xhtml;
 
+    /**
+     * @var array
+     */
     public static $properties = array(
         // Vendor tag
         'vendor' => 'ValoaApplication',
@@ -71,6 +120,10 @@ class Plugin
         ),
     );
 
+    /**
+     * Plugin constructor.
+     * @param bool $plugin
+     */
     public function __construct($plugin = false)
     {
         $this->plugin = $plugin;
@@ -93,6 +146,9 @@ class Plugin
         }
     }
 
+    /**
+     * @param $e
+     */
     public function setEvent($e)
     {
         if (in_array($e, self::$properties['events'])) {
@@ -100,6 +156,9 @@ class Plugin
         }
     }
 
+    /**
+     * @return bool
+     */
     public function plugins()
     {
         if (!method_exists($this->db, 'prepare')) {
@@ -127,6 +186,10 @@ class Plugin
         }
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     public function pluginExists($name)
     {
         $name = trim($name);
@@ -140,6 +203,9 @@ class Plugin
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function hasRunnablePlugins()
     {
         // Return runnable plugins if we already gathered them
@@ -179,6 +245,9 @@ class Plugin
         return (bool) ($this->runnablePlugins && !empty($this->runnablePlugins)) ? $this->runnablePlugins : false;
     }
 
+    /**
+     * @return bool
+     */
     public function runPlugins()
     {
         if (!$this->runnablePlugins || empty($this->runnablePlugins)) {
@@ -204,6 +273,10 @@ class Plugin
         }
     }
 
+    /**
+     * @param $pluginID
+     * @return bool
+     */
     public static function getPluginStatus($pluginID)
     {
         $query = '
@@ -230,6 +303,10 @@ class Plugin
         }
     }
 
+    /**
+     * @param $pluginID
+     * @param int $status
+     */
     public static function setPluginStatus($pluginID, $status = 0)
     {
         $query = '
@@ -248,6 +325,10 @@ class Plugin
         }
     }
 
+    /**
+     * @param $pluginID
+     * @param int $ordering
+     */
     public static function setPluginOrder($pluginID, $ordering = 0)
     {
         $query = '
@@ -266,6 +347,9 @@ class Plugin
         }
     }
 
+    /**
+     * @return bool
+     */
     public function install()
     {
         if (!$this->plugin) {
@@ -292,6 +376,9 @@ class Plugin
         return $id;
     }
 
+    /**
+     * @return bool
+     */
     public function uninstall()
     {
         if (!$this->plugin) {
@@ -318,8 +405,13 @@ class Plugin
         return false;
     }
 
+    /**
+     * @return array
+     */
     public function discover()
     {
+        $pathHelper = new Path();
+
         // Installed plugins
         $tmp = $this->plugins();
 
@@ -327,30 +419,27 @@ class Plugin
             $plugins[] = $plugin->plugin;
         }
 
-        // Discovery paths
-        $paths[] = LIBVALOA_INSTALLPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';
-        $paths[] = LIBVALOA_EXTENSIONSPATH.DIRECTORY_SEPARATOR.self::$properties['vendor'].DIRECTORY_SEPARATOR.'Plugins';
-
-        $skip = array(
-            '.',
-            '..',
-        );
-
-        $plugins = array_merge($plugins, $skip);
-
         // Look for new plugins
-        foreach ($paths as $path) {
-            if ($handle = opendir($path)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ($entry == '.' || $entry == '..') {
+        foreach ($pathHelper->getPluginPaths() as $path) {
+            Debug::__print('Discovering plugins from');
+            Debug::__print($path);
+
+            try {
+                $fs = new Filesystem($path);
+                $files = $fs->files();
+            } catch (RuntimeException $e) {
+                Debug::__print($e->getMessage());
+
+                continue;
+            }
+
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    if (substr($file->filename, -3) != 'php') {
                         continue;
                     }
 
-                    if (substr($entry, -3) != 'php') {
-                        continue;
-                    }
-
-                    $pluginName = str_replace('Plugin.php', '', $entry);
+                    $pluginName = str_replace('Plugin.php', '', $file->filename);
 
                     if (!isset($installablePlugins)) {
                         $installablePlugins = array();
@@ -360,8 +449,6 @@ class Plugin
                         $installablePlugins[] = $pluginName;
                     }
                 }
-
-                closedir($handle);
             }
         }
 

@@ -29,30 +29,66 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use Webvaloa\Field\Field;
 use stdClass;
 
 /**
- * Category helper.
+ * Class Category
+ * @package Webvaloa\Helpers
  */
 class Category
 {
+    /**
+     * @var bool
+     */
     private $id;
+
+    /**
+     * @var false|string
+     */
     private $publish_up;
+
+    /**
+     * @var false|string
+     */
     private $publish_down;
+
+    /**
+     * @var string
+     */
     private $publish_null;
+
+    /**
+     * @var int
+     */
     private $published;
+
+    /**
+     * @var int
+     */
     private $page;
+
+    /**
+     * @var string
+     */
     private $locale;
+
+    /**
+     * @var int
+     */
     private $limit;
+
+    /**
+     * @var bool
+     */
     private $fieldFilters;
 
     /**
-     * Constructor, give controller name for actions.
-     *
-     * @param string $controller
+     * Category constructor.
+     * @param bool $id
      */
     public function __construct($id = false)
     {
@@ -67,6 +103,10 @@ class Category
         $this->fieldFilters = false;
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if (isset($this->$k)) {
@@ -74,6 +114,10 @@ class Category
         }
     }
 
+    /**
+     * @param $k
+     * @return mixed
+     */
     public function __get($k)
     {
         if (isset($this->$k)) {
@@ -81,6 +125,11 @@ class Category
         }
     }
 
+    /**
+     * @param $fieldName
+     * @param $value
+     * @return bool
+     */
     public function addFieldFilter($fieldName, $value)
     {
         $field = new Field();
@@ -94,6 +143,9 @@ class Category
         $this->fieldFilters[$f->id] = $value;
     }
 
+    /**
+     * @return bool|stdClass
+     */
     public function getArticles()
     {
         $pagination = new Pagination();

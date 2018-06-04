@@ -103,14 +103,32 @@
                             </td>
                             <td class="footable-last-column">
                                 <div class="btn-group">
-                                    <a href="{/page/common/basepath}/content_article/edit/{id}" class="btn btn-default">
+                                    <a>
+                                        <xsl:choose>
+                                            <xsl:when test="has_access = '1'">
+                                                <xsl:attribute name="href">
+                                                    <xsl:value-of select="/page/common/basepath" />/content_article/edit/<xsl:value-of
+                                                        select="id"/>
+                                                </xsl:attribute>
+                                                <xsl:attribute name="class">
+                                                    btn btn-default
+                                                </xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute name="href">
+                                                </xsl:attribute>
+                                                <xsl:attribute name="class">
+                                                    btn btn-default disabled
+                                                </xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                         <i class="fa fa-pencil"></i>&#160;
                                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','EDIT')"/>
                                     </a>
 
                                     <a class="btn btn-danger confirm" data-message="{php:function('\Webvaloa\Webvaloa::translate','ARE_YOU_SURE')}">
                                         <xsl:choose>
-                                            <xsl:when test="system_role = '1'">  
+                                            <xsl:when test="system_role = '1' or has_access = '0'">
                                                 <xsl:attribute name="href">javascript:;</xsl:attribute>
                                                 <xsl:attribute name="disabled">disabled</xsl:attribute>
                                             </xsl:when>

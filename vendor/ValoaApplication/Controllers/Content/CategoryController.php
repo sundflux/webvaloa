@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use stdClass;
@@ -37,8 +38,9 @@ use Webvaloa\Controller\Redirect;
 use Webvaloa\Tag;
 use Webvaloa\Category;
 use Webvaloa\Helpers\Pagination;
+use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Security;
-Use Webvaloa\Role;
+use Webvaloa\Role;
 
 class CategoryController extends \Webvaloa\Application
 {
@@ -95,7 +97,14 @@ class CategoryController extends \Webvaloa\Application
 
             $stmt->execute();
 
-            $this->view->categories = $stmt->fetchAll();
+            $categories = $stmt->fetchAll();
+            foreach ($categories as $k => $v) {
+                $tmp[$k] = $v;
+                $tmp[$k]->has_access = (int) $this->checkPermissions($v->id);
+                Debug::__print($v);
+            }
+
+            $this->view->categories = $tmp;
         } catch (Exception $e) {
             Debug::__print($e->getMessage());
         }
@@ -186,6 +195,10 @@ class CategoryController extends \Webvaloa\Application
             Redirect::to('content_category');
         }
 
+        if ((int) $this->checkPermissions($_POST['category_id']) == 0) {
+            throw new \Exception('Permission denied');
+        }
+
         $query = '
             UPDATE category SET category = ?
             WHERE id = ?';
@@ -231,6 +244,10 @@ class CategoryController extends \Webvaloa\Application
 
     public function delete($id)
     {
+        if ((int) $this->checkPermissions($id) == 0) {
+            throw new \Exception('Permission denied');
+        }
+
         $query = '
             UPDATE category SET deleted = 1
             WHERE id = ?';
@@ -275,5 +292,23 @@ class CategoryController extends \Webvaloa\Application
         }
 
         Debug::__print($this->view->_roles);
+    }
+
+    private function checkPermissions($categoryId)
+    {
+        try {
+            $contentAccess = new ContentAccess($categoryId);
+            $permission = $contentAccess->checkPermissions();
+
+            Debug::__print($permission);
+
+            return $permission;
+        } catch (\RuntimeException $e) {
+            Debug::__print($e->getMessage());
+        } catch (\Exception $e) {
+            Debug::__print($e->getMessage());
+        }
+
+        return false;
     }
 }

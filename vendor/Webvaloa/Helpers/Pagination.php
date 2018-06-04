@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Db;
@@ -36,8 +37,15 @@ use Libvaloa\Db\Object;
 use PDO;
 use stdClass;
 
+/**
+ * Class Pagination
+ * @package Webvaloa\Helpers
+ */
 class Pagination
 {
+    /**
+     * @var
+     */
     private $pages;
 
     /**
@@ -100,11 +108,20 @@ class Pagination
         return $this->pages;
     }
 
+    /**
+     * @param $query
+     * @return string
+     */
     public function prepare($query)
     {
         return $query.' LIMIT '.(int) $this->pages->limit.' OFFSET '.(int) $this->pages->offset;
     }
 
+    /**
+     * @param $table
+     * @param string $where
+     * @return int
+     */
     public function countTable($table, $where = '')
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

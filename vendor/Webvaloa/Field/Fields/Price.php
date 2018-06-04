@@ -29,32 +29,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field\Fields;
 
 use Webvaloa\Helpers\PriceFormat;
 
+/**
+ * Class Price
+ * @package Webvaloa\Field\Fields
+ */
 class Price
 {
+    /**
+     * @var
+     */
     private $field;
 
+    /**
+     * @var bool
+     */
     private $fieldID;
+
+    /**
+     * @var
+     */
     private $contentID;
 
+    /**
+     * Price constructor.
+     * @param bool $fieldID
+     * @param bool $contentID
+     */
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->fieldID = $fieldID;
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -62,16 +91,26 @@ class Price
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         return '';
     }
 
+    /**
+     * @param $v
+     * @return float|mixed
+     */
     public function onSave($v)
     {
         if (is_array($v)) {
@@ -89,6 +128,10 @@ class Price
         return $v;
     }
 
+    /**
+     * @param $v
+     * @return mixed|string
+     */
     public function onLoad($v)
     {
         if (is_array($v)) {

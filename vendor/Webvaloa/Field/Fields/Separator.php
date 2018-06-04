@@ -29,27 +29,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Field\Fields;
 
+/**
+ * Class Separator
+ * @package Webvaloa\Field\Fields
+ */
 class Separator
 {
+    /**
+     * @var
+     */
     private $field;
 
+    /**
+     * Separator constructor.
+     * @param bool $fieldID
+     */
     public function __construct($fieldID = false)
     {
         $this->fieldID = $fieldID;
     }
 
+    /**
+     * @return array
+     */
     public function getJS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getCSS()
     {
         return array();
     }
 
+    /**
+     * @return array
+     */
     public function getTemplate()
     {
         return array(
@@ -57,11 +78,17 @@ class Separator
         );
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         return array();
     }
 
+    /**
+     * @return string
+     */
     public function getSettings()
     {
         return '';

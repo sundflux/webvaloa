@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\User;
 
 use Libvaloa\Debug;
@@ -149,7 +150,7 @@ class UserController extends \Webvaloa\Application
 
         $user->email = $_POST['email'];
 
-        if (isset($_POST['username']) && !empty($_POST['username'])) {
+        if (!empty($_POST['username'])) {
             $user->login = $_POST['username'];
         } else {
             $user->login = $_POST['email'];
@@ -171,7 +172,7 @@ class UserController extends \Webvaloa\Application
             $user->password = $_POST['password'];
         }
 
-        if (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
+        if (!empty($_SESSION['locale'])) {
             $user->locale = $_SESSION['locale'];
         } else {
             $user->locale = 'en_US';

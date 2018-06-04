@@ -29,27 +29,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use Libvaloa\Db;
 
 /**
- * Handles Webvaloa tags.
+ * Class Tag
+ * @package Webvaloa
  */
 class Tag
 {
+    /**
+     * Tag constructor.
+     */
     public function __construct()
     {
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
     }
 
+    /**
+     * @param $k
+     */
     public function __get($k)
     {
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function byID($id)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -76,6 +92,9 @@ class Tag
         return false;
     }
 
+    /**
+     * @param $id
+     */
     public function delete($id)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -94,6 +113,11 @@ class Tag
         }
     }
 
+    /**
+     * @param $name
+     * @param null $parent_id
+     * @return bool
+     */
     public function findTagByName($name, $parent_id = null)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -131,6 +155,11 @@ class Tag
         return false;
     }
 
+    /**
+     * @param $tag
+     * @param null $parent_id
+     * @return mixed
+     */
     public function addTag($tag, $parent_id = null)
     {
         if ($this->findTagByName($tag, $parent_id)) {
@@ -146,6 +175,10 @@ class Tag
         return $object->save();
     }
 
+    /**
+     * @param bool $parent_id
+     * @return bool
+     */
     public function tags($parent_id = false)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();

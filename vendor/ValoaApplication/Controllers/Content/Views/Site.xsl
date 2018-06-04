@@ -116,8 +116,8 @@
 								<select class="select-type form-control">
 									<option value=""></option>
 									<xsl:for-each select="contents">
-										<option value="{id}">
-											<xsl:value-of select="title" />
+										<option value="{article/id}">
+											<xsl:value-of select="article/title" />
 										</option>
 									</xsl:for-each>
 								</select>

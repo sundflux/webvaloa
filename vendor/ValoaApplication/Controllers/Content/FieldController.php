@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use Webvaloa\Controller\Redirect;
@@ -178,6 +179,8 @@ class FieldController extends \Webvaloa\Application
             $this->view->repeatable = $field->repeatable;
             $this->view->ordering = $field->ordering;
             $this->view->field_type = $field->type;
+            $this->view->default_value = $field->default_value;
+            $this->view->validation = $field->validation;
         }
 
         $this->view->fieldSettings = $field->fieldSettings();
@@ -194,6 +197,8 @@ class FieldController extends \Webvaloa\Application
         $field->type = $_POST['field_type'];
         $field->help_text = $_POST['help_text'];
         $field->ordering = $_POST['ordering'];
+        $field->validation = $_POST['validation'];
+        $field->default_value = $_POST['default_value'];
 
         $postName = $field->type.'Settings';
         if (isset($_POST[$postName]) && !empty($_POST[$postName])) {

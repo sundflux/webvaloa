@@ -29,10 +29,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Debug;
-use Webvaloa\Category;
+use Webvaloa\Category as CategoryHelper;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;
@@ -40,14 +41,41 @@ use Webvaloa\Article as ArticleHelper;
 use stdClass;
 use RuntimeException;
 
+/**
+ * Class ArticleStructure
+ * @package Webvaloa\Helpers
+ */
 class ArticleStructure
 {
+    /**
+     * @var bool
+     */
     public $id;
+
+    /**
+     * @var bool
+     */
     public $associatedId;
+
+    /**
+     * @var
+     */
     public $categoryId;
+
+    /**
+     * @var stdClass
+     */
     public $article;
+
+    /**
+     * @var
+     */
     public $fields;
 
+    /**
+     * ArticleStructure constructor.
+     * @param bool $articleId
+     */
     public function __construct($articleId = false)
     {
         $this->id = $articleId;
@@ -59,6 +87,9 @@ class ArticleStructure
         }
     }
 
+    /**
+     *
+     */
     private function loadArticle()
     {
         if (!is_numeric($this->id)) {
@@ -83,21 +114,33 @@ class ArticleStructure
         }
     }
 
+    /**
+     * @return bool
+     */
     public function getArticleId()
     {
         return $this->id;
     }
 
+    /**
+     * @return stdClass
+     */
     public function getArticle()
     {
         return $this->article;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCategoryId()
     {
         return $this->categoryId;
     }
 
+    /**
+     * @return bool
+     */
     public function getCategory()
     {
         if (isset($this->fields->category)) {
@@ -107,6 +150,9 @@ class ArticleStructure
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function getFields()
     {
         if (isset($this->fields->fields)) {
@@ -116,6 +162,9 @@ class ArticleStructure
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function getFieldTypes()
     {
         if (isset($this->fields->fieldTypes)) {
@@ -125,6 +174,10 @@ class ArticleStructure
         return false;
     }
 
+    /**
+     * @param bool $categoryId
+     * @return stdClass
+     */
     public function initializeFieldsView($categoryId = false)
     {
         $_fields = new stdClass();
@@ -133,7 +186,7 @@ class ArticleStructure
             $categoryId = $this->categoryId;
         }
 
-        $category = new Category($categoryId);
+        $category = new CategoryHelper($categoryId);
         $_fields->category = $category->category;
 
         // Always include these fields:
@@ -219,7 +272,7 @@ class ArticleStructure
 
                 // Fill values to fields
                 foreach ($v->fieldValues as $fieldName => $value) {
-                    if (!is_object($fields[$fieldName])) {
+                    if (!isset($fields[$fieldName]) || !is_object($fields[$fieldName])) {
                         continue;
                     }
 
@@ -273,7 +326,10 @@ class ArticleStructure
         }
 
         // Put fields to view
-        $_fields->fields = $tmp;
+
+        if (isset($tmp)) {
+            $_fields->fields = $tmp;
+        }
         $this->fields = $_fields;
 
         return $this->fields;

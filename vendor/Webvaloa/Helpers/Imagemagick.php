@@ -29,25 +29,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa\Helpers;
 
 use Imagick;
 use Webvaloa\Controller\Request;
 
+/**
+ * Class Imagemagick
+ * @package Webvaloa\Helpers
+ */
 class Imagemagick
 {
+    /**
+     * @var string
+     */
     public $cachePath;
 
+    /**
+     * @var
+     */
     private $file;
+
+    /**
+     * @var bool
+     */
     private $cached;
+
+    /**
+     * @var int
+     */
     private $width;
+
+    /**
+     * @var int
+     */
     private $height;
+
+    /**
+     * @var bool
+     */
     private $crop;
+
+    /**
+     * @var string
+     */
     private $format;
+
+    /**
+     * @var int
+     */
     private $quality;
 
+    /**
+     * @var
+     */
     private $imagick;
 
+    /**
+     * Imagemagick constructor.
+     * @param $file
+     */
     public function __construct($file)
     {
         $this->cachePath = LIBVALOA_PUBLICPATH.'/cache';
@@ -81,45 +123,70 @@ class Imagemagick
         $this->cached = false;
         $this->background = 'white';
         $this->flatten = false;
-        $this->quality = 95;
+        $this->quality = 90;
         $this->format = 'jpg';
     }
 
+    /**
+     * @param $f
+     */
     public function setFormat($f)
     {
         $this->format = $f;
     }
 
+    /**
+     * @param $c
+     */
     public function setCrop($c)
     {
         $this->crop = (bool) $c;
     }
 
+    /**
+     * @param $c
+     */
     public function setFlatten($c)
     {
         $this->flatten = (bool) $c;
     }
 
+    /**
+     * @param $c
+     */
     public function setBackground($c)
     {
         $this->background = (string) $c;
     }
 
+    /**
+     * @param $w
+     */
     public function setWidth($w)
     {
         $this->width = (int) $w;
     }
 
+    /**
+     * @param $h
+     */
     public function setHeight($h)
     {
         $this->height = (int) $h;
     }
 
+    /**
+     * @param int $q
+     */
     public function setQuality($q = 100)
     {
         $this->quality = (int) $q;
     }
 
+    /**
+     * @return bool|string
+     * @throws \ImagickException
+     */
     public function resize()
     {
         // File doesn't exist, it's not a file or it's not readable
@@ -155,6 +222,8 @@ class Imagemagick
         $this->imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
         $this->imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
         $this->imagick->setImageCompressionQuality($this->quality);
+        $this->imagick->stripImage();
+        $this->imagick->setSamplingFactors(array('2x2', '1x1', '1x1'));
 
         if ($this->crop) {
             $this->imagick->cropThumbnailImage($this->width, $this->height);
@@ -169,6 +238,14 @@ class Imagemagick
         }
     }
 
+    /**
+     * @param $image
+     * @param int $width
+     * @param int $height
+     * @param string $format
+     * @return string
+     * @throws \ImagickException
+     */
     public static function scale($image, $width = 320, $height = 200, $format = 'jpg')
     {
         $im = new self($image);
@@ -178,7 +255,7 @@ class Imagemagick
         $im->setHeight($height);
 
         if (!$ret = $im->resize()) {
-            return 'http://placehold.it/'.$width.'x'.$height;
+            return 'https://placehold.it/'.$width.'x'.$height;
         }
 
         $request = Request::getInstance();
@@ -187,6 +264,14 @@ class Imagemagick
         return $path.$ret;
     }
 
+    /**
+     * @param $image
+     * @param int $width
+     * @param int $height
+     * @param string $format
+     * @return string
+     * @throws \ImagickException
+     */
     public static function crop($image, $width = 320, $height = 200, $format = 'jpg')
     {
         $im = new self($image);
@@ -196,7 +281,7 @@ class Imagemagick
         $im->setHeight($height);
 
         if (!$ret = $im->resize()) {
-            return 'http://placehold.it/'.$width.'x'.$height;
+            return 'https://placehold.it/'.$width.'x'.$height;
         }
 
         $request = Request::getInstance();

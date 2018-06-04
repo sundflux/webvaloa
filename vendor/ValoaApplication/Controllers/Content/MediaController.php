@@ -29,6 +29,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace ValoaApplication\Controllers\Content;
 
 use Webvaloa\Controller\Redirect;
@@ -104,7 +105,7 @@ class MediaController extends \Webvaloa\Application
         Security::verify();
 
         // Delete file
-        if (isset($_GET['file']) && !empty($_GET['file'])) {
+        if (!empty($_GET['file'])) {
             $file = $_GET['file'];
 
             // Must be set by media manager
@@ -127,8 +128,8 @@ class MediaController extends \Webvaloa\Application
             return $filesystem->delete($file);
         }
 
-        // Delete folfder
-        if (isset($_GET['folder']) && !empty($_GET['folder'])) {
+        // Delete folder
+        if (!empty($_GET['folder'])) {
             if ($_GET['folder'] != $_SESSION['upload_subdir']) {
                 throw new UnexpectedValueException('Folder does not match upload_subdir');
             }

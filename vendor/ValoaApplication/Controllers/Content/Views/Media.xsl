@@ -113,7 +113,7 @@
                         </xsl:if>
 
 						<xsl:choose>
-							<xsl:when test="extension = 'jpg' or extension = 'jpeg' or extension = 'png'">
+							<xsl:when test="extension = 'jpg' or extension = 'jpeg' or extension = 'png' or extension = 'gif' or extension = 'svg'">
 								<img class="file-list-image pull-left lazy" alt="{filename}">
 									<xsl:attribute name="src"><xsl:value-of select="php:function('\Webvaloa\Helpers\Imagemagick::crop', string(fullpath), 24, 24)"/></xsl:attribute>
 								</img>

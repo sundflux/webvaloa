@@ -29,16 +29,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 namespace Webvaloa;
 
 use stdClass;
+use Webvaloa\Configuration as Conf;
 
+/**
+ * Class Version
+ * @package Webvaloa
+ */
 class Version
 {
+
+    /**
+     * @var stdClass
+     */
     private $object;
 
     const MAX_VERSIONS = 10;
+    const MAX_VERSIONS_HARD_LIMIT = 128;
 
+    /**
+     * @var int
+     */
+    private $max_versions;
+
+    /**
+     * Version constructor.
+     */
     public function __construct()
     {
         $this->object = new stdClass();
@@ -50,8 +69,23 @@ class Version
         if (isset($_SESSION['UserID'])) {
             $this->object->user_id = $_SESSION['UserID'];
         }
+
+        $configuration = new Conf();
+        $this->max_versions = $configuration->max_versions_history;
+
+        if (!is_numeric($this->max_versions)) {
+            $this->max_versions = self::MAX_VERSIONS;
+        }
+
+        if ($this->max_versions > self::MAX_VERSIONS_HARD_LIMIT) {
+            $this->max_versions = self::MAX_VERSIONS_HARD_LIMIT;
+        }
     }
 
+    /**
+     * @param $k
+     * @param $v
+     */
     public function __set($k, $v)
     {
         if (isset($this->object->$k)) {
@@ -63,6 +97,9 @@ class Version
         }
     }
 
+    /**
+     *
+     */
     public function save()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -86,6 +123,9 @@ class Version
         $this->checkMaxVersions();
     }
 
+    /**
+     *
+     */
     private function checkMaxVersions()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -109,7 +149,7 @@ class Version
             foreach ($stmt as $row) {
                 ++$i;
 
-                if ($i > self::MAX_VERSIONS) {
+                if ($i > $this->max_versions) {
                     $q = '
                         DELETE FROM version_history
                         WHERE id = ?';
@@ -123,6 +163,9 @@ class Version
         }
     }
 
+    /**
+     * @return array|bool
+     */
     public function getVersions()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
@@ -134,7 +177,7 @@ class Version
             AND target_id = ?
             ORDER BY id
             DESC
-            LIMIT 10';
+            LIMIT ' . $this->max_versions;
 
         $stmt = $db->prepare($query);
         try {
@@ -155,6 +198,10 @@ class Version
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|mixed
+     */
     public function loadVersion($id)
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
