@@ -47,7 +47,7 @@ class Group
     private $groupID;
 
     /**
-     * @var Db\Object
+     * @var Db\Item
      */
     private $object;
 
@@ -57,7 +57,7 @@ class Group
      */
     public function __construct($groupID = false)
     {
-        $this->object = new Db\Object('field_group', \Webvaloa\Webvaloa::DBConnection());
+        $this->object = new Db\Item('field_group', \Webvaloa\Webvaloa::DBConnection());
         $this->groupID = $groupID;
 
         if ($this->groupID) {
@@ -179,7 +179,7 @@ class Group
             throw new RuntimeException('GroupID must be set before running addCategory');
         }
 
-        $object = new Db\Object('category_field_group', \Webvaloa\Webvaloa::DBConnection());
+        $object = new Db\Item('category_field_group', \Webvaloa\Webvaloa::DBConnection());
         $object->field_group_id = $this->groupID;
         $object->category_id = $category_id;
         $object->recursive = 0;

@@ -365,7 +365,7 @@ class Plugin
         $db = \Webvaloa\Webvaloa::DBConnection();
 
         // Install plugin
-        $object = new Db\Object('plugin', $db);
+        $object = new Db\Item('plugin', $db);
         $object->plugin = $this->plugin;
         $object->system_plugin = 0;
         $object->blocked = 0;

@@ -50,7 +50,7 @@ class User
     private $userID;
 
     /**
-     * @var Db\Object
+     * @var Db\Item
      */
     private $object;
 
@@ -60,7 +60,7 @@ class User
      */
     public function __construct($userID = false)
     {
-        $this->object = new Db\Object('user', \Webvaloa\Webvaloa::DBConnection());
+        $this->object = new Db\Item('user', \Webvaloa\Webvaloa::DBConnection());
         $this->userID = $userID;
 
         if ($this->userID) {
@@ -187,7 +187,7 @@ class User
             return true;
         }
 
-        $object = new DB\Object('user_role', \Webvaloa\Webvaloa::DBConnection());
+        $object = new DB\Item('user_role', \Webvaloa\Webvaloa::DBConnection());
         $object->user_id = $this->userID;
         $object->role_id = $roleID;
 
