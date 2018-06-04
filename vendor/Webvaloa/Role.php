@@ -177,7 +177,7 @@ class Role
         $db = \Webvaloa\Webvaloa::DBConnection();
 
         // Install plugin
-        $object = new Db\Object('role', $db);
+        $object = new Db\Item('role', $db);
         $object->role = $name;
         $object->system_role = 0;
         $this->roleID = $object->save();

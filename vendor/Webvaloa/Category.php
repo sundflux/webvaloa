@@ -393,7 +393,7 @@ class Category
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $object = new Db\Object('category', $db);
+        $object = new Db\Item('category', $db);
         $object->category = $name;
         $object->parent_id = $parentID;
         $object->deleted = 0;
@@ -439,7 +439,7 @@ class Category
         $db = \Webvaloa\Webvaloa::DBConnection();
 
         // Insert group object
-        $object = new Db\Object('category_field_group', $db);
+        $object = new Db\Item('category_field_group', $db);
         $object->field_group_id = $group_id;
         $object->category_id = $this->id;
 
@@ -549,7 +549,7 @@ class Category
             return;
         }
 
-        $object = new Db\Object('category_tag', $db);
+        $object = new Db\Item('category_tag', $db);
         $object->category_id = $this->id;
         $object->tag_id = $tag->id;
 
@@ -626,7 +626,7 @@ class Category
             return true;
         }
 
-        $object = new DB\Object('category_role', \Webvaloa\Webvaloa::DBConnection());
+        $object = new DB\Item('category_role', \Webvaloa\Webvaloa::DBConnection());
         $object->category_id = $this->id;
         $object->role_id = $roleID;
 

@@ -433,35 +433,35 @@ class SetupController extends \Webvaloa\Application
 
             // System plugins
 
-            $object = new Db\Object('plugin', $this->db);
+            $object = new Db\Item('plugin', $this->db);
             $object->plugin = 'PluginAdministrator';
             $object->system_plugin = 1;
             $object->blocked = 0;
             $object->ordering = 1;
             $object->save();
 
-            $object = new Db\Object('plugin', $this->db);
+            $object = new Db\Item('plugin', $this->db);
             $object->plugin = 'ContentField';
             $object->system_plugin = 1;
             $object->blocked = 0;
             $object->ordering = 10;
             $object->save();
 
-            $object = new Db\Object('plugin', $this->db);
+            $object = new Db\Item('plugin', $this->db);
             $object->plugin = 'ContentMediapicker';
             $object->system_plugin = 1;
             $object->blocked = 0;
             $object->ordering = 10;
             $object->save();
 
-            $object = new Db\Object('plugin', $this->db);
+            $object = new Db\Item('plugin', $this->db);
             $object->plugin = 'PluginTemplate';
             $object->system_plugin = 1;
             $object->blocked = 0;
             $object->ordering = 10;
             $object->save();
 
-            $object = new Db\Object('plugin', $this->db);
+            $object = new Db\Item('plugin', $this->db);
             $object->plugin = 'PluginNavigationView';
             $object->system_plugin = 1;
             $object->blocked = 0;

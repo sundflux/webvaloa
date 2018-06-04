@@ -168,7 +168,7 @@ class Tag
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $object = new Db\Object('tag', $db);
+        $object = new Db\Item('tag', $db);
         $object->tag = $tag;
         $object->parent_id = $parent_id;
 

@@ -168,7 +168,7 @@ class Value
         $db = \Webvaloa\Webvaloa::DBConnection();
 
         foreach ($this->fieldValue as $k => $v) {
-            $object = new Db\Object('content_field_value', \Webvaloa\Webvaloa::DBConnection());
+            $object = new Db\Item('content_field_value', \Webvaloa\Webvaloa::DBConnection());
             $object->content_id = $this->articleID;
             $object->field_id = $this->fieldID;
             $object->value = $v;

@@ -33,7 +33,7 @@
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Db;
-use Libvaloa\Db\Object;
+use Libvaloa\Db\Item;
 use PDO;
 use stdClass;
 
@@ -126,7 +126,7 @@ class Pagination
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $object = new Db\Object($table, $db);
+        $object = new Db\Item($table, $db);
         $pk = $object->primaryKey;
 
         if (!$pk || empty($pk)) {
@@ -135,7 +135,7 @@ class Pagination
         }
 
         // Since we can't bind table names with PDO, just to be noted
-        // this is an unescaped query. However getting past Db\Object
+        // this is an unescaped query. However getting past Db\Item
         // it should be safe, and this function should generally be
         // called from trusted controllers.
 

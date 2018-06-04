@@ -105,13 +105,13 @@ class Configuration
                 $item = $this->config->$k;
 
                 // Edit existing config row
-                $object = new Db\Object('configuration', $this->db);
+                $object = new Db\Item('configuration', $this->db);
                 $object->byID($item->id);
                 $object->value = $v;
                 $object->save();
             } else {
                 // Insert new config row
-                $object = new Db\Object('configuration', $this->db);
+                $object = new Db\Item('configuration', $this->db);
                 $object->key = $k;
                 $object->value = $v;
 

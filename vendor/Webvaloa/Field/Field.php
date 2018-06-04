@@ -45,7 +45,7 @@ use stdClass;
 class Field
 {
     /**
-     * @var Db\Object
+     * @var Db\Item
      */
     private $object;
 
@@ -77,7 +77,7 @@ class Field
     public function __construct($fieldID = false, $contentID = false)
     {
         $this->pathHelper = new Path();
-        $this->object = new Db\Object('field', \Webvaloa\Webvaloa::DBConnection());
+        $this->object = new Db\Item('field', \Webvaloa\Webvaloa::DBConnection());
         $this->fieldID = $fieldID;
 
         if ($this->fieldID) {

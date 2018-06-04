@@ -512,7 +512,7 @@ class Article
 
         $db = \Webvaloa\Webvaloa::DBConnection();
 
-        $c = new Db\Object('content_category', $db);
+        $c = new Db\Item('content_category', $db);
         $c->category_id = $category_id;
         $c->content_id = $this->article->id;
 
