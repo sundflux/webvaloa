@@ -137,6 +137,9 @@ class CategoryController extends \Webvaloa\Application
         if (!$id) {
             return false;
         }
+        
+        $overrides = array();
+        $listOverrides = array();
 
         $category = new Category((int) $id);
         $category->loadCategory();
