@@ -488,6 +488,7 @@ class Category
             return false;
         }
 
+        $starred = array();
         $tag = new Tag();
         $starredTagId = $tag->findTagByName('Starred');
 
