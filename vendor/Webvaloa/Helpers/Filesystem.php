@@ -210,7 +210,7 @@ class Filesystem
      * @param $filename
      * @param string $mimetype
      */
-    private function download($filename, $mimetype = 'application/octet-stream')
+    public function download($filename, $mimetype = 'application/octet-stream')
     {
         // Based on techniques described here:
         // http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
@@ -269,8 +269,8 @@ class Filesystem
 
         $cur = $begin;
         fseek($handle, $begin, 0);
-        while (!feof($fm) && $cur < $end && (connection_status() == 0)) {
-            echo fread($fm, min(1024 * 16, $end - $cur));
+        while (!feof($handle) && $cur < $end && (connection_status() == 0)) {
+            echo fread($handle, min(1024 * 16, $end - $cur));
             $cur += 1024 * 16;
         }
     }
