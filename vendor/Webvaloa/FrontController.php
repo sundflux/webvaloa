@@ -107,6 +107,7 @@ class FrontController
                     if (self::controllerExists($request->getParam(0)) === true) {
                         // Second parameter was a valid controller, so replace it in request
                         $request->setController($request->getParam(0));
+                        $request->shiftParam();
                     } else {
                         // Could not find valid controller, set controller as default
                         if (isset($_SESSION['UserID']) && !empty($_SESSION['UserID'])) {
