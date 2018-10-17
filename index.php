@@ -315,7 +315,7 @@ class Webvaloa
 
                 // Make sure we use UTF-8
                 if (\Webvaloa\config::$properties['db_server'] != 'sqlite') {
-                    $initquery = "SET NAMES 'UTF8'";
+                    $initquery = "SET NAMES utf8mb4";
                     if (isset(\Webvaloa\config::$properties['time_zone'])) {
                         date_default_timezone_set(\Webvaloa\config::$properties['time_zone']);
                         $date = new \DateTime();
