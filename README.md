@@ -12,7 +12,7 @@ Getting started
 
 Example config for Nginx is included, `/config/nginx.conf`
 
-- PHP >= 5.6.4 
+- PHP >= 7.2.0
 - php-imagick
 - php-intl
 - php-json

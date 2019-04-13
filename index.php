@@ -5,7 +5,7 @@
  * Tarmo Alexander Sundström <ta@sundstrom.im>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2004 - 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2004 - 2019 Tarmo Alexander Sundström <ta@sundstrom.im>
  *
  * All Rights Reserved.
  *
