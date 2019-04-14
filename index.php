@@ -33,7 +33,7 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Libvaloa\I18n;
 use Webvaloa\Helpers\Path;
 use Webvaloa\Locale\Locales;
@@ -411,6 +411,8 @@ class Webvaloa
     {
         $args = func_get_args();
 
+        return $args[0];
+        /*
         if (isset($args[1])) {
             $domain = $args[1];
         } else {
@@ -450,6 +452,7 @@ class Webvaloa
         $t = (string) $translate;
 
         return $t;
+        */
     }
 }
 
