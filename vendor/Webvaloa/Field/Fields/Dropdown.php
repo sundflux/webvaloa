@@ -34,7 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 use DOMDocument;
 use stdClass;
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 

@@ -33,7 +33,7 @@
 namespace ValoaApplication\Plugins;
 
 use Webvaloa\Controller\Request;
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 class PluginKeepalivePlugin extends \Webvaloa\Plugin
 {

@@ -33,7 +33,7 @@
 
 namespace Webvaloa;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Interface ICache

@@ -35,7 +35,7 @@
 namespace Webvaloa\Mail;
 
 use PHPMailer;
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Configuration;
 
 class Mail

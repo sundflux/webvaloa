@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Error;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 class ErrorController extends \Webvaloa\Application
 {

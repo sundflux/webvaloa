@@ -32,7 +32,7 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\User;
 use Webvaloa\Category;
 use Webvaloa\Role;

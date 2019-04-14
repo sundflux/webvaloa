@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Hellocli;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Class HellocliController

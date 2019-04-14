@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Content;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Article;
 use Webvaloa\Category;

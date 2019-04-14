@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Login;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\User;
 use Webvaloa\Mail\Mail;

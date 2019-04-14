@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Plugins;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Configuration;
 use Webvaloa\Controller\Redirect;

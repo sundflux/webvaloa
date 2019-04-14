@@ -32,7 +32,7 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Class Path

@@ -35,7 +35,7 @@ namespace Webvaloa\Field\Fields;
 use stdClass;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Class Datalist

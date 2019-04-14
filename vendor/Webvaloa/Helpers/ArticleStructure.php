@@ -32,7 +32,7 @@
 
 namespace Webvaloa\Helpers;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Category as CategoryHelper;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;

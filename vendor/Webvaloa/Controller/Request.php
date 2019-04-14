@@ -45,7 +45,7 @@
 
 namespace Webvaloa\Controller;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Class Request

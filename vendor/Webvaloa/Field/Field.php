@@ -33,7 +33,7 @@
 namespace Webvaloa\Field;
 
 use Libvaloa\Db;
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 use Webvaloa\Helpers\Filesystem;
 use Webvaloa\Helpers\Path;
 use stdClass;

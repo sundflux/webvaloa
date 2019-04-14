@@ -36,7 +36,7 @@ use stdClass;
 use Webvaloa\Category;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Class Categorypicker

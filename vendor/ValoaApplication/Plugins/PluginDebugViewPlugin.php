@@ -31,7 +31,7 @@
 
 namespace ValoaApplication\Plugins;
 
-use Libvaloa\Debug;
+use Libvaloa\Debug\Debug;
 
 class PluginDebugViewPlugin extends \Webvaloa\Plugin
 {
