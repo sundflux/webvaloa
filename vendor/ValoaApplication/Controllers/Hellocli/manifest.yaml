@@ -1,0 +1,8 @@
+application: hellocli
+version: 3.0.0
+author: webvaloa.com
+email: info@webvaloa.com
+www: www.webvaloa.com
+description: example controller for command line support
+LICENSE: MIT
+anonymous: 1

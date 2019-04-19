@@ -1,0 +1,7 @@
+application: extension
+version: 3.0.0
+author: webvaloa.com
+email: info@webvaloa.com
+www: www.webvaloa.com
+license: MIT
+systemcontroller: 1
