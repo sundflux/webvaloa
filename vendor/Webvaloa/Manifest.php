@@ -32,12 +32,15 @@
 
 namespace Webvaloa;
 
-// Libvaloa classes
+use Symfony\Component\Yaml\Yaml;
+use \Libvaloa\Debug\Debug;
 
 /**
- * Read manifests.
+ * Reads and parses manifest files from components.
  *
- * Manifests contain information about components.
+ * Manifests contain information about components. 
+ * Both YAML and JSON are supported. YAML is recommended
+ * and takes priority over JSON.
  *
  * @package Webvaloa
  */
@@ -74,21 +77,31 @@ class Manifest
     {
         $this->schema = false;
 
-        // Default to installpath
-        if (is_readable(LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/Controllers/'.$controller.'/manifest.json')) {
-            $this->schema = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/Controllers/'.$controller.'/manifest.json';
-            $this->controllerPath = LIBVALOA_INSTALLPATH.'/'.self::$properties['vendor'].'/Controllers/'.$controller;
+        $paths = \Webvaloa\Webvaloa::getSystemPaths();
+        
+        foreach ($paths as $path) {
+            // Yaml config
+            if (is_readable($path . '/Controllers/'.$controller.'/manifest.yaml')) {
+                Debug::__print('Loaded ' . $path . '/Controllers/'.$controller.'/manifest.yaml');
+
+                $this->schema = $path . '/Controllers/'.$controller.'/manifest.yaml';
+                $this->controllerPath = $path . '/Controllers/'.$controller;
+                $this->manifest = (object) Yaml::parse(file_get_contents($this->schema));
+                break;
+            }
+
+            // Json config
+            if (is_readable($path . '/Controllers/'.$controller.'/manifest.json')) {
+                Debug::__print('Loaded ' . $path . '/Controllers/'.$controller.'/manifest.json');
+
+                $this->schema = $path . '/Controllers/'.$controller.'/manifest.json';
+                $this->controllerPath = $path . '/Controllers/'.$controller;
+                $this->manifest = json_decode(file_get_contents($this->schema));
+                break;
+            }
         }
 
-        // Override with extensionspath
-        if (is_readable(LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/Controllers/'.$controller.'/manifest.json')) {
-            $this->schema = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/Controllers/'.$controller.'/manifest.json';
-            $this->controllerPath = LIBVALOA_EXTENSIONSPATH.'/'.self::$properties['vendor'].'/Controllers/'.$controller;
-        }
-
-        if ($this->schema) {
-            $this->manifest = json_decode(file_get_contents($this->schema));
-        }
+        Debug::__print($this->manifest);
     }
 
     /**
@@ -97,7 +110,7 @@ class Manifest
      */
     public function __get($k)
     {
-        if (isset($this->manifest->$k)) {
+        if (is_object($this->manifest) && isset($this->manifest->$k)) {
             return $this->manifest->$k;
         }
 
