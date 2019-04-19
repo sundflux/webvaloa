@@ -6,6 +6,7 @@
         "phpmailer/phpmailer": "^5.2",
         "ircmaxell/random-lib": "^1.2",
         "nategood/commando": "*",
-        "gettext/gettext": "^4.4"
+        "gettext/gettext": "^4.4",
+        "symfony/yaml": "^4.2"
     }
 }
