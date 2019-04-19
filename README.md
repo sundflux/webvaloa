@@ -20,6 +20,7 @@ Example config for Nginx is included, `/config/nginx.conf`
 - php-mysql (PDO)
 - php-mcrypt
 - php-xsl
+- php-gettext
 
 ### Webvaloa
 The easiest way to install Webvaloa is to clone this repository to your server with:
@@ -35,7 +36,9 @@ composer install
 
 ### The setup
 After this you can continue the installation with a browser by going to `/setup` and following the instructions.
-This setup wizard will create a `config/config.php` file based on your selections and setup the database with your selected profile. Webvaloa includes a basic website profile that is usefull when building basic websites.
+This setup wizard will create a `config/config.php` file based on your selections and setup the database with your selected profile. 
+
+Only initial setup ever writes to `config/config.php` - it is safe file to place your own runtime configurations or file includes.
 
 ### Debugging
 Webvaloa displays debug information based on the current PHP error reporting level.
