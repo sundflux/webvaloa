@@ -1,8 +1,0 @@
-{
-	"name": "Clean",
-	"description": "Minimal installation. Usually used for web applications",
-	"config": {
-		"default_controller": "login",
-		"default_controller_authed": "content_article"
-	}
-}
