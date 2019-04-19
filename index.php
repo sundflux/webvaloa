@@ -34,7 +34,7 @@
 namespace Webvaloa;
 
 use Libvaloa\Debug\Debug;
-use Libvaloa\I18n;
+use Webvaloa\I18n\Translate\Translate;
 use Webvaloa\Helpers\Path;
 use Webvaloa\Locale\Locales;
 use Webvaloa\Controller\Request;
@@ -411,8 +411,6 @@ class Webvaloa
     {
         $args = func_get_args();
 
-        return $args[0];
-        /*
         if (isset($args[1])) {
             $domain = $args[1];
         } else {
@@ -431,7 +429,7 @@ class Webvaloa
             $params = $args;
         }
 
-        $translate = new I18n\Translate($params);
+        $translate = new Translate($params);
 
         // Default to installpath
         if (file_exists(LIBVALOA_INSTALLPATH.'/'.Webvaloa::$properties['vendor'].'/'.'Locale'.'/'.self::getLocale().'/'.'LC_MESSAGES'.'/'.$domain.'.ini')) {
@@ -452,7 +450,6 @@ class Webvaloa
         $t = (string) $translate;
 
         return $t;
-        */
     }
 }
 
