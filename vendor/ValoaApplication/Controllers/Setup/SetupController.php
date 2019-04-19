@@ -32,6 +32,7 @@
 
 namespace ValoaApplication\Controllers\Setup;
 
+use Symfony\Component\Yaml\Yaml;
 // Libvaloa classes
 use Libvaloa\Db;
 // Webvaloa classes
@@ -70,9 +71,9 @@ class SetupController extends \Webvaloa\Application
         // Specific to setup
         $this->view = new stdClass();
         $this->manifest = new Manifest('Setup');
-        foreach (glob($this->manifest->controllerPath.'/profiles/*/profile.json') as $profileFile) {
-            $profile = json_decode(file_get_contents($profileFile));
-            $profile->directory = basename(substr($profileFile, 0, -12));
+        foreach (glob($this->manifest->controllerPath.'/profiles/*/manifest.yaml') as $profileFile) {
+            $profile = (object) Yaml::parse(file_get_contents($profileFile));
+            $profile->directory = basename(substr($profileFile, 0, - strlen('manifest.yaml')));
             $this->profiles[] = $profile;
         }
     }
