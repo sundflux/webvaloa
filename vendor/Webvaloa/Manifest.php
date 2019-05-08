@@ -38,9 +38,7 @@ use \Libvaloa\Debug\Debug;
 /**
  * Reads and parses manifest files from components.
  *
- * Manifests contain information about components. 
- * Both YAML and JSON are supported. YAML is recommended
- * and takes priority over JSON.
+ * Manifests contain information about components.
  *
  * @package Webvaloa
  */
@@ -90,7 +88,7 @@ class Manifest
                 break;
             }
 
-            // Json config
+            // Json config. Json support is deprecated.
             if (is_readable($path . '/Controllers/'.$controller.'/manifest.json')) {
                 Debug::__print('Loaded ' . $path . '/Controllers/'.$controller.'/manifest.json');
 
@@ -102,6 +100,38 @@ class Manifest
         }
 
         Debug::__print($this->manifest);
+    }
+
+    public function getSchemaFile() : string
+    {
+        return $this->schema;
+    }
+
+    public function getControllerPath() : string
+    {
+        return $this->controllerPath;
+    }
+
+    public function getModels() : array
+    {
+        if (isset($this->manifest->models) && is_array($this->manifest->models)) {
+            Debug::__print($this->manifest->models);
+
+            foreach ($this->manifest->models as $model) {
+                $modelFile = $this->getControllerPath() . '/Models/' . $model . '.yaml';
+
+                if (is_readable($modelFile)) {
+                    $models[$model] = Yaml::parse(file_get_contents($modelFile));
+                    ;
+                }
+            }
+
+            if (!empty($models)) {
+                return $models;
+            }
+        }
+
+        return [];
     }
 
     /**

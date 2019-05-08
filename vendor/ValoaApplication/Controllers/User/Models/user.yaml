@@ -1,0 +1,40 @@
+user:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  login:
+    - varchar(48)
+    - NOT NULL
+    - UNIQUE KEY
+  email:
+    - varchar(48)
+    - NOT NULL
+  password:
+    - varchar(128)
+    - DEFAULT NULL
+  firstname:
+    - varchar(64)
+    - DEFAULT NULL
+  lastname:
+    - varchar(64)
+    - DEFAULT NULL
+  blocked:
+    - tinyint(1)
+    - NOT NULL DEFAULT '0'
+  locale:
+    - varchar(6)
+    - NOT NULL DEFAULT '*'
+  meta: 
+    - text
+  created:
+    - timestamp
+    - NOT NULL DEFAULT '0000-00-00 00:00:00'
+  last_modified:
+    - timestamp 
+    - NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+
+index:
+  - firstname (firstname,lastname)
+  - email (email)

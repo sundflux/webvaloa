@@ -1,0 +1,19 @@
+role:
+  id: 
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  role:
+    - varchar(64)
+    - NOT NULL
+    - UNIQUE KEY
+  system_role:
+    - tinyint(1)
+    - NOT NULL DEFAULT '0'
+  parent_of:
+    - int(11)
+    - DEFAULT NULL
+  meta:
+    - text
+
