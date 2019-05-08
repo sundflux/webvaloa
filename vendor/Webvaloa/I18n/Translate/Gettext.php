@@ -87,7 +87,7 @@ class Gettext
             }
 
             $this->translations[$this->source] = $translation->getTranslation();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Debug::__print('Loading translation failed.');
             Debug::__print($e->getMessage());
         }

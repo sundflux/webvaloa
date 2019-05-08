@@ -158,7 +158,7 @@ class Configuration
      */
     public function loadConfiguration()
     {
-        if($this->db == false) {
+        if ($this->db == false) {
             return $this->config;
         }
         $name = 'config'.(int) $this->componentID;

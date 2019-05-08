@@ -165,7 +165,7 @@ class Filesystem
                 $this->path,
                 RecursiveDirectoryIterator::SKIP_DOTS
             ),
-                RecursiveIteratorIterator::CHILD_FIRST
+            RecursiveIteratorIterator::CHILD_FIRST
         ) as $dir => $fileInfo) {
             if ($fileInfo->isDir()) {
                 $children[] = str_replace($this->path, '', $dir);
