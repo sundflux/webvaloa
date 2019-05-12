@@ -78,23 +78,12 @@ class Manifest
         $paths = \Webvaloa\Webvaloa::getSystemPaths();
         
         foreach ($paths as $path) {
-            // Yaml config
             if (is_readable($path . '/Controllers/'.$controller.'/manifest.yaml')) {
                 Debug::__print('Loaded ' . $path . '/Controllers/'.$controller.'/manifest.yaml');
 
                 $this->schema = $path . '/Controllers/'.$controller.'/manifest.yaml';
                 $this->controllerPath = $path . '/Controllers/'.$controller;
                 $this->manifest = (object) Yaml::parse(file_get_contents($this->schema));
-                break;
-            }
-
-            // Json config. Json support is deprecated.
-            if (is_readable($path . '/Controllers/'.$controller.'/manifest.json')) {
-                Debug::__print('Loaded ' . $path . '/Controllers/'.$controller.'/manifest.json');
-
-                $this->schema = $path . '/Controllers/'.$controller.'/manifest.json';
-                $this->controllerPath = $path . '/Controllers/'.$controller;
-                $this->manifest = json_decode(file_get_contents($this->schema));
                 break;
             }
         }
@@ -122,7 +111,6 @@ class Manifest
 
                 if (is_readable($modelFile)) {
                     $models[$model] = Yaml::parse(file_get_contents($modelFile));
-                    ;
                 }
             }
 

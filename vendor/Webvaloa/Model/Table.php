@@ -73,7 +73,7 @@ class Table
             } elseif (is_string($fieldSchema)) {
                 $_fieldSchema = $fieldSchema;
             } else {
-                // unknown format
+                throw new RuntimeException('Could not find field schema for model.');
             }
 
             $this->fields[$fieldName] = $_fieldSchema;
