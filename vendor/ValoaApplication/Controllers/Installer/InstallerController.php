@@ -42,6 +42,8 @@ use Wujunze\Colors;
 class InstallerController extends \Webvaloa\Application
 {
     private $textColorFormatter;
+    private $profiles;
+    private $manifest;
 
     public function __construct()
     {
@@ -77,7 +79,39 @@ class InstallerController extends \Webvaloa\Application
 
     private function installationPreChecks($profileName)
     {
+        $this->isSetupDone();
+    }
 
+    private function isSetupDone()
+    {
+        // Check is setup is completed already
+        try {
+            if (!method_exists($this->db, 'prepare')) {
+                // Just bail out
+                throw new RuntimeException();
+            }
+
+            $query = 'SELECT id FROM user LIMIT 1';
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $id = $stmt->fetchColumn();
+
+            if ($id) {
+                die('Cannot perform setup against existing database.');
+            }
+        } catch (PDOException $e) {
+        } catch (RuntimeException $e) {
+        }
+    }
+
+    private function asd() 
+    {
+        $this->manifest = new Manifest('Installer');
+        foreach (glob($this->manifest->controllerPath.'/profiles/*/manifest.yaml') as $profileFile) {
+            $profile = (object) Yaml::parse(file_get_contents($profileFile));
+            $profile->directory = basename(substr($profileFile, 0, - strlen('manifest.yaml')));
+            $this->profiles[] = $profile;
+        }
     }
 
     private function printHeader()
