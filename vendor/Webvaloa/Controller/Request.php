@@ -210,7 +210,7 @@ class Request
 
         $this->cli->option('parameters')
             ->aka('p')
-            ->describedAs('Controller method to run');
+            ->describedAs('Method parameters');
 
         $this->cli->option('enable-debug')
             ->aka('debug')
@@ -229,7 +229,6 @@ class Request
         $params = $this->cli['parameters'];
 
         if (!empty($params)) {
-            $params = explode('/', $params);
             $this->setParams($params);
         }
     }

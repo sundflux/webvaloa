@@ -82,6 +82,10 @@ class FrontController
         $locale = false;
         $request = Request::getInstance();
 
+        if (\Webvaloa\Webvaloa::isCommandLine()) {
+            $request->mapCommandLine();
+        }
+
         // Force protocol
         if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['force_protocol']) && !empty(\Webvaloa\config::$properties['force_protocol'])) {
             $request->setProtocol(\Webvaloa\config::$properties['force_protocol']);
