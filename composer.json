@@ -7,6 +7,7 @@
         "ircmaxell/random-lib": "^1.2",
         "nategood/commando": "*",
         "gettext/gettext": "^4.4",
-        "symfony/yaml": "^4.2"
+        "symfony/yaml": "^4.2",
+        "wujunze/php-cli-color": "*"
     }
 }
