@@ -193,8 +193,6 @@ class Request
      */
     public function mapCommandLine()
     {
-        Debug::__print('Command Line Debug: Command line support enabled.');
-
         $this->isJson(true);
 
         $this->cli = new \Commando\Command();
@@ -206,12 +204,24 @@ class Request
 
         $this->cli->option('method')
             ->aka('m')
+            ->default('index')
             ->require()
             ->describedAs('Controller method to run');
 
         $this->cli->option('parameters')
             ->aka('p')
             ->describedAs('Controller method to run');
+
+        $this->cli->option('enable-debug')
+            ->aka('debug')
+            ->default(false)
+            ->boolean()
+            ->describedAs('Enable debugging');
+
+        // Enable debugging from cli only if requested.
+        if (php_sapi_name() == "cli" && !$this->cli['enable-debug']) {
+            error_reporting(0);
+        }
 
         $this->setController($this->cli['controller']);
         $this->setMethod($this->cli['method']);
@@ -222,11 +232,6 @@ class Request
             $params = explode('/', $params);
             $this->setParams($params);
         }
-
-        Debug::__print('Mapped:');
-        Debug::__print($this->cli['controller']);
-        Debug::__print($this->cli['method']);
-        Debug::__print($this->cli['parameters']);
     }
 
     /**
