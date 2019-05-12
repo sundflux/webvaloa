@@ -45,14 +45,49 @@ class InstallerController extends \Webvaloa\Application
 
     public function __construct()
     {
+        if (!\Webvaloa\Webvaloa::isCommandLine()) {
+            die();
+        }
+
         $this->ui->setMainTemplate('cli');
         $this->textColorFormatter = new Colors();
+        $this->printHeader();
     }
 
-    public function index($command = false, $value = false)
+    public function index($command = false, $key = false, $value = false)
     {
-        $this->view->command = $this->textColorFormatter->getColoredString($command, "blue", "light_gray");
-        $this->view->value = $this->textColorFormatter->getColoredString($value, "red", "black");
+        switch($command) {
+            case 'setup':
+                $this->installationPreChecks($key);
+                break;
+            default:
+                $this->printHelp();
+        }
+    }
+
+    public function extension($controller = false, $action = false)
+    {
+
+    }
+
+    public function plugin($controller = false, $action = false)
+    {
+        
+    }
+
+    private function installationPreChecks($profileName)
+    {
+
+    }
+
+    private function printHeader()
+    {
+        $this->view->title = $this->textColorFormatter->getColoredString('Webvaloa installer tool.', 'green', 'black');
+    }
+
+    private function printHelp()
+    {
+        $this->view->help = true;
     }
 
 }
