@@ -212,14 +212,14 @@ class Request
             ->aka('p')
             ->describedAs('Method parameters');
 
-        $this->cli->option('enable-debug')
-            ->aka('debug')
+        $this->cli->option('debug')
+            ->aka('d')
             ->default(false)
             ->boolean()
             ->describedAs('Enable debugging');
 
         // Enable debugging from cli only if requested.
-        if (php_sapi_name() == "cli" && !$this->cli['enable-debug']) {
+        if (php_sapi_name() == "cli" && !$this->cli['debug']) {
             error_reporting(0);
         }
 
