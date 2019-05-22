@@ -76,6 +76,8 @@ class Manifest
         $this->schema = false;
 
         $paths = \Webvaloa\Webvaloa::getSystemPaths();
+
+        $controller = ucfirst(strtolower($controller));
         
         foreach ($paths as $path) {
             if (is_readable($path . '/Controllers/'.$controller.'/manifest.yaml')) {

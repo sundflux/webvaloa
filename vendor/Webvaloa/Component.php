@@ -335,7 +335,7 @@ class Component
         $this->installConfiguration();
 
         // Install component
-        $object = new Db\Item('component', $db);
+        $object = new Db\Item($db, 'component');
         $object->controller = $this->controller;
         $object->system_component = 0;
         $object->blocked = 0;

@@ -119,8 +119,7 @@ class Table
             }
         }
 
-        rtrim($schema, ',');
-
+        $schema = rtrim($schema, ",\n");
         $schema.= ') ENGINE=InnoDB  DEFAULT CHARSET=utf8;'. "\n";
 
         $this->schema = $schema;
@@ -151,6 +150,6 @@ class Table
     public function create()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
-        $db->query($this->getSchema());
+        $db->exec($this->getSchema());
     }
 }

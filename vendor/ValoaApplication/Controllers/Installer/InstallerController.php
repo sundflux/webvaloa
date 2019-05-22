@@ -37,6 +37,7 @@ use PDOException;
 use RuntimeException;
 use Libvaloa\Debug\Debug;
 use Webvaloa\Manifest;
+use Webvaloa\Component;
 use Wujunze\Colors;
 use Symfony\Component\Yaml\Yaml;
 
@@ -53,7 +54,6 @@ class InstallerController extends \Webvaloa\Application
     public function __construct()
     {
         // Installer should be only ran from command line.
-
         if (!\Webvaloa\Webvaloa::isCommandLine()) {
             die();
         }
@@ -74,7 +74,6 @@ class InstallerController extends \Webvaloa\Application
                 if ($this->installationPreChecks($key)) {
                     $this->addPrecheckMessage('Installation prechecks OK.');
                     $this->addPrecheckMessage('Running setup for profile: ' . $key);
-
 
                     // Load available install profiles:
                     $this->loadAvailableProfiles();
@@ -196,9 +195,16 @@ class InstallerController extends \Webvaloa\Application
         if (!isset($this->profiles[$profile])) {
             throw new RuntimeException('Profile not found.');
         }
-
-        print_r($this->profiles[$profile]);
         
+        if (empty($this->profiles[$profile]->components)) {
+            throw new \RuntimeException('Could not find any components to install.');
+        }
+
+        // Install all components from profile:
+        foreach ($this->profiles[$profile]->components as $component) {
+            $installer = new Component($component);
+            $installer->install();
+        }
     }
 
     private function addPrecheckMessage($message)
