@@ -99,17 +99,29 @@ class Alias
 
             // Get parent route
             if (!empty($parentRouteItem) && ($parentRouteItem != $lastRouteItem)) {
-                $query = 'SELECT id,type FROM structure WHERE alias = ?';
+                $query = '
+                    SELECT id,type 
+                    FROM structure 
+                    WHERE alias = ?';
+
                 $stmt = $this->db->prepare($query);
                 $stmt->set($parentRouteItem);
                 try {
                     $stmt->execute();
                     $row = $stmt->fetch();
+
                     if (isset($row->id)) {
                         $parentId = $row->id;
                         $parentType = $row->type;
                     }
-                } catch (PDOException $e) {
+                } catch (\Libvaloa\Db\DBException $e) {
+                    if (strpos($e->getMessage(), 'Base table or view not found')) {
+                        return;
+                    }
+                } catch (\PDOException $e) {
+
+                } catch(\Exception $e) {
+
                 }
             }
 
@@ -153,7 +165,10 @@ class Alias
                 $this->buildContentRoute($row);
 
                 return;
-            } catch (PDOException $e) {
+            } catch (\Libvaloa\Db\DBException $e) {
+                if (strpos($e->getMessage(), 'Base table or view not found')) {
+                    return;
+                }
             }
 
             // Try loading alias
@@ -176,7 +191,10 @@ class Alias
                 if (isset($row->controller)) {
                     $this->controller = $row;
                 }
-            } catch (PDOException $e) {
+            } catch (\Libvaloa\Db\DBException $e) {
+                if (strpos($e->getMessage(), 'Base table or view not found')) {
+                    return;
+                }
             }
         }
     }
