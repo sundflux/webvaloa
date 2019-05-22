@@ -2,10 +2,10 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>.
+ * Tarmo Alexander Sundström <ta@sundstrom.io>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.io>
  *
  * All Rights Reserved.
  *
@@ -115,21 +115,16 @@ class ComponentController extends \Webvaloa\Application
         // Read component manifest
         $manifest = new Manifest($controller);
 
-        $sqlSchema = $manifest->controllerPath.'/schema-'.$manifest->version.'.'.\Webvaloa\config::$properties['db_server'].'.uninst.sql';
-        if (file_exists($sqlSchema) && !isset($_GET['verify'])) {
-            $this->view->schema = file_get_contents($sqlSchema);
-        } else {
-            $component = new Component($controller);
+        $component = new Component($controller);
 
-            // Uninstall the component
-            $component->uninstall();
+        // Uninstall the component
+        $component->uninstall();
 
-            // Delete the configuration vars
-            $configuration = new Configuration($controller);
-            $configuration->delete();
+        // Delete the configuration vars
+        $configuration = new Configuration($controller);
+        $configuration->delete();
 
-            $this->ui->addMessage(\Webvaloa\Webvaloa::translate('COMPONENT_UNINSTALLED'));
-            Redirect::to('extension_component');
-        }
+        $this->ui->addMessage(\Webvaloa\Webvaloa::translate('COMPONENT_UNINSTALLED'));
+        Redirect::to('extension_component');
     }
 }

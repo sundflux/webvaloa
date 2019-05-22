@@ -36,6 +36,8 @@ use Libvaloa\Db;
 use Libvaloa\Debug\Debug;
 use Webvaloa\Helpers\Filesystem;
 use Webvaloa\Helpers\Path;
+use Webvaloa\Model\Table;
+use Webvaloa\Configuration;
 use RuntimeException;
 
 /**
@@ -327,13 +329,10 @@ class Component
         }
 
         // Install database
-        $sqlSchema = $manifest->controllerPath.'/schema-'.$manifest->version.'.'.\Webvaloa\config::$properties['db_server'].'.sql';
+        $this->installModels();
 
-        if (file_exists($sqlSchema)) {
-            $query = file_get_contents($sqlSchema);
-
-            $db->exec($query);
-        }
+        // Install configuration
+        $this->installConfiguration();
 
         // Install component
         $object = new Db\Item('component', $db);
@@ -343,6 +342,36 @@ class Component
         $this->id = $object->save();
 
         return $this->id;
+    }
+
+    public function installModels()
+    {
+        $manifest = new Manifest($this->controller);
+        $models = $manifest->getModels();
+
+        if (!empty($models)) {
+            foreach ($models as $model) {
+                $table = new Table($model);
+                $table->create();
+            }
+        }
+    }
+
+    public function installConfiguration()
+    {
+        // Insert configuration variables
+        $configuration = new Configuration($this->controller);
+        $manifest = new Manifest($this->controller);
+        $tmp = $manifest->configuration;
+
+        if ($tmp && (is_array($tmp) || is_object($tmp))) {
+            foreach ($tmp as $k => $v) {
+                foreach ($v as $configurationKey => $configurationValue) {
+                    $configuration->{$configurationKey} = $configurationValue;
+                    Debug::__print('Inserted '.$configurationKey.' with value '.$configurationValue);
+                }
+            }
+        }        
     }
 
     /**
@@ -367,18 +396,6 @@ class Component
         $stmt = $db->prepare($query);
         $stmt->set($this->controller);
         $stmt->execute();
-
-        // Uninstall database
-        $sqlSchema = $manifest->controllerPath.'/schema-'.$manifest->version.'.'.\Webvaloa\config::$properties['db_server'].'.uninst.sql';
-
-        if (file_exists($sqlSchema)) {
-            $query = file_get_contents($sqlSchema);
-
-            try {
-                $db->exec($query);
-            } catch (Exception $e) {
-            }
-        }
     }
 
     /**

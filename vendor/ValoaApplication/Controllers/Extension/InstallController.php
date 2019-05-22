@@ -77,20 +77,6 @@ class InstallController extends \Webvaloa\Application
             $component = new Component($controller);
             $component->install();
 
-            // Insert configuration variables
-            $configuration = new Configuration($controller);
-            $manifest = new Manifest($controller);
-            $tmp = $manifest->configuration;
-
-            if ($tmp && (is_array($tmp) || is_object($tmp))) {
-                foreach ($tmp as $k => $v) {
-                    foreach ($v as $configurationKey => $configurationValue) {
-                        $configuration->{$configurationKey} = $configurationValue;
-                        Debug::__print('Inserted '.$configurationKey.' with value '.$configurationValue);
-                    }
-                }
-            }
-
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('COMPONENT_INSTALLED'));
         }
 

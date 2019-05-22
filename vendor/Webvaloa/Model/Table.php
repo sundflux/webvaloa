@@ -151,6 +151,6 @@ class Table
     public function create()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
-        $db->query($this->getSchema);
+        $db->query($this->getSchema());
     }
 }
