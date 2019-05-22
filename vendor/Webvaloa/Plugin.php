@@ -117,6 +117,7 @@ class Plugin
         // Skip plugins in these controllers
         'skipControllers' => array(
             'Setup',
+            'Installer'
         ),
     );
 
@@ -183,6 +184,7 @@ class Plugin
 
             return $this->plugins;
         } catch (PDOException $e) {
+        } catch (\Libvaloa\Db\DBException $e) {
         }
     }
 
