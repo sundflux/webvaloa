@@ -37,7 +37,9 @@ use RuntimeException;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Table
+ * Class Table.
+ * Create database table models
+ * 
  * @package Webvaloa
  */
 class Table
@@ -48,11 +50,17 @@ class Table
     private $index;
     private $schema;
 
+    /**
+     * 
+     */
     public function __construct($model)
     {
         $this->model = $model;
     }
 
+    /**
+     * 
+     */
     private function parseTableFromModel()
     {
         if (empty($this->table)) {
@@ -63,6 +71,9 @@ class Table
         return $this->table;
     }
 
+    /**
+     * 
+     */
     private function parseFieldsFromModel()
     {
         $modelName = $this->parseTableFromModel();
@@ -80,6 +91,9 @@ class Table
         }
     }
 
+    /**
+     * 
+     */
     private function parseIndexesFromModel()
     {
         if (isset($this->model['index'])) {
@@ -88,6 +102,9 @@ class Table
         }
     }
 
+    /**
+     * 
+     */
     private function parseSchema()
     {
         $schema = 'CREATE TABLE IF NOT EXISTS `' . $this->parseTableFromModel() . '` (' . "\n";
@@ -105,11 +122,13 @@ class Table
         rtrim($schema, ',');
 
         $schema.= ') ENGINE=InnoDB  DEFAULT CHARSET=utf8;'. "\n";
-        Debug::__print($schema);
 
         $this->schema = $schema;
     }
 
+    /**
+     * 
+     */
     public function getSchema()
     {
         if (empty($this->schema)) {
@@ -121,10 +140,14 @@ class Table
 
         Debug::__print($this->table);
         Debug::__print($this->fields);
+        Debug::__print($this->schema);
 
         return $this->schema;
     }
 
+    /**
+     * 
+     */
     public function create()
     {
         $db = \Webvaloa\Webvaloa::DBConnection();
