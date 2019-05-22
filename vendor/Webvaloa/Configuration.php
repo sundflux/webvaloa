@@ -2,10 +2,10 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>.
+ * Tarmo Alexander Sundström <ta@sundstrom.io>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.io>
  *
  * All Rights Reserved.
  *
@@ -34,6 +34,7 @@ namespace Webvaloa;
 
 use Libvaloa\Db;
 use Libvaloa\Debug\Debug;
+use Symfony\Component\Yaml\Yaml;
 use stdClass;
 
 /**
@@ -136,12 +137,23 @@ class Configuration
      */
     public function __get($k)
     {
+        // config.yaml takes priority.
+        if (file_exists(WEBVALOA_CONFGIDIR.'/config.yaml')) {
+            $config = Yaml::parse(file_get_contents(WEBVALOA_CONFGIDIR.'/config.yaml'));
+
+            if (isset($config[$k]) && !empty($config[$k])) {
+                return $config[$k];
+            }
+        }
+
+        // Next we check from config.php.
         if (isset(\Webvaloa\config::$properties[$k])) {
             Debug::__print('Warning: configuration value overridden from config.php');
 
             return \Webvaloa\config::$properties[$k];
         }
-        // Load configs
+
+        // Lastly, load from database configuration.
         $this->configuration();
 
         if (isset($this->config->$k) && !empty($this->config->$k)) {
@@ -161,6 +173,7 @@ class Configuration
         if ($this->db == false) {
             return $this->config;
         }
+
         $name = 'config'.(int) $this->componentID;
 
         $query = '
