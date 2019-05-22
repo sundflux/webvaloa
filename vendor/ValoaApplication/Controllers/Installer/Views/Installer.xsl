@@ -7,6 +7,9 @@
 <xsl:if test="help">
 <xsl:call-template name="help" />
 </xsl:if>
+<xsl:for-each select="precheckmessages">
+<xsl:value-of select="message" />
+</xsl:for-each>
 </xsl:template>
 
 <xsl:template name="help" xsl:space="preserve">
