@@ -54,6 +54,11 @@ class WebvaloaBootstrap
             define('LIBVALOA_INSTALLPATH', WEBVALOA_BASEDIR.'/'.'vendor');
         }
 
+        // Configurations
+        if (!defined('WEBVALOA_CONFIGDIR')) {
+            define('WEBVALOA_CONFIGDIR', WEBVALOA_BASEDIR.'/'.'config');
+        }
+
         // Extensions
         if (!defined('LIBVALOA_EXTENSIONSPATH')) {
             define('LIBVALOA_EXTENSIONSPATH', WEBVALOA_BASEDIR.'/'.'vendor');
