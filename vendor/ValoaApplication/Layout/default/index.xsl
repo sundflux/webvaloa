@@ -1,49 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:php="http://php.net/xsl">
     <xsl:output
-    method="xml"
-    version="1.0"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+    method="html"
+    doctype-system="about:legacy-compat"
     indent="yes" />
 
-    <!--
-    The Initial Developer of the Original Code is
-    Tarmo Alexander Sundström <ta@sundstrom.im>
-
-    Portions created by the Initial Developer are
-    Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
-
-    All Rights Reserved.
-
-    Contributor(s):
-
-    Permission is hereby granted, free of charge, to any person obtaining a
-    copy of this software and associated documentation files (the "Software"),
-    to deal in the Software without restriction, including without limitation
-    the rights to use, copy, modify, merge, publish, distribute, sublicense,
-    and/or sell copies of the Software, and to permit persons to whom the
-    Software is furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included
-    in all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-    IN THE SOFTWARE.
-    -->
-
     <xsl:template match="/page">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+        <html>
             <xsl:attribute name="lang">en</xsl:attribute>
             <head>
-                <meta name="viewport" content="width=device-width" />
-
-                <title>
+               <meta charset="UTF-8"/>
+               <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+               <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+               <meta http-equiv="Content-Language" content="en"/>
+               <meta name="msapplication-TileColor" content="#2d89ef"/>
+               <meta name="theme-color" content="#4188c9"/>
+               <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+               <meta name="apple-mobile-web-app-capable" content="yes"/>
+               <meta name="mobile-web-app-capable" content="yes"/>
+               <meta name="HandheldFriendly" content="True"/>
+               <meta name="MobileOptimized" content="320"/>
+               <title>
                     <xsl:choose>
                         <xsl:when test="/page/module/*/_globals/site_title/value != ''">
                             <xsl:value-of select="/page/module/*/_globals/site_title/value"/>
@@ -56,36 +33,35 @@
                         <xsl:value-of select="/page/module/*/_globals/site_title_separator/value"/><xsl:value-of select="/page/module/*/article/title"/>
                     </xsl:if>
                 </title>
+
                 <base href="{common/basehref}"/>
 
-                <!-- Latest compiled and minified CSS -->
-                <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/bootstrap.min.css" />
-                <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/bootstrap-theme.min.css" />
-                <link rel="stylesheet" href="{/page/common/basepath}/public/Layout/bootstrap/css/valoa.css" />
-                <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+                <!-- Global CSS -->
+                <link href="{/page/common/basepath}/public/themes/default/css/dashboard.css" rel="stylesheet"/>
+                <link href="{/page/common/basepath}/public/general/css/valoa.css" rel="stylesheet"/>
+                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
                 <!-- Component CSS -->
                 <xsl:for-each select="common/css">
-                    <link rel="stylesheet" type="text/css" href="{../basepath}/public/Layout{.}" title="style"/>
+                    <link rel="stylesheet" type="text/css" href="{../basepath}/public/extensions{.}" title="style"/>
                 </xsl:for-each>
 
-                <link rel="shortcut icon" href="{common/basehref}/public/Layout/{/page/common/layout}/favicon.ico" />
+                <!-- Global JS -->
+                <script src="{/page/common/basepath}/public/themes/default/js/require.min.js"></script>
+                <script>
+                  requirejs.config({
+                    baseUrl: '.'
+                  });
+                </script>
+                <script src="{/page/common/basepath}/public/themes/default/js/dashboard.js"></script>
 
-                <!-- Javascripts: -->
-
-                <!-- jQuery -->
-                <script src="{/page/common/basepath}/public/Layout/jquery/jquery-1.11.0.min.js"></script>
-
-                <!-- Latest compiled and minified JavaScript -->
-                <script src="{/page/common/basepath}/public/Layout/bootstrap/js/bootstrap.min.js"></script>
-
-                <!-- Javascripts -->
+                <!-- Component JS -->
                 <xsl:for-each select="common/js">
-                    <script type="text/javascript" src="{../basepath}/public/Layout{.}"/>
+                    <script type="text/javascript" src="{../basepath}/public/extensions{.}"></script>
                 </xsl:for-each>
             </head>
             <body>
-                <div class="container main">
+                <div class="page">
                     <!-- Messages -->
                     <div id="messages">
                         <xsl:call-template name="messages" />
@@ -136,27 +112,4 @@
         </xsl:if>
     </xsl:template>
     
-    <xsl:template name="loader">
-        <div id="loader">
-            <div class="loader-wrapper">
-                <div id="loader_1" class="loader">
-                </div>
-                <div id="loader_2" class="loader">
-                </div>
-                <div id="loader_3" class="loader">
-                </div>
-                <div id="loader_4" class="loader">
-                </div>
-                <div id="loader_5" class="loader">
-                </div>
-                <div id="loader_6" class="loader">
-                </div>
-                <div id="loader_7" class="loader">
-                </div>
-                <div id="loader_8" class="loader">
-                </div>
-            </div>
-        </div>        
-    </xsl:template>
-
 </xsl:stylesheet>
