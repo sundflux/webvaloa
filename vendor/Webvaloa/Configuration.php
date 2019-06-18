@@ -138,7 +138,7 @@ class Configuration
     public function __get($k)
     {
         // config.yaml takes priority.
-        if (file_exists(WEBVALOA_CONFGIDIR.'/config.yaml')) {
+        if (defined(WEBVALOA_CONFIGDIR) && file_exists(WEBVALOA_CONFIGDIR.'/config.yaml')) {
             $config = Yaml::parse(file_get_contents(WEBVALOA_CONFGIDIR.'/config.yaml'));
 
             if (isset($config[$k]) && !empty($config[$k])) {
