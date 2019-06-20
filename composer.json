@@ -8,6 +8,11 @@
         "nategood/commando": "*",
         "gettext/gettext": "^4.4",
         "symfony/yaml": "^4.2",
+        "symfony/console": "^4.2",
+        "symfony/var-dumper": "^4.2",
         "wujunze/php-cli-color": "*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.4"
     }
 }

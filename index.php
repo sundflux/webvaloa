@@ -78,7 +78,7 @@ class WebvaloaBootstrap
             die('Please install dependencies first, run: composer install');
         }
 
-        require_once LIBVALOA_INSTALLPATH.'/autoload.php';
+        include_once LIBVALOA_INSTALLPATH.'/autoload.php';
     }
 
     public function loadRuntimeConfiguration()
@@ -87,7 +87,7 @@ class WebvaloaBootstrap
         if (is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
             // Configuration found
 
-            require_once WEBVALOA_BASEDIR.'/config/config.php';
+            include_once WEBVALOA_BASEDIR.'/config/config.php';
         } elseif (file_exists(WEBVALOA_BASEDIR.'/config/config.php') && !is_readable(WEBVALOA_BASEDIR.'/config/config.php')) {
             // Configuration exists, but is not readable, so don't proceed
 
@@ -295,7 +295,7 @@ class Webvaloa
                 continue;
             }
 
-            require_once $v.'/'.$fileName;
+            include_once $v.'/'.$fileName;
             return;
         }
     }
@@ -303,11 +303,11 @@ class Webvaloa
     /**
      * Opens database connection.
      *
-     * @access      static
+     * @access static
      *
      * @return DB database connection
      *
-     * @uses        DB
+     * @uses DB
      */
     public static function DBConnection()
     {
@@ -562,7 +562,7 @@ class Application
     protected $params = false;
 
     /**
-     * @param $k
+     * @param  $k
      * @return stdClass|string|void|Request|DB|Plugin
      */
     public function __get($k)
@@ -608,7 +608,7 @@ class Application
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return bool
      */
     public function __isset($k)
