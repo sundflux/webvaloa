@@ -1,5 +1,7 @@
-.DEFAULT_GOAL := help
+# Webvaloa tools
+# Based on https://github.com/druidfi/tools
 
+.DEFAULT_GOAL := help
 CLI_SERVICE := cli
 CLI_SHELL := sh
 CLI_USER := root
