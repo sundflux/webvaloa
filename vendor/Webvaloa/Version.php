@@ -37,6 +37,7 @@ use Webvaloa\Configuration as Conf;
 
 /**
  * Class Version
+ *
  * @package Webvaloa
  */
 class Version
@@ -199,7 +200,7 @@ class Version
     }
 
     /**
-     * @param $id
+     * @param  $id
      * @return bool|mixed
      */
     public function loadVersion($id)

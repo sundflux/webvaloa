@@ -37,6 +37,7 @@ use RuntimeException;
 
 /**
  * Class Group
+ *
  * @package Webvaloa\Field
  */
 class Group
@@ -53,6 +54,7 @@ class Group
 
     /**
      * Group constructor.
+     *
      * @param bool $groupID
      */
     public function __construct($groupID = false)
@@ -75,7 +77,7 @@ class Group
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return bool|null|string
      */
     public function __get($k)
@@ -116,7 +118,7 @@ class Group
     }
 
     /**
-     * @param $fieldID
+     * @param  $fieldID
      * @return bool
      */
     public function deleteField($fieldID)

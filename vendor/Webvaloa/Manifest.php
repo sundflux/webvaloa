@@ -125,7 +125,7 @@ class Manifest
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return bool|string
      */
     public function __get($k)

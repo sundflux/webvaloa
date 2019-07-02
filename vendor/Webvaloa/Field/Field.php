@@ -40,6 +40,7 @@ use stdClass;
 
 /**
  * Class Field
+ *
  * @package Webvaloa\Field
  */
 class Field
@@ -71,6 +72,7 @@ class Field
 
     /**
      * Field constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */
@@ -95,7 +97,7 @@ class Field
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return null|string
      */
     public function __get($k)
@@ -120,7 +122,7 @@ class Field
     }
 
     /**
-     * @param $name
+     * @param  $name
      * @return bool
      */
     public function findByName($name)

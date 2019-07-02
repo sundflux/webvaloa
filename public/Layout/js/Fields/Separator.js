@@ -28,12 +28,16 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('.field-Separator').each(function() {
-        jQuery(this).css('background', 'transparent');
-        jQuery(this).find('.control-label').text('');
-    });
+        jQuery('.field-Separator').each(
+            function () {
+                jQuery(this).css('background', 'transparent');
+                jQuery(this).find('.control-label').text('');
+            }
+        );
 
-});
+    }
+);
 

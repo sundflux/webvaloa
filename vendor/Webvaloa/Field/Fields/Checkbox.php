@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Checkbox
+ *
  * @package Webvaloa\Field\Fields
  */
 class Checkbox
@@ -55,6 +56,7 @@ class Checkbox
 
     /**
      * Checkbox constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

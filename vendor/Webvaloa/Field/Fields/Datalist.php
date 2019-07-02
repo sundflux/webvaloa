@@ -39,6 +39,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class Datalist
+ *
  * @package Webvaloa\Field\Fields
  */
 class Datalist
@@ -60,6 +61,7 @@ class Datalist
 
     /**
      * Datalist constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

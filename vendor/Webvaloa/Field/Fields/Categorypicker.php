@@ -40,6 +40,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class Categorypicker
+ *
  * @package Webvaloa\Field\Fields
  */
 class Categorypicker
@@ -61,6 +62,7 @@ class Categorypicker
 
     /**
      * Categorypicker constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

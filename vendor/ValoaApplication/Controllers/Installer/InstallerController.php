@@ -43,6 +43,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class InstallerController
+ *
  * @package ValoaApplication\Controllers\Installer
  */
 class InstallerController extends \Webvaloa\Application
@@ -67,26 +68,26 @@ class InstallerController extends \Webvaloa\Application
     {
         switch($command) {
             // Run setup:
-            case 'setup':
-                $this->addPrecheckMessage('Running installation prechecks...');
+        case 'setup':
+            $this->addPrecheckMessage('Running installation prechecks...');
 
-                // Check if we can run setup
-                if ($this->installationPreChecks($key)) {
-                    $this->addPrecheckMessage('Installation prechecks OK.');
-                    $this->addPrecheckMessage('Running setup for profile: ' . $key);
+            // Check if we can run setup
+            if ($this->installationPreChecks($key)) {
+                $this->addPrecheckMessage('Installation prechecks OK.');
+                $this->addPrecheckMessage('Running setup for profile: ' . $key);
 
-                    // Load available install profiles:
-                    $this->loadAvailableProfiles();
+                // Load available install profiles:
+                $this->loadAvailableProfiles();
 
-                    // Run setup with given profile:
-                    $this->installWithProfile($key);
-                } else {
-                    // Something failed in setup prechecks:
-                    $this->addPrecheckError('Prechecks for installation failed.');                    
-                }
-                break;
-            default:
-                $this->printHelp();
+                // Run setup with given profile:
+                $this->installWithProfile($key);
+            } else {
+                // Something failed in setup prechecks:
+                $this->addPrecheckError('Prechecks for installation failed.');                    
+            }
+            break;
+        default:
+            $this->printHelp();
         }
     }
 

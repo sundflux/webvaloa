@@ -28,158 +28,194 @@
  * IN THE SOFTWARE.
  */
 
-jQuery(document).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('.sortable').sortable({
-        handle: 'i.fa-sort'
-    });
+        jQuery('.sortable').sortable(
+            {
+                handle: 'i.fa-sort'
+            }
+        );
 
-    jQuery('.sortable').sortable().bind('sortupdate', function() {
-        Loader.show();
+        jQuery('.sortable').sortable().bind(
+            'sortupdate', function () {
+                Loader.show();
 
-        var i = 0;
-        var _url = jQuery('#basehref').text();
-        var _group_id = jQuery(this).attr('data-id');
-        var _order = new Array();
+                var i = 0;
+                var _url = jQuery('#basehref').text();
+                var _group_id = jQuery(this).attr('data-id');
+                var _order = new Array();
         
-        var field_id = '';
-        jQuery(this).children('li').each(function(e) {
-            field_id = jQuery(this).attr('data-id');
-            if(typeof field_id !== 'undefined' && field_id != '') {
-                _order[i++] = field_id;
+                var field_id = '';
+                jQuery(this).children('li').each(
+                    function (e) {
+                        field_id = jQuery(this).attr('data-id');
+                        if(typeof field_id !== 'undefined' && field_id != '') {
+                            _order[i++] = field_id;
+                        }
+                    }
+                );
+
+                _request = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/content_field/ordering',
+                        data: {
+                            group_id: _group_id,
+                            ordering: _order
+                        }
+                    }
+                );
+
+                _request.done(
+                    function (response) {
+                        Loader.hide();
+                    }
+                );
+
             }
-        });
+        );
 
-        _request = jQuery.ajax({
-            type: "POST",
-            url: _url + '/content_field/ordering',
-            data: {
-                group_id: _group_id,
-                ordering: _order
-            }
-        });
-
-        _request.done(function(response) {
-            Loader.hide();
-        });
-
-    });
-
-    jQuery('.field-tooltip').tooltip();
-    jQuery(".alert").alert()
+        jQuery('.field-tooltip').tooltip();
+        jQuery(".alert").alert()
     
-    jQuery('.add-field').click(function() {
-        jQuery('#group_id').val(jQuery(this).attr('data-target-id'));
-    });
-
-    jQuery('.confirm').on('click', function(e) {
-        if(!confirm(jQuery('#translation-delete').attr('data-translation-string'))) {
-            return false;
-        }
-    });
-    
-    jQuery('button[data-action]').click(function(e) {
-        e.preventDefault();
-        
-        Loader.show();
-        
-        var _request;
-        var _group_id = jQuery(this).attr('data-target-id');
-        var _action = jQuery(this).attr('data-action');
-        var _url = jQuery('#basehref').text();
-        var _active = jQuery(this).hasClass('active');
-        
-        if(_active) {
-            jQuery(this).removeClass('active');
-        } else {
-            jQuery(this).addClass('active');
-        }
-
-        _request = jQuery.ajax({
-            type: "POST",
-            url: _url + '/content_field/toggle' + _action,
-            data: {
-                group_id: _group_id
+        jQuery('.add-field').click(
+            function () {
+                jQuery('#group_id').val(jQuery(this).attr('data-target-id'));
             }
-        });
+        );
 
-        _request.done(function(response) {
-            Loader.hide();
-        });
+        jQuery('.confirm').on(
+            'click', function (e) {
+                if(!confirm(jQuery('#translation-delete').attr('data-translation-string'))) {
+                    return false;
+                }
+            }
+        );
+    
+        jQuery('button[data-action]').click(
+            function (e) {
+                e.preventDefault();
         
-    });
+                Loader.show();
+        
+                var _request;
+                var _group_id = jQuery(this).attr('data-target-id');
+                var _action = jQuery(this).attr('data-action');
+                var _url = jQuery('#basehref').text();
+                var _active = jQuery(this).hasClass('active');
+        
+                if(_active) {
+                    jQuery(this).removeClass('active');
+                } else {
+                    jQuery(this).addClass('active');
+                }
 
-    // Fieldtype settings
-    jQuery('#field_type').on('change', function() {
-        var $v = jQuery(this).val();
+                _request = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/content_field/toggle' + _action,
+                        data: {
+                            group_id: _group_id
+                        }
+                    }
+                );
 
-        if($v == '') {
-            jQuery('.fieldsettings').hide();
-        } else {
-            jQuery('.fieldsettings').hide();
-            jQuery('.settings-' + $v).show();
-        }
-    });
+                _request.done(
+                    function (response) {
+                        Loader.hide();
+                    }
+                );
+        
+            }
+        );
 
-    var $v = jQuery('#field_type').val();
-    jQuery('.fieldsettings').hide();
-    jQuery('.settings-' + $v).show();
+        // Fieldtype settings
+        jQuery('#field_type').on(
+            'change', function () {
+                var $v = jQuery(this).val();
 
-    // Validate group names
-    jQuery('#group_name').on('keyup', function(e) {
-        e.preventDefault();
-        ValidationHelper.validateName('#group_name', 'group', 0);
-    });
+                if($v == '') {
+                    jQuery('.fieldsettings').hide();
+                } else {
+                    jQuery('.fieldsettings').hide();
+                    jQuery('.settings-' + $v).show();
+                }
+            }
+        );
 
-    jQuery('#group_name').on('blur focusout', function(e) {
-        e.preventDefault();
-        ValidationHelper.validateName('#group_name', 'group', 1);
-    });
+        var $v = jQuery('#field_type').val();
+        jQuery('.fieldsettings').hide();
+        jQuery('.settings-' + $v).show();
 
-    // Validate field names
-    jQuery('#field_name').on('keyup', function(e) {
-        e.preventDefault();
-        ValidationHelper.validateName('#field_name', 'field', 0);
-    });
+        // Validate group names
+        jQuery('#group_name').on(
+            'keyup', function (e) {
+                e.preventDefault();
+                ValidationHelper.validateName('#group_name', 'group', 0);
+            }
+        );
 
-    jQuery('#field_name').on('blur focusout', function(e) {
-        e.preventDefault();
-        ValidationHelper.validateName('#field_name', 'field', 1);
-    });
+        jQuery('#group_name').on(
+            'blur focusout', function (e) {
+                e.preventDefault();
+                ValidationHelper.validateName('#group_name', 'group', 1);
+            }
+        );
 
-});
+        // Validate field names
+        jQuery('#field_name').on(
+            'keyup', function (e) {
+                e.preventDefault();
+                ValidationHelper.validateName('#field_name', 'field', 0);
+            }
+        );
+
+        jQuery('#field_name').on(
+            'blur focusout', function (e) {
+                e.preventDefault();
+                ValidationHelper.validateName('#field_name', 'field', 1);
+            }
+        );
+
+    }
+);
 
 var ValidationHelper = {
 
-    validateName: function(id, type, apply) {
+    validateName: function (id, type, apply) {
         Loader.show();
 
         var el = jQuery(id);
         var _url = jQuery('#basehref').text();
         var _value = jQuery(el).val();
 
-        _request = jQuery.ajax({
-            type: "GET",
-            url: _url + '/content_field/validate' + type + '/' + _value + '/'
-        });
-
-        _request.done(function(response) {
-            Loader.hide();
-
-            if(response.exists > 0 || jQuery(id).val() == "") {
-                jQuery(id).parent().removeClass('has-success');
-                jQuery(id).parent().addClass('has-error');
-                jQuery('.fields-savebutton').prop('disabled', true);
-            } else {
-                jQuery(id).parent().removeClass('has-error');
-                jQuery(id).parent().addClass('has-success');
-                jQuery('.fields-savebutton').prop('disabled', false);
+        _request = jQuery.ajax(
+            {
+                type: "GET",
+                url: _url + '/content_field/validate' + type + '/' + _value + '/'
             }
+        );
 
-            if(apply == 1) {
-                jQuery(id).val(response.formattedname);
+        _request.done(
+            function (response) {
+                Loader.hide();
+
+                if(response.exists > 0 || jQuery(id).val() == "") {
+                    jQuery(id).parent().removeClass('has-success');
+                    jQuery(id).parent().addClass('has-error');
+                    jQuery('.fields-savebutton').prop('disabled', true);
+                } else {
+                    jQuery(id).parent().removeClass('has-error');
+                    jQuery(id).parent().addClass('has-success');
+                    jQuery('.fields-savebutton').prop('disabled', false);
+                }
+
+                if(apply == 1) {
+                    jQuery(id).val(response.formattedname);
+                }
             }
-        });
+        );
     }
 
 }

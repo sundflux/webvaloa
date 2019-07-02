@@ -28,365 +28,441 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    Loader.show();
+        Loader.show();
 
-    // Bind tabs
-    Frontend.bindTabs();
+        // Bind tabs
+        Frontend.bindTabs();
 
-    // Bind repeatable buttons
-    Frontend.bindRepeatable('.repeatable-field-button');
+        // Bind repeatable buttons
+        Frontend.bindRepeatable('.repeatable-field-button');
 
-    // Bind repeatable group buttons
-    Frontend.bindRepeatableGroup();    
+        // Bind repeatable group buttons
+        Frontend.bindRepeatableGroup();    
 
-    // Bind delete buttons to repeated elements
-    Frontend.bindRepeatableDelete();
+        // Bind delete buttons to repeated elements
+        Frontend.bindRepeatableDelete();
 
-    // Bind delete buttons to repeated elements
-    Frontend.bindRepeatableGroupDelete();
+        // Bind delete buttons to repeated elements
+        Frontend.bindRepeatableGroupDelete();
 
-    // Bind moveup to repeatable elements
-    Frontend.bindMoveRepeatableUp();
+        // Bind moveup to repeatable elements
+        Frontend.bindMoveRepeatableUp();
 
-    // Bind movedown to repeatable elements
-    Frontend.bindMoveRepeatableDown();
+        // Bind movedown to repeatable elements
+        Frontend.bindMoveRepeatableDown();
 
-    // Bind save article button
-    Frontend.bindSaveArticle();
+        // Bind save article button
+        Frontend.bindSaveArticle();
 
-    // Bind trash article button
-    Frontend.bindTrashArticle();
+        // Bind trash article button
+        Frontend.bindTrashArticle();
 
-    // Bind category selector
-    Frontend.bindMoveArticle();
+        // Bind category selector
+        Frontend.bindMoveArticle();
 
-    // Bind published- toggler
-    Frontend.bindPublished();
+        // Bind published- toggler
+        Frontend.bindPublished();
 
-    // Bind notice about unsaved changes
-    Frontend.bindLeaveNotice();
+        // Bind notice about unsaved changes
+        Frontend.bindLeaveNotice();
 
-    // Generate uniqids for group separators
-    Frontend.generateUniqIDs();
+        // Generate uniqids for group separators
+        Frontend.generateUniqIDs();
 
-    // Bind help texts
-    Frontend.bindHelpTexts();
+        // Bind help texts
+        Frontend.bindHelpTexts();
 
-    // Bind publish up/down datepicker
-    Frontend.bindDatepickers();
+        // Bind publish up/down datepicker
+        Frontend.bindDatepickers();
 
-    Loader.hide();
+        Loader.hide();
 
-});
+    }
+);
 
 var Frontend = {
 
-    bindTabs: function() {
+    bindTabs: function () {
         // Make the first tab active
         jQuery('.tab-pane').first().removeClass('hidden');        
         jQuery('#groups-tab').find('li').first().addClass('active');
 
         // Mark first panel active
-        jQuery('.tab-content').each(function() {
-            jQuery(this).find('.tab-pane').first().addClass('active');
-        });
+        jQuery('.tab-content').each(
+            function () {
+                jQuery(this).find('.tab-pane').first().addClass('active');
+            }
+        );
 
         // Enable group tabs    
         jQuery('#groups-tab').tab();
 
-        jQuery('#groups-tab a').on('click', function(e) {
-            e.preventDefault();
+        jQuery('#groups-tab a').on(
+            'click', function (e) {
+                e.preventDefault();
 
-            jQuery(this).tab('show');
-        });
+                jQuery(this).tab('show');
+            }
+        );
 
         // Show first tab by default
         jQuery('#groups-tab a:first').tab('show');        
     },
 
-    bindRepeatable: function(el) {
+    bindRepeatable: function (el) {
         // Bind Repeatable button
 
-        jQuery(el).on('click', function(e) {
-            e.preventDefault();
+        jQuery(el).on(
+            'click', function (e) {
+                e.preventDefault();
 
-            // Get the repeatable element
-            var $el = jQuery(this).parent().find('.repeatable-holder').first();
+                // Get the repeatable element
+                var $el = jQuery(this).parent().find('.repeatable-holder').first();
 
-            // Get the last repeated element
-            var $last = jQuery(this).parent().find('.repeatable-holder').last();
+                // Get the last repeated element
+                var $last = jQuery(this).parent().find('.repeatable-holder').last();
 
-            // Clone the element
-            var $clone = $el.clone();
+                // Clone the element
+                var $clone = $el.clone();
 
-            // Reset values on all input fields
-            $clone.find('input, select, textarea, .resetable').not(':input[type=button], :input[type=submit], :input[type=reset]').each(function() {
-                jQuery(this).val('');
-                jQuery(this).attr('name', FrontendHelpers.uniqid() + '[' + jQuery(this).data('field-name') + '][]');
-            });
+                // Reset values on all input fields
+                $clone.find('input, select, textarea, .resetable').not(':input[type=button], :input[type=submit], :input[type=reset]').each(
+                    function () {
+                        jQuery(this).val('');
+                        jQuery(this).attr('name', FrontendHelpers.uniqid() + '[' + jQuery(this).data('field-name') + '][]');
+                    }
+                );
 
-            // Find delete button
-            var $deleteButton = jQuery('#repeatable-delete').html();
+                // Find delete button
+                var $deleteButton = jQuery('#repeatable-delete').html();
 
-            // Append the delete button to element
-            $clone.append($deleteButton);
+                // Append the delete button to element
+                $clone.append($deleteButton);
 
-            // Find the delete button and bind it
-            $clone.find('.repeatable-field-button-delete').each(function() {
-                jQuery(this).on('click', function(e) {
-                    e.preventDefault();
+                // Find the delete button and bind it
+                $clone.find('.repeatable-field-button-delete').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function (e) {
+                                e.preventDefault();
 
-                    if(confirm(jQuery('#translation-delete').attr('data-translation-string'))) {
-                        jQuery(this).parent().find('textarea.wysiwyg').each(function(){
-                            CKEDITOR.instances[$(this).attr('name')].destroy();
-                        });
+                                if(confirm(jQuery('#translation-delete').attr('data-translation-string'))) {
+                                    jQuery(this).parent().find('textarea.wysiwyg').each(
+                                        function () {
+                                            CKEDITOR.instances[$(this).attr('name')].destroy();
+                                        }
+                                    );
+                                    jQuery(this).parent().remove();
+                                }
+                            }
+                        );
+                    }
+                );
+
+                // Disable moveup/down until save
+                $clone.find('.move-repeatable').each(
+                    function () {
+                        jQuery(this).hide();
+                    }
+                );
+
+                // Insert the cloned element after last repeated element
+                $last.after($clone);
+
+                // Bind help texts
+                Frontend.bindHelpTexts();
+            }
+        );
+    },
+
+    bindRepeatableGroup: function () {
+        // Bind Repeatable button
+        jQuery('.repeatable-group-button').on(
+            'click', function (e) {
+                e.preventDefault();
+
+                // Get the repeatable element
+                var $el = jQuery(this).parent().parent().parent().find('.repeatable-group-holder').first();
+
+                // Get the last repeated element
+                var $last = jQuery(this).parent().parent().parent().find('.repeatable-group-holder').last();
+
+                // Clone the element
+                var $clone = $el.clone();
+
+                // Reset values on all input fields
+                $clone.find('input, select, textarea, .resetable').each(
+                    function () {
+                        jQuery(this).val('');
+                        jQuery(this).attr('name', FrontendHelpers.uniqid() + '[' + jQuery(this).data('field-name') + '][]');
+                    }
+                );
+
+                // Find delete button
+                var $deleteButton = jQuery('#repeatable-group-delete').html();
+
+                // Append the delete button to element
+                $clone.append($deleteButton);
+
+                // Find the delete button and bind it
+                $clone.find('.repeatable-group-button-delete').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function (e) {
+                                e.preventDefault();
+
+                                if(confirm(jQuery('#translation-delete').data('translation-string'))) {
+                                    jQuery(this).closest('.repeatable-group-holder').find('textarea.wysiwyg').each(
+                                        function () {
+                                            CKEDITOR.instances[$(this).attr('name')].destroy();
+                                        }
+                                    );
+                                    jQuery(this).closest('.repeatable-group-holder').remove();
+                                }
+                            }
+                        );
+                    }
+                );
+
+                // Remove repeated elements
+                $clone.find('.repeatable-field-button-delete').each(
+                    function () {
+                        jQuery(this).parent().find('textarea.wysiwyg').each(
+                            function () {
+                                CKEDITOR.instances[$(this).attr('name')].destroy();
+                            }
+                        );
                         jQuery(this).parent().remove();
                     }
-                });
-            });
+                );            
 
-            // Disable moveup/down until save
-            $clone.find('.move-repeatable').each(function() {
-                jQuery(this).hide();
-            });
-
-            // Insert the cloned element after last repeated element
-            $last.after($clone);
-
-            // Bind help texts
-            Frontend.bindHelpTexts();
-        });
-    },
-
-    bindRepeatableGroup: function() {
-        // Bind Repeatable button
-        jQuery('.repeatable-group-button').on('click', function(e) {
-            e.preventDefault();
-
-            // Get the repeatable element
-            var $el = jQuery(this).parent().parent().parent().find('.repeatable-group-holder').first();
-
-            // Get the last repeated element
-            var $last = jQuery(this).parent().parent().parent().find('.repeatable-group-holder').last();
-
-            // Clone the element
-            var $clone = $el.clone();
-
-            // Reset values on all input fields
-            $clone.find('input, select, textarea, .resetable').each(function() {
-                jQuery(this).val('');
-                jQuery(this).attr('name', FrontendHelpers.uniqid() + '[' + jQuery(this).data('field-name') + '][]');
-            });
-
-            // Find delete button
-            var $deleteButton = jQuery('#repeatable-group-delete').html();
-
-            // Append the delete button to element
-            $clone.append($deleteButton);
-
-            // Find the delete button and bind it
-            $clone.find('.repeatable-group-button-delete').each(function() {
-                jQuery(this).on('click', function(e) {
-                    e.preventDefault();
-
-                    if(confirm(jQuery('#translation-delete').data('translation-string'))) {
-                        jQuery(this).closest('.repeatable-group-holder').find('textarea.wysiwyg').each(function(){
-                            CKEDITOR.instances[$(this).attr('name')].destroy();
-                        });
-                        jQuery(this).closest('.repeatable-group-holder').remove();
+                // Bind repeatables in group
+                $clone.find('.repeatable-field-button').each(
+                    function () {
+                        Frontend.bindRepeatable(this);
                     }
-                });
-            });
+                );
 
-            // Remove repeated elements
-            $clone.find('.repeatable-field-button-delete').each(function() {
-                jQuery(this).parent().find('textarea.wysiwyg').each(function(){
-                    CKEDITOR.instances[$(this).attr('name')].destroy();
-                });
-                jQuery(this).parent().remove();
-            });            
+                // Disable moveup/down until save
+                $clone.find('.move-repeatable').each(
+                    function () {
+                        jQuery(this).hide();
+                    }
+                );
 
-            // Bind repeatables in group
-            $clone.find('.repeatable-field-button').each(function() {
-                Frontend.bindRepeatable(this);
-            });
+                // Find the group separator
+                $clone.find('.group-separator').each(
+                    function () {
+                        jQuery(this).attr('name', FrontendHelpers.uniqid() + '[group_separator]');
+                    }
+                );
 
-            // Disable moveup/down until save
-            $clone.find('.move-repeatable').each(function() {
-                jQuery(this).hide();
-            });
+                // Insert the cloned element after last repeated element
+                $last.after($clone);
 
-            // Find the group separator
-            $clone.find('.group-separator').each(function() {
-                jQuery(this).attr('name', FrontendHelpers.uniqid() + '[group_separator]');
-            });
-
-            // Insert the cloned element after last repeated element
-            $last.after($clone);
-
-            // Bind help texts
-            Frontend.bindHelpTexts();
-        });
+                // Bind help texts
+                Frontend.bindHelpTexts();
+            }
+        );
     },    
 
-    bindRepeatableDelete: function() {
+    bindRepeatableDelete: function () {
         // Bind delete events for repeatables
-        jQuery('.field-holder').find('.repeatable-field-button-delete').each(function() {
-            jQuery(this).on('click', function(e) {
-                e.preventDefault();
+        jQuery('.field-holder').find('.repeatable-field-button-delete').each(
+            function () {
+                jQuery(this).on(
+                    'click', function (e) {
+                        e.preventDefault();
 
-                if(confirm(jQuery('#translation-delete').data('translation-string'))) {
-                    jQuery(this).parent().find('textarea.wysiwyg').each(function(){
-                        CKEDITOR.instances[$(this).attr('name')].destroy();
-                    });
-                    jQuery(this).parent().remove();
-                }
-            });
-        });
+                        if(confirm(jQuery('#translation-delete').data('translation-string'))) {
+                            jQuery(this).parent().find('textarea.wysiwyg').each(
+                                function () {
+                                    CKEDITOR.instances[$(this).attr('name')].destroy();
+                                }
+                            );
+                            jQuery(this).parent().remove();
+                        }
+                    }
+                );
+            }
+        );
     },
 
-    bindRepeatableGroupDelete: function() {
+    bindRepeatableGroupDelete: function () {
         // Bind delete events for repeatables
-        jQuery('.repeatable-group-holder').find('.repeatable-group-button-delete').each(function() {
-            jQuery(this).on('click', function(e) {
-                e.preventDefault();
+        jQuery('.repeatable-group-holder').find('.repeatable-group-button-delete').each(
+            function () {
+                jQuery(this).on(
+                    'click', function (e) {
+                        e.preventDefault();
 
-                if(confirm(jQuery('#translation-delete').data('translation-string'))) {
-                    jQuery(this).closest('.repeatable-group-holder').find('textarea.wysiwyg').each(function(){
-                        CKEDITOR.instances[$(this).attr('name')].destroy();
-                    });
-                    jQuery(this).closest('.repeatable-group-holder').remove();
-                }
-            });
-        });
+                        if(confirm(jQuery('#translation-delete').data('translation-string'))) {
+                            jQuery(this).closest('.repeatable-group-holder').find('textarea.wysiwyg').each(
+                                function () {
+                                    CKEDITOR.instances[$(this).attr('name')].destroy();
+                                }
+                            );
+                            jQuery(this).closest('.repeatable-group-holder').remove();
+                        }
+                    }
+                );
+            }
+        );
     },    
 
-    bindMoveRepeatableUp: function() {
-        jQuery('.move-repeatable-up').on('click', function() {
-            var $holder = jQuery(this).parent().parent();
-            var $prev = jQuery($holder).prev();
-            var $c = 0;
+    bindMoveRepeatableUp: function () {
+        jQuery('.move-repeatable-up').on(
+            'click', function () {
+                var $holder = jQuery(this).parent().parent();
+                var $prev = jQuery($holder).prev();
+                var $c = 0;
 
-            jQuery($prev).find('.repeatable-field-button-delete');
-            $prev.find('.repeatable-field-button-delete').each(function() {
-                $c++;
-            });
+                jQuery($prev).find('.repeatable-field-button-delete');
+                $prev.find('.repeatable-field-button-delete').each(
+                    function () {
+                        $c++;
+                    }
+                );
 
-            // Only move if element above has repeatables delete button
-            if($c == 1) {
-                jQuery($holder).insertBefore($prev);
+                // Only move if element above has repeatables delete button
+                if($c == 1) {
+                    jQuery($holder).insertBefore($prev);
+                }
             }
-        })
+        )
     },
 
-    bindMoveRepeatableDown: function() {
-        jQuery('.move-repeatable-down').on('click', function() {
-            var $holder = jQuery(this).parent().parent();
-            var $next = jQuery($holder).next();
-            var $c = 0;
+    bindMoveRepeatableDown: function () {
+        jQuery('.move-repeatable-down').on(
+            'click', function () {
+                var $holder = jQuery(this).parent().parent();
+                var $next = jQuery($holder).next();
+                var $c = 0;
 
-            jQuery($next).find('.repeatable-field-button-delete');
-            $next.find('.repeatable-field-button-delete').each(function() {
-                $c++;
-            });
+                jQuery($next).find('.repeatable-field-button-delete');
+                $next.find('.repeatable-field-button-delete').each(
+                    function () {
+                        $c++;
+                    }
+                );
 
-            // Only move if element above has repeatables delete button
-            if($c == 1) {
-                jQuery($holder).insertAfter($next);
+                // Only move if element above has repeatables delete button
+                if($c == 1) {
+                    jQuery($holder).insertAfter($next);
+                }
             }
-        })
+        )
     },
 
-    bindSaveArticle: function() {
+    bindSaveArticle: function () {
         // Bind save button
-        jQuery('#save-article').on('click', function(e) {
-            e.preventDefault();
+        jQuery('#save-article').on(
+            'click', function (e) {
+                e.preventDefault();
 
-            if(confirm(jQuery('#translation-save').data('translation-string'))) {
-                Frontend.resetLeaveNotice();
+                if(confirm(jQuery('#translation-save').data('translation-string'))) {
+                    Frontend.resetLeaveNotice();
 
-                jQuery('#article-form').submit();
+                    jQuery('#article-form').submit();
+                }
             }
-        }); 
+        ); 
     },
 
-    bindTrashArticle: function() {
+    bindTrashArticle: function () {
         // Bind trash button
-        jQuery('#trash-article').on('click', function() {
-            var $cat = jQuery(this).text();
+        jQuery('#trash-article').on(
+            'click', function () {
+                var $cat = jQuery(this).text();
 
-            return confirm(
-                jQuery('#translation-trash').data('translation-string')
-            );
-        }); 
+                return confirm(
+                    jQuery('#translation-trash').data('translation-string')
+                );
+            }
+        ); 
     },    
 
-    bindMoveArticle: function() {
+    bindMoveArticle: function () {
         // Bind move button
-        jQuery('#move-to-category').on('click', function() {
-            var $cat = jQuery(this).text();
+        jQuery('#move-to-category').on(
+            'click', function () {
+                var $cat = jQuery(this).text();
 
-            return confirm(
-                jQuery('#translation-move').data('translation-string') + ' ' + $cat + '?' + '\n\n' +
-                jQuery('#translation-move-notice').data('translation-string')
-            );
-        }); 
+                return confirm(
+                    jQuery('#translation-move').data('translation-string') + ' ' + $cat + '?' + '\n\n' +
+                    jQuery('#translation-move-notice').data('translation-string')
+                );
+            }
+        ); 
     },
 
-    bindPublished: function() {
-        jQuery('#publish-time-toggle').on('click', function(e) {
-            e.preventDefault();
+    bindPublished: function () {
+        jQuery('#publish-time-toggle').on(
+            'click', function (e) {
+                e.preventDefault();
 
-            jQuery('#article-publish').toggle();
-        });
+                jQuery('#article-publish').toggle();
+            }
+        );
 
         // Bind published status toggler
-        jQuery('#publish-toggle').on('click', function(e) {
-            e.preventDefault();
+        jQuery('#publish-toggle').on(
+            'click', function (e) {
+                e.preventDefault();
 
-            if(jQuery(this).hasClass('btn-success')) {
-                jQuery(this).removeClass('btn-success');
-                jQuery(this).addClass('btn-warning');
-                jQuery(this).text(jQuery('#translation-unpublished').data('translation-string'));
-                jQuery('#published').val(0);
-            } else {
-                jQuery(this).removeClass('btn-warning');
-                jQuery(this).addClass('btn-success');
-                jQuery(this).text(jQuery('#translation-published').data('translation-string'));
-                jQuery('#published').val(1);
+                if(jQuery(this).hasClass('btn-success')) {
+                    jQuery(this).removeClass('btn-success');
+                    jQuery(this).addClass('btn-warning');
+                    jQuery(this).text(jQuery('#translation-unpublished').data('translation-string'));
+                    jQuery('#published').val(0);
+                } else {
+                    jQuery(this).removeClass('btn-warning');
+                    jQuery(this).addClass('btn-success');
+                    jQuery(this).text(jQuery('#translation-published').data('translation-string'));
+                    jQuery('#published').val(1);
+                }
             }
-        }); 
+        ); 
     },
 
-    bindHelpTexts: function() {
-        jQuery('.help-text').mouseenter(function() {
-            jQuery(this).popover('show');
-        }).mouseleave(function() {
-            jQuery(this).popover('hide');
-        });
+    bindHelpTexts: function () {
+        jQuery('.help-text').mouseenter(
+            function () {
+                jQuery(this).popover('show');
+            }
+        ).mouseleave(
+            function () {
+                    jQuery(this).popover('hide');
+            }
+        );
     },
 
-    generateUniqIDs: function() {
-        jQuery('.group-separator').each(function() {
-            jQuery(this).attr('name', FrontendHelpers.uniqid() + '[group_separator]');
-        });
+    generateUniqIDs: function () {
+        jQuery('.group-separator').each(
+            function () {
+                jQuery(this).attr('name', FrontendHelpers.uniqid() + '[group_separator]');
+            }
+        );
     },
 
-    bindLeaveNotice: function() {
-        jQuery('body').one("keypress", function() {
-            window.onbeforeunload = function() {
-                return jQuery('#translation-leave-notice').data('translation-string');
-            };
-        });
+    bindLeaveNotice: function () {
+        jQuery('body').one(
+            "keypress", function () {
+                window.onbeforeunload = function () {
+                    return jQuery('#translation-leave-notice').data('translation-string');
+                };
+            }
+        );
     },
 
-    resetLeaveNotice: function() {
+    resetLeaveNotice: function () {
         window.onbeforeunload = null;
     },
 
-    bindDatepickers: function() {
+    bindDatepickers: function () {
 
     }
 
@@ -394,7 +470,7 @@ var Frontend = {
 
 var FrontendHelpers = {
 
-    uniqid: function(prefix, more_entropy) {
+    uniqid: function (prefix, more_entropy) {
         //  discuss at: http://phpjs.org/functions/uniqid/
         // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
         //  revised by: Kankrelune (http://www.webfaktory.info/)
@@ -408,11 +484,11 @@ var FrontendHelpers = {
         //   returns 3: 'bara20285b23dfd1.31879087'
 
         if (typeof prefix === 'undefined') {
-         prefix = '';
+            prefix = '';
         }
 
         var retId;
-        var formatSeed = function(seed, reqWidth) {
+        var formatSeed = function (seed, reqWidth) {
             seed = parseInt(seed, 10).toString(16); // to hex str
 
             if (reqWidth < seed.length) { // so long we split

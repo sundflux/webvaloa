@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Textarea
+ *
  * @package Webvaloa\Field\Fields
  */
 class Textarea
@@ -55,6 +56,7 @@ class Textarea
 
     /**
      * Textarea constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

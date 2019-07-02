@@ -42,6 +42,7 @@ use RuntimeException;
 
 /**
  * Class Component
+ *
  * @package Webvaloa
  */
 class Component
@@ -100,7 +101,7 @@ class Component
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return bool
      */
     public function __get($k)
@@ -399,7 +400,7 @@ class Component
     }
 
     /**
-     * @param $componentID
+     * @param  $componentID
      * @return bool
      */
     public static function getComponentStatus($componentID)
@@ -430,7 +431,7 @@ class Component
 
     /**
      * @param $componentID
-     * @param int $status
+     * @param int         $status
      */
     public static function setComponentStatus($componentID, $status = 0)
     {

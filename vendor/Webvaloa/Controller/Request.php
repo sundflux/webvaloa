@@ -49,6 +49,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class Request
+ *
  * @package Webvaloa\Controller
  */
 class Request
@@ -129,7 +130,8 @@ class Request
 
         // http/https autodetect
         if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        ) {
             $this->protocol = 'https';
         }
         $prefix = $this->protocol.'://';
@@ -173,14 +175,16 @@ class Request
 
         // ajax autodetect
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
+        ) {
             $this->ajax = true;
 
             if (isset($_SERVER['HTTP_ACCEPT']) && in_array(
                 'application/json',
                 explode(',', $_SERVER['HTTP_ACCEPT']),
                 true
-            )) {
+            )
+            ) {
                 $this->json = true;
             }
         }
@@ -429,10 +433,14 @@ class Request
      */
     public function getPath()
     {
-        return rtrim(dirname(substr(
-            $_SERVER['SCRIPT_FILENAME'],
-            strlen($_SERVER['DOCUMENT_ROOT'])
-        )), '/');
+        return rtrim(
+            dirname(
+                substr(
+                    $_SERVER['SCRIPT_FILENAME'],
+                    strlen($_SERVER['DOCUMENT_ROOT'])
+                )
+            ), '/'
+        );
     }
 
     /**
@@ -483,7 +491,7 @@ class Request
     }
 
     /**
-     * @param null $val
+     * @param  null $val
      * @return bool
      */
     public function isAjax($val = null)
@@ -496,7 +504,7 @@ class Request
     }
 
     /**
-     * @param null $val
+     * @param  null $val
      * @return bool
      */
     public function isJson($val = null)
@@ -509,24 +517,26 @@ class Request
     }
 
     /**
-     * @param $val
+     * @param  $val
      * @return bool|string
      */
     private function decodeRouteParam($val)
     {
         if (substr($val, 0, 5) === '$enc$') {
-            return base64_decode(str_replace(
-                '.',
-                '/',
-                urldecode(substr($val, 5))
-            ));
+            return base64_decode(
+                str_replace(
+                    '.',
+                    '/',
+                    urldecode(substr($val, 5))
+                )
+            );
         } else {
             return urldecode($val);
         }
     }
 
     /**
-     * @param $val
+     * @param  $val
      * @return string
      */
     public static function encodeRouteParam($val)

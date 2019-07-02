@@ -37,6 +37,7 @@ use Webvaloa\Controller\Request;
 
 /**
  * Class Imagemagick
+ *
  * @package Webvaloa\Helpers
  */
 class Imagemagick
@@ -88,6 +89,7 @@ class Imagemagick
 
     /**
      * Imagemagick constructor.
+     *
      * @param $file
      */
     public function __construct($file)
@@ -239,10 +241,10 @@ class Imagemagick
     }
 
     /**
-     * @param $image
-     * @param int $width
-     * @param int $height
-     * @param string $format
+     * @param  $image
+     * @param  int    $width
+     * @param  int    $height
+     * @param  string $format
      * @return string
      * @throws \ImagickException
      */
@@ -265,10 +267,10 @@ class Imagemagick
     }
 
     /**
-     * @param $image
-     * @param int $width
-     * @param int $height
-     * @param string $format
+     * @param  $image
+     * @param  int    $width
+     * @param  int    $height
+     * @param  string $format
      * @return string
      * @throws \ImagickException
      */

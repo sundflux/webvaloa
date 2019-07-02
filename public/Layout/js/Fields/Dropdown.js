@@ -28,35 +28,43 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('.dropdown').each(function() {
-        Dropdown.initDropdown(this);
-    });
+        jQuery('.dropdown').each(
+            function () {
+                Dropdown.initDropdown(this);
+            }
+        );
 
-});
+    }
+);
 
 var Dropdown = {
 
-    initDropdown: function(el) {
+    initDropdown: function (el) {
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
         var $val = jQuery(el).data('field-value');
 
-        jQuery.getJSON( $url + '/content_article/fieldParams/' + $id, function( data ) {
-            var items = [];
-            var $sel = '';
-            jQuery.each( data, function( key, val ) {
-                $sel = '';
-                if($val == val.key) {
-                    $sel = 'selected="selected"';
-                }
-                items.push('<option value="' + val.key + '" ' + $sel + '>' + val.value + '</option>');
-            });
+        jQuery.getJSON(
+            $url + '/content_article/fieldParams/' + $id, function ( data ) {
+                var items = [];
+                var $sel = '';
+                jQuery.each(
+                    data, function ( key, val ) {
+                        $sel = '';
+                        if($val == val.key) {
+                            $sel = 'selected="selected"';
+                        }
+                        items.push('<option value="' + val.key + '" ' + $sel + '>' + val.value + '</option>');
+                    }
+                );
 
-            var $html = items.join('');
-            jQuery($html).appendTo(el);
-        });
+                var $html = items.join('');
+                jQuery($html).appendTo(el);
+            }
+        );
     }
 
 }

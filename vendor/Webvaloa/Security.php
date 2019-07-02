@@ -37,6 +37,7 @@ use Exception;
 
 /**
  * Class Security
+ *
  * @package Webvaloa
  */
 class Security

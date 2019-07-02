@@ -36,6 +36,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class HellocliController
+ *
  * @package ValoaApplication\Controllers\Hellocli
  */
 class HellocliController extends \Webvaloa\Application

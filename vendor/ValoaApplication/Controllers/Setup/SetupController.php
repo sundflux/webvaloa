@@ -529,11 +529,13 @@ class SetupController extends \Webvaloa\Application
     private function getProfileByName($name)
     {
         $find = false;
-        array_walk($this->profiles, function ($profile) use ($name, &$find) {
-            if ($profile->name == $name) {
-                return $find = $profile;
+        array_walk(
+            $this->profiles, function ($profile) use ($name, &$find) {
+                if ($profile->name == $name) {
+                    return $find = $profile;
+                }
             }
-        });
+        );
 
         return $find;
     }

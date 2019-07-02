@@ -40,6 +40,7 @@ use Webvaloa\Helpers\ArticleAssociation as ArticleHelper;
 
 /**
  * Class Article
+ *
  * @package Webvaloa
  */
 class Article
@@ -114,7 +115,7 @@ class Article
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return bool|stdClass
      */
     public function __get($k)
@@ -341,7 +342,7 @@ class Article
     }
 
     /**
-     * @param $a
+     * @param  $a
      * @return bool
      */
     public function alias($a)
@@ -501,7 +502,7 @@ class Article
     }
 
     /**
-     * @param $category_id
+     * @param  $category_id
      * @return mixed
      */
     public function addCategory($category_id)
@@ -559,7 +560,7 @@ class Article
     }
 
     /**
-     * @param bool $category_id
+     * @param  bool $category_id
      * @return bool
      */
     public function getArticles($category_id = false)

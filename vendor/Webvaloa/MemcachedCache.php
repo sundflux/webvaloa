@@ -37,6 +37,7 @@ use Memcached;
 
 /**
  * Class MemcachedCache
+ *
  * @package Webvaloa
  */
 class MemcachedCache
@@ -71,6 +72,7 @@ class MemcachedCache
 
     /**
      * MemcachedCache constructor.
+     *
      * @param bool $connectionName
      */
     public function __construct($connectionName = false)
@@ -225,7 +227,7 @@ class MemcachedCache
     }
 
     /**
-     * @param $search
+     * @param  $search
      * @return mixed
      */
     public function delete($search)
@@ -246,7 +248,7 @@ class MemcachedCache
     }
 
     /**
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function _delete($key)

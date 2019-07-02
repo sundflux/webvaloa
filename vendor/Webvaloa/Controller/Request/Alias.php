@@ -38,6 +38,7 @@ use stdClass;
 
 /**
  * Class Alias
+ *
  * @package Webvaloa\Controller\Request
  */
 class Alias
@@ -65,6 +66,7 @@ class Alias
 
     /**
      * Alias constructor.
+     *
      * @param $alias
      */
     public function __construct($alias)
@@ -245,7 +247,7 @@ class Alias
     private function loadRoutesFile()
     {
         if (is_readable(WEBVALOA_BASEDIR.'/config/routes.php')) {
-            require_once WEBVALOA_BASEDIR.'/config/routes.php';
+            include_once WEBVALOA_BASEDIR.'/config/routes.php';
 
             if (isset(\Webvaloa\routes::$routes)) {
                 $this->routes = \Webvaloa\routes::$routes;
@@ -279,7 +281,7 @@ class Alias
     }
 
     /**
-     * @param $row
+     * @param  $row
      * @return bool
      */
     private function buildContentRoute($row)
@@ -289,41 +291,41 @@ class Alias
         }
 
         switch ($row->type) {
-            case 'content':
-                $this->controller->controller = 'Article_View';
-                $this->controller->method = 'index/'.$row->target_id;
+        case 'content':
+            $this->controller->controller = 'Article_View';
+            $this->controller->method = 'index/'.$row->target_id;
+            $this->controller->locale = $row->locale;
+            $this->controller->id = -1;
+
+            break;
+
+        case 'content_listing':
+            $this->controller->controller = 'Article_List';
+            $this->controller->method = 'index/'.$row->target_id;
+            $this->controller->locale = $row->locale;
+            $this->controller->id = -1;
+
+            break;
+
+        case 'component':
+            $query = 'SELECT controller FROM component WHERE id = ?';
+            $stmt = $this->db->prepare($query);
+            $stmt->set((int) $row->target_id);
+
+            try {
+                $stmt->execute();
+                $res = $stmt->fetch();
+                $this->controller->id = $row->target_id;
+                $this->controller->controller = $res->controller;
+                $this->controller->method = 'index';
                 $this->controller->locale = $row->locale;
-                $this->controller->id = -1;
+            } catch (PDOException $e) {
+            }
 
-                break;
+            break;
 
-            case 'content_listing':
-                $this->controller->controller = 'Article_List';
-                $this->controller->method = 'index/'.$row->target_id;
-                $this->controller->locale = $row->locale;
-                $this->controller->id = -1;
-
-                break;
-
-            case 'component':
-                $query = 'SELECT controller FROM component WHERE id = ?';
-                $stmt = $this->db->prepare($query);
-                $stmt->set((int) $row->target_id);
-
-                try {
-                    $stmt->execute();
-                    $res = $stmt->fetch();
-                    $this->controller->id = $row->target_id;
-                    $this->controller->controller = $res->controller;
-                    $this->controller->method = 'index';
-                    $this->controller->locale = $row->locale;
-                } catch (PDOException $e) {
-                }
-
-                break;
-
-            default:
-                break;
+        default:
+            break;
         }
     }
 

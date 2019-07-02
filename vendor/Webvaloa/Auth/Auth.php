@@ -43,6 +43,7 @@ use Webvaloa\Controller\Request;
 
 /**
  * Interface AuthIFace
+ *
  * @package Webvaloa\Auth
  */
 interface AuthIFace
@@ -56,6 +57,7 @@ interface AuthIFace
 
 /**
  * Interface PWResetIFace
+ *
  * @package Webvaloa\Auth
  */
 interface PWResetIFace
@@ -65,6 +67,7 @@ interface PWResetIFace
 
 /**
  * Class Auth
+ *
  * @package Webvaloa\Auth
  */
 class Auth
@@ -119,7 +122,8 @@ class Auth
         // Support for cache servers such as Varnish.
         if ($properties['authCheckForwardFor'] == 1
             && (isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-            && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))) {
+            && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+        ) {
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
 
@@ -128,7 +132,6 @@ class Auth
 
     /**
      * Override default authentication driver.
-     *
      *
      * @param string $driver Authentication driver
      */
@@ -142,7 +145,6 @@ class Auth
      *
      * Loads authentication driver as defined in config and calls drivers
      * authentication() method..
-     *
      *
      * @param string $user Username
      * @param string $pass Password
@@ -173,7 +175,6 @@ class Auth
     /**
      * Updates user password using available authentication driver.
      *
-     *
      * @param string $username Username
      * @param string $password Password
      *
@@ -197,7 +198,6 @@ class Auth
      * Checks if user has permissions to access a certain module
      * (groupfeature or userfeature).
      *
-     *
      * @param string $module Controller name
      *
      * @return bool True (access granted) or false (access denied)
@@ -211,7 +211,8 @@ class Auth
 
         if (!$controller
             || isset($_SESSION['BaseUri'])
-            && $_SESSION['BaseUri'] != $baseUri) {
+            && $_SESSION['BaseUri'] != $baseUri
+        ) {
             return false;
         }
 

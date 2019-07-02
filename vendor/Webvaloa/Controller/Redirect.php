@@ -34,7 +34,7 @@
 /**
  * Redirecter.
  *
- * @uses          Controller_Request
+ * @uses Controller_Request
  */
 
 namespace Webvaloa\Controller;

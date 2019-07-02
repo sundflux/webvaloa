@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Wysiwyg
+ *
  * @package Webvaloa\Field\Fields
  */
 class Wysiwyg
@@ -55,6 +56,7 @@ class Wysiwyg
 
     /**
      * Wysiwyg constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

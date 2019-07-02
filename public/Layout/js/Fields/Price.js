@@ -28,10 +28,14 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('.price-input').keydown(function(e) {
+        jQuery('.price-input').keydown(
+            function (e) {
 
-    });
+            }
+        );
 
-});
+    }
+);

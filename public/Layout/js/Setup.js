@@ -30,8 +30,7 @@
 
 var Setup = {
 
-    db: function(v)
-    {
+    db: function (v) {
         jQuery('#db-server-field').val(v);
 
         if(v == "mysql") {
@@ -43,27 +42,27 @@ var Setup = {
         }
     },
 
-    profile: function(v)
-    {
+    profile: function (v) {
         jQuery('#profile-field').val(v);
         jQuery('#profile').text(v);
     },
 
-    toggleDisabled: function(el)
-    {
+    toggleDisabled: function (el) {
         jQuery('#' + el).prop("disabled", !jQuery('#' + el).prop("disabled"));
         jQuery('#' + el).val('');
     },
 
-    invalid: function() {
+    invalid: function () {
    
     }
 
 }
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
     
-    jQuery('#progress-bar').tooltip();
-    jQuery(".alert").alert()    
+        jQuery('#progress-bar').tooltip();
+        jQuery(".alert").alert()    
 
-});
+    }
+);

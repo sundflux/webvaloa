@@ -39,6 +39,7 @@ use Webvaloa\Role;
 
 /**
  * Class ContentAccess
+ *
  * @package Webvaloa\Helpers
  */
 class ContentAccess
@@ -65,6 +66,7 @@ class ContentAccess
 
     /**
      * ContentAccess constructor.
+     *
      * @param bool $contentItem
      */
     public function __construct($contentItem = false)
@@ -178,7 +180,7 @@ class ContentAccess
     }
 
     /**
-     * @param $categoryId
+     * @param  $categoryId
      * @return bool
      */
     public function checkPermissionsByCategoryId($categoryId)

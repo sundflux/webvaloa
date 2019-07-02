@@ -30,90 +30,111 @@
 
 var Category = {
     
-    init: function()
-    {
-        jQuery('.confirm').click(function(e) {
-            var message = jQuery(this).attr('data-message');
-            if (confirm(message)) {
-                return true;
-            } else {
-                return false;
+    init: function () {
+        jQuery('.confirm').click(
+            function (e) {
+                var message = jQuery(this).attr('data-message');
+                if (confirm(message)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        });
+        );
 
-        jQuery('.favorite-toggle').on('click', function(e) {
-            e.preventDefault();
-
-            Loader.show();
-
-            _request = jQuery.ajax({
-                type: "GET",
-                url: jQuery(this).attr('href')
-            });
-
-            if(jQuery(this).children().first('i').hasClass('fa-star')) {
-                jQuery(this).children('i').removeClass('fa-star');
-                jQuery(this).children('i').addClass('fa-star-o');
-            } else {
-                jQuery(this).children('i').addClass('fa-star');
-                jQuery(this).children('i').removeClass('fa-star-o');
-            }
-
-            _request.done(function(response, el) {
-                Loader.hide();
-            });
-
-            return false;
-        });
-
-        jQuery('.edit-category').on('click', function(e) {
-            var _url = jQuery('#basehref').text();
-            var _token = jQuery('#token').text();
-
-            Loader.show();
-
-            jQuery('#inputCategoryEdit').val(jQuery(this).data('category-name'));
-            jQuery('#category_id').val(jQuery(this).data('category-id'));
-
-            _request = jQuery.ajax({
-                type: "GET",
-                url: _url + '/content_category/layouts/' + jQuery(this).data('category-id')
-            });
-
-            _request.done(function(response) {
-                jQuery('#layout-overrides').html(response);
-                Loader.hide();
-            });
-
-
-            jQuery('#edit-category-info-tab a').click(function(e) {
+        jQuery('.favorite-toggle').on(
+            'click', function (e) {
                 e.preventDefault();
 
-                jQuery(this).tab('show');
-            });
+                Loader.show();
 
-            jQuery('#edit-category-info-tab').tab();
+                _request = jQuery.ajax(
+                    {
+                        type: "GET",
+                        url: jQuery(this).attr('href')
+                    }
+                );
 
-            var _url = jQuery('#basehref').text();
+                if(jQuery(this).children().first('i').hasClass('fa-star')) {
+                    jQuery(this).children('i').removeClass('fa-star');
+                    jQuery(this).children('i').addClass('fa-star-o');
+                } else {
+                    jQuery(this).children('i').addClass('fa-star');
+                    jQuery(this).children('i').removeClass('fa-star-o');
+                }
 
-            _requestRoles = jQuery.ajax({
-                type: "POST",
-                url: _url + '/content_category/roles/' + jQuery(this).data('category-id')
-            });
+                _request.done(
+                    function (response, el) {
+                        Loader.hide();
+                    }
+                );
 
-            _requestRoles.done(function(response) {
-                jQuery('#add-category-roles-holder').html(response);
+                return false;
+            }
+        );
 
-                Loader.hide();
-            });
-        });
+        jQuery('.edit-category').on(
+            'click', function (e) {
+                var _url = jQuery('#basehref').text();
+                var _token = jQuery('#token').text();
+
+                Loader.show();
+
+                jQuery('#inputCategoryEdit').val(jQuery(this).data('category-name'));
+                jQuery('#category_id').val(jQuery(this).data('category-id'));
+
+                _request = jQuery.ajax(
+                    {
+                        type: "GET",
+                        url: _url + '/content_category/layouts/' + jQuery(this).data('category-id')
+                    }
+                );
+
+                _request.done(
+                    function (response) {
+                        jQuery('#layout-overrides').html(response);
+                        Loader.hide();
+                    }
+                );
+
+
+                jQuery('#edit-category-info-tab a').click(
+                    function (e) {
+                        e.preventDefault();
+
+                        jQuery(this).tab('show');
+                    }
+                );
+
+                jQuery('#edit-category-info-tab').tab();
+
+                var _url = jQuery('#basehref').text();
+
+                _requestRoles = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/content_category/roles/' + jQuery(this).data('category-id')
+                    }
+                );
+
+                _requestRoles.done(
+                    function (response) {
+                        jQuery('#add-category-roles-holder').html(response);
+
+                        Loader.hide();
+                    }
+                );
+            }
+        );
 
     }
 
 }
 
-jQuery(document).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    Category.init();
+        Category.init();
 
-});
+    }
+);

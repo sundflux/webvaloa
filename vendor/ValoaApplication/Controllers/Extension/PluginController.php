@@ -61,9 +61,11 @@ class PluginController extends \Webvaloa\Application
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('plugin'));
         $this->view->pages->url = '/extension_plugin/';
 
-        $query = $pagination->prepare('
+        $query = $pagination->prepare(
+            '
             SELECT *
-            FROM plugin '.$q);
+            FROM plugin '.$q
+        );
 
         $stmt = $this->db->prepare($query);
         try {

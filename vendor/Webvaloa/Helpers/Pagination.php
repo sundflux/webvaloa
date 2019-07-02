@@ -39,6 +39,7 @@ use stdClass;
 
 /**
  * Class Pagination
+ *
  * @package Webvaloa\Helpers
  */
 class Pagination
@@ -50,7 +51,6 @@ class Pagination
 
     /**
      * Get pagination.
-     *
      *
      * @param int $page  Current page
      * @param int $total Total number of entries
@@ -109,7 +109,7 @@ class Pagination
     }
 
     /**
-     * @param $query
+     * @param  $query
      * @return string
      */
     public function prepare($query)
@@ -118,8 +118,8 @@ class Pagination
     }
 
     /**
-     * @param $table
-     * @param string $where
+     * @param  $table
+     * @param  string $where
      * @return int
      */
     public function countTable($table, $where = '')

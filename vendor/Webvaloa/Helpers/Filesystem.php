@@ -40,6 +40,7 @@ use RuntimeException;
 
 /**
  * Class Filesystem
+ *
  * @package Webvaloa\Helpers
  */
 class Filesystem
@@ -61,6 +62,7 @@ class Filesystem
 
     /**
      * Filesystem constructor.
+     *
      * @param $path
      */
     public function __construct($path)
@@ -100,7 +102,7 @@ class Filesystem
     }
 
     /**
-     * @param $n
+     * @param  $n
      * @return bool
      */
     public function createDirectory($n)
@@ -125,8 +127,8 @@ class Filesystem
     }
 
     /**
-     * @param $bytes
-     * @param int $decimals
+     * @param  $bytes
+     * @param  int   $decimals
      * @return string
      */
     public function formatFilesize($bytes, $decimals = 2)
@@ -138,8 +140,8 @@ class Filesystem
     }
 
     /**
-     * @param $dir
-     * @param $file
+     * @param  $dir
+     * @param  $file
      * @return string
      */
     public function getAvailableFilename($dir, $file)
@@ -208,7 +210,7 @@ class Filesystem
 
     /**
      * @param $filename
-     * @param string $mimetype
+     * @param string   $mimetype
      */
     public function download($filename, $mimetype = 'application/octet-stream')
     {

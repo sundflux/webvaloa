@@ -40,6 +40,7 @@ use Webvaloa\Field\Value;
 
 /**
  * Class Dropdown
+ *
  * @package Webvaloa\Field\Fields
  */
 class Dropdown
@@ -56,6 +57,7 @@ class Dropdown
 
     /**
      * Dropdown constructor.
+     *
      * @param bool $fieldID
      */
     public function __construct($fieldID = false)

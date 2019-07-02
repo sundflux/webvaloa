@@ -37,6 +37,7 @@ use stdClass;
 
 /**
  * Class Category
+ *
  * @package Webvaloa\Helpers
  */
 class Category
@@ -88,6 +89,7 @@ class Category
 
     /**
      * Category constructor.
+     *
      * @param bool $id
      */
     public function __construct($id = false)
@@ -115,7 +117,7 @@ class Category
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return mixed
      */
     public function __get($k)
@@ -126,8 +128,8 @@ class Category
     }
 
     /**
-     * @param $fieldName
-     * @param $value
+     * @param  $fieldName
+     * @param  $value
      * @return bool
      */
     public function addFieldFilter($fieldName, $value)

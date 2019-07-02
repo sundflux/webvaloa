@@ -23,7 +23,7 @@ PHONY += fix
 fix: ## Fix code style
 	@echo "- ${YELLOW}fix:${NO_COLOR} Start PHP Code Beautifier and Fixer..."
 ifeq (${PHPCBF_BIN_EXISTS},yes)
-	$(call composer_on_${RUN_ON},fix)
+	$(call ${PHPCBF_BIN} fix)
 else
 	@echo "- ${YELLOW}${PHPCBF_BIN} does not exist! ${RED}[ERROR]${NO_COLOR}"
 endif

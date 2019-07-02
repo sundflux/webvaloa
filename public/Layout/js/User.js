@@ -30,115 +30,143 @@
 
 var User = {
     
-    init: function()
-    {
-        jQuery('.confirm').click(function(e) {
-            var message = jQuery(this).attr('data-message');
-            if (confirm(message)) {
-                return true;
-            } else {
-                return false;
+    init: function () {
+        jQuery('.confirm').click(
+            function (e) {
+                var message = jQuery(this).attr('data-message');
+                if (confirm(message)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        });
+        );
 
-        jQuery('#user-info a').click(function(e) {
-            e.preventDefault();
+        jQuery('#user-info a').click(
+            function (e) {
+                e.preventDefault();
             
-            jQuery(this).tab('show');
-        });
+                jQuery(this).tab('show');
+            }
+        );
         
-        jQuery('#user-roles a').click(function(e) {
-            e.preventDefault();
+        jQuery('#user-roles a').click(
+            function (e) {
+                e.preventDefault();
             
-            jQuery(this).tab('show');
-        });        
+                jQuery(this).tab('show');
+            }
+        );        
 
         jQuery('#user-info-tab').tab();
         
-        jQuery('#edit-user').on('show.bs.modal', function (e) {
-            Loader.show();
+        jQuery('#edit-user').on(
+            'show.bs.modal', function (e) {
+                Loader.show();
 
-            var editId = jQuery(e.relatedTarget).data("id");
-            var editData = jQuery("tr[data-id="+editId+"]");
+                var editId = jQuery(e.relatedTarget).data("id");
+                var editData = jQuery("tr[data-id="+editId+"]");
             
-            jQuery('#edit-user form [name]').each(function(){
-               jQuery(this).val(editData.data(jQuery(this).attr("name")));
-            });
+                jQuery('#edit-user form [name]').each(
+                    function () {
+                        jQuery(this).val(editData.data(jQuery(this).attr("name")));
+                    }
+                );
 
-            if(editData.data("username") != editData.data("email")) {
-                jQuery("#editCheckboxUsername").attr("checked",true);
-                jQuery("#editInputUsername").attr("disabled",false);
-            } else {
-                jQuery("#editCheckboxUsername").attr("checked",false);
-                jQuery("#editInputUsername").attr("disabled",true).val("");
+                if(editData.data("username") != editData.data("email")) {
+                    jQuery("#editCheckboxUsername").attr("checked",true);
+                    jQuery("#editInputUsername").attr("disabled",false);
+                } else {
+                    jQuery("#editCheckboxUsername").attr("checked",false);
+                    jQuery("#editInputUsername").attr("disabled",true).val("");
+                }
+
+                var _url = jQuery('#basehref').text();
+
+                _requestRoles = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/user/roles/' + editId
+                    }
+                );
+
+                _requestRoles.done(
+                    function (response) {
+                        jQuery('#edit-user-roles-holder').html(response);
+
+                        Loader.hide();
+                    }
+                );
+            
+                _requestMeta = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/user/meta/' + editId
+                    }
+                );
+
+                _requestMeta.done(
+                    function (response) {
+                        jQuery('#edit-user-meta-holder').html(response);
+
+                        Loader.hide();
+                    }
+                );
+            
             }
+        );
 
-            var _url = jQuery('#basehref').text();
+        jQuery('.load-roles').on(
+            'click', function (e) {
+                Loader.show();
 
-            _requestRoles = jQuery.ajax({
-                type: "POST",
-                url: _url + '/user/roles/' + editId
-            });
+                var _url = jQuery('#basehref').text();
 
-            _requestRoles.done(function(response) {
-                jQuery('#edit-user-roles-holder').html(response);
+                _requestRoles = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/user/roles'
+                    }
+                );
 
-                Loader.hide();
-            });
+                _requestRoles.done(
+                    function (response) {
+                        jQuery('#add-user-roles-holder').html(response);
+
+                        Loader.hide();
+                    }
+                );
             
-            _requestMeta = jQuery.ajax({
-                type: "POST",
-                url: _url + '/user/meta/' + editId
-            });
+                _requestMeta = jQuery.ajax(
+                    {
+                        type: "POST",
+                        url: _url + '/user/meta'
+                    }
+                );
 
-            _requestMeta.done(function(response) {
-                jQuery('#edit-user-meta-holder').html(response);
+                _requestMeta.done(
+                    function (response) {
+                        jQuery('#add-user-meta-holder').html(response);
 
-                Loader.hide();
-            });
+                        Loader.hide();
+                    }
+                );
             
-        });
-
-        jQuery('.load-roles').on('click', function(e) {
-            Loader.show();
-
-            var _url = jQuery('#basehref').text();
-
-            _requestRoles = jQuery.ajax({
-                type: "POST",
-                url: _url + '/user/roles'
-            });
-
-            _requestRoles.done(function(response) {
-                jQuery('#add-user-roles-holder').html(response);
-
-                Loader.hide();
-            });
-            
-             _requestMeta = jQuery.ajax({
-                type: "POST",
-                url: _url + '/user/meta'
-            });
-
-            _requestMeta.done(function(response) {
-                jQuery('#add-user-meta-holder').html(response);
-
-                Loader.hide();
-            });
-            
-        });
+            }
+        );
     },
     
-    toggleDisabled: function(el)
-    {
+    toggleDisabled: function (el) {
         jQuery('#' + el).prop("disabled", !jQuery('#' + el).prop("disabled"));
         jQuery('#' + el).val('');
     }
 
 }
 
-jQuery(document).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    User.init();
+        User.init();
 
-});
+    }
+);

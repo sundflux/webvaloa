@@ -66,9 +66,11 @@ class RoleController extends \Webvaloa\Application
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('role'));
         $this->view->pages->url = '/user_role/';
 
-        $query = $pagination->prepare('
+        $query = $pagination->prepare(
+            '
             SELECT *
-            FROM role '.$q);
+            FROM role '.$q
+        );
 
         $stmt = $this->db->prepare($query);
         try {

@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Separator
+ *
  * @package Webvaloa\Field\Fields
  */
 class Separator
@@ -45,6 +46,7 @@ class Separator
 
     /**
      * Separator constructor.
+     *
      * @param bool $fieldID
      */
     public function __construct($fieldID = false)

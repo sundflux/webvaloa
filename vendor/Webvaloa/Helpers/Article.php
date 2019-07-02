@@ -38,6 +38,7 @@ use RuntimeException;
 
 /**
  * Class Article
+ *
  * @package Webvaloa\Helpers
  */
 class Article
@@ -49,7 +50,8 @@ class Article
 
     /**
      * Article constructor.
-     * @param bool $id
+     *
+     * @param  bool $id
      * @throws Exception
      */
     public function __construct($id = false)
@@ -99,7 +101,8 @@ class Article
     public function loadFields()
     {
         if ((!isset($this->article->id) || !is_numeric($this->article->id) || empty($this->article->id)) // Regular article check
-            && (isset($this->article->id) && $this->article->id != 0)) {
+            && (isset($this->article->id) && $this->article->id != 0)
+        ) {
             // Global fields
 
             throw new RuntimeException('Article not loadable');

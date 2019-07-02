@@ -37,6 +37,7 @@ use stdClass;
 
 /**
  * Class FileCache
+ *
  * @package Webvaloa
  */
 class FileCache
@@ -95,7 +96,8 @@ class FileCache
         }
 
         if (isset(\Webvaloa\config::$properties['cache_time'])
-                && !empty(\Webvaloa\config::$properties['cache_time'])) {
+            && !empty(\Webvaloa\config::$properties['cache_time'])
+        ) {
             $this->expires = \Webvaloa\config::$properties['cache_time'];
         } else {
             // 10 minute session cache
@@ -191,7 +193,7 @@ class FileCache
     /**
      * Get local cache value by key.
      *
-     * @param  type  $key
+     * @param  type $key
      * @return mixed
      */
     public function _get($key)

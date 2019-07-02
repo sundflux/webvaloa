@@ -70,7 +70,8 @@ class CategoryController extends \Webvaloa\Application
         $tag = new Tag();
         $starredTagId = $tag->findTagByName('Starred');
 
-        $query = $pagination->prepare('
+        $query = $pagination->prepare(
+            '
             SELECT category.*,
                 (SELECT COUNT(content.id) as article_count
                     FROM content, content_category
@@ -86,7 +87,8 @@ class CategoryController extends \Webvaloa\Application
             WHERE deleted = 0
             '.$q.'
             ORDER BY article_count
-            DESC');
+            DESC'
+        );
 
         try {
             $stmt = $this->db->prepare($query);

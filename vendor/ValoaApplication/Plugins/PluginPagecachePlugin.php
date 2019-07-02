@@ -51,7 +51,8 @@ class PluginPagecachePlugin extends \Webvaloa\Plugin
         // controller manifest has preventcaching: 1
         $manifest = new Manifest($controller);
         if (($manifest->systemcontroller && $manifest->systemcontroller == 1)
-            || ($manifest->preventcaching && $manifest->preventcaching == 1)) {
+            || ($manifest->preventcaching && $manifest->preventcaching == 1)
+        ) {
             return;
         }
 

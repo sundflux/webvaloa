@@ -27,21 +27,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-jQuery(document).ready(function() {
-    jQuery('.datalist').each(function() {
-        DataList.initDataList(this);
-    });
-    jQuery('#article-form').on('change', '.datalist-polyfill', function() {
-        jQuery(this).prev('input').val(jQuery(this).val());
-    });
-});
+jQuery(document).ready(
+    function () {
+        jQuery('.datalist').each(
+            function () {
+                DataList.initDataList(this);
+            }
+        );
+        jQuery('#article-form').on(
+            'change', '.datalist-polyfill', function () {
+                jQuery(this).prev('input').val(jQuery(this).val());
+            }
+        );
+    }
+);
 var DataList = {
 
     data: {},
 
     last: 0,
 
-    initDataList: function(el) {
+    initDataList: function (el) {
 
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
@@ -71,25 +77,31 @@ var DataList = {
             DataList.data[$id].ready = false;
             DataList.data[$id].callbacks = [];
 
-            jQuery.getJSON($url + '/content_article/fieldParams/' + $id, function(data) {
-                DataList.data[$id].data = data;
-                DataList.data[$id].ready = true;
-                // Call self again as we are done here
-                DataList.initDataList(el);
-                // Looping through all the callbacks that we got while waiting for data
-                DataList.data[$id].callbacks.forEach(function(current) {
-                    DataList.initDataList(current);
-                });
-            });
+            jQuery.getJSON(
+                $url + '/content_article/fieldParams/' + $id, function (data) {
+                    DataList.data[$id].data = data;
+                    DataList.data[$id].ready = true;
+                    // Call self again as we are done here
+                    DataList.initDataList(el);
+                    // Looping through all the callbacks that we got while waiting for data
+                    DataList.data[$id].callbacks.forEach(
+                        function (current) {
+                            DataList.initDataList(current);
+                        }
+                    );
+                }
+            );
         } else {
             // There is already something, next up; we find what it is
             if (DataList.data[$id].ready) {
                 // We have data. We are using it here
                 var items = [];
                 var data = DataList.data[$id].data;
-                jQuery.each(data, function(key, val) {
-                    items.push('<option value="' + val.title + '">' + val.title + '</option>');
-                });
+                jQuery.each(
+                    data, function (key, val) {
+                        items.push('<option value="' + val.title + '">' + val.title + '</option>');
+                    }
+                );
                 var $html = items.join('');
                 jQuery($html).appendTo(jQuery(el).next($selector));
             } else {

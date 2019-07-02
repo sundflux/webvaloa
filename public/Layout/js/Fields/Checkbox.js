@@ -28,40 +28,60 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('.field-Checkbox').each(function() {
-        jQuery(this).css('background', 'transparent');
-        jQuery(this).find('.control-label').text('');
-    });
+        jQuery('.field-Checkbox').each(
+            function () {
+                jQuery(this).css('background', 'transparent');
+                jQuery(this).find('.control-label').text('');
+            }
+        );
 
-    // Handle repeatable reset
-    jQuery('.field-Checkbox').each(function() {
-        jQuery(this).find('.repeatable-field-button').each(function() {
-            jQuery(this).on('click', function() {
-                var $el = jQuery(this).parent().find('.repeatable-holder').last();
+        // Handle repeatable reset
+        jQuery('.field-Checkbox').each(
+            function () {
+                jQuery(this).find('.repeatable-field-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                var $el = jQuery(this).parent().find('.repeatable-holder').last();
 
-                $el.find('input:checked').each(function() {
-                    jQuery(this).prop('checked', false); 
-                });
+                                $el.find('input:checked').each(
+                                    function () {
+                                        jQuery(this).prop('checked', false); 
+                                    }
+                                );
 
-            });
-        }); 
-    });
+                            }
+                        );
+                    }
+                ); 
+            }
+        );
 
-    // Handle repeatable group reset
-    jQuery('.tab-pane').each(function() {
-        jQuery(this).find('.repeatable-group-button').each(function() {
-            jQuery(this).on('click', function() {
-                var $el = jQuery(this).parent().parent().parent().find('.repeatable-group-holder').last();
+        // Handle repeatable group reset
+        jQuery('.tab-pane').each(
+            function () {
+                jQuery(this).find('.repeatable-group-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                var $el = jQuery(this).parent().parent().parent().find('.repeatable-group-holder').last();
 
-                $el.find('input:checked').each(function() {
-                    jQuery(this).prop('checked', false); 
-                });
+                                $el.find('input:checked').each(
+                                    function () {
+                                        jQuery(this).prop('checked', false); 
+                                    }
+                                );
 
-            });
-        }); 
-    });
+                            }
+                        );
+                    }
+                ); 
+            }
+        );
 
-});
+    }
+);
 

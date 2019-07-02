@@ -37,6 +37,7 @@ use stdClass;
 
 /**
  * Class SessionCache
+ *
  * @package Webvaloa
  */
 class SessionCache
@@ -48,6 +49,7 @@ class SessionCache
 
     /**
      * 10 minute session cache
+     *
      * @var int
      */
     private $expires = 600;
@@ -64,7 +66,8 @@ class SessionCache
         }
 
         if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['cache_time'])
-                && !empty(\Webvaloa\config::$properties['cache_time'])) {
+            && !empty(\Webvaloa\config::$properties['cache_time'])
+        ) {
             $this->expires = \Webvaloa\config::$properties['cache_time'];
         }
     }

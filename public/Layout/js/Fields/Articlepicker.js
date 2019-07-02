@@ -28,16 +28,20 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
-    jQuery('.articlepicker').each(function() {
-        ArticlePicker.initArticlePicker(this);
-    });
-});
+jQuery(document).ready(
+    function () {
+        jQuery('.articlepicker').each(
+            function () {
+                ArticlePicker.initArticlePicker(this);
+            }
+        );
+    }
+);
 var ArticlePicker = {
 
     data: {},
 
-    initArticlePicker: function(el) {
+    initArticlePicker: function (el) {
         var $url = jQuery('#basehref').text();
         var $id = jQuery(el).data('field-id');
         var $val = jQuery(el).data('field-value');
@@ -49,18 +53,22 @@ var ArticlePicker = {
             ArticlePicker.data[$id].ready = false;
             ArticlePicker.data[$id].callbacks = [];
 
-            jQuery.getJSON($url + '/content_article/fieldParams/' + $id, function(data) {
-                ArticlePicker.data[$id].data = data;
-                ArticlePicker.data[$id].ready = true;
+            jQuery.getJSON(
+                $url + '/content_article/fieldParams/' + $id, function (data) {
+                    ArticlePicker.data[$id].data = data;
+                    ArticlePicker.data[$id].ready = true;
 
-                // Call self again as we are done here
-                ArticlePicker.initArticlePicker(el);
+                    // Call self again as we are done here
+                    ArticlePicker.initArticlePicker(el);
 
-                // Looping through all the callbacks that we got while waiting for data
-                ArticlePicker.data[$id].callbacks.forEach(function(current) {
-                    ArticlePicker.initArticlePicker(current);
-                });
-            });
+                    // Looping through all the callbacks that we got while waiting for data
+                    ArticlePicker.data[$id].callbacks.forEach(
+                        function (current) {
+                            ArticlePicker.initArticlePicker(current);
+                        }
+                    );
+                }
+            );
         } else {
             // There is already something, next up; we find what it is
             if (ArticlePicker.data[$id].ready) {
@@ -69,13 +77,15 @@ var ArticlePicker = {
                 var $sel = '';
                 var data = ArticlePicker.data[$id].data;
 
-                jQuery.each(data, function(key, val) {
-                    $sel = '';
-                    if ($val == val.id) {
-                        $sel = 'selected="selected"';
+                jQuery.each(
+                    data, function (key, val) {
+                        $sel = '';
+                        if ($val == val.id) {
+                            $sel = 'selected="selected"';
+                        }
+                        items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
                     }
-                    items.push('<option value="' + val.id + '" ' + $sel + '>' + val.title + '</option>');
-                });
+                );
 
                 var $html = items.join('');
                 jQuery($html).appendTo(el);

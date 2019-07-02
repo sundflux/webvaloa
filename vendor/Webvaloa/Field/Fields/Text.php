@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Text
+ *
  * @package Webvaloa\Field\Fields
  */
 class Text
@@ -55,6 +56,7 @@ class Text
 
     /**
      * Text constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

@@ -53,11 +53,11 @@ use Webvaloa\Locale\Locales as LocalesHelper;
  * if (!$articleId = $association->getAssociatedId()) {
  *     $articleId = $association->createAssociation();
  * }
- *
  */
 
 /**
  * Class ArticleAssociation
+ *
  * @package Webvaloa\Helpers
  */
 class ArticleAssociation
@@ -79,7 +79,8 @@ class ArticleAssociation
 
     /**
      * ArticleAssociation constructor.
-     * @param bool $id
+     *
+     * @param  bool $id
      * @throws Exception
      */
     public function __construct($id = false)
@@ -194,7 +195,8 @@ class ArticleAssociation
 
         // Locale matches and no associated id is set, so this must be an main article
         if (!empty($a->locale) && $a->locale == $this->getLocale()
-            && empty($a->associated_content_id)) {
+            && empty($a->associated_content_id)
+        ) {
             return $id;
         }
 

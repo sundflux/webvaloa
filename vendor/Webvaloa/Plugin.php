@@ -123,6 +123,7 @@ class Plugin
 
     /**
      * Plugin constructor.
+     *
      * @param bool $plugin
      */
     public function __construct($plugin = false)
@@ -189,7 +190,7 @@ class Plugin
     }
 
     /**
-     * @param $name
+     * @param  $name
      * @return bool
      */
     public function pluginExists($name)
@@ -237,7 +238,8 @@ class Plugin
         // Look for executable plugins
         foreach ($this->plugins as $k => $plugin) {
             if ($controller && strpos($plugin->plugin, $controller) === false
-                && strpos($plugin->plugin, 'Plugin') === false) {
+                && strpos($plugin->plugin, 'Plugin') === false
+            ) {
                 continue;
             }
 
@@ -276,7 +278,7 @@ class Plugin
     }
 
     /**
-     * @param $pluginID
+     * @param  $pluginID
      * @return bool
      */
     public static function getPluginStatus($pluginID)
@@ -307,7 +309,7 @@ class Plugin
 
     /**
      * @param $pluginID
-     * @param int $status
+     * @param int      $status
      */
     public static function setPluginStatus($pluginID, $status = 0)
     {
@@ -329,7 +331,7 @@ class Plugin
 
     /**
      * @param $pluginID
-     * @param int $ordering
+     * @param int      $ordering
      */
     public static function setPluginOrder($pluginID, $ordering = 0)
     {

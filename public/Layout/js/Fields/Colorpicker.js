@@ -30,76 +30,108 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('input[type=color]').each(function(e) {
-        jQuery(this).attr("type","text").minicolors({
-            theme: 'bootstrap'
-        });
-    }); 
-
-    // Handle repeatable reset
-    jQuery('.field-Colorpicker').each(function() {
-        jQuery(this).find('.repeatable-field-button').each(function() {
-            jQuery(this).on('click', function() {
-                ColorPickerHelper.bindColorPicker(this);
-            });
-        });
-    });
-
-    // Handle repeatable group reset
-    jQuery('.tab-pane').each(function() {
-        jQuery(this).find('.repeatable-group-button').each(function() {
-            jQuery(this).on('click', function() {
-
-                var $last = jQuery('.tab-pane').find('.repeatable-group-holder').last();
-                var $colorpickers = jQuery($last).find('.colorpicker');
-
-                $colorpickers.each(function() {
-                    jQuery(this).minicolors(
-                        'destroy'
-                    );
-
-                    jQuery(this).parent().find('.minicolors-swatch').last().remove();
-                    jQuery(this).attr("type","text");
-                    jQuery(this).minicolors({
+        jQuery('input[type=color]').each(
+            function (e) {
+                jQuery(this).attr("type","text").minicolors(
+                    {
                         theme: 'bootstrap'
-                    });
-                });
+                    }
+                );
+            }
+        ); 
 
-                $last.find('.repeatable-field-button').each(function() {
-                    jQuery(this).on('click', function() {
-                        ColorPickerHelper.bindColorPicker(this);
-                    });
-                });
-            });
-        }); 
-    });
+        // Handle repeatable reset
+        jQuery('.field-Colorpicker').each(
+            function () {
+                jQuery(this).find('.repeatable-field-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                ColorPickerHelper.bindColorPicker(this);
+                            }
+                        );
+                    }
+                );
+            }
+        );
 
-});
+        // Handle repeatable group reset
+        jQuery('.tab-pane').each(
+            function () {
+                jQuery(this).find('.repeatable-group-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+
+                                var $last = jQuery('.tab-pane').find('.repeatable-group-holder').last();
+                                var $colorpickers = jQuery($last).find('.colorpicker');
+
+                                $colorpickers.each(
+                                    function () {
+                                        jQuery(this).minicolors(
+                                            'destroy'
+                                        );
+
+                                        jQuery(this).parent().find('.minicolors-swatch').last().remove();
+                                        jQuery(this).attr("type","text");
+                                        jQuery(this).minicolors(
+                                            {
+                                                theme: 'bootstrap'
+                                            }
+                                        );
+                                    }
+                                );
+
+                                $last.find('.repeatable-field-button').each(
+                                    function () {
+                                        jQuery(this).on(
+                                            'click', function () {
+                                                ColorPickerHelper.bindColorPicker(this);
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                        );
+                    }
+                ); 
+            }
+        );
+
+    }
+);
 
 var ColorPickerHelper = {
 
-    bindColorPicker: function(el) {
+    bindColorPicker: function (el) {
         var $parents = jQuery(el).parents('.field-Colorpicker');
         var $last = jQuery(el).find('.repeatable-holder').last();
 
-        $last.find('.colorpicker').each(function() {
-            jQuery(this).minicolors(
-                'destroy'
-            );
-        });
-
-        $parents.find('.colorpicker').last().each(function() {
-            // initialize only empty elements
-            if(jQuery(this).val() == '') {
-                jQuery(this).parent().find('.minicolors-swatch').last().remove();
-                jQuery(this).attr("type","text");
-                jQuery(this).minicolors({
-                    theme: 'bootstrap'
-                });
+        $last.find('.colorpicker').each(
+            function () {
+                jQuery(this).minicolors(
+                    'destroy'
+                );
             }
-        });
+        );
+
+        $parents.find('.colorpicker').last().each(
+            function () {
+                // initialize only empty elements
+                if(jQuery(this).val() == '') {
+                    jQuery(this).parent().find('.minicolors-swatch').last().remove();
+                    jQuery(this).attr("type","text");
+                    jQuery(this).minicolors(
+                        {
+                            theme: 'bootstrap'
+                        }
+                    );
+                }
+            }
+        );
     }
 
 }

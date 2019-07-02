@@ -37,6 +37,7 @@ use RuntimeException;
 
 /**
  * Class Role
+ *
  * @package Webvaloa
  */
 class Role
@@ -58,6 +59,7 @@ class Role
 
     /**
      * Role constructor.
+     *
      * @param bool $roleID
      */
     public function __construct($roleID = false)
@@ -97,7 +99,7 @@ class Role
     }
 
     /**
-     * @param $roleName
+     * @param  $roleName
      * @return mixed
      */
     public function getRoleId($roleName)
@@ -169,7 +171,7 @@ class Role
     }
 
     /**
-     * @param $name
+     * @param  $name
      * @return bool|type
      */
     public function addRole($name)

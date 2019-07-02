@@ -43,6 +43,7 @@ use RuntimeException;
 
 /**
  * Class ArticleStructure
+ *
  * @package Webvaloa\Helpers
  */
 class ArticleStructure
@@ -74,6 +75,7 @@ class ArticleStructure
 
     /**
      * ArticleStructure constructor.
+     *
      * @param bool $articleId
      */
     public function __construct($articleId = false)
@@ -175,7 +177,7 @@ class ArticleStructure
     }
 
     /**
-     * @param bool $categoryId
+     * @param  bool $categoryId
      * @return stdClass
      */
     public function initializeFieldsView($categoryId = false)

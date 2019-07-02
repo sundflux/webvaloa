@@ -60,7 +60,7 @@ THE SOFTWARE.
                 date: 'glyphicon glyphicon-calendar',
                 up: 'glyphicon glyphicon-chevron-up',
                 down: 'glyphicon glyphicon-chevron-down'
-            },
+        },
 
             picker = this,
             errored = false,
@@ -133,9 +133,11 @@ THE SOFTWARE.
 
             picker.options.widgetParent =
                 typeof picker.options.widgetParent === 'string' && picker.options.widgetParent ||
-                picker.element.parents().filter(function () {
-                    return 'scroll' === $(this).css('overflow-y');
-                }).get(0) ||
+                picker.element.parents().filter(
+                    function () {
+                        return 'scroll' === $(this).css('overflow-y');
+                    }
+                ).get(0) ||
                 'body';
 
             picker.widget = $(getTemplate()).appendTo(picker.options.widgetParent);
@@ -143,28 +145,28 @@ THE SOFTWARE.
             picker.minViewMode = picker.options.minViewMode || 0;
             if (typeof picker.minViewMode === 'string') {
                 switch (picker.minViewMode) {
-                    case 'months':
-                        picker.minViewMode = 1;
+                case 'months':
+                    picker.minViewMode = 1;
                         break;
-                    case 'years':
-                        picker.minViewMode = 2;
+                case 'years':
+                    picker.minViewMode = 2;
                         break;
-                    default:
-                        picker.minViewMode = 0;
+                default:
+                    picker.minViewMode = 0;
                         break;
                 }
             }
             picker.viewMode = picker.options.viewMode || 0;
             if (typeof picker.viewMode === 'string') {
                 switch (picker.viewMode) {
-                    case 'months':
-                        picker.viewMode = 1;
+                case 'months':
+                    picker.viewMode = 1;
                         break;
-                    case 'years':
-                        picker.viewMode = 2;
+                case 'years':
+                    picker.viewMode = 2;
                         break;
-                    default:
-                        picker.viewMode = 0;
+                default:
+                    picker.viewMode = 0;
                         break;
                 }
             }
@@ -344,21 +346,25 @@ THE SOFTWARE.
             }
 
             if (placePosition === 'top') {
-                picker.widget.css({
-                    position: position,
-                    bottom: offset.bottom,
-                    top: 'auto',
-                    left: offset.left,
-                    right: offset.right
-                });
+                picker.widget.css(
+                    {
+                        position: position,
+                        bottom: offset.bottom,
+                        top: 'auto',
+                        left: offset.left,
+                        right: offset.right
+                    }
+                );
             } else {
-                picker.widget.css({
-                    position: position,
-                    top: offset.top,
-                    bottom: 'auto',
-                    left: offset.left,
-                    right: offset.right
-                });
+                picker.widget.css(
+                    {
+                        position: position,
+                        top: offset.top,
+                        bottom: 'auto',
+                        left: offset.left,
+                        right: offset.right
+                    }
+                );
             }
         },
 
@@ -367,11 +373,13 @@ THE SOFTWARE.
                 return;
             }
             errored = false;
-            picker.element.trigger({
-                type: 'dp.change',
-                date: moment(picker.date),
-                oldDate: moment(oldDate)
-            });
+            picker.element.trigger(
+                {
+                    type: 'dp.change',
+                    date: moment(picker.date),
+                    oldDate: moment(oldDate)
+                }
+            );
 
             if (eventType !== 'change') {
                 picker.element.change();
@@ -380,10 +388,12 @@ THE SOFTWARE.
 
         notifyError = function (date) {
             errored = true;
-            picker.element.trigger({
-                type: 'dp.error',
-                date: moment(date, picker.format, picker.options.useStrict)
-            });
+            picker.element.trigger(
+                {
+                    type: 'dp.error',
+                    date: moment(date, picker.format, picker.options.useStrict)
+                }
+            );
         },
 
         update = function (newDate) {
@@ -453,7 +463,8 @@ THE SOFTWARE.
             picker.widget.find('.datepicker-years').find('.disabled').removeClass('disabled');
 
             picker.widget.find('.datepicker-days th:eq(1)').text(
-                months[month] + ' ' + year);
+                months[month] + ' ' + year
+            );
 
             prevMonth = moment(picker.viewDate, picker.format, picker.options.useStrict).subtract(1, 'months');
             days = prevMonth.daysInMonth();
@@ -531,7 +542,8 @@ THE SOFTWARE.
             html = '';
             year = parseInt(year / 10, 10) * 10;
             yearCont = picker.widget.find('.datepicker-years').find(
-                'th:eq(1)').text(year + '-' + (year + 9)).parents('table').find('td');
+                'th:eq(1)'
+            ).text(year + '-' + (year + 9)).parents('table').find('td');
             picker.widget.find('.datepicker-years').find('th').removeClass('disabled');
             if (startYear > year) {
                 picker.widget.find('.datepicker-years').find('th:eq(0)').addClass('disabled');
@@ -579,10 +591,10 @@ THE SOFTWARE.
         fillMinutes = function () {
             var table = picker.widget.find('.timepicker .timepicker-minutes table'), html = '', current = 0, i, j, step = picker.options.minuteStepping;
             table.parent().hide();
-            if (step === 1)  {
+            if (step === 1) {
                 step = 5;
             }
-            for (i = 0; i < Math.ceil(60 / step / 4) ; i++) {
+            for (i = 0; i < Math.ceil(60 / step / 4); i++) {
                 html += '<tr>';
                 for (j = 0; j < 4; j += 1) {
                     if (current < 60) {
@@ -639,81 +651,86 @@ THE SOFTWARE.
             if (target.length === 1) {
                 if (!target.is('.disabled')) {
                     switch (target[0].nodeName.toLowerCase()) {
-                        case 'th':
-                            switch (target[0].className) {
-                                case 'picker-switch':
-                                    showMode(1);
-                                    break;
-                                case 'prev':
-                                case 'next':
-                                    step = dpGlobal.modes[picker.viewMode].navStep;
-                                    if (target[0].className === 'prev') {
-                                        step = step * -1;
-                                    }
-                                    picker.viewDate.add(step, dpGlobal.modes[picker.viewMode].navFnc);
-                                    fillDate();
-                                    break;
+                    case 'th':
+                        switch (target[0].className) {
+                        case 'picker-switch':
+                            showMode(1);
+                                break;
+                        case 'prev':
+                        case 'next':
+                            step = dpGlobal.modes[picker.viewMode].navStep;
+                            if (target[0].className === 'prev') {
+                                step = step * -1;
                             }
+                            picker.viewDate.add(step, dpGlobal.modes[picker.viewMode].navFnc);
+                                fillDate();
+                                break;
+                        }
                             break;
-                        case 'span':
-                            if (target.is('.month')) {
-                                month = target.parent().find('span').index(target);
-                                picker.viewDate.month(month);
-                            } else {
-                                year = parseInt(target.text(), 10) || 0;
-                                picker.viewDate.year(year);
-                            }
-                            if (picker.viewMode === picker.minViewMode) {
-                                picker.date = moment({
+                    case 'span':
+                        if (target.is('.month')) {
+                            month = target.parent().find('span').index(target);
+                            picker.viewDate.month(month);
+                        } else {
+                            year = parseInt(target.text(), 10) || 0;
+                            picker.viewDate.year(year);
+                        }
+                        if (picker.viewMode === picker.minViewMode) {
+                            picker.date = moment(
+                                {
                                     y: picker.viewDate.year(),
                                     M: picker.viewDate.month(),
                                     d: picker.viewDate.date(),
                                     h: picker.date.hours(),
                                     m: picker.date.minutes(),
                                     s: picker.date.seconds()
-                                });
-                                set();
-                                notifyChange(oldDate, e.type);
-                            }
-                            showMode(-1);
-                            fillDate();
-                            break;
-                        case 'td':
-                            if (target.is('.day')) {
-                                day = parseInt(target.text(), 10) || 1;
-                                month = picker.viewDate.month();
-                                year = picker.viewDate.year();
-                                if (target.is('.old')) {
-                                    if (month === 0) {
-                                        month = 11;
-                                        year -= 1;
-                                    } else {
-                                        month -= 1;
-                                    }
-                                } else if (target.is('.new')) {
-                                    if (month === 11) {
-                                        month = 0;
-                                        year += 1;
-                                    } else {
-                                        month += 1;
-                                    }
                                 }
-                                picker.date = moment({
+                            );
+                            set();
+                            notifyChange(oldDate, e.type);
+                        }
+                        showMode(-1);
+                        fillDate();
+                            break;
+                    case 'td':
+                        if (target.is('.day')) {
+                            day = parseInt(target.text(), 10) || 1;
+                            month = picker.viewDate.month();
+                            year = picker.viewDate.year();
+                            if (target.is('.old')) {
+                                if (month === 0) {
+                                    month = 11;
+                                    year -= 1;
+                                } else {
+                                    month -= 1;
+                                }
+                            } else if (target.is('.new')) {
+                                if (month === 11) {
+                                    month = 0;
+                                    year += 1;
+                                } else {
+                                    month += 1;
+                                }
+                            }
+                            picker.date = moment(
+                                {
                                     y: year,
                                     M: month,
                                     d: day,
                                     h: picker.date.hours(),
                                     m: picker.date.minutes(),
                                     s: picker.date.seconds()
-                                }
-                                );
-                                picker.viewDate = moment({
+                                    }
+                            );
+                            picker.viewDate = moment(
+                                {
                                     y: year, M: month, d: Math.min(28, day)
-                                });
-                                fillDate();
-                                set();
-                                notifyChange(oldDate, e.type);
-                            }
+                                }
+                            );
+                            fillDate();
+                            set();
+                            notifyChange(oldDate, e.type);
+                        }
                             break;
                     }
                 }
@@ -859,38 +876,44 @@ THE SOFTWARE.
             picker.widget.on('mousedown', $.proxy(stopEvent, this));
             picker.element.on('keydown', $.proxy(keydown, this));
             if (picker.options.pickDate && picker.options.pickTime) {
-                picker.widget.on('click.togglePicker', '.accordion-toggle', function (e) {
-                    e.stopPropagation();
-                    $this = $(this);
-                    $parent = $this.closest('ul');
-                    expanded = $parent.find('.in');
-                    closed = $parent.find('.collapse:not(.in)');
+                picker.widget.on(
+                    'click.togglePicker', '.accordion-toggle', function (e) {
+                        e.stopPropagation();
+                        $this = $(this);
+                        $parent = $this.closest('ul');
+                        expanded = $parent.find('.in');
+                        closed = $parent.find('.collapse:not(.in)');
 
-                    if (expanded && expanded.length) {
-                        collapseData = expanded.data('collapse');
-                        if (collapseData && collapseData.transitioning) {
-                            return;
-                        }
-                        expanded.collapse('hide');
-                        closed.collapse('show');
-                        $this.find('span').toggleClass(picker.options.icons.time + ' ' + picker.options.icons.date);
-                        if (picker.component) {
-                            picker.component.find('span').toggleClass(picker.options.icons.time + ' ' + picker.options.icons.date);
+                        if (expanded && expanded.length) {
+                            collapseData = expanded.data('collapse');
+                            if (collapseData && collapseData.transitioning) {
+                                return;
+                            }
+                            expanded.collapse('hide');
+                            closed.collapse('show');
+                            $this.find('span').toggleClass(picker.options.icons.time + ' ' + picker.options.icons.date);
+                            if (picker.component) {
+                                picker.component.find('span').toggleClass(picker.options.icons.time + ' ' + picker.options.icons.date);
+                            }
                         }
                     }
-                });
+                );
             }
             if (picker.isInput) {
-                picker.element.on({
-                    'click': $.proxy(picker.show, this),
-                    'focus': $.proxy(picker.show, this),
-                    'change': $.proxy(change, this),
-                    'blur': $.proxy(picker.hide, this)
-                });
+                picker.element.on(
+                    {
+                        'click': $.proxy(picker.show, this),
+                        'focus': $.proxy(picker.show, this),
+                        'change': $.proxy(change, this),
+                        'blur': $.proxy(picker.hide, this)
+                    }
+                );
             } else {
-                picker.element.on({
-                    'change': $.proxy(change, this)
-                }, 'input');
+                picker.element.on(
+                    {
+                        'change': $.proxy(change, this)
+                    }, 'input'
+                );
                 if (picker.component) {
                     picker.component.on('click', $.proxy(picker.show, this));
                     picker.component.on('mousedown', $.proxy(stopEvent, this));
@@ -902,10 +925,12 @@ THE SOFTWARE.
 
         attachDatePickerGlobalEvents = function () {
             $(window).on(
-                'resize.datetimepicker' + picker.id, $.proxy(place, this));
+                'resize.datetimepicker' + picker.id, $.proxy(place, this)
+            );
             if (!picker.isInput) {
                 $(document).on(
-                    'mousedown.datetimepicker' + picker.id, $.proxy(picker.hide, this));
+                    'mousedown.datetimepicker' + picker.id, $.proxy(picker.hide, this)
+                );
             }
         },
 
@@ -917,16 +942,20 @@ THE SOFTWARE.
                 picker.widget.off('click.togglePicker');
             }
             if (picker.isInput) {
-                picker.element.off({
-                    'focus': picker.show,
-                    'change': change,
-                    'click': picker.show,
-                    'blur' : picker.hide
-                });
+                picker.element.off(
+                    {
+                        'focus': picker.show,
+                        'change': change,
+                        'click': picker.show,
+                        'blur' : picker.hide
+                    }
+                );
             } else {
-                picker.element.off({
-                    'change': change
-                }, 'input');
+                picker.element.off(
+                    {
+                        'change': change
+                    }, 'input'
+                );
                 if (picker.component) {
                     picker.component.off('click', picker.show);
                     picker.component.off('mousedown', picker.stopEvent);
@@ -1090,7 +1119,7 @@ THE SOFTWARE.
                         '<li' + (picker.options.collapse ? ' class="collapse"' : '') + '>' +
                             '<div class="timepicker">' + tpGlobal.getTemplate() + '</div>' +
                         '</li>' +
-                   '</ul>';
+                    '</ul>';
                 }
                 ret += '</div>';
                 return ret;
@@ -1115,17 +1144,17 @@ THE SOFTWARE.
                     clsName: 'days',
                     navFnc: 'month',
                     navStep: 1
-                },
+            },
                 {
                     clsName: 'months',
                     navFnc: 'year',
                     navStep: 1
-                },
+            },
                 {
                     clsName: 'years',
                     navFnc: 'year',
                     navStep: 10
-                }
+            }
             ]
         },
 
@@ -1218,10 +1247,12 @@ THE SOFTWARE.
             }
             picker.height = picker.component ? picker.component.outerHeight() : picker.element.outerHeight();
             place();
-            picker.element.trigger({
-                type: 'dp.show',
-                date: moment(picker.date)
-            });
+            picker.element.trigger(
+                {
+                    type: 'dp.show',
+                    date: moment(picker.date)
+                }
+            );
             attachDatePickerGlobalEvents();
             if (e) {
                 stopEvent(e);
@@ -1259,10 +1290,12 @@ THE SOFTWARE.
             picker.widget.removeClass('picker-open');
             picker.viewMode = picker.startViewMode;
             showMode();
-            picker.element.trigger({
-                type: 'dp.hide',
-                date: moment(picker.date)
-            });
+            picker.element.trigger(
+                {
+                    type: 'dp.hide',
+                    date: moment(picker.date)
+                }
+            );
             detachDatePickerGlobalEvents();
         };
 
@@ -1354,13 +1387,15 @@ THE SOFTWARE.
     };
 
     $.fn.datetimepicker = function (options) {
-        return this.each(function () {
-            var $this = $(this),
+        return this.each(
+            function () {
+                var $this = $(this),
                 data = $this.data('DateTimePicker');
-            if (!data) {
-                $this.data('DateTimePicker', new DateTimePicker(this, options));
+                if (!data) {
+                    $this.data('DateTimePicker', new DateTimePicker(this, options));
+                }
             }
-        });
+        );
     };
 
     $.fn.datetimepicker.defaults = {

@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Colorpicker
+ *
  * @package Webvaloa\Field\Fields
  */
 class Colorpicker
@@ -55,6 +56,7 @@ class Colorpicker
 
     /**
      * Colorpicker constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

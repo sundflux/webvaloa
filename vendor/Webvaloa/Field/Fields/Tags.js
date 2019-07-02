@@ -28,18 +28,22 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    TagsBackend.checkRepeatable();
-    jQuery('#field_type').on('change', function() {
         TagsBackend.checkRepeatable();
-    })
+        jQuery('#field_type').on(
+            'change', function () {
+                TagsBackend.checkRepeatable();
+            }
+        )
 
-});
+    }
+);
 
 var TagsBackend = {
 
-    checkRepeatable: function() {
+    checkRepeatable: function () {
         if(jQuery('#field_type').val() == 'Tags') {
             jQuery('#repeatable_field').val('2');
             jQuery('#repeatable_field_holder').hide();

@@ -28,27 +28,41 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    // Create editors
-    jQuery('.datepicker').datetimepicker();
+        // Create editors
+        jQuery('.datepicker').datetimepicker();
 
-    // Handle repeatable reset
-    jQuery('.field-Datetimepicker').each(function() {
-        jQuery(this).find('.repeatable-field-button').each(function() {
-            jQuery(this).on('click', function() {
-                jQuery('.datepicker').datetimepicker();
-            });
-        }); 
-    });
+        // Handle repeatable reset
+        jQuery('.field-Datetimepicker').each(
+            function () {
+                jQuery(this).find('.repeatable-field-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                jQuery('.datepicker').datetimepicker();
+                            }
+                        );
+                    }
+                ); 
+            }
+        );
 
-    // Handle repeatable group reset
-    jQuery('.tab-pane').each(function() {
-        jQuery(this).find('.repeatable-group-button').each(function() {
-            jQuery(this).on('click', function() {
-                jQuery('.datepicker').datetimepicker();
-            });
-        }); 
-    });
+        // Handle repeatable group reset
+        jQuery('.tab-pane').each(
+            function () {
+                jQuery(this).find('.repeatable-group-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                jQuery('.datepicker').datetimepicker();
+                            }
+                        );
+                    }
+                ); 
+            }
+        );
 
-});
+    }
+);

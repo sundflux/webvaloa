@@ -28,61 +28,81 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('.mediapicker').each(function() {
-        MediaPicker.initMediaPicker(this);
-    });
+        jQuery('.mediapicker').each(
+            function () {
+                MediaPicker.initMediaPicker(this);
+            }
+        );
     
-    // Handle repeatable reset
-    MediaPicker.bindRepeatables();
+        // Handle repeatable reset
+        MediaPicker.bindRepeatables();
 
-    // Handle repeatable group reset
-    jQuery('.tab-pane').each(function() {
-        jQuery(this).find('.repeatable-group-button').each(function() {
-            jQuery(this).on('click', function() {
-                var $el = jQuery(this).parents('.tab-pane').find('.repeatable-group-holder').last();
+        // Handle repeatable group reset
+        jQuery('.tab-pane').each(
+            function () {
+                jQuery(this).find('.repeatable-group-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                var $el = jQuery(this).parents('.tab-pane').find('.repeatable-group-holder').last();
 
-                $el.find('.mediapicker').each(function() {
-                    var _uniqid = FrontendHelpers.uniqid();
+                                $el.find('.mediapicker').each(
+                                    function () {
+                                        var _uniqid = FrontendHelpers.uniqid();
 
-                    jQuery(this).attr('name', _uniqid + '[' + jQuery(this).data('field-name') + '][]');
-                    jQuery(this).attr('id', 'mediapickerinput-' + _uniqid);
+                                        jQuery(this).attr('name', _uniqid + '[' + jQuery(this).data('field-name') + '][]');
+                                        jQuery(this).attr('id', 'mediapickerinput-' + _uniqid);
 
-                    MediaPicker.initMediaPicker(this);
-                });
+                                        MediaPicker.initMediaPicker(this);
+                                    }
+                                );
 
-                MediaPicker.bindRepeatables();
-            });
-        }); 
-    });
+                                MediaPicker.bindRepeatables();
+                            }
+                        );
+                    }
+                ); 
+            }
+        );
 
-});
+    }
+);
 
 var MediaPicker = {
     
-    bindRepeatables: function() {
-        jQuery('.field-Mediapicker').each(function() {
-            jQuery(this).find('.repeatable-field-button').each(function() {
-                jQuery(this).on('click', function() {
-                    var $el = jQuery(this).parent().find('.repeatable-holder').last();
+    bindRepeatables: function () {
+        jQuery('.field-Mediapicker').each(
+            function () {
+                jQuery(this).find('.repeatable-field-button').each(
+                    function () {
+                        jQuery(this).on(
+                            'click', function () {
+                                var $el = jQuery(this).parent().find('.repeatable-holder').last();
 
-                    $el.find('.mediapicker').each(function() {
-                        var _uniqid = FrontendHelpers.uniqid();
+                                $el.find('.mediapicker').each(
+                                    function () {
+                                        var _uniqid = FrontendHelpers.uniqid();
 
-                        jQuery(this).attr('name', _uniqid + '[' + jQuery(this).data('field-name') + '][]');
-                        jQuery(this).attr('id', 'mediapickerinput-' + _uniqid);
-                        jQuery(this).attr('data-uniqid', _uniqid);
-                        jQuery(this).data('uniqid', _uniqid);
+                                        jQuery(this).attr('name', _uniqid + '[' + jQuery(this).data('field-name') + '][]');
+                                        jQuery(this).attr('id', 'mediapickerinput-' + _uniqid);
+                                        jQuery(this).attr('data-uniqid', _uniqid);
+                                        jQuery(this).data('uniqid', _uniqid);
 
-                        MediaPicker.initMediaPicker(this);
-                    });
-                });
-            }); 
-        });  
+                                        MediaPicker.initMediaPicker(this);
+                                    }
+                                );
+                            }
+                        );
+                    }
+                ); 
+            }
+        );  
     },
 
-    initMediaPicker: function(el) {
+    initMediaPicker: function (el) {
         var $url = jQuery('#basehref').text();
         var _uniqid = FrontendHelpers.uniqid();
 
@@ -91,30 +111,34 @@ var MediaPicker = {
         jQuery(el).attr('id', 'mediapickerinput-' + _uniqid);
         jQuery(el).data('uniqid', _uniqid);
 
-        jQuery.get( $url + '/content_media', function( data ) {
-            jQuery('#mediapicker-content').html(data);
+        jQuery.get(
+            $url + '/content_media', function ( data ) {
+                jQuery('#mediapicker-content').html(data);
             
-            Media.initUpload();
-            Media.initSearch();
-            Media.initMultipleFileDeletion();
+                Media.initUpload();
+                Media.initSearch();
+                Media.initMultipleFileDeletion();
 
-            if(jQuery('#initFilelist').length > 0) {
-                var dir = '/';
+                if(jQuery('#initFilelist').length > 0) {
+                    var dir = '/';
 
-                if(document.URL.indexOf('#') > -1) {
-                    dir = document.URL.substr(document.URL.indexOf('#') + 1) ;
+                    if(document.URL.indexOf('#') > -1) {
+                        dir = document.URL.substr(document.URL.indexOf('#') + 1);
+                    }
+
+                    Media.getFileList(dir);
+                    Media.initFolderBindings();
                 }
-
-                Media.getFileList(dir);
-                Media.initFolderBindings();
-            }
             
-            jQuery('.mediapicker-modal-selector').on('click', function() {
-                var _active = jQuery(this).parent().parent().find('input').data('uniqid');
+                jQuery('.mediapicker-modal-selector').on(
+                    'click', function () {
+                        var _active = jQuery(this).parent().parent().find('input').data('uniqid');
 
-                jQuery('.mediapicker-modal').data('active-mediapicker-uniqid', _active);
-            });
-        });
+                        jQuery('.mediapicker-modal').data('active-mediapicker-uniqid', _active);
+                    }
+                );
+            }
+        );
     }
 
 }

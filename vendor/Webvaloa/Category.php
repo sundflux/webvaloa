@@ -38,6 +38,7 @@ use RuntimeException;
 
 /**
  * Class Category
+ *
  * @package Webvaloa
  */
 class Category
@@ -84,7 +85,7 @@ class Category
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return bool
      */
     public function __get($k)
@@ -101,8 +102,8 @@ class Category
     }
 
     /**
-     * @param $layout
-     * @param int $type
+     * @param  $layout
+     * @param  int    $type
      * @return bool
      */
     public function setLayout($layout, $type = 0)
@@ -117,17 +118,17 @@ class Category
         $q = '';
 
         switch ($type) {
-            case self::OVERRIDE_LAYOUT:
-                $q = 'layout';
-                break;
+        case self::OVERRIDE_LAYOUT:
+            $q = 'layout';
+            break;
 
-            case self::OVERRIDE_LIST_LAYOUT:
-                $q = 'layout_list';
-                break;
+        case self::OVERRIDE_LIST_LAYOUT:
+            $q = 'layout_list';
+            break;
 
-            default:
-                $q = 'template';
-                break;
+        default:
+            $q = 'template';
+            break;
         }
 
         $query = "
@@ -146,7 +147,7 @@ class Category
     }
 
     /**
-     * @param $layout
+     * @param  $layout
      * @return bool
      */
     public function setTemplate($layout)
@@ -155,7 +156,7 @@ class Category
     }
 
     /**
-     * @param $layout
+     * @param  $layout
      * @return bool
      */
     public function setListLayout($layout)
@@ -203,7 +204,7 @@ class Category
     }
 
     /**
-     * @param bool $useTemplateDir
+     * @param  bool $useTemplateDir
      * @return array
      */
     public function getAvailableLayouts($useTemplateDir = false)
@@ -385,8 +386,8 @@ class Category
     }
 
     /**
-     * @param $name
-     * @param null $parentID
+     * @param  $name
+     * @param  null $parentID
      * @return bool
      */
     public function addCategory($name, $parentID = null)
@@ -612,7 +613,7 @@ class Category
     }
 
     /**
-     * @param $roleID
+     * @param  $roleID
      * @return bool
      */
     public function addRole($roleID)

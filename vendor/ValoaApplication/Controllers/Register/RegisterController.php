@@ -196,10 +196,10 @@ class RegisterController extends \Webvaloa\Application
         try {
             $mailer = new Mail();
             $send = $mailer->setTo($email, $firstname.' '.$lastname)
-                    ->setSubject(\Webvaloa\Webvaloa::translate('REGISTRATION_CONFIRM'))
-                    ->setFrom($this->admin, $this->sitename)
-                    ->setHtmlMessage($this->message)
-                    ->send();
+                ->setSubject(\Webvaloa\Webvaloa::translate('REGISTRATION_CONFIRM'))
+                ->setFrom($this->admin, $this->sitename)
+                ->setHtmlMessage($this->message)
+                ->send();
 
             $val = (string) $send;
 

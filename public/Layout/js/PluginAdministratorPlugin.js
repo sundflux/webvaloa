@@ -30,24 +30,28 @@
 
 var Webvaloa = {
 
-	init: function() {
-		Webvaloa.bindEditable();
-	},
+    init: function () {
+        Webvaloa.bindEditable();
+    },
 
-	bindEditable: function() {
-		jQuery('#quick-edit').on('click', function(e) {
-			e.preventDefault();
+    bindEditable: function () {
+        jQuery('#quick-edit').on(
+            'click', function (e) {
+                e.preventDefault();
 
-			jQuery('.btn-valoa-editable').toggle();
-			jQuery(this).parent().toggleClass('active');
-		});
-	}
+                jQuery('.btn-valoa-editable').toggle();
+                jQuery(this).parent().toggleClass('active');
+            }
+        );
+    }
 
 }
 
 
-jQuery(document).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    Webvaloa.init();
+        Webvaloa.init();
 
-});
+    }
+);

@@ -62,9 +62,11 @@ class ComponentController extends \Webvaloa\Application
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('component'));
         $this->view->pages->url = '/extension_component/';
 
-        $query = $pagination->prepare('
+        $query = $pagination->prepare(
+            '
             SELECT *
-            FROM component '.$q);
+            FROM component '.$q
+        );
 
         $stmt = $this->db->prepare($query);
         try {

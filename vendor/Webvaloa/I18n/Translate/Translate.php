@@ -37,6 +37,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class Translate
+ *
  * @package Webvaloa\I18n
  */
 class Translate
@@ -60,6 +61,7 @@ class Translate
 
     /**
      * Translate constructor.
+     *
      * @param array $params
      */
     public function __construct($params = false)
@@ -87,7 +89,7 @@ class Translate
 
     /**
      * @param $domain
-     * @param bool $path
+     * @param bool   $path
      */
     public function bindTextDomain($domain, $path = false)
     {

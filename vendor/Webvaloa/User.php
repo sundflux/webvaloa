@@ -40,6 +40,7 @@ use stdClass;
 
 /**
  * Class User
+ *
  * @package Webvaloa
  */
 class User
@@ -56,6 +57,7 @@ class User
 
     /**
      * User constructor.
+     *
      * @param bool $userID
      */
     public function __construct($userID = false)
@@ -70,7 +72,7 @@ class User
 
     /**
      * @param $username
-     * @param string $field
+     * @param string   $field
      */
     public function byUsername($username, $field = 'login')
     {
@@ -133,7 +135,7 @@ class User
     }
 
     /**
-     * @param $k
+     * @param  $k
      * @return null|string
      */
     public function __get($k)
@@ -299,8 +301,8 @@ class User
     }
 
     /**
-     * @param bool $key
-     * @param bool $value
+     * @param  bool $key
+     * @param  bool $value
      * @return bool|mixed
      */
     public function metadata($key = false, $value = false)

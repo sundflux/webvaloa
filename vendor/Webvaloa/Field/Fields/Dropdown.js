@@ -28,22 +28,30 @@
  * IN THE SOFTWARE.
  */
 
-jQuery( document ).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    jQuery('#add-dropdown-row').on('click', function() {
-    	var $row = jQuery('.dropdown-row').first().clone();
-    	var $target = jQuery('.dropdown-row').last();
-    	jQuery($row).insertAfter($target);
-    	$row.find('.dropdown-delete-row').removeClass('hidden');
-    	$row.find('input').val('');
-	    $row.find('.dropdown-delete-row').on('click', function() {
-	    	jQuery(this).parent().remove();
-	    });
-    });
+        jQuery('#add-dropdown-row').on(
+            'click', function () {
+                var $row = jQuery('.dropdown-row').first().clone();
+                var $target = jQuery('.dropdown-row').last();
+                jQuery($row).insertAfter($target);
+                $row.find('.dropdown-delete-row').removeClass('hidden');
+                $row.find('input').val('');
+                $row.find('.dropdown-delete-row').on(
+                    'click', function () {
+                        jQuery(this).parent().remove();
+                    }
+                );
+            }
+        );
 
-    jQuery('.dropdown-delete-row').on('click', function() {
-		jQuery(this).parent().remove();
-	});
+        jQuery('.dropdown-delete-row').on(
+            'click', function () {
+                jQuery(this).parent().remove();
+            }
+        );
 
-});
+    }
+);
 

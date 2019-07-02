@@ -88,9 +88,11 @@ class UserController extends \Webvaloa\Application
         $this->view->pages = $pagination->pages((int) $page, $pagination->countTable('user'));
         $this->view->pages->url = '/user/';
 
-        $query = $pagination->prepare('
+        $query = $pagination->prepare(
+            '
             SELECT *
-            FROM user '.$q);
+            FROM user '.$q
+        );
 
         $stmt = $this->db->prepare($query);
         try {

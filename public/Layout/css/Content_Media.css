@@ -1,14 +1,14 @@
 .ajax-upload-dragdrop {
-	width: 100%;
-	padding: 20px;
-	border: 3px dashed #ccc;
-	margin-bottom: 20px;
+    width: 100%;
+    padding: 20px;
+    border: 3px dashed #ccc;
+    margin-bottom: 20px;
 }
 
 #upload-drag {
-	font-size: 24px;
-	color: #ccc;
-	margin-left: 20px;
+    font-size: 24px;
+    color: #ccc;
+    margin-left: 20px;
 }
 
 .ajax-file-upload-filename {
@@ -37,11 +37,11 @@
 }
 
 .upload-done {
-	margin-left: 20px !important;
+    margin-left: 20px !important;
 }
 
 .ajax-file-upload-abort {
-	display: none;
+    display: none;
 }
 
 .media {

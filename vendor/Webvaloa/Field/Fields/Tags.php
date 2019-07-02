@@ -38,6 +38,7 @@ use Webvaloa\Field\Value;
 
 /**
  * Class Tags
+ *
  * @package Webvaloa\Field\Fields
  */
 class Tags
@@ -64,6 +65,7 @@ class Tags
 
     /**
      * Tags constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */

@@ -30,28 +30,30 @@
 
 var Component = {
     
-    init: function()
-    {
-        jQuery('.confirm').click(function(e) {
-            var message = jQuery(this).attr('data-message');
-            if (confirm(message)) {
-                return true;
-            } else {
-                return false;
+    init: function () {
+        jQuery('.confirm').click(
+            function (e) {
+                var message = jQuery(this).attr('data-message');
+                if (confirm(message)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        });
+        );
     },
     
-    toggleDisabled: function(el)
-    {
+    toggleDisabled: function (el) {
         jQuery('#' + el).prop("disabled", !jQuery('#' + el).prop("disabled"));
         jQuery('#' + el).val('');
     }
 
 }
 
-jQuery(document).ready(function() {
+jQuery(document).ready(
+    function () {
 
-    Component.init();
+        Component.init();
 
-});
+    }
+);

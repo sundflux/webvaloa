@@ -37,6 +37,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class Gettext
+ *
  * @package Webvaloa\I18n\Translate
  */
 class Gettext
@@ -58,6 +59,7 @@ class Gettext
 
     /**
      * Ini constructor.
+     *
      * @param $params
      */
     public function __construct($params)

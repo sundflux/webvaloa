@@ -30,11 +30,11 @@
 
 var Loader = {
     
-    show: function() {
+    show: function () {
         jQuery('#loader').show();
     },
     
-    hide: function() {
+    hide: function () {
         jQuery('#loader').hide();
     }    
 

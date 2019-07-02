@@ -64,7 +64,8 @@ class Memcache
 
         // Settings
         if (isset(\Webvaloa\config::$properties['memcached_host']) && isset(\Webvaloa\config::$properties['memcached_port'])
-                && !empty(\Webvaloa\config::$properties['memcached_host']) && !empty(\Webvaloa\config::$properties['memcached_port'])) {
+            && !empty(\Webvaloa\config::$properties['memcached_host']) && !empty(\Webvaloa\config::$properties['memcached_port'])
+        ) {
             // Memcached driver from libvaloa
             $this->cache = new Memcached();
             $this->cache->properties['host'] = \Webvaloa\config::$properties['memcached_host'];
@@ -180,7 +181,7 @@ class Memcache
     }
 
     /**
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function delete($key)
@@ -189,7 +190,7 @@ class Memcache
     }
 
     /**
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function _delete($key)

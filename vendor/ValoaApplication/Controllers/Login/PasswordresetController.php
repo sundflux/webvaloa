@@ -141,13 +141,13 @@ class PasswordresetController extends \Webvaloa\Application
 
                 $mailer = new Mail();
                 $send = $mailer->setTo($row->email, $user->firstname.' '.$user->lastname)
-                        ->setSubject(\Webvaloa\Webvaloa::translate('RESET_PASSWORD_CONFIRM').' '.$this->request->getBaseUri())
-                        ->setFrom($admin, $sitename)
-                        ->addGenericHeader('X-Mailer', 'Webvaloa')
-                        ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
-                        ->setMessage($this->message)
-                        ->setWrap(100)
-                        ->send();
+                    ->setSubject(\Webvaloa\Webvaloa::translate('RESET_PASSWORD_CONFIRM').' '.$this->request->getBaseUri())
+                    ->setFrom($admin, $sitename)
+                    ->addGenericHeader('X-Mailer', 'Webvaloa')
+                    ->addGenericHeader('Content-Type', 'text/html; charset="utf-8"')
+                    ->setMessage($this->message)
+                    ->setWrap(100)
+                    ->send();
 
                 $val = (string) $send;
 

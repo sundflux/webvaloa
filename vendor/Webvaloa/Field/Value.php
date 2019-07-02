@@ -38,6 +38,7 @@ use UnexpectedValueException;
 
 /**
  * Class Value
+ *
  * @package Webvaloa\Field
  */
 class Value
@@ -69,6 +70,7 @@ class Value
 
     /**
      * Value constructor.
+     *
      * @param bool $articleID
      */
     public function __construct($articleID = false)
@@ -179,7 +181,7 @@ class Value
     }
 
     /**
-     * @param $field_id
+     * @param  $field_id
      * @return array|bool
      */
     public function getValues($field_id)
@@ -242,7 +244,7 @@ class Value
     }
 
     /**
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     private function onSave($value)

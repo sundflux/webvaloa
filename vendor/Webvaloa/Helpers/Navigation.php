@@ -36,6 +36,7 @@ use stdClass;
 
 /**
  * Class Navigation
+ *
  * @package Webvaloa\Helpers
  */
 class Navigation

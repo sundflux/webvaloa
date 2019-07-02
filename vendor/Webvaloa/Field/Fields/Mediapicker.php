@@ -34,6 +34,7 @@ namespace Webvaloa\Field\Fields;
 
 /**
  * Class Mediapicker
+ *
  * @package Webvaloa\Field\Fields
  */
 class Mediapicker
@@ -55,6 +56,7 @@ class Mediapicker
 
     /**
      * Mediapicker constructor.
+     *
      * @param bool $fieldID
      * @param bool $contentID
      */
