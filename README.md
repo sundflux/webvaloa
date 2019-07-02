@@ -1,4 +1,4 @@
-webvaloa 3
+webvaloa
 ========
 
 [![webvaloa](https://github.com/sundflux/webvaloa/blob/master/.vendor.png)](https://github.com/sundflux/webvaloa/blob/master/.vendor.png)
