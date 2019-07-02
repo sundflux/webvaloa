@@ -14,10 +14,10 @@ Example config for Nginx is included, `/config/nginx.conf`
 
 Server stack minimum:
 
-- PHP >= 7.2.0
-- MySQL >= 5.7
-- composer
-- make
+- *PHP >= 7.2.0*
+- *MySQL >= 5.7*
+- [Composer](http://getcomposer.org/):
+- *make*
 
 PHP Extensions:
 
@@ -36,13 +36,11 @@ The easiest way to install Webvaloa is to clone this repository to your server w
 git clone https://github.com/sundflux/webvaloa.git
 ```
 
-Then you'll need to install dependencies using using [Composer](http://getcomposer.org/):
+Install dependencies in the application directory with:
+
 ```bash
-cd webvaloa
 make composer-install
 ```
-
-
 
 Finally, finish Webvaloa setup with:
 ```bash
@@ -64,13 +62,9 @@ make server
 
 ```
 
-The development server is available by default at `http://localhost:8000`
+The development server should now be running at `http://localhost:8000`
 
 (if you don't have make installed, you can also start the development server with `php -S localhost:8000`)
-
-```bash
-
-```
 
 ### Misc
 License: [The MIT License (MIT)](LICENSE)
