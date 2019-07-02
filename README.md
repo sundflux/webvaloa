@@ -14,10 +14,10 @@ Example config for Nginx is included, `/config/nginx.conf`
 
 Server stack minimum:
 
-- *PHP >= 7.2.0*
-- *MySQL >= 5.7*
-- [Composer](http://getcomposer.org/):
-- *make*
+- PHP >= 7.2.0
+- MySQL >= 5.7
+- [Composer](http://getcomposer.org/)
+- make
 
 PHP Extensions:
 
@@ -35,31 +35,27 @@ The easiest way to install Webvaloa is to clone this repository to your server w
 ```bash
 git clone https://github.com/sundflux/webvaloa.git
 ```
-
-Install dependencies in the application directory with:
-
-```bash
-make composer-install
-```
-
-Finally, finish Webvaloa setup with:
+Enter the application directory (`cd webvaloa`) and install Webvaloa with command:
 ```bash
 make install
 ```
 
-(if you don't have make available, you can also run installation with `php index.php -c installer -p setup/cms`)
+(if you don't have make available, you can also run installation with `composer install && php index.php -c installer -p setup/cms`)
 
-### Debugging / Development
+### Debugging
 Webvaloa displays debug information based on the current PHP error reporting level.
+
 While developing you can enable debugging by either configuring your server to set the error reporting to `E_ALL` or adding the following code to the end of `config/config.php`:
 ```php
 error_reporting(E_ALL);
 ```
 
+### Development
+For local development you only need MySQL and PHP.
+
 Start local development server with:
 ```bash
 make server
-
 ```
 
 The development server should now be running at `http://localhost:8000`
