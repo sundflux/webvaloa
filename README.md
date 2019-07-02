@@ -12,17 +12,25 @@ Getting started
 
 Example config for Nginx is included, `/config/nginx.conf`
 
+Server stack minimum:
+
 - PHP >= 7.2.0
+- composer
+- mysql >= 5.7
+- make
+
+PHP Extensions:
+
 - php-imagick
 - php-intl
 - php-json
 - php-mbstring
-- php-mysql (PDO)
+- php-mysql
 - php-mcrypt
 - php-xsl
 - php-gettext
 
-### Webvaloa
+### Installation
 The easiest way to install Webvaloa is to clone this repository to your server with:
 ```bash
 git clone https://github.com/sundflux/webvaloa.git
@@ -31,14 +39,17 @@ git clone https://github.com/sundflux/webvaloa.git
 Then you'll need to install dependencies using using [Composer](http://getcomposer.org/):
 ```bash
 cd webvaloa
-composer install
+make composer-install
 ```
 
-### The setup
-After this you can continue the installation with a browser by going to `/setup` and following the instructions.
-This setup wizard will create a `config/config.php` file based on your selections and setup the database with your selected profile. 
 
-Only initial setup ever writes to `config/config.php` - it is safe file to place your own runtime configurations or file includes.
+
+Finally, finish Webvaloa setup with:
+```bash
+make install
+```
+
+(if you don't have make available, you can also run installation with `php index.php -c installer -p setup/cms`)
 
 ### Debugging
 Webvaloa displays debug information based on the current PHP error reporting level.

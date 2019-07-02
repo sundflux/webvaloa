@@ -6,9 +6,6 @@ else
 	COMPOSER_ARGS := --no-suggest
 endif
 COMPOSER_VENDOR_BIN := vendor/bin
-PHPUNIT_BIN := ${COMPOSER_VENDOR_BIN}/phpunit
-PHPUNIT_BIN_EXISTS := $(shell test -f ${PHPUNIT_BIN} && echo yes || echo no)
-TEST_TARGETS += fix test-phpunit
 PHPCBF_BIN := ${COMPOSER_VENDOR_BIN}/phpcbf
 PHPCBF_BIN_EXISTS := $(shell test -f ${PHPCBF_BIN} && echo yes || echo no)
 
@@ -34,15 +31,6 @@ endif
 composer-install: ## Install Composer packages
 	$(call colorecho, "\nDo Composer install (${RUN_ON})...\n")
 	$(call composer_on_${RUN_ON},install ${COMPOSER_ARGS})
-
-PHONY += test-phpunit
-test-phpunit: ## Run PHPUnit tests
-	@echo "- ${YELLOW}test-phpunit:${NO_COLOR} Start running PHPUnit tests..."
-ifeq (${PHPUNIT_BIN_EXISTS},yes)
-	$(call composer_on_${RUN_ON},test-unit)
-else
-	@echo "- ${YELLOW}${PHPUNIT_BIN} does not exist! ${RED}[ERROR]${NO_COLOR}"
-endif
 
 define composer_on_docker
 	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT} && composer --ansi $(1))
