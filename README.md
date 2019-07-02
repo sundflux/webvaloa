@@ -40,8 +40,6 @@ Enter the application directory (`cd webvaloa`) and install Webvaloa with comman
 make install
 ```
 
-(if you don't have make available, you can also run installation with `composer install && php index.php -c installer -p setup/cms`)
-
 ### Debugging
 Webvaloa displays debug information based on the current PHP error reporting level.
 
