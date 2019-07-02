@@ -15,8 +15,8 @@ Example config for Nginx is included, `/config/nginx.conf`
 Server stack minimum:
 
 - PHP >= 7.2.0
+- MySQL >= 5.7
 - composer
-- mysql >= 5.7
 - make
 
 PHP Extensions:
