@@ -2,7 +2,7 @@
 
 /**
  * The Initial Developer of the Original Code is
- * 2017 Tarmo Alexander Sundström <ta@sundstrom.im>.
+ * 2017 Tarmo Alexander Sundström <ta@sundstrom.io>.
  *
  * Contributor(s):
  *
