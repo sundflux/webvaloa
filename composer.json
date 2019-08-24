@@ -2,6 +2,7 @@
     "require": {
         "sundflux/libvaloa": "^3.0.0",
         "sundflux/libvaloa-db": "^3.0.0",
+        "sundflux/webvaloa-core": "^3.0.0",
         "filp/whoops": "^2.1",
         "phpmailer/phpmailer": "^5.2",
         "ircmaxell/random-lib": "^1.2",
