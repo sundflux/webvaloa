@@ -17,7 +17,7 @@ composer-info: ## Composer info
 PHONY += composer-update
 composer-update: ## Update Composer packages
 	$(call colorecho, "\nDo Composer update (${RUN_ON})...\n")
-	$(call composer_on_${RUN_ON},update)
+	$(call composer_on_${RUN_ON},update --lock)
 
 PHONY += fix
 fix: ## Fix code style

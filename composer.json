@@ -10,9 +10,24 @@
         "symfony/yaml": "^4.2",
         "symfony/console": "^4.2",
         "symfony/var-dumper": "^4.2",
-        "wujunze/php-cli-color": "*"
+        "wujunze/php-cli-color": "*",
+        "wikimedia/composer-merge-plugin": "^1.4"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4"
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "ext/composer.json",
+                "ext/*/composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "ignore-duplicates": false,
+            "merge-dev": true,
+            "merge-extra": true,
+            "merge-scripts": true
+        }
     }
 }
