@@ -1,4 +1,18 @@
 {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-core"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/sundflux/libvaloa"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/sundflux/libvaloa-db"
+        }
+    ],
     "require": {
         "sundflux/libvaloa": "^3.0.0",
         "sundflux/libvaloa-db": "^3.0.0",
