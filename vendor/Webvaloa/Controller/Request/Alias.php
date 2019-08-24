@@ -37,13 +37,10 @@ use Libvaloa\Db;
 use stdClass;
 
 /**
- * Class Alias
- *
- * @package Webvaloa\Controller\Request
+ * Class Alias.
  */
 class Alias
 {
-
     /**
      * @var \Webvaloa\DB
      */
@@ -121,9 +118,7 @@ class Alias
                         return;
                     }
                 } catch (\PDOException $e) {
-
-                } catch(\Exception $e) {
-
+                } catch (\Exception $e) {
                 }
             }
 
@@ -281,7 +276,8 @@ class Alias
     }
 
     /**
-     * @param  $row
+     * @param $row
+     *
      * @return bool
      */
     private function buildContentRoute($row)

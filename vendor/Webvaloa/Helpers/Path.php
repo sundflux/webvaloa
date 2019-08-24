@@ -35,9 +35,7 @@ namespace Webvaloa\Helpers;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Path
- *
- * @package Webvaloa\Helpers
+ * Class Path.
  */
 class Path
 {
@@ -115,7 +113,8 @@ class Path
     }
 
     /**
-     * @param  $path
+     * @param $path
+     *
      * @return array|string
      */
     public static function trimPath($path)

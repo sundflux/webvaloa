@@ -36,9 +36,7 @@ use Webvaloa\Field\Field;
 use stdClass;
 
 /**
- * Class Category
- *
- * @package Webvaloa\Helpers
+ * Class Category.
  */
 class Category
 {
@@ -117,7 +115,8 @@ class Category
     }
 
     /**
-     * @param  $k
+     * @param $k
+     *
      * @return mixed
      */
     public function __get($k)
@@ -128,8 +127,9 @@ class Category
     }
 
     /**
-     * @param  $fieldName
-     * @param  $value
+     * @param $fieldName
+     * @param $value
+     *
      * @return bool
      */
     public function addFieldFilter($fieldName, $value)

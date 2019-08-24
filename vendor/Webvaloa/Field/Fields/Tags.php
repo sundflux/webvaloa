@@ -37,9 +37,7 @@ use DOMDocument;
 use Webvaloa\Field\Value;
 
 /**
- * Class Tags
- *
- * @package Webvaloa\Field\Fields
+ * Class Tags.
  */
 class Tags
 {

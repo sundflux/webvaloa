@@ -36,9 +36,7 @@ namespace Webvaloa;
 use Memcached;
 
 /**
- * Class MemcachedCache
- *
- * @package Webvaloa
+ * Class MemcachedCache.
  */
 class MemcachedCache
 {
@@ -227,7 +225,8 @@ class MemcachedCache
     }
 
     /**
-     * @param  $search
+     * @param $search
+     *
      * @return mixed
      */
     public function delete($search)
@@ -248,7 +247,8 @@ class MemcachedCache
     }
 
     /**
-     * @param  $key
+     * @param $key
+     *
      * @return mixed
      */
     public function _delete($key)

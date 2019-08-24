@@ -34,13 +34,10 @@
 namespace Webvaloa\Controller\Request;
 
 /**
- * Class Response
- *
- * @package Webvaloa\Controller\Request
+ * Class Response.
  */
 class Response
 {
-
     /**
      * @param $response
      */

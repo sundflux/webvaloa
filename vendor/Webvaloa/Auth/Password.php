@@ -34,9 +34,7 @@
 namespace Webvaloa\Auth;
 
 /**
- * Class Password
- *
- * @package Webvaloa\Auth
+ * Class Password.
  */
 class Password
 {

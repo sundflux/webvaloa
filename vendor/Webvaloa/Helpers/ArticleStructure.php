@@ -42,9 +42,7 @@ use stdClass;
 use RuntimeException;
 
 /**
- * Class ArticleStructure
- *
- * @package Webvaloa\Helpers
+ * Class ArticleStructure.
  */
 class ArticleStructure
 {
@@ -177,7 +175,8 @@ class ArticleStructure
     }
 
     /**
-     * @param  bool $categoryId
+     * @param bool $categoryId
+     *
      * @return stdClass
      */
     public function initializeFieldsView($categoryId = false)

@@ -36,9 +36,7 @@ use Imagick;
 use Webvaloa\Controller\Request;
 
 /**
- * Class Imagemagick
- *
- * @package Webvaloa\Helpers
+ * Class Imagemagick.
  */
 class Imagemagick
 {
@@ -187,6 +185,7 @@ class Imagemagick
 
     /**
      * @return bool|string
+     *
      * @throws \ImagickException
      */
     public function resize()
@@ -241,11 +240,13 @@ class Imagemagick
     }
 
     /**
-     * @param  $image
-     * @param  int    $width
-     * @param  int    $height
-     * @param  string $format
+     * @param $image
+     * @param int    $width
+     * @param int    $height
+     * @param string $format
+     *
      * @return string
+     *
      * @throws \ImagickException
      */
     public static function scale($image, $width = 320, $height = 200, $format = 'jpg')
@@ -267,11 +268,13 @@ class Imagemagick
     }
 
     /**
-     * @param  $image
-     * @param  int    $width
-     * @param  int    $height
-     * @param  string $format
+     * @param $image
+     * @param int    $width
+     * @param int    $height
+     * @param string $format
+     *
      * @return string
+     *
      * @throws \ImagickException
      */
     public static function crop($image, $width = 320, $height = 200, $format = 'jpg')

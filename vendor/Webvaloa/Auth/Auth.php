@@ -42,9 +42,7 @@ namespace Webvaloa\Auth;
 use Webvaloa\Controller\Request;
 
 /**
- * Interface AuthIFace
- *
- * @package Webvaloa\Auth
+ * Interface AuthIFace.
  */
 interface AuthIFace
 {
@@ -56,9 +54,7 @@ interface AuthIFace
 }
 
 /**
- * Interface PWResetIFace
- *
- * @package Webvaloa\Auth
+ * Interface PWResetIFace.
  */
 interface PWResetIFace
 {
@@ -66,9 +62,7 @@ interface PWResetIFace
 }
 
 /**
- * Class Auth
- *
- * @package Webvaloa\Auth
+ * Class Auth.
  */
 class Auth
 {

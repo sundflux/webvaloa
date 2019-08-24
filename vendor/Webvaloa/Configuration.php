@@ -38,9 +38,7 @@ use Symfony\Component\Yaml\Yaml;
 use stdClass;
 
 /**
- * Class Configuration
- *
- * @package Webvaloa
+ * Class Configuration.
  */
 class Configuration
 {
@@ -79,8 +77,9 @@ class Configuration
     /**
      * Insert a configuration key/value to DB.
      *
-     * @param  $k
-     * @param  $v
+     * @param $k
+     * @param $v
+     *
      * @return bool
      */
     public function __set($k, $v)
@@ -221,7 +220,8 @@ class Configuration
     }
 
     /**
-     * @param  bool $id
+     * @param bool $id
+     *
      * @return bool
      */
     public function delete($id = false)

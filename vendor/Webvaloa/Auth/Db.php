@@ -37,12 +37,10 @@ use Webvaloa\Component;
 use Webvaloa\User;
 
 /**
- * Class Db
+ * Class Db.
  *
  * Authentication driver, implementing libvaloa's authentication
  * and password reset interfaces.
- *
- * @package Webvaloa\Auth
  */
 class Db implements AuthIFace, PWResetIFace
 {

@@ -33,9 +33,7 @@
 namespace Webvaloa\Helpers;
 
 /**
- * Class PriceFormat
- *
- * @package Webvaloa\Helpers
+ * Class PriceFormat.
  */
 class PriceFormat
 {

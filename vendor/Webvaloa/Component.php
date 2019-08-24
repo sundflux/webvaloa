@@ -37,13 +37,10 @@ use Libvaloa\Debug\Debug;
 use Webvaloa\Helpers\Filesystem;
 use Webvaloa\Helpers\Path;
 use Webvaloa\Model\Table;
-use Webvaloa\Configuration;
 use RuntimeException;
 
 /**
- * Class Component
- *
- * @package Webvaloa
+ * Class Component.
  */
 class Component
 {
@@ -61,7 +58,6 @@ class Component
      * @var bool
      */
     private $component;
-
 
     /**
      * @var array
@@ -101,7 +97,8 @@ class Component
     }
 
     /**
-     * @param  $k
+     * @param $k
+     *
      * @return bool
      */
     public function __get($k)
@@ -372,7 +369,7 @@ class Component
                     Debug::__print('Inserted '.$configurationKey.' with value '.$configurationValue);
                 }
             }
-        }        
+        }
     }
 
     /**
@@ -400,7 +397,8 @@ class Component
     }
 
     /**
-     * @param  $componentID
+     * @param $componentID
+     *
      * @return bool
      */
     public static function getComponentStatus($componentID)
@@ -478,7 +476,7 @@ class Component
                 $folders = $fs->folders();
 
                 foreach ($folders as $folder) {
-                    if (!is_readable($path. '/' . $folder . '/manifest.json')) {
+                    if (!is_readable($path.'/'.$folder.'/manifest.json')) {
                         continue;
                     }
 

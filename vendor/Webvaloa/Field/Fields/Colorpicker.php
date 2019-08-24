@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Colorpicker
- *
- * @package Webvaloa\Field\Fields
+ * Class Colorpicker.
  */
 class Colorpicker
 {

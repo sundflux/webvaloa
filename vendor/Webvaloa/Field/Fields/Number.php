@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Number
- *
- * @package Webvaloa\Field\Fields
+ * Class Number.
  */
 class Number
 {

@@ -33,14 +33,13 @@
 namespace Webvaloa\Helpers;
 
 /**
- * Class Field
- *
- * @package Webvaloa\Helpers
+ * Class Field.
  */
 class Field
 {
     /**
-     * @param  $name
+     * @param $name
+     *
      * @return mixed|null|string|string[]
      */
     public function formatName($name)
@@ -53,8 +52,9 @@ class Field
     }
 
     /**
-     * @param  $name
-     * @param  bool $group
+     * @param $name
+     * @param bool $group
+     *
      * @return int
      */
     public function fieldExists($name, $group = false)
@@ -88,7 +88,8 @@ class Field
     }
 
     /**
-     * @param  $name
+     * @param $name
+     *
      * @return int
      */
     public function groupExists($name)

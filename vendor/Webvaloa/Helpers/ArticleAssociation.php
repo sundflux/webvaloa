@@ -56,9 +56,7 @@ use Webvaloa\Locale\Locales as LocalesHelper;
  */
 
 /**
- * Class ArticleAssociation
- *
- * @package Webvaloa\Helpers
+ * Class ArticleAssociation.
  */
 class ArticleAssociation
 {
@@ -80,7 +78,8 @@ class ArticleAssociation
     /**
      * ArticleAssociation constructor.
      *
-     * @param  bool $id
+     * @param bool $id
+     *
      * @throws Exception
      */
     public function __construct($id = false)

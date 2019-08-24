@@ -37,9 +37,7 @@ use Libvaloa\Debug\Debug;
 use UnexpectedValueException;
 
 /**
- * Class Value
- *
- * @package Webvaloa\Field
+ * Class Value.
  */
 class Value
 {
@@ -181,7 +179,8 @@ class Value
     }
 
     /**
-     * @param  $field_id
+     * @param $field_id
+     *
      * @return array|bool
      */
     public function getValues($field_id)
@@ -244,7 +243,8 @@ class Value
     }
 
     /**
-     * @param  $value
+     * @param $value
+     *
      * @return mixed
      */
     private function onSave($value)

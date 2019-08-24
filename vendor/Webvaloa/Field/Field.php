@@ -39,9 +39,7 @@ use Webvaloa\Helpers\Path;
 use stdClass;
 
 /**
- * Class Field
- *
- * @package Webvaloa\Field
+ * Class Field.
  */
 class Field
 {
@@ -97,7 +95,8 @@ class Field
     }
 
     /**
-     * @param  $k
+     * @param $k
+     *
      * @return null|string
      */
     public function __get($k)
@@ -122,7 +121,8 @@ class Field
     }
 
     /**
-     * @param  $name
+     * @param $name
+     *
      * @return bool
      */
     public function findByName($name)
@@ -159,7 +159,7 @@ class Field
     {
         foreach ($this->pathHelper->getSystemPaths() as $path) {
             try {
-                $fs = new Filesystem($path . '/Webvaloa/Field/Fields');
+                $fs = new Filesystem($path.'/Webvaloa/Field/Fields');
                 $files = $fs->files();
 
                 if (is_array($files)) {

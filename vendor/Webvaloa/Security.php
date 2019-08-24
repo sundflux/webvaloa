@@ -36,9 +36,7 @@ use Webvaloa\Controller\Request;
 use Exception;
 
 /**
- * Class Security
- *
- * @package Webvaloa
+ * Class Security.
  */
 class Security
 {

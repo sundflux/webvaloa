@@ -39,9 +39,7 @@ use RecursiveIteratorIterator;
 use RuntimeException;
 
 /**
- * Class Filesystem
- *
- * @package Webvaloa\Helpers
+ * Class Filesystem.
  */
 class Filesystem
 {
@@ -102,7 +100,8 @@ class Filesystem
     }
 
     /**
-     * @param  $n
+     * @param $n
+     *
      * @return bool
      */
     public function createDirectory($n)
@@ -127,8 +126,9 @@ class Filesystem
     }
 
     /**
-     * @param  $bytes
-     * @param  int   $decimals
+     * @param $bytes
+     * @param int   $decimals
+     *
      * @return string
      */
     public function formatFilesize($bytes, $decimals = 2)
@@ -140,8 +140,9 @@ class Filesystem
     }
 
     /**
-     * @param  $dir
-     * @param  $file
+     * @param $dir
+     * @param $file
+     *
      * @return string
      */
     public function getAvailableFilename($dir, $file)

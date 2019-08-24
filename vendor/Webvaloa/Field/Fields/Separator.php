@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Separator
- *
- * @package Webvaloa\Field\Fields
+ * Class Separator.
  */
 class Separator
 {

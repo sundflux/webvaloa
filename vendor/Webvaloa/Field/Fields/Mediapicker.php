@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Mediapicker
- *
- * @package Webvaloa\Field\Fields
+ * Class Mediapicker.
  */
 class Mediapicker
 {

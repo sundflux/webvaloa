@@ -39,9 +39,7 @@ use RuntimeException;
 use stdClass;
 
 /**
- * Class User
- *
- * @package Webvaloa
+ * Class User.
  */
 class User
 {
@@ -135,7 +133,8 @@ class User
     }
 
     /**
-     * @param  $k
+     * @param $k
+     *
      * @return null|string
      */
     public function __get($k)
@@ -301,8 +300,9 @@ class User
     }
 
     /**
-     * @param  bool $key
-     * @param  bool $value
+     * @param bool $key
+     * @param bool $value
+     *
      * @return bool|mixed
      */
     public function metadata($key = false, $value = false)

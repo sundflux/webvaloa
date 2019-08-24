@@ -48,9 +48,7 @@ namespace Webvaloa\Controller;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Request
- *
- * @package Webvaloa\Controller
+ * Class Request.
  */
 class Request
 {
@@ -65,28 +63,28 @@ class Request
     private $basepath;
 
     /**
-     * host (with http[s]:// prefix) and path
+     * host (with http[s]:// prefix) and path.
      *
      * @var array
      */
     private $baseuri = array();
 
     /**
-     * requested controller to load
+     * requested controller to load.
      *
      * @var bool|string
      */
     private $controller = false;
 
     /**
-     * requested method to call from controller
+     * requested method to call from controller.
      *
      * @var mixed|string
      */
     private $method = 'index';
 
     /**
-     * parameters for controller
+     * parameters for controller.
      *
      * @var array
      */
@@ -193,7 +191,7 @@ class Request
     }
 
     /**
-     * Map command line parameters to Commando
+     * Map command line parameters to Commando.
      */
     public function mapCommandLine()
     {
@@ -223,7 +221,7 @@ class Request
             ->describedAs('Enable debugging');
 
         // Enable debugging from cli only if requested.
-        if (php_sapi_name() == "cli" && !$this->cli['debug']) {
+        if (php_sapi_name() == 'cli' && !$this->cli['debug']) {
             error_reporting(0);
         }
 
@@ -317,7 +315,7 @@ class Request
     }
 
     /**
-     * Set protocol
+     * Set protocol.
      */
     public function setProtocol($protocol)
     {
@@ -491,7 +489,8 @@ class Request
     }
 
     /**
-     * @param  null $val
+     * @param null $val
+     *
      * @return bool
      */
     public function isAjax($val = null)
@@ -504,7 +503,8 @@ class Request
     }
 
     /**
-     * @param  null $val
+     * @param null $val
+     *
      * @return bool
      */
     public function isJson($val = null)
@@ -517,7 +517,8 @@ class Request
     }
 
     /**
-     * @param  $val
+     * @param $val
+     *
      * @return bool|string
      */
     private function decodeRouteParam($val)
@@ -536,7 +537,8 @@ class Request
     }
 
     /**
-     * @param  $val
+     * @param $val
+     *
      * @return string
      */
     public static function encodeRouteParam($val)

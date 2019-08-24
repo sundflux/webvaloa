@@ -36,9 +36,7 @@ namespace Webvaloa;
 use Libvaloa\Debug\Debug;
 
 /**
- * Interface ICache
- *
- * @package Webvaloa
+ * Interface ICache.
  */
 interface ICache
 {
@@ -51,9 +49,7 @@ interface ICache
 }
 
 /**
- * Class Cache
- *
- * @package Webvaloa
+ * Class Cache.
  */
 class Cache implements ICache
 {
@@ -175,7 +171,8 @@ class Cache implements ICache
     }
 
     /**
-     * @param  $key
+     * @param $key
+     *
      * @return mixed
      */
     public function delete($key)
@@ -184,7 +181,8 @@ class Cache implements ICache
     }
 
     /**
-     * @param  $key
+     * @param $key
+     *
      * @return mixed
      */
     public function _delete($key)

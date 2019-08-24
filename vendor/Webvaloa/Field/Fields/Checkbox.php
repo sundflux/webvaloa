@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Checkbox
- *
- * @package Webvaloa\Field\Fields
+ * Class Checkbox.
  */
 class Checkbox
 {

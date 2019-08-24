@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Wysiwyg
- *
- * @package Webvaloa\Field\Fields
+ * Class Wysiwyg.
  */
 class Wysiwyg
 {

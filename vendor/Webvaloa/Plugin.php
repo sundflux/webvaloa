@@ -41,8 +41,6 @@ use Webvaloa\Helpers\Path;
 /**
  * Class Plugin
  * Manage and run plugins.
- *
- * @package Webvaloa
  */
 class Plugin
 {
@@ -117,7 +115,7 @@ class Plugin
         // Skip plugins in these controllers
         'skipControllers' => array(
             'Setup',
-            'Installer'
+            'Installer',
         ),
     );
 
@@ -190,7 +188,8 @@ class Plugin
     }
 
     /**
-     * @param  $name
+     * @param $name
+     *
      * @return bool
      */
     public function pluginExists($name)
@@ -278,7 +277,8 @@ class Plugin
     }
 
     /**
-     * @param  $pluginID
+     * @param $pluginID
+     *
      * @return bool
      */
     public static function getPluginStatus($pluginID)

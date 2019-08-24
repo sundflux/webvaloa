@@ -37,9 +37,7 @@ use Exception;
 use RuntimeException;
 
 /**
- * Class Article
- *
- * @package Webvaloa\Helpers
+ * Class Article.
  */
 class Article
 {
@@ -51,7 +49,8 @@ class Article
     /**
      * Article constructor.
      *
-     * @param  bool $id
+     * @param bool $id
+     *
      * @throws Exception
      */
     public function __construct($id = false)

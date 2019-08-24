@@ -36,9 +36,7 @@ use Libvaloa\Db;
 use RuntimeException;
 
 /**
- * Class Role
- *
- * @package Webvaloa
+ * Class Role.
  */
 class Role
 {
@@ -99,7 +97,8 @@ class Role
     }
 
     /**
-     * @param  $roleName
+     * @param $roleName
+     *
      * @return mixed
      */
     public function getRoleId($roleName)
@@ -171,7 +170,8 @@ class Role
     }
 
     /**
-     * @param  $name
+     * @param $name
+     *
      * @return bool|type
      */
     public function addRole($name)

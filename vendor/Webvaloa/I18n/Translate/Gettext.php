@@ -36,9 +36,7 @@ namespace Webvaloa\I18n\Translate;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Gettext
- *
- * @package Webvaloa\I18n\Translate
+ * Class Gettext.
  */
 class Gettext
 {

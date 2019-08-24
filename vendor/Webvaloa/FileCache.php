@@ -36,9 +36,7 @@ namespace Webvaloa;
 use stdClass;
 
 /**
- * Class FileCache
- *
- * @package Webvaloa
+ * Class FileCache.
  */
 class FileCache
 {
@@ -193,7 +191,8 @@ class FileCache
     /**
      * Get local cache value by key.
      *
-     * @param  type $key
+     * @param type $key
+     *
      * @return mixed
      */
     public function _get($key)

@@ -35,9 +35,7 @@ namespace Webvaloa\Field\Fields;
 use Webvaloa\Helpers\PriceFormat;
 
 /**
- * Class Price
- *
- * @package Webvaloa\Field\Fields
+ * Class Price.
  */
 class Price
 {
@@ -110,7 +108,8 @@ class Price
     }
 
     /**
-     * @param  $v
+     * @param $v
+     *
      * @return float|mixed
      */
     public function onSave($v)
@@ -131,7 +130,8 @@ class Price
     }
 
     /**
-     * @param  $v
+     * @param $v
+     *
      * @return mixed|string
      */
     public function onLoad($v)

@@ -35,9 +35,7 @@ namespace Webvaloa;
 use Libvaloa\Db;
 
 /**
- * Class Tag
- *
- * @package Webvaloa
+ * Class Tag.
  */
 class Tag
 {
@@ -64,7 +62,8 @@ class Tag
     }
 
     /**
-     * @param  $id
+     * @param $id
+     *
      * @return bool
      */
     public function byID($id)
@@ -115,8 +114,9 @@ class Tag
     }
 
     /**
-     * @param  $name
-     * @param  null $parent_id
+     * @param $name
+     * @param null $parent_id
+     *
      * @return bool
      */
     public function findTagByName($name, $parent_id = null)
@@ -157,8 +157,9 @@ class Tag
     }
 
     /**
-     * @param  $tag
-     * @param  null $parent_id
+     * @param $tag
+     * @param null $parent_id
+     *
      * @return mixed
      */
     public function addTag($tag, $parent_id = null)
@@ -177,7 +178,8 @@ class Tag
     }
 
     /**
-     * @param  bool $parent_id
+     * @param bool $parent_id
+     *
      * @return bool
      */
     public function tags($parent_id = false)

@@ -33,14 +33,11 @@
 namespace Webvaloa\Helpers;
 
 use Libvaloa\Db;
-use Libvaloa\Db\Item;
 use PDO;
 use stdClass;
 
 /**
- * Class Pagination
- *
- * @package Webvaloa\Helpers
+ * Class Pagination.
  */
 class Pagination
 {
@@ -109,7 +106,8 @@ class Pagination
     }
 
     /**
-     * @param  $query
+     * @param $query
+     *
      * @return string
      */
     public function prepare($query)
@@ -118,8 +116,9 @@ class Pagination
     }
 
     /**
-     * @param  $table
-     * @param  string $where
+     * @param $table
+     * @param string $where
+     *
      * @return int
      */
     public function countTable($table, $where = '')

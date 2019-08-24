@@ -37,15 +37,13 @@ use Webvaloa;
 use Webvaloa\User;
 
 /**
- * Class Sso
+ * Class Sso.
  *
  * Authentication driver, implementing libvaloa's authentication
  * for single-sign-on plugins. Authenticate immediatly logs in the
  * user, so external sso plugins should handle the actual
  * authentication process, and use this class only to initialize
  * webvaloa session.
- *
- * @package Webvaloa\Auth
  */
 class Sso implements AuthIFace, PWResetIFace
 {

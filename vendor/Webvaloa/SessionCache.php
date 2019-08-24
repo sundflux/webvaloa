@@ -36,9 +36,7 @@ namespace Webvaloa;
 use stdClass;
 
 /**
- * Class SessionCache
- *
- * @package Webvaloa
+ * Class SessionCache.
  */
 class SessionCache
 {
@@ -48,7 +46,7 @@ class SessionCache
     private $time;
 
     /**
-     * 10 minute session cache
+     * 10 minute session cache.
      *
      * @var int
      */

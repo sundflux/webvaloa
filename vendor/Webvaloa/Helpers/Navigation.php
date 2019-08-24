@@ -35,9 +35,7 @@ namespace Webvaloa\Helpers;
 use stdClass;
 
 /**
- * Class Navigation
- *
- * @package Webvaloa\Helpers
+ * Class Navigation.
  */
 class Navigation
 {

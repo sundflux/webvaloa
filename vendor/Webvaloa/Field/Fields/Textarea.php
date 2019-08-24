@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Textarea
- *
- * @package Webvaloa\Field\Fields
+ * Class Textarea.
  */
 class Textarea
 {

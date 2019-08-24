@@ -33,14 +33,13 @@
 namespace Webvaloa\Helpers;
 
 /**
- * Class Media
- *
- * @package Webvaloa\Helpers
+ * Class Media.
  */
 class Media
 {
     /**
-     * @param  $filename
+     * @param $filename
+     *
      * @return bool|string
      */
     public static function getTitle($filename)
@@ -54,7 +53,8 @@ class Media
     }
 
     /**
-     * @param  $filename
+     * @param $filename
+     *
      * @return bool|string
      */
     public static function getAlt($filename)
@@ -68,8 +68,9 @@ class Media
     }
 
     /**
-     * @param  $field
-     * @param  $filename
+     * @param $field
+     * @param $filename
+     *
      * @return bool|string
      */
     private static function getField($field, $filename)
@@ -118,9 +119,10 @@ class Media
     }
 
     /**
-     * @param  $filename
-     * @param  string   $text
-     * @param  string   $field
+     * @param $filename
+     * @param string   $text
+     * @param string   $field
+     *
      * @return bool|string
      */
     public static function setField($filename, $text = '', $field = '')
@@ -155,7 +157,8 @@ class Media
     }
 
     /**
-     * @param  $filename
+     * @param $filename
+     *
      * @return bool
      */
     private static function exists($filename)

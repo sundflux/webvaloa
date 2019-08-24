@@ -41,9 +41,7 @@ use Webvaloa\Field\Value;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Articlepicker
- *
- * @package Webvaloa\Field\Fields
+ * Class Articlepicker.
  */
 class Articlepicker
 {

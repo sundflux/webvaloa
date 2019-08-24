@@ -33,14 +33,12 @@
 namespace Webvaloa;
 
 use Symfony\Component\Yaml\Yaml;
-use \Libvaloa\Debug\Debug;
+use Libvaloa\Debug\Debug;
 
 /**
  * Reads and parses manifest files from components.
  *
  * Manifests contain information about components.
- *
- * @package Webvaloa
  */
 class Manifest
 {
@@ -78,13 +76,13 @@ class Manifest
         $paths = \Webvaloa\Webvaloa::getSystemPaths();
 
         $controller = ucfirst(strtolower($controller));
-        
-        foreach ($paths as $path) {
-            if (is_readable($path . '/Controllers/'.$controller.'/manifest.yaml')) {
-                Debug::__print('Loaded ' . $path . '/Controllers/'.$controller.'/manifest.yaml');
 
-                $this->schema = $path . '/Controllers/'.$controller.'/manifest.yaml';
-                $this->controllerPath = $path . '/Controllers/'.$controller;
+        foreach ($paths as $path) {
+            if (is_readable($path.'/Controllers/'.$controller.'/manifest.yaml')) {
+                Debug::__print('Loaded '.$path.'/Controllers/'.$controller.'/manifest.yaml');
+
+                $this->schema = $path.'/Controllers/'.$controller.'/manifest.yaml';
+                $this->controllerPath = $path.'/Controllers/'.$controller;
                 $this->manifest = (object) Yaml::parse(file_get_contents($this->schema));
                 break;
             }
@@ -109,7 +107,7 @@ class Manifest
             Debug::__print($this->manifest->models);
 
             foreach ($this->manifest->models as $model) {
-                $modelFile = $this->getControllerPath() . '/Models/' . $model . '.yaml';
+                $modelFile = $this->getControllerPath().'/Models/'.$model.'.yaml';
 
                 if (is_readable($modelFile)) {
                     $models[$model] = Yaml::parse(file_get_contents($modelFile));
@@ -125,7 +123,8 @@ class Manifest
     }
 
     /**
-     * @param  $k
+     * @param $k
+     *
      * @return bool|string
      */
     public function __get($k)

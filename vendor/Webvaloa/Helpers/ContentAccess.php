@@ -38,9 +38,7 @@ use Webvaloa\Category;
 use Webvaloa\Role;
 
 /**
- * Class ContentAccess
- *
- * @package Webvaloa\Helpers
+ * Class ContentAccess.
  */
 class ContentAccess
 {
@@ -180,7 +178,8 @@ class ContentAccess
     }
 
     /**
-     * @param  $categoryId
+     * @param $categoryId
+     *
      * @return bool
      */
     public function checkPermissionsByCategoryId($categoryId)

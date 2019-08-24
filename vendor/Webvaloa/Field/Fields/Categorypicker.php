@@ -39,9 +39,7 @@ use Webvaloa\Field\Value;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Categorypicker
- *
- * @package Webvaloa\Field\Fields
+ * Class Categorypicker.
  */
 class Categorypicker
 {

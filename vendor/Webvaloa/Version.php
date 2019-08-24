@@ -36,13 +36,10 @@ use stdClass;
 use Webvaloa\Configuration as Conf;
 
 /**
- * Class Version
- *
- * @package Webvaloa
+ * Class Version.
  */
 class Version
 {
-
     /**
      * @var stdClass
      */
@@ -178,7 +175,7 @@ class Version
             AND target_id = ?
             ORDER BY id
             DESC
-            LIMIT ' . $this->max_versions;
+            LIMIT '.$this->max_versions;
 
         $stmt = $db->prepare($query);
         try {
@@ -200,7 +197,8 @@ class Version
     }
 
     /**
-     * @param  $id
+     * @param $id
+     *
      * @return bool|mixed
      */
     public function loadVersion($id)

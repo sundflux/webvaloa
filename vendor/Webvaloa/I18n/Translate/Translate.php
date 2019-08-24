@@ -36,9 +36,7 @@ namespace Webvaloa\I18n\Translate;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Translate
- *
- * @package Webvaloa\I18n
+ * Class Translate.
  */
 class Translate
 {
@@ -73,7 +71,7 @@ class Translate
             }
         }
 
-        Debug::__print('Translator with backend ' .  self::$properties['backend']);
+        Debug::__print('Translator with backend '.self::$properties['backend']);
 
         if ($params === false || !is_array($params)) {
             $params = [];

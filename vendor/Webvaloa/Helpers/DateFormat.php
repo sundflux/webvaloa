@@ -33,15 +33,13 @@
 namespace Webvaloa\Helpers;
 
 /**
- * Class DateFormat
- *
- * @package Webvaloa\Helpers
+ * Class DateFormat.
  */
 class DateFormat
 {
-
     /**
-     * @param  string $date
+     * @param string $date
+     *
      * @return false|string
      */
     public static function toMySQL($date = '')
@@ -58,8 +56,9 @@ class DateFormat
     }
 
     /**
-     * @param  $date
-     * @param  $format
+     * @param $date
+     * @param $format
+     *
      * @return false|string
      */
     public static function format($date, $format)
@@ -72,8 +71,9 @@ class DateFormat
     }
 
     /**
-     * @param  $date
-     * @param  $format
+     * @param $date
+     * @param $format
+     *
      * @return string
      */
     public static function localeFormat($date, $format)
@@ -86,7 +86,8 @@ class DateFormat
     }
 
     /**
-     * @param  $month
+     * @param $month
+     *
      * @return string
      */
     public static function monthName($month)

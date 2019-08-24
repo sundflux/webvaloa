@@ -38,9 +38,7 @@ use Libvaloa\Debug\Debug;
 
 /**
  * Class Table.
- * Create database table models
- * 
- * @package Webvaloa
+ * Create database table models.
  */
 class Table
 {
@@ -107,20 +105,20 @@ class Table
      */
     private function parseSchema()
     {
-        $schema = 'CREATE TABLE IF NOT EXISTS `' . $this->parseTableFromModel() . '` (' . "\n";
+        $schema = 'CREATE TABLE IF NOT EXISTS `'.$this->parseTableFromModel().'` ('."\n";
 
         foreach ($this->fields as $field => $def) {
-            $schema .= '  `'.$field.'` ' . $def . ',' . "\n";
+            $schema .= '  `'.$field.'` '.$def.','."\n";
         }
 
         if (!empty($this->index)) {
             foreach ($this->index as $index) {
-                $schema .= '  KEY ' . $index . ',' . "\n";
+                $schema .= '  KEY '.$index.','."\n";
             }
         }
 
         $schema = rtrim($schema, ",\n");
-        $schema.= ') ENGINE=InnoDB  DEFAULT CHARSET=utf8;'. "\n";
+        $schema .= ') ENGINE=InnoDB  DEFAULT CHARSET=utf8;'."\n";
 
         $this->schema = $schema;
     }

@@ -33,9 +33,7 @@
 namespace Webvaloa\Field\Fields;
 
 /**
- * Class Datetimepicker
- *
- * @package Webvaloa\Field\Fields
+ * Class Datetimepicker.
  */
 class Datetimepicker
 {

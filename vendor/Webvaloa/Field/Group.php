@@ -36,9 +36,7 @@ use Libvaloa\Db;
 use RuntimeException;
 
 /**
- * Class Group
- *
- * @package Webvaloa\Field
+ * Class Group.
  */
 class Group
 {
@@ -77,7 +75,8 @@ class Group
     }
 
     /**
-     * @param  $k
+     * @param $k
+     *
      * @return bool|null|string
      */
     public function __get($k)
@@ -118,7 +117,8 @@ class Group
     }
 
     /**
-     * @param  $fieldID
+     * @param $fieldID
+     *
      * @return bool
      */
     public function deleteField($fieldID)

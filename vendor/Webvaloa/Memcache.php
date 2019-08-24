@@ -42,8 +42,6 @@ use Webvaloa\MemcachedCache as Memcached;
  * set() and get() (and their respective magic versions) set stuff to global cache
  *
  * To use session/user specific caching, use _set() and _get() instead.
- *
- * @package Webvaloa
  */
 class Memcache
 {
@@ -181,7 +179,8 @@ class Memcache
     }
 
     /**
-     * @param  $key
+     * @param $key
+     *
      * @return mixed
      */
     public function delete($key)
@@ -190,7 +189,8 @@ class Memcache
     }
 
     /**
-     * @param  $key
+     * @param $key
+     *
      * @return mixed
      */
     public function _delete($key)

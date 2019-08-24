@@ -39,9 +39,7 @@ use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 
 /**
- * Class Dropdown
- *
- * @package Webvaloa\Field\Fields
+ * Class Dropdown.
  */
 class Dropdown
 {

@@ -38,9 +38,7 @@ use Webvaloa\Field\Value;
 use Libvaloa\Debug\Debug;
 
 /**
- * Class Datalist
- *
- * @package Webvaloa\Field\Fields
+ * Class Datalist.
  */
 class Datalist
 {
