@@ -69,6 +69,7 @@ class Gettext
     /**
      * @param $domain
      * @param string $path
+     * @return bool
      */
     public function bindTextDomain($domain, $path = '')
     {

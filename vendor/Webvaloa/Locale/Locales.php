@@ -38,12 +38,21 @@ namespace Webvaloa\Locale;
  */
 class Locales
 {
+    /**
+     * @var
+     */
     private $paths;
 
+    /**
+     * @var array
+     */
     public static $properties = array(
         'vendor' => 'ValoaApplication',
     );
 
+    /**
+     * Locales constructor.
+     */
     public function __construct()
     {
         // Read  locales
@@ -80,6 +89,9 @@ class Locales
         return array_unique($locales);
     }
 
+    /**
+     * @return array
+     */
     public function localeCodes()
     {
         // ISO 3166-1 alpha-2 codes only, so first 2 chars
@@ -95,6 +107,10 @@ class Locales
         return $stubs;
     }
 
+    /**
+     * @param $stub
+     * @return bool|mixed
+     */
     public function getLocale($stub)
     {
         foreach ($this->locales() as $locale) {

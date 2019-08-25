@@ -59,8 +59,7 @@ class Translate
 
     /**
      * Translate constructor.
-     *
-     * @param array $params
+     * @param bool $params
      */
     public function __construct($params = false)
     {
@@ -87,7 +86,7 @@ class Translate
 
     /**
      * @param $domain
-     * @param bool   $path
+     * @param bool $path
      */
     public function bindTextDomain($domain, $path = false)
     {
