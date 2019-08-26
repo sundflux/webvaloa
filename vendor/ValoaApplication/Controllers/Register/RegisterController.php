@@ -262,6 +262,7 @@ class RegisterController extends \Webvaloa\Application
             // All good, set password and unblock the user
             $user->password = $_POST['password'];
             $user->blocked = 0;
+            $meta = new stdClass;
             $meta->token = '';
             $user->meta = json_encode($meta);
             $user->save();
@@ -269,8 +270,9 @@ class RegisterController extends \Webvaloa\Application
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('READY'));
 
             // Login the user after verification
+            $config = new Configuration();
             try {
-                $backend = \Webvaloa\config::$properties['webvaloa_auth'];
+                $backend = $config->webvaloa_auth;
 
                 $auth = new Auth();
                 $auth->setAuthenticationDriver(new $backend());
@@ -282,7 +284,7 @@ class RegisterController extends \Webvaloa\Application
                 $this->ui->addError($e->getMessage());
             }
 
-            Redirect::to(\Webvaloa\config::$properties['default_controller']);
+            Redirect::to($config->default_controller);
         }
     }
 }

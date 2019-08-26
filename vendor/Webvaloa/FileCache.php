@@ -75,6 +75,7 @@ class FileCache
     private function read()
     {
         $this->file = LIBVALOA_PUBLICPATH.'/cache/.cache';
+        $config = new Configuration();
 
         if (!is_writable($tmp = realpath(dirname($this->file)))) {
             return;
@@ -93,10 +94,8 @@ class FileCache
             $this->cache = new stdClass();
         }
 
-        if (isset(\Webvaloa\config::$properties['cache_time'])
-            && !empty(\Webvaloa\config::$properties['cache_time'])
-        ) {
-            $this->expires = \Webvaloa\config::$properties['cache_time'];
+        if (!empty($config->cache_time)) {
+            $this->expires = $config->cache_time;
         } else {
             // 10 minute session cache
             $this->expires = 600;

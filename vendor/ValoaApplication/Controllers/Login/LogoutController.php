@@ -33,6 +33,7 @@
 namespace ValoaApplication\Controllers\Login;
 
 use Webvaloa\Controller\Redirect;
+use Webvaloa\Configuration;
 use Webvaloa\Auth\Auth;
 use Webvaloa\Security;
 
@@ -44,13 +45,14 @@ class LogoutController extends \Webvaloa\Application
 
     public function index()
     {
+        $config = new Configuration();
         $this->view->token = Security::getToken();
 
         if (isset($_POST['logout']) || isset($_GET['logout'])) {
             Security::verifyReferer();
             Security::verifyToken();
 
-            $backend = \Webvaloa\config::$properties['webvaloa_auth'];
+            $backend = $config->webvaloa_auth;
 
             $auth = new Auth();
             $auth->setAuthenticationDriver(new $backend());

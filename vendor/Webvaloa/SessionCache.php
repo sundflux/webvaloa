@@ -57,16 +57,16 @@ class SessionCache
      */
     public function __construct()
     {
+        $config = new Configuration();
+
         $this->time = time();
 
         if (!isset($_SESSION['cache'])) {
             $_SESSION['cache'] = new stdClass();
         }
 
-        if (class_exists('\\Webvaloa\\config') && isset(\Webvaloa\config::$properties['cache_time'])
-            && !empty(\Webvaloa\config::$properties['cache_time'])
-        ) {
-            $this->expires = \Webvaloa\config::$properties['cache_time'];
+        if (!empty($config->cache_time)) {
+            $this->expires = $config->cache_time;
         }
     }
 

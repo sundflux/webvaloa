@@ -32,15 +32,18 @@
 namespace ValoaApplication\Plugins;
 
 use Webvaloa\Controller\Redirect;
+use Webvaloa\Configuration;
 
 class ErrorRedirectPlugin extends \Webvaloa\Plugin
 {
     public function onBeforeController()
     {
-        if (isset($_SESSION['WEBVALOA_EXCEPTION']) && isset(\Webvaloa\config::$properties['default_controller'])) {
+        $config = new Configuration();
+
+        if (isset($_SESSION['WEBVALOA_EXCEPTION']) && !empty($config->default_controller)) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate($_SESSION['WEBVALOA_EXCEPTION']->getMessage(), 'ErrorRedirectPlugin'));
             unset($_SESSION['WEBVALOA_EXCEPTION']);
-            Redirect::to(\Webvaloa\config::$properties['default_controller']);
+            Redirect::to($config->default_controller);
         }
     }
 }

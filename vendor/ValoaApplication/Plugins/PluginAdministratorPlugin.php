@@ -75,7 +75,8 @@ class PluginAdministratorPlugin extends \Webvaloa\Plugin
 
     private function authorize($controller)
     {
-        $backend = \Webvaloa\config::$properties['webvaloa_auth'];
+        $config = new Configuration();
+        $backend = $config->webvaloa_auth;
 
         $auth = new Auth();
         $auth->setAuthenticationDriver(new $backend());

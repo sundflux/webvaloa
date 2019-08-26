@@ -55,25 +55,20 @@ class Memcache
      */
     public function __construct()
     {
-        // Skip caching if config doesn't exist to prevent failed connections
-        if (!class_exists('\\Webvaloa\\config')) {
-            return false;
-        }
+        $config = new Configuration();
 
         // Settings
-        if (isset(\Webvaloa\config::$properties['memcached_host']) && isset(\Webvaloa\config::$properties['memcached_port'])
-            && !empty(\Webvaloa\config::$properties['memcached_host']) && !empty(\Webvaloa\config::$properties['memcached_port'])
-        ) {
+        if (!empty($config->memcached_host)) {
             // Memcached driver from libvaloa
             $this->cache = new Memcached();
-            $this->cache->properties['host'] = \Webvaloa\config::$properties['memcached_host'];
-            $this->cache->properties['port'] = \Webvaloa\config::$properties['memcached_port'];
+            $this->cache->properties['host'] = $config->memcached_host;
+            $this->cache->properties['port'] = $config->memcached_port;
         } else {
             $this->cache = &$_SESSION['__CACHE__'];
         }
 
-        if (isset(\Webvaloa\config::$properties['memcached_expires'])) {
-            $this->cache->properties['expires'] = \Webvaloa\config::$properties['memcached_expires'];
+        if (!empty($config->memcached_expires)) {
+            $this->cache->properties['expires'] = $config->memcached_expires;
         }
     }
 

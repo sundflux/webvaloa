@@ -204,7 +204,8 @@ class PasswordresetController extends \Webvaloa\Application
 
             $this->ui->addMessage(\Webvaloa\Webvaloa::translate('PASSWORD_CHANGED'));
 
-            Redirect::to(\Webvaloa\config::$properties['default_controller']);
+            $config = new Configuration();
+            Redirect::to($config->default_controller);
         }
     }
 }

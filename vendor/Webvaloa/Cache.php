@@ -63,6 +63,7 @@ class Cache implements ICache
      */
     public function __construct()
     {
+        $config = new Configuration();
 
         // Default to file cache for global cache
         $backend = '\Webvaloa\FileCache';
@@ -70,16 +71,14 @@ class Cache implements ICache
         // Default to session cache for local cache
         $backendLocal = '\Webvaloa\SessionCache';
 
-        if (class_exists('\\Webvaloa\\config')) {
-            // Set global cache driver
-            if (isset(\Webvaloa\config::$properties['cache_driver'])) {
-                $backend = \Webvaloa\config::$properties['cache_driver'];
-            }
+        // Set global cache driver
+        if (!empty($config->cache_driver)) {
+            $backend = $config->cache_driver;
+        }
 
-            // Set local cache driver
-            if (isset(\Webvaloa\config::$properties['local_cache_driver'])) {
-                $backendLocal = \Webvaloa\config::$properties['local_cache_driver'];
-            }
+        // Set local cache driver
+        if (!empty($config->local_cache_driver)) {
+            $backendLocal = $config->local_cache_driver;
         }
 
         $this->cache = new $backend();

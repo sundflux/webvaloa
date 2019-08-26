@@ -46,16 +46,18 @@ class LoginController extends \Webvaloa\Application
     {
         $this->ui->addCSS('/css/Login.css');
 
-        $this->backend = \Webvaloa\config::$properties['webvaloa_auth'];
+        $config = new Configuration();
+        $this->backend = $config->webvaloa_auth;
     }
 
     public function index()
     {
+        $config = new Configuration();
+
         if (isset($_SESSION['UserID']) && !empty($_SESSION['UserID'])) {
-            Redirect::to(\Webvaloa\config::$properties['default_controller_authed']);
+            Redirect::to($config->default_controller_authed);
         }
 
-        $config = new Configuration();
         $this->view->config = new stdClass();
 
         // Custom branding
