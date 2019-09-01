@@ -35,6 +35,7 @@ use Webvaloa\Controller\Redirect;
 use Webvaloa\Auth\Auth;
 use Webvaloa\User;
 use Webvaloa\Security;
+use Webvaloa\Configuration;
 
 class PasswordController extends \Webvaloa\Application
 {
@@ -50,6 +51,7 @@ class PasswordController extends \Webvaloa\Application
     public function save()
     {
         Security::verify();
+        $config = new Configuration();
 
         // Old password must be set
         if (!isset($_POST['old_password']) || empty($_POST['old_password'])) {
@@ -58,8 +60,8 @@ class PasswordController extends \Webvaloa\Application
         }
 
         // Check old password
-        $user = new User($_SESSION['UserID']);
-        $backend = \Webvaloa\config::$properties['webvaloa_auth'];
+        $backend = $config->webvaloa_auth;
+
         $auth = new Auth();
         $auth->setAuthenticationDriver(new $backend());
 
