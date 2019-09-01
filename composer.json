@@ -6,6 +6,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-auth"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/libvaloa"
         },
         {
@@ -17,6 +21,7 @@
         "sundflux/libvaloa": "^3.0.0",
         "sundflux/libvaloa-db": "^3.0.0",
         "sundflux/webvaloa-core": "^3.0.0",
+        "sundflux/webvaloa-auth": "^3.0.0",
         "symfony/yaml": "^4.2",
         "symfony/console": "^4.2",
         "symfony/var-dumper": "^4.2",
