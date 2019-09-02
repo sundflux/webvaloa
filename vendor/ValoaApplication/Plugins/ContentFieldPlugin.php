@@ -33,7 +33,7 @@
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug\Debug;
-use Webvaloa\Helpers\Path;
+use Webvaloa\Path;
 use DOMDocument;
 use DOMXpath;
 

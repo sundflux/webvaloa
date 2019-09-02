@@ -33,7 +33,7 @@
 namespace Webvaloa;
 
 use Libvaloa\Db;
-use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Filesystem;
 use RuntimeException;
 
 /**

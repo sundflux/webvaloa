@@ -34,7 +34,7 @@ namespace ValoaApplication\Controllers\Content;
 
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Security;
-use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Filesystem;
 use Webvaloa\Helpers\Media;
 use UnexpectedValueException;
 use RuntimeException;

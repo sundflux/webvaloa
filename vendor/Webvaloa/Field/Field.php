@@ -34,8 +34,8 @@ namespace Webvaloa\Field;
 
 use Libvaloa\Db;
 use Libvaloa\Debug\Debug;
-use Webvaloa\Helpers\Filesystem;
-use Webvaloa\Helpers\Path;
+use Webvaloa\Filesystem;
+use Webvaloa\Path;
 use stdClass;
 
 /**

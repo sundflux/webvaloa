@@ -33,7 +33,7 @@
 namespace ValoaApplication\Plugins;
 
 use Libvaloa\Debug\Debug;
-use Webvaloa\Helpers\Filesystem;
+use Webvaloa\Filesystem;
 use stdClass;
 
 /*
