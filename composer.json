@@ -30,6 +30,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-filesystem"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/libvaloa"
         },
         {
