@@ -22,6 +22,14 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-locale"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-extensions"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/libvaloa"
         },
         {
