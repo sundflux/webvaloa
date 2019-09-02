@@ -18,6 +18,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-mail"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/libvaloa"
         },
         {
