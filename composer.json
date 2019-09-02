@@ -37,6 +37,7 @@
         "sundflux/webvaloa-controller": "^3.0.0",
         "sundflux/webvaloa-cache": "^3.0.0",
         "sundflux/webvaloa-mail": "^3.0.0",
+        "sundflux/webvaloa-locale": "^3.0.0",
         "symfony/yaml": "^4.2",
         "symfony/console": "^4.2",
         "symfony/var-dumper": "^4.2",
