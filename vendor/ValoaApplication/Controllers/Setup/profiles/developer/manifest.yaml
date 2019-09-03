@@ -1,0 +1,6 @@
+name: developer
+description: developer installation with minimal extensions and user management.
+config:
+    default_controller: login
+    default_controller_authed: login_logout
+components: ['login','error','profile','password','extension','user']
