@@ -18,6 +18,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-article"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/webvaloa-fields"
         },
         {
@@ -66,6 +70,7 @@
         "sundflux/libvaloa-db": "^3.0.0",
         "sundflux/webvaloa-core": "^3.0.0",
         "sundflux/webvaloa-auth": "^3.0.0",
+        "sundflux/webvaloa-article": "^3.0.0",
         "sundflux/webvaloa-controller": "^3.0.0",
         "sundflux/webvaloa-cache": "^3.0.0",
         "sundflux/webvaloa-extensions": "^3.0.0",
