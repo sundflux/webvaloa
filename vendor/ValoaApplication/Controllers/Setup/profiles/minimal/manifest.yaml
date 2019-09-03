@@ -1,6 +1,0 @@
-name: minimal
-description: minimal installation. usually used for web applications
-config:
-    default_controller: login
-    default_controller_authed: content_article
-components: ['login', 'logout','error','profile','password','extension']

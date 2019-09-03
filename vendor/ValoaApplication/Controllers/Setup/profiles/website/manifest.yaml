@@ -1,6 +1,0 @@
-name: website
-description: website with content management tools and user management
-config:
-    default_controller: article
-    default_controller_authed: content_article
-components: ['login', 'logout','error','profile','password','extension','content','user','settings']
