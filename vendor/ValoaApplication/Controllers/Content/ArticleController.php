@@ -43,7 +43,7 @@ use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
-use Webvaloa\Helpers\DateFormat;
+use Webvaloa\DateFormat;
 use Webvaloa\Helpers\ContentAccess;
 use Webvaloa\Controller\Request\Response;
 use stdClass;

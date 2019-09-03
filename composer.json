@@ -34,6 +34,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-formatters"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/libvaloa"
         },
         {
@@ -50,6 +54,7 @@
         "sundflux/webvaloa-cache": "^3.0.0",
         "sundflux/webvaloa-extensions": "^3.0.0",
         "sundflux/webvaloa-filesystem": "^3.0.0",
+        "sundflux/webvaloa-formatters": "^3.0.0",
         "sundflux/webvaloa-mail": "^3.0.0",
         "sundflux/webvaloa-locale": "^3.0.0",
         "symfony/yaml": "^4.2",
