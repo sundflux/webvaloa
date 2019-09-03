@@ -38,6 +38,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-security"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/libvaloa"
         },
         {
@@ -57,6 +61,7 @@
         "sundflux/webvaloa-formatters": "^3.0.0",
         "sundflux/webvaloa-mail": "^3.0.0",
         "sundflux/webvaloa-locale": "^3.0.0",
+        "sundflux/webvaloa-security": "^3.0.0",
         "symfony/yaml": "^4.2",
         "symfony/console": "^4.2",
         "symfony/var-dumper": "^4.2",
