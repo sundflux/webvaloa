@@ -2,10 +2,10 @@
 
 /**
  * The Initial Developer of the Original Code is
- * Tarmo Alexander Sundström <ta@sundstrom.im>.
+ * Tarmo Alexander Sundström <ta@sundstrom.io>.
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2014, 2019 Tarmo Alexander Sundström <ta@sundstrom.io>
  *
  * All Rights Reserved.
  *
@@ -33,25 +33,21 @@
 namespace ValoaApplication\Controllers\Setup;
 
 use Symfony\Component\Yaml\Yaml;
-// Libvaloa classes
+
 use Libvaloa\Db;
-// Webvaloa classes
-use Webvaloa;
+use Libvaloa\Debug\Debug;
+use Webvaloa\Application;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Manifest;
 use Webvaloa\Component;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Locale\Locales;
-// Standard classes
 use stdClass;
 use PDOException;
 use RuntimeException;
-// Seclib
-use RandomLib;
-use SecurityLib;
 
-class SetupController extends \Webvaloa\Application
+class SetupController extends Application
 {
     private $backend;
     private $locale;
@@ -72,6 +68,7 @@ class SetupController extends \Webvaloa\Application
         $this->view = new stdClass();
         $this->manifest = new Manifest('Setup');
         foreach (glob($this->manifest->controllerPath.'/profiles/*/manifest.yaml') as $profileFile) {
+            Debug::__print('Loading '.$profileFile);
             $profile = (object) Yaml::parse(file_get_contents($profileFile));
             $profile->directory = basename(substr($profileFile, 0, - strlen('manifest.yaml')));
             $this->profiles[] = $profile;
@@ -113,31 +110,22 @@ class SetupController extends \Webvaloa\Application
 
         // Generate salt for this installation
 
-        //
-        $errorReportingLevel = error_reporting();
-
         if (empty($_SESSION['setup']['salt'])) {
-            // Fixme: Because deprecated mcrypt is used by randomlib,
-            // we temporarely disable warnings from randomlib
-            error_reporting(0);
-            $factory = new RandomLib\Factory();
-            $generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
-            $_SESSION['setup']['salt'] = $generator->generateString(32);
-            error_reporting($errorReportingLevel);
+            $_SESSION['setup']['salt'] = bin2hex(random_bytes(16));
         }
 
         // Initial config file trickery
 
-        if (!file_exists(WEBVALOA_BASEDIR.'/config/config.php') || file_get_contents(WEBVALOA_BASEDIR.'/config/config.php') == '') {
+        if (!file_exists(WEBVALOA_BASEDIR.'/config/.env') || file_get_contents(WEBVALOA_BASEDIR.'/config/.env') == '') {
             // Copy stub config for setup
-            if (@!file_put_contents(WEBVALOA_BASEDIR.'/config/config.php', file_get_contents(WEBVALOA_BASEDIR.'/config/config.php-stub'))) {
+            if (@!file_put_contents(WEBVALOA_BASEDIR.'/config/.env', file_get_contents(WEBVALOA_BASEDIR.'/config/.env.dist'))) {
                 $this->ui->addError(\Webvaloa\Webvaloa::translate('CONFIG_NOT_WRITABLE'));
 
                 return;
             }
         }
 
-        if (!is_writable(WEBVALOA_BASEDIR.'/config/config.php') && !is_writable(WEBVALOA_BASEDIR.'/config')) {
+        if (!is_writable(WEBVALOA_BASEDIR.'/config/.env') && !is_writable(WEBVALOA_BASEDIR.'/config')) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('CONFIG_NOT_WRITABLE'));
 
             return;
