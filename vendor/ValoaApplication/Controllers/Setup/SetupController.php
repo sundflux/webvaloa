@@ -109,7 +109,6 @@ class SetupController extends Application
         }
 
         // Generate salt for this installation
-
         if (empty($_SESSION['setup']['salt'])) {
             $_SESSION['setup']['salt'] = bin2hex(random_bytes(16));
         }
@@ -215,7 +214,6 @@ class SetupController extends Application
         }
 
         if (isset($_POST['back'])) {
-            //Redirect::to('setup/memcached');
             Redirect::to('setup/database');
         }
 
@@ -287,7 +285,7 @@ class SetupController extends Application
         $setup = $_SESSION['setup'];
 
         // Write the configuration file
-        $configFile = WEBVALOA_BASEDIR.'/config/config.php';
+        $configFile = WEBVALOA_BASEDIR.'/config/.env';
         if (!is_writable($configFile)) {
             $this->ui->addError(\Webvaloa\Webvaloa::translate('CONFIG_NOT_WRITABLE'));
 
