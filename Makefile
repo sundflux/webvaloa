@@ -2,7 +2,7 @@ PHONY :=
 PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
 # Include project env vars (if exists)
--include .env
+-include $(PROJECT_DIR)/config/.env
 
 # Include druidfi/tools config
 include $(PROJECT_DIR)/tools/make/Makefile
