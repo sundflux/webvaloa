@@ -18,6 +18,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/sundflux/webvaloa-fields"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/sundflux/webvaloa-mail"
         },
         {
@@ -58,6 +62,7 @@
         "sundflux/webvaloa-cache": "^3.0.0",
         "sundflux/webvaloa-extensions": "^3.0.0",
         "sundflux/webvaloa-filesystem": "^3.0.0",
+        "sundflux/webvaloa-fields": "^3.0.0",
         "sundflux/webvaloa-formatters": "^3.0.0",
         "sundflux/webvaloa-mail": "^3.0.0",
         "sundflux/webvaloa-locale": "^3.0.0",
