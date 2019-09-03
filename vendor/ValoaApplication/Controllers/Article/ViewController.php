@@ -37,7 +37,7 @@ use Webvaloa\Cache;
 use Webvaloa\Category;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\Helpers\ArticleStructure;
-use Webvaloa\Helpers\ContentAccess;
+use Webvaloa\ContentAccess;
 use Webvaloa\Field\Value;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Fields;

@@ -44,7 +44,7 @@ use Webvaloa\Field\Value;
 use Webvaloa\Helpers\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\DateFormat;
-use Webvaloa\Helpers\ContentAccess;
+use Webvaloa\ContentAccess;
 use Webvaloa\Controller\Request\Response;
 use stdClass;
 use UnexpectedValueException;
