@@ -3,4 +3,5 @@ description: developer installation with minimal extensions and user management.
 config:
     default_controller: login
     default_controller_authed: login_logout
+    webvaloa_auth: 'Webvaloa\Auth\Db'
 components: ['login','error','profile','password','extension','user']

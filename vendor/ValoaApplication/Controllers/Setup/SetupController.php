@@ -37,6 +37,7 @@ use Symfony\Component\Yaml\Yaml;
 use Libvaloa\Db;
 use Libvaloa\Debug\Debug;
 use Webvaloa\Application;
+use Webvaloa\Configuration;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Manifest;
@@ -152,11 +153,11 @@ class SetupController extends Application
 
             // Validations
             $required = array(
+                'db',
                 'db_server',
                 'db_host',
                 'db_user',
                 'db_pass',
-                'db_db',
                 'db_profile',
             );
 
@@ -174,15 +175,24 @@ class SetupController extends Application
             }
 
             // All good, test connection
-            \Webvaloa\config::$properties['db_server'] = trim($_POST['db_server']);
-            \Webvaloa\config::$properties['db_host'] = trim($_POST['db_host']);
-            \Webvaloa\config::$properties['db_user'] = trim($_POST['db_user']);
-            \Webvaloa\config::$properties['db_pass'] = trim($_POST['db_pass']);
-            \Webvaloa\config::$properties['db_db'] = trim($_POST['db_db']);
+            putenv('DB="'.trim($_POST['db']).'"');
+            putenv('DB_SERVER="'.trim($_POST['db_server']).'"');
+            putenv('DB_HOST="'.trim($_POST['db_host']).'"');
+            putenv('DB_USER="'.trim($_POST['db_user']).'"');
+            putenv('DB_PASS="'.trim($_POST['db_pass']).'"');
 
             try {
+                $config = new Configuration();
+
+                $db = new \Libvaloa\Db\Db(
+                    $config->db_host,
+                    $config->db_user,
+                    $config->db_pass,
+                    $config->db,
+                    $config->db_server);
+
                 $query = 'SELECT 1';
-                $stmt = $this->db->prepare($query);
+                $stmt = $db->prepare($query);
                 $stmt->execute();
             } catch (PDOException $e) {
                 $this->ui->addError($e->getMessage());
@@ -274,6 +284,10 @@ class SetupController extends Application
 
     public function install()
     {
+        $configData = [];
+        $configDataQuoted = [];
+        $configDataString = "";
+
         if (!isset($_SESSION['setup'])) {
             Redirect::to('setup');
         }
@@ -292,51 +306,31 @@ class SetupController extends Application
             return;
         }
 
-        $locale = getenv('LANG');
-        // Remove encoding from locale string
-        preg_match("/([^\.]+)[^\.]/", $locale, $locale);
-        $locale = $locale[0];
-        $configData = array(
-            'default_controller' => 'login',
-            'default_controller_authed' => 'login_logout',
-            'default_controller_login' => 'login',
-            'default_controller_denied' => 'error',
-            'webvaloa_auth' => 'Webvaloa\Auth\Db',
-            'salt' => $_SESSION['setup']['salt'],
-        );
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
         if (isset($currentProfile->config) && is_object($currentProfile->config)) {
             foreach ($currentProfile->config as $configKey => $configValue) {
-                $configData[$configKey] = $configValue;
+                $configData[strtoupper($configKey)] = $configValue;
             }
         }
 
-        $config = "<?php\n";
-        $config .= "namespace Webvaloa;\n\n";
-        $config .= "class config\n";
-        $config .= "{\n";
-        $config .= "\tpublic static ".'$properties'."= array(\n";
-        $config .= "\t\t'db_server'\t\t\t\t\t\t=> '".$setup['db']['db_server']."',\n";
-        $config .= "\t\t'db_host'\t\t\t\t\t\t=> '".$setup['db']['db_host']."',\n";
-        $config .= "\t\t'db_user'\t\t\t\t\t\t=> '".$setup['db']['db_user']."',\n";
-        $config .= "\t\t'db_pass'\t\t\t\t\t\t=> '".$setup['db']['db_pass']."',\n";
-        $config .= "\t\t'db_db'\t\t\t\t\t\t\t=> '".$setup['db']['db_db']."',\n\n";
+        $configData['DB'] = $setup['db']['db'];
+        $configData['DB_SERVER'] = $setup['db']['db_server'];
+        $configData['DB_HOST'] = $setup['db']['db_host'];
+        $configData['DB_SERVER'] = $setup['db']['db_server'];
+        $configData['DB_USER'] = $setup['db']['db_user'];
+        $configData['DB_PASS'] = $setup['db']['db_pass'];
+        $configData['LANG'] = $_SESSION['setup']['locale'];
 
-        foreach ($configData as $configKey => $configValue) {
-            $config .= "\t\t'{$configKey}'\t=> '{$configValue}',\n";
+        foreach ($configData as $k => $v) {
+            $configDataQuoted[$k] = '"'.addslashes($v).'"';
         }
 
-        $config .= "\n\t\t'time_zone'\t\t\t\t\t\t=> '".$setup['admin']['tz']."'\n";
-        $config .= "\t);\n";
-        $config .= "\n";
-        $config .= '}';
-        $config .= "\n\n";
-        $config .= "putenv('LANG={$locale}');\n";
-        $config .= "setlocale(LC_ALL, '{$locale}.UTF-8');\n";
-        $config .= "setlocale(LC_MESSAGES, '{$locale}.UTF-8');\n";
+        foreach ($configDataQuoted as $k => $v) {
+            $configDataString = "{$k}={$v}";
+        }
 
-        file_put_contents($configFile, $config);
+        file_put_contents($configFile, $configDataString);
 
         $_SESSION['config_created'] = true;
 
@@ -345,6 +339,7 @@ class SetupController extends Application
 
     public function installdb()
     {
+        die("ok");
         if (!isset($_SESSION['setup'])) {
             Redirect::to('setup');
         }

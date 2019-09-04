@@ -206,11 +206,11 @@
                     </div>
 
                     <div class="form-group input-group-lg">
-                        <xsl:if test="errors['db_db']">
+                        <xsl:if test="errors['db']">
                             <xsl:attribute name="class">form-group input-group-lg has-error</xsl:attribute>
                         </xsl:if>
                         <label for="inputDB"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','DATABASE')" /></label>
-                        <input type="text" name="db_db" class="form-control" id="inputDB" placeholder="{php:function('\Webvaloa\Webvaloa::translate','DATABASE')}" value="{db_db}" />
+                        <input type="text" name="db" class="form-control" id="inputDB" placeholder="{php:function('\Webvaloa\Webvaloa::translate','DATABASE')}" value="{db}" />
                     </div>
 
                     <div class="form-group input-group-lg">
