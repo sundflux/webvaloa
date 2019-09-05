@@ -1,0 +1,4 @@
+/config/.env.local
+/config/.env.*.local
+
+
