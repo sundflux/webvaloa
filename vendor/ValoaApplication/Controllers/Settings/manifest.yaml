@@ -5,3 +5,5 @@ email: info@webvaloa.com
 www: www.webvaloa.com
 license: MIT
 systemcontroller: 1
+roles:
+  - Administrator

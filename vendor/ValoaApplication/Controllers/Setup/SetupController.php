@@ -67,16 +67,17 @@ class SetupController extends Application
 
         // Specific to setup
         $this->view = new stdClass();
+
         $this->manifest = new Manifest('Setup');
         foreach (glob($this->manifest->controllerPath.'/profiles/*/manifest.yaml') as $profileFile) {
-            Debug::__print('Loading '.$profileFile);
+            Debug::__print('Loading profile '.$profileFile);
             $profile = (object) Yaml::parse(file_get_contents($profileFile));
             $profile->directory = basename(substr($profileFile, 0, - strlen('manifest.yaml')));
             $this->profiles[] = $profile;
         }
     }
 
-    public function index($locale = false)
+    public function index($locale = 'en_US')
     {
         // Change locale
         if ($locale && in_array($locale, $this->locales)) {
@@ -110,7 +111,7 @@ class SetupController extends Application
         }
 
         // Generate salt for this installation
-        if (empty($_SESSION['setup']['salt'])) {
+        if (!isset($_SESSION['setup']['salt'])) {
             $_SESSION['setup']['salt'] = bin2hex(random_bytes(16));
         }
 
@@ -150,6 +151,8 @@ class SetupController extends Application
             $_SESSION['setup']['db'] = $_POST;
             $this->view = (object) $_SESSION['setup']['db'];
             $this->view->profiles = $this->profiles;
+
+            Debug::__print($this->view->profiles);
 
             // Validations
             $required = array(
@@ -233,6 +236,8 @@ class SetupController extends Application
             }
         }
 
+        Debug::__print($_SESSION['setup']);
+
         $this->view->timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
         $this->view->timezone = date_default_timezone_get();
 
@@ -308,7 +313,7 @@ class SetupController extends Application
 
         $currentProfile = $this->getProfileByName($setup['db']['db_profile']);
 
-        if (isset($currentProfile->config) && is_object($currentProfile->config)) {
+        if (isset($currentProfile->config) && is_array($currentProfile->config)) {
             foreach ($currentProfile->config as $configKey => $configValue) {
                 $configData[strtoupper($configKey)] = $configValue;
             }
@@ -320,14 +325,18 @@ class SetupController extends Application
         $configData['DB_SERVER'] = $setup['db']['db_server'];
         $configData['DB_USER'] = $setup['db']['db_user'];
         $configData['DB_PASS'] = $setup['db']['db_pass'];
-        $configData['LANG'] = $_SESSION['setup']['locale'];
+        $configData['SALT'] = $setup['salt'];
+
+        if (isset($_SESSION['setup']['locale'])) {
+            $configData['LANG'] = $_SESSION['setup']['locale'];
+        }
 
         foreach ($configData as $k => $v) {
-            $configDataQuoted[$k] = '"'.addslashes($v).'"';
+            $configDataQuoted[$k] = '"'.addslashes($v).'"'."\n";
         }
 
         foreach ($configDataQuoted as $k => $v) {
-            $configDataString = "{$k}={$v}";
+            $configDataString .= "{$k}={$v}";
         }
 
         file_put_contents($configFile, $configDataString);
@@ -339,7 +348,6 @@ class SetupController extends Application
 
     public function installdb()
     {
-        die("ok");
         if (!isset($_SESSION['setup'])) {
             Redirect::to('setup');
         }
@@ -350,42 +358,57 @@ class SetupController extends Application
 
         $setup = $_SESSION['setup'];
 
-        \Webvaloa\config::$properties['db_server'] = $setup['db']['db_server'];
-        \Webvaloa\config::$properties['db_host'] = $setup['db']['db_host'];
-        \Webvaloa\config::$properties['db_user'] = $setup['db']['db_user'];
-        \Webvaloa\config::$properties['db_pass'] = $setup['db']['db_pass'];
-        \Webvaloa\config::$properties['db_db'] = $setup['db']['db_db'];
-        \Webvaloa\config::$properties['salt'] = $setup['salt'];
-
-        // Install database
-        $sqlSchema = $this->manifest->controllerPath.'/schema-'.$this->manifest->version.'_'.$setup['db']['db_server'].'.sql';
-
         // Profile schema
         $profile = $this->getProfileByName($setup['db']['db_profile']);
-        if (isset($profile->directory) && !empty($profile->directory)) {
-            $profileSql = $this->manifest->controllerPath.'/profiles/'.$profile->directory.'/db.sql';
-        }
 
         try {
             $this->db->beginTransaction();
 
-            if (!file_exists($sqlSchema)) {
-                $this->ui->addError(\Webvaloa\Webvaloa::translate('SQL_SCHEMA_NOT_FOUND'));
-
-                return;
+            if (!isset($this->profiles[$profile])) {
+                throw new RuntimeException('Profile not found.');
             }
 
-            $query = file_get_contents($sqlSchema);
-
-            // Inject additional schema from profile
-            if (!empty($profileSql) && file_exists($profileSql)) {
-                $query .= "\n".file_get_contents($profileSql);
+            if (empty($this->profiles[$profile]->components)) {
+                throw new \RuntimeException('Could not find any components to install.');
             }
 
-            $this->db->exec($query);
+            // Install all components from profile:
+            foreach ($this->profiles[$profile]->components as $component) {
+                $installer = new Component($component);
+                $installer->install();
+            }
+
+            // Install all system plugins from profile:
+            if (!empty($profile->system_plugins)) {
+                foreach ($profile->system_plugins as $plugin) {
+                    $object = new Db\Item('plugin', $this->db);
+                    $object->plugin = $plugin;
+                    $object->system_plugin = 1;
+                    $object->blocked = 0;
+                    $object->ordering = 10;
+                    $object->save();
+                }
+            }
+
+            // Install all plugins from profile:
+            if (!empty($profile->plugins)) {
+                foreach ($profile->plugins as $plugin) {
+                    $object = new Db\Item('plugin', $this->db);
+                    $object->plugin = $plugin;
+                    $object->system_plugin = 0;
+                    $object->blocked = 0;
+                    $object->ordering = 20;
+                    $object->save();
+                }
+            }
+
+            // Create roles
+            $role = new Role();
+            $role->addSystemRole('Administrator');
+            $role->addSystemRole('Logged in');
+            $role->addSystemRole('Public');
 
             // Create user
-
             $user = new User();
             $user->email = $setup['admin']['admin_email'];
 
@@ -413,69 +436,7 @@ class SetupController extends Application
             $role = new Role();
             $user->addRole($role->getRoleID('Administrator'));
 
-            // System plugins
-
-            $object = new Db\Item('plugin', $this->db);
-            $object->plugin = 'PluginAdministrator';
-            $object->system_plugin = 1;
-            $object->blocked = 0;
-            $object->ordering = 1;
-            $object->save();
-
-            $object = new Db\Item('plugin', $this->db);
-            $object->plugin = 'ContentField';
-            $object->system_plugin = 1;
-            $object->blocked = 0;
-            $object->ordering = 10;
-            $object->save();
-
-            $object = new Db\Item('plugin', $this->db);
-            $object->plugin = 'ContentMediapicker';
-            $object->system_plugin = 1;
-            $object->blocked = 0;
-            $object->ordering = 10;
-            $object->save();
-
-            $object = new Db\Item('plugin', $this->db);
-            $object->plugin = 'PluginTemplate';
-            $object->system_plugin = 1;
-            $object->blocked = 0;
-            $object->ordering = 10;
-            $object->save();
-
-            $object = new Db\Item('plugin', $this->db);
-            $object->plugin = 'PluginNavigationView';
-            $object->system_plugin = 1;
-            $object->blocked = 0;
-            $object->ordering = 10;
-            $object->save();
-
-            // System components
-            $component = new Component('Content');
-            $component->install();
-            $component->addRole($role->getRoleID('Administrator'));
-
-            $component = new Component('Extension');
-            $component->install();
-            $component->addRole($role->getRoleID('Administrator'));
-
-            $component = new Component('Password');
-            $component->install();
-            $component->addRole($role->getRoleID('Administrator'));
-
-            $component = new Component('Profile');
-            $component->install();
-            $component->addRole($role->getRoleID('Administrator'));
-
-            $component = new Component('Settings');
-            $component->install();
-            $component->addRole($role->getRoleID('Administrator'));
-
-            $component = new Component('User');
-            $component->install();
-            $component->addRole($role->getRoleID('Administrator'));
-
-            // Set all components as system components
+            // Set all components in setup profile as system components
             $query = '
                 UPDATE component
                 SET system_component = 1';
@@ -507,6 +468,10 @@ class SetupController extends Application
         unset($_SESSION['setup']);
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     private function getProfileByName($name)
     {
         $find = false;

@@ -5,3 +5,4 @@ config:
     default_controller_authed: content_article
     webvaloa_auth: 'Webvaloa\Auth\Db'
 components: ['user','login','error','profile','password','extension','content','settings','article']
+system_plugins: ['PluginAdministrator','ContentField','ContentMediapicker','PluginTemplate','PluginNavigationView']

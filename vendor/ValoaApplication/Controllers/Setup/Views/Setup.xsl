@@ -141,7 +141,7 @@
                     <p class="lead">
                         <xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','DATABASE_HELP')"/>
                     </p>
-
+<!--
                     <div class="form-group input-group-lg">
                         <input type="hidden" name="db_profile" value="clean" id="profile-field"/>
                         <label for="profile"><xsl:value-of select="php:function('\Webvaloa\Webvaloa::translate','SETUP_PROFILE')" /></label>
@@ -168,6 +168,18 @@
                             </ul>
                         </div>
                     </div>
+                    -->
+profile:
+                    <select name="db_profile">
+                        <xsl:for-each select="profiles">
+                            <option value="{name}">
+                                <xsl:if test="db_profile = name">
+                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                </xsl:if>
+                                <xsl:value-of select="description"/>
+                            </option>
+                        </xsl:for-each>
+                    </select>
 
                     <div class="form-group input-group-lg">
 
