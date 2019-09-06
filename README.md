@@ -36,7 +36,7 @@ Install required PHP extensions on Ubuntu 18.04:
 
 ```bash
 sudo apt install php7.2-cli php-imagick php7.2-intl php7.2-json \
-php7.2-mbstring php7.2-mysql php7.2-xsl php7.2-xml php-gettext
+php7.2-mbstring php7.2-mysql php7.2-xsl php7.2-xml php-gettext mysql-server
 ```
 
 ### Installation
@@ -46,27 +46,30 @@ git clone https://github.com/sundflux/webvaloa.git
 ```
 Enter the application directory `cd webvaloa` and install Webvaloa with command:
 ```bash
-make install
+composer install
 ```
+
+After installing requiring packages, head to `http://yourhost/setup` with web browser to finish installation. 
 
 ### Updating Webvaloa
 
 To update all Webvaloa components, use:
 
 ```bash
-make composer-update
+composer update --lock
 ```
 
 ### Adding extensions
 
-*Do include outside extensions or libraries in root `composer.json`*.
+*Do NOT include outside extensions or libraries in root `composer.json`*. 
+This should be updated only from the Webvaloa repository.
 
 Composer merge plugin is included, and will include following files if found:
 
     "ext/composer.json",
     "ext/*/composer.json"
 
-Place any custom includes under `ext/` directory.
+Place any custom includes and composer packages under `ext/` directory.
 
 ### Debugging
 Webvaloa displays debug information based on the current PHP error reporting level.
@@ -78,7 +81,12 @@ error_reporting(E_ALL);
 ```
 
 ### Development
-For local development you only need MySQL and PHP.
+For local development you need MySQL and PHP.
+
+Install dependencies with:
+```bash
+make installdeps
+```
 
 Start local development server with:
 ```bash
