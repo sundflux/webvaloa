@@ -73,7 +73,7 @@ class SetupController extends Application
             Debug::__print('Loading profile '.$profileFile);
             $profile = (object) Yaml::parse(file_get_contents($profileFile));
             $profile->directory = basename(substr($profileFile, 0, - strlen('manifest.yaml')));
-            $this->profiles[] = $profile;
+            $this->profiles[$profile->name] = $profile;
         }
     }
 
@@ -102,7 +102,7 @@ class SetupController extends Application
             if ($id) {
                 Redirect::to();
             }
-        } catch (PDOException $e) {
+        } catch (\Libvaloa\Db\DBException $e) {
         } catch (RuntimeException $e) {
         }
 
@@ -364,22 +364,29 @@ class SetupController extends Application
         try {
             $this->db->beginTransaction();
 
-            if (!isset($this->profiles[$profile])) {
+            if (!$profile) {
                 throw new RuntimeException('Profile not found.');
             }
 
-            if (empty($this->profiles[$profile]->components)) {
+            if (empty($profile->components)) {
                 throw new \RuntimeException('Could not find any components to install.');
             }
 
-            // Install all components from profile:
-            foreach ($this->profiles[$profile]->components as $component) {
+            // Create models from profile:
+            foreach ($profile->components as $component) {
+                $installer = new Component($component);
+                $installer->installModels();
+            }
+
+            // Install components:
+            foreach ($profile->components as $component) {
                 $installer = new Component($component);
                 $installer->install();
+                $installer->installConfiguration();
             }
 
             // Install all system plugins from profile:
-            if (!empty($profile->system_plugins)) {
+            if ($profile->system_plugins) {
                 foreach ($profile->system_plugins as $plugin) {
                     $object = new Db\Item('plugin', $this->db);
                     $object->plugin = $plugin;
@@ -391,7 +398,7 @@ class SetupController extends Application
             }
 
             // Install all plugins from profile:
-            if (!empty($profile->plugins)) {
+            if (!$profile->plugins) {
                 foreach ($profile->plugins as $plugin) {
                     $object = new Db\Item('plugin', $this->db);
                     $object->plugin = $plugin;
