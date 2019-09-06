@@ -1,6 +1,0 @@
-name: developer
-description: developer installation.
-config:
-    default_controller: login
-    default_controller_authed: login_logout
-components: ['login','error','profile','password','extension','user']
