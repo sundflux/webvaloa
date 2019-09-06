@@ -12,7 +12,7 @@ user:
     - varchar(48)
     - NOT NULL
   password:
-    - varchar(128)
+    - varchar(200)
     - DEFAULT NULL
   firstname:
     - varchar(64)
