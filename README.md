@@ -1,3 +1,5 @@
+*NOTE! Master aka version 3 is under heavy development and totally broken for any other usage than developing. Use 1.0 branch for working version.*
+
 webvaloa
 ========
 
