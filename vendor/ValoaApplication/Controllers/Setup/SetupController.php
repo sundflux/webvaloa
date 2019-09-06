@@ -331,6 +331,10 @@ class SetupController extends Application
             $configData['LANG'] = $_SESSION['setup']['locale'];
         }
 
+        if (isset($_SESSION['setup']['admin']['tz'])) {
+            $configData['TIME_ZONE'] = $_SESSION['setup']['admin']['tz'];
+        }
+
         foreach ($configData as $k => $v) {
             $configDataQuoted[$k] = '"'.addslashes($v).'"'."\n";
         }

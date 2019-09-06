@@ -48,8 +48,8 @@ class PluginTemplatePlugin extends \Webvaloa\Plugin
         $template = 'default';
 
         $configuration = new Configuration();
-        if (isset($configuration->template->value) && !empty($configuration->template->value)) {
-            $template = $configuration->template->value;
+        if ($configuration->template) {
+            $template = $configuration->template;
         }
 
         $this->_properties['layout'] = $template;
