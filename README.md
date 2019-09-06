@@ -44,7 +44,7 @@ The easiest way to install Webvaloa is to clone this repository to your server w
 ```bash
 git clone https://github.com/sundflux/webvaloa.git
 ```
-Enter the application directory `cd webvaloa` and install Webvaloa with command:
+Enter the application directory `cd webvaloa` and install Webvaloa packages and dependencies with command:
 ```bash
 composer install
 ```
@@ -61,7 +61,7 @@ composer update --lock
 
 ### Adding extensions
 
-*Do NOT include outside extensions or libraries in root `composer.json`*. 
+Do not include outside extensions or libraries in root `composer.json`*. 
 This should be updated only from the Webvaloa repository.
 
 Composer merge plugin is included, and will include following files if found:
@@ -69,7 +69,7 @@ Composer merge plugin is included, and will include following files if found:
     "ext/composer.json",
     "ext/*/composer.json"
 
-Place any custom includes and composer packages under `ext/` directory.
+Place any custom `composer.json` files under `ext/` directory.
 
 ### Debugging
 Webvaloa displays debug information based on the current PHP error reporting level.
