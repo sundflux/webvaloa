@@ -376,17 +376,28 @@ class SetupController extends Application
                 throw new \RuntimeException('Could not find any components to install.');
             }
 
-            // Create models from profile:
+            // Create core models from setup:
+            $installer = new Component('Setup');
+            $installer->installModels();
+
+            // Install component models:
             foreach ($profile->components as $component) {
                 $installer = new Component($component);
                 $installer->installModels();
             }
+
+            // Create system roles:
+            $role = new Role();
+            $role->addSystemRole('Administrator');
+            $role->addSystemRole('Logged in');
+            $role->addSystemRole('Public');
 
             // Install components:
             foreach ($profile->components as $component) {
                 $installer = new Component($component);
                 $installer->install();
                 $installer->installConfiguration();
+                $installer->installRoles();
             }
 
             // Install all system plugins from profile:
@@ -412,12 +423,6 @@ class SetupController extends Application
                     $object->save();
                 }
             }
-
-            // Create roles
-            $role = new Role();
-            $role->addSystemRole('Administrator');
-            $role->addSystemRole('Logged in');
-            $role->addSystemRole('Public');
 
             // Create user
             $user = new User();

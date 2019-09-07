@@ -5,3 +5,13 @@ email: info@webvaloa.com
 www: www.webvaloa.com
 license: MIT
 anonymous: 1
+models:
+  - alias
+  - component
+  - component_role
+  - configuration
+  - plugin
+  - structure
+  - structure_group
+  - structure_tag
+  - tag
