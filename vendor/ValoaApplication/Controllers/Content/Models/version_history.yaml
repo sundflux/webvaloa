@@ -1,0 +1,25 @@
+version_history:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  target_table:
+    - varchar(32)
+    - NOT NULL
+  target_id:
+    - int(11)
+    - NOT NULL
+  created:
+    - timestamp
+    - NOT NULL
+    - DEFAULT CURRENT_TIMESTAMP
+  content:
+    - longtext
+    - NOT NULL
+  user_id:
+    - int(11)
+    - NOT NULL
+
+index:
+  - target_table (target_table,target_id,created,user_id)

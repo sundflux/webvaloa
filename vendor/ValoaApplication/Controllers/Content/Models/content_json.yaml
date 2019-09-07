@@ -1,0 +1,32 @@
+content_json:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  content_id:
+    - int(11)
+    - NOT NULL
+  data:
+    - JSON
+    - NOT NULL
+  locale:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT '*'
+  deleted:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+  created:
+    - timestamp
+    - NOT NULL
+    - DEFAULT CURRENT_TIMESTAMP
+  updated:
+    - timestamp
+    - NOT NULL
+    - DEFAULT NOW()
+    - ON UPDATE NOW()
+
+index:
+  - content_id (content_id)

@@ -1,0 +1,28 @@
+content_field_value:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  content_id:
+    - int(11)
+    - NOT NULL
+  field_id:
+    - int(11)
+    - NOT NULL
+  value:
+    - text
+    - NOT NULL
+  locale:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT '*'
+  ordering:
+    - int(6)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - content_id (content_id,field_id)
+  - locale (locale)
+  - ordering (ordering)

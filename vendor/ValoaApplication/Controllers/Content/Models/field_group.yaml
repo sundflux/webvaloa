@@ -1,0 +1,24 @@
+field_group:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  name:
+    - varchar(64)
+    - NOT NULL
+  translation:
+    - varchar(64)
+    - NOT NULL
+  repeatable:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+  global:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - field_group (name)
+  - group_translation (translation)

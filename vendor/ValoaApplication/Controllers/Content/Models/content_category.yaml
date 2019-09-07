@@ -1,0 +1,15 @@
+content_category:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  content_id:
+    - int(11)
+    - NOT NULL
+  category_id:
+    - int(11)
+    - NOT NULL
+
+index:
+  - content_id (content_id, category_id)

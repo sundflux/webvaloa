@@ -1,0 +1,46 @@
+field:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  field_group_id:
+    - int(11)
+    - NOT NULL
+  name:
+    - varchar(64)
+    - NOT NULL
+  default_value:
+    - varchar(255)
+    - NULL
+  validation:
+    - varchar(255)
+    - NULL
+  translation:
+    - varchar(64)
+    - NOT NULL
+  repeatable:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+  type:
+    - varchar(32)
+    - NOT NULL
+    - DEFAULT 'text'
+  settings:
+    - text
+    - NULL
+  help_text:
+    - text
+    - NULL
+  ordering:
+    - int(6)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - field_group_id (field_group_id,name)
+  - type (type)
+  - field_translation (translation)
+  - repeatable (repeatable)
+  - ordering (ordering)

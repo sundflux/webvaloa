@@ -1,0 +1,18 @@
+category_field_group:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  field_group_id:
+    - int(11)
+    - NOT NULL
+  category_id:
+    - int(11)
+    - NOT NULL
+  recursive:
+    - tinyint(1)
+    - NOT NULL
+
+index:
+  - field_group_id (field_group_id,category_id,recursive)

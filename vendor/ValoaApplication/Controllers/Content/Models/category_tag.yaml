@@ -1,0 +1,15 @@
+category_tag:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  category_id:
+    - int(11)
+    - NOT NULL
+  tag_id:
+    - int(11)
+    - NOT NULL
+
+index:
+  - category_tag_id (category_id, tag_id)
