@@ -1,0 +1,27 @@
+tag:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  parent_id:
+    - int(11)
+    - DEFAULT NULL
+  type:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT '*'
+  tag:
+    - varchar(128)
+    - NOT NULL
+  locale:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT '*'
+  ordering:
+    - int(4)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - tag(tag)

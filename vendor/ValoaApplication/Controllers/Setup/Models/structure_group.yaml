@@ -1,0 +1,13 @@
+structure_group:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  translation:
+    - varchar(255)
+    - NOT NULL
+  locale:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT '*'

@@ -1,0 +1,15 @@
+structure_tag:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  structure_id:
+    - int(11)
+    - NOT NULL
+  tag_id:
+    - int(11)
+    - NOT NULL
+
+index:
+  - content_id (structure_id,tag_id)

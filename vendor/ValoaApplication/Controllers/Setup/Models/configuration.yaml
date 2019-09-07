@@ -1,0 +1,24 @@
+configuration:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  component_id:
+    - int(11)
+    - DEFAULT NULL
+  type:
+    - enum(int,select,checkbox,text)
+  value:
+    - varhcar(255)
+    - NOT NULL
+  values:
+    - text
+    - DEFAULT NULL
+
+index:
+  - type (type)
+  - component (component_id)
+  - value (value)
+  - id_value (id, value, values)
+

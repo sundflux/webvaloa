@@ -1,0 +1,24 @@
+alias:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  alias:
+    - varchar(64)
+    - NOT NULL
+    - UNIQUE KEY
+  controller:
+    - varchar(32)
+    - NOT NULL
+  method:
+    - varchar(32)
+    - DEFAULT NULL
+  locale:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT 'en_US'
+
+index:
+  - alias (alias,controller,method)
+  - locale (locale)

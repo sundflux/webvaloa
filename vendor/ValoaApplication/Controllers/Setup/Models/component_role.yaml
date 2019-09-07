@@ -1,0 +1,15 @@
+component_role:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  component_id:
+    - int(11)
+    - NOT NULL
+  role_id:
+    - int(11)
+    - NOT NULL
+
+index:
+  - component_id (component_id,role_id)

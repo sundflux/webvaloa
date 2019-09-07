@@ -1,0 +1,43 @@
+structure:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  alias:
+    - varchar(255)
+    - NOT NULL
+    - UNIQUE KEY
+  structure_group_id:
+    - int(11)
+    - NOT NULL
+    - DEFAULT '0'
+  parent_id:
+    - int(11)
+    - DEFAULT NULL
+  type:
+    - enum(content_listing, content, component, alias, url)
+    - NOT NULL
+  target_id:
+    - int(11)
+    - DEFAULT NULL
+  target_url:
+    - varchar(512)
+    - DEFAULT NULL
+  translation:
+    - varchar(255)
+    - NOT NULL
+  locale:
+    - varchar(6)
+    - NOT NULL
+    - DEFAULT '*'
+  ordering:
+    - int(4)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - id (id,parent_id,type,target_id,locale),
+  - ordering (ordering)
+  - alias (id, alias)
+

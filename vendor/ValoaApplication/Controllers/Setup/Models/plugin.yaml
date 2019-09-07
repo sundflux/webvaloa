@@ -1,0 +1,22 @@
+plugin:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  plugin:
+    - varchar(64)
+    - NOT NULL
+    - UNIQUE KEY
+  system_plugin:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+  ordering:
+    - int(3)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - system_plugin (system_plugin,blocked,ordering)
+  - plugin (plugin,ordering)

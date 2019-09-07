@@ -1,0 +1,26 @@
+component:
+  id:
+    - int(11)
+    - NOT NULL
+    - AUTO_INCREMENT
+    - PRIMARY KEY
+  controller:
+    - varchar(64)
+    - NOT NULL
+    - UNIQUE KEY
+  installed_version:
+    - varchar(10)
+    - NOT NULL
+  system_component:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+  blocked:
+    - tinyint(1)
+    - NOT NULL
+    - DEFAULT '0'
+
+index:
+  - id (id, controller)
+  - system_component (system_component,blocked)
+
