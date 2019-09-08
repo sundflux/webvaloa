@@ -20,5 +20,5 @@ alias:
     - DEFAULT 'en_US'
 
 index:
-  - alias (alias,controller,method)
+  - alias_t (alias,controller,method)
   - locale (locale)

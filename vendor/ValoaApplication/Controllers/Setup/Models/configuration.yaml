@@ -8,9 +8,10 @@ configuration:
     - int(11)
     - DEFAULT NULL
   type:
-    - enum(int,select,checkbox,text)
+    - enum ('integer', 'select', 'checkbox', 'text')
+    - NOT NULL
   value:
-    - varhcar(255)
+    - varchar(255)
     - NOT NULL
   values:
     - text
@@ -20,5 +21,5 @@ index:
   - type (type)
   - component (component_id)
   - value (value)
-  - id_value (id, value, values)
+
 

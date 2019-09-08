@@ -16,7 +16,7 @@ structure:
     - int(11)
     - DEFAULT NULL
   type:
-    - enum(content_listing, content, component, alias, url)
+    - enum('content_listing', 'content', 'component', 'alias', 'url')
     - NOT NULL
   target_id:
     - int(11)
@@ -37,7 +37,7 @@ structure:
     - DEFAULT '0'
 
 index:
-  - id (id,parent_id,type,target_id,locale),
+  - id (id, parent_id, type, target_id, locale)
   - ordering (ordering)
-  - alias (id, alias)
+  - alias_s (id, alias)
 

@@ -4,6 +4,9 @@ user_sso:
     - NOT NULL
     - AUTO_INCREMENT
     - PRIMARY KEY
+  service:
+    - varchar(200)
+    - NOT NULL
   user_id:
     - int(11)
     - NOT NULL

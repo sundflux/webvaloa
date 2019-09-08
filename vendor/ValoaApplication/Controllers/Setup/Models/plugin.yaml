@@ -18,5 +18,5 @@ plugin:
     - DEFAULT '0'
 
 index:
-  - system_plugin (system_plugin,blocked,ordering)
-  - plugin (plugin,ordering)
+  - system_plugin (system_plugin,ordering)
+  - plugin_in (plugin,ordering)

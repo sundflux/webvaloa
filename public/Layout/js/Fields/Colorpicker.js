@@ -1,15 +1,15 @@
 
 /**
  * The Initial Developer of the Original Code is
- * 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * 2014 Tarmo Alexander Sundström <ta@sundstrom.io>
  *
  * Portions created by the Initial Developer are
- * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * Copyright (C) 2014 Tarmo Alexander Sundström <ta@sundstrom.io>
  *
  * All Rights Reserved.
  *
  * Contributor(s):
- * 2014 Tarmo Alexander Sundström <ta@sundstrom.im>
+ * 2014 Tarmo Alexander Sundström <ta@sundstrom.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),

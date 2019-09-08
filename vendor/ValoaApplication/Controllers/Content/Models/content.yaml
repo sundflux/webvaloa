@@ -45,4 +45,4 @@ index:
   - id (id,publish_up,publish_down,published,user_id)
   - associated_content_id (associated_content_id)
   - title (title)
-  - alias (alias)
+  - alias_in (alias)
