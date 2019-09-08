@@ -4,6 +4,9 @@ content:
     - NOT NULL
     - AUTO_INCREMENT
     - PRIMARY KEY
+  associated_content_id:
+    - int(11)
+    - NULL
   title:
     - varchar(255)
     - NOT NULL

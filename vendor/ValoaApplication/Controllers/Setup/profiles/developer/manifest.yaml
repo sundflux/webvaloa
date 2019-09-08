@@ -4,5 +4,15 @@ config:
     default_controller: login
     default_controller_authed: login_logout
     webvaloa_auth: 'Webvaloa\Auth\Db'
-components: ['login','error','profile','password','extension','user']
-system_plugins: ['PluginAdministrator','PluginTemplate','PluginNavigationView']
+components:
+    - Login
+    - Error
+    - Profile
+    - Password
+    - Extension
+    - User
+system_plugins:
+    - PluginAdministrator
+    - PluginTemplate
+    - PluginNavigationView
+

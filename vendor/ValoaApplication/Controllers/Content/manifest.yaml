@@ -7,3 +7,17 @@ license: MIT
 systemcontroller: 1
 roles:
   - Administrator
+models:
+  - content
+  - content_category
+  - content_field_value
+  - content_json
+  - content_tag
+  - category
+  - category_field_group
+  - category_role
+  - category_tag
+  - field
+  - field_group
+  - media
+  - version_history

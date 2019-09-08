@@ -377,22 +377,26 @@ class SetupController extends Application
             }
 
             // Create core models from setup:
+            Debug::__print('Installing core models');
             $installer = new Component('Setup');
             $installer->installModels();
 
             // Install component models:
+            Debug::__print('Installing component models');
             foreach ($profile->components as $component) {
                 $installer = new Component($component);
                 $installer->installModels();
             }
 
             // Create system roles:
+            Debug::__print('Creating system roles');
             $role = new Role();
             $role->addSystemRole('Administrator');
             $role->addSystemRole('Logged in');
             $role->addSystemRole('Public');
 
             // Install components:
+            Debug::__print('Installing components');
             foreach ($profile->components as $component) {
                 $installer = new Component($component);
                 $installer->install();
@@ -401,6 +405,7 @@ class SetupController extends Application
             }
 
             // Install all system plugins from profile:
+            Debug::__print('Installing system plugins');
             if ($profile->system_plugins) {
                 foreach ($profile->system_plugins as $plugin) {
                     $object = new Db\Item('plugin', $this->db);
@@ -413,6 +418,7 @@ class SetupController extends Application
             }
 
             // Install all plugins from profile:
+            Debug::__print('Installing plugins');
             if (!$profile->plugins) {
                 foreach ($profile->plugins as $plugin) {
                     $object = new Db\Item('plugin', $this->db);
@@ -425,6 +431,7 @@ class SetupController extends Application
             }
 
             // Create user
+            Debug::__print('Create user');
             $user = new User();
             $user->email = $setup['admin']['admin_email'];
 
@@ -449,10 +456,12 @@ class SetupController extends Application
             // Add administrator role for the user
             $user = new User($userID);
 
+            Debug::__print('Add role to user');
             $role = new Role();
             $user->addRole($role->getRoleID('Administrator'));
 
             // Set all components in setup profile as system components
+            Debug::__print('Mark all components in profile as system components');
             $query = '
                 UPDATE component
                 SET system_component = 1';
