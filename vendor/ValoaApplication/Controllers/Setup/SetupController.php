@@ -406,9 +406,9 @@ class SetupController extends Application
 
             // Install all system plugins from profile:
             Debug::__print('Installing system plugins');
-            if ($profile->system_plugins) {
+            if (isset($profile->system_plugins) && $profile->system_plugins) {
                 foreach ($profile->system_plugins as $plugin) {
-                    $object = new Db\Item('plugin', $this->db);
+                    $object = new Db\Item($this->db, 'plugin');
                     $object->plugin = $plugin;
                     $object->system_plugin = 1;
                     $object->blocked = 0;
@@ -419,9 +419,9 @@ class SetupController extends Application
 
             // Install all plugins from profile:
             Debug::__print('Installing plugins');
-            if (!$profile->plugins) {
+            if (isset($profile->plugins) && $profile->plugins) {
                 foreach ($profile->plugins as $plugin) {
-                    $object = new Db\Item('plugin', $this->db);
+                    $object = new Db\Item($this->db, 'plugin');
                     $object->plugin = $plugin;
                     $object->system_plugin = 0;
                     $object->blocked = 0;
