@@ -32,7 +32,7 @@
 
 namespace ValoaApplication\Controllers\Content;
 
-use Webvaloa\Helpers\Navigation;
+use Webvaloa\Navigation;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Article;
 use Webvaloa\Helpers\ArticleAssociation as ArticleHelper;

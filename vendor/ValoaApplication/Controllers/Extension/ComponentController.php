@@ -37,7 +37,7 @@ use Webvaloa\Security;
 use Webvaloa\Component;
 use Webvaloa\Manifest;
 use Webvaloa\Configuration;
-use Webvaloa\Helpers\Pagination;
+use Webvaloa\Pagination;
 
 class ComponentController extends \Webvaloa\Application
 {

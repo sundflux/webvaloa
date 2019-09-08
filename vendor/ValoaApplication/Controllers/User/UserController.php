@@ -37,7 +37,7 @@ use Webvaloa\Controller\Redirect;
 use Webvaloa\User;
 use Webvaloa\Role;
 use Webvaloa\Security;
-use Webvaloa\Helpers\Pagination;
+use Webvaloa\Pagination;
 use RuntimeException;
 use stdClass;
 

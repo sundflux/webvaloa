@@ -35,7 +35,7 @@ namespace ValoaApplication\Controllers\Extension;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Plugin;
 use Webvaloa\Security;
-use Webvaloa\Helpers\Pagination;
+use Webvaloa\Pagination;
 use UnexpectedValueException;
 
 class PluginController extends \Webvaloa\Application

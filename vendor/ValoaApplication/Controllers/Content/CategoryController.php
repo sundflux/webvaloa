@@ -37,7 +37,7 @@ use Libvaloa\Debug\Debug;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Tag;
 use Webvaloa\Category;
-use Webvaloa\Helpers\Pagination;
+use Webvaloa\Pagination;
 use Webvaloa\ContentAccess;
 use Webvaloa\Security;
 use Webvaloa\Role;

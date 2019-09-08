@@ -41,7 +41,7 @@ use Webvaloa\Security;
 use Webvaloa\Field\Group;
 use Webvaloa\Field\Field;
 use Webvaloa\Field\Value;
-use Webvaloa\Helpers\Pagination;
+use Webvaloa\Pagination;
 use Webvaloa\Helpers\ArticleAssociation;
 use Webvaloa\DateFormat;
 use Webvaloa\ContentAccess;

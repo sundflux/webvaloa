@@ -37,7 +37,7 @@ use Webvaloa\Controller\Redirect;
 use Webvaloa\Security;
 use Webvaloa\Component;
 use Webvaloa\Role;
-use Webvaloa\Helpers\Pagination;
+use Webvaloa\Pagination;
 use Exception;
 
 class RoleController extends \Webvaloa\Application
