@@ -35,6 +35,7 @@ namespace ValoaApplication\Controllers\Setup;
 use Symfony\Component\Yaml\Yaml;
 
 use Libvaloa\Db;
+use Libvaloa\Db\Constraints;
 use Libvaloa\Debug\Debug;
 use Webvaloa\Application;
 use Webvaloa\Configuration;
@@ -388,6 +389,33 @@ class SetupController extends Application
                 $installer->installModels();
             }
 
+            // Create foreign keys:
+            Debug::__print('Adding foreign keys');
+            $manifest = new Manifest('Setup');
+            $models = $manifest->getModels();
+
+            // Core models
+            foreach ($models as $model => $cols) {
+                $cnst = new Constraints($this->db, $model);
+                $constraints = $cnst->getConstraints();
+                if (!empty($constraints)) {
+                    $cnst->createConstraints($constraints);
+                }
+            }
+
+            // Component models
+            foreach ($profile->components as $component) {
+                $manifest = new Manifest($component);
+                $models = $manifest->getModels();
+                foreach ($models as $model => $cols) {
+                    $cnst = new Constraints($this->db, $model);
+                    $constraints = $cnst->getConstraints();
+                    if (!empty($constraints)) {
+                        $cnst->createConstraints($constraints);
+                    }
+                }
+            }
+
             // Create system roles:
             Debug::__print('Creating system roles');
             $role = new Role();
@@ -451,6 +479,7 @@ class SetupController extends Application
             $user->lastname = $setup['admin']['admin_lastname'];
             $user->password = $setup['admin']['admin_password'];
             $user->blocked = 0;
+
             $userID = $user->save();
 
             // Add administrator role for the user
