@@ -35,6 +35,7 @@ namespace ValoaApplication\Controllers\Login;
 use Webvaloa\Auth\Auth;
 use Webvaloa\Controller\Redirect;
 use Webvaloa\Configuration;
+use Libvaloa\Db\Constraints;
 use RuntimeException;
 use stdClass;
 
@@ -48,6 +49,13 @@ class LoginController extends \Webvaloa\Application
 
         $config = new Configuration();
         $this->backend = $config->webvaloa_auth;
+
+
+        $con = new Constraints($this->db, 'field');
+        $constraints = $con->getConstraints();
+        if (!empty($constraints)) {
+            $con->createConstraints($constraints);
+        }
     }
 
     public function index()
