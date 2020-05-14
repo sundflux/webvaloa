@@ -74,7 +74,6 @@ class ViewController extends \Webvaloa\Application
         // If requesting without id, return default
         if ($id === false || empty($id)) {
             if (isset($this->view->_globals->default_front_page[0])) {
-                header('HTTP/1.0 404 Not Found');
                 $id = $this->view->_globals->default_front_page[0]->value;
             } else {
                 $id = false;
